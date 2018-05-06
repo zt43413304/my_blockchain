@@ -222,7 +222,7 @@ def bixiang_upgrade(unique, uid):
 
 
 def bixiang_property_url(unique, uid):
-    url = "http://tui.yingshe.com/member/miningBxc"
+    url = "http://tui.yingshe.com/member/userInfo"
 
     payload_property = payload + "&unique=" + unique + "&uid=" + uid
 
@@ -232,7 +232,7 @@ def bixiang_property_url(unique, uid):
 
         res = response.json()["status"]
         if res == 1:
-            property_url = response.json()["info"]["bxc_details"]
+            property_url = response.json()["info"]["bingx_know_url"]
             return property_url
         else:
             return -1

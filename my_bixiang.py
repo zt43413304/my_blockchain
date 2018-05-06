@@ -284,7 +284,6 @@ def loop_bixiang():
             for i in range(len(infoList)):
                 # if count > 15:
                 #     break
-
                 if int(infoList[i]["share_total"]) < 20:
                     continue
                 lv_id = infoList[i]["lv_id"]

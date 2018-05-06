@@ -288,8 +288,8 @@ def loop_bixiang():
                 if int(infoList[i]["share_total"]) < 20:
                     continue
                 lv_id = infoList[i]["lv_id"]
-                # bixiang_sharing(unique, uid, lv_id)
-                # bixiang_shared(unique, uid, lv_id)
+                bixiang_sharing(unique, uid, lv_id)
+                bixiang_shared(unique, uid, lv_id)
                 logging.warning('>>>>>>>>>> ' + str(count) + '. Shared info ' + str(lv_id))
                 count = count + 1
 

@@ -10,6 +10,8 @@ import time
 import requests
 import schedule
 
+import Send_email
+
 # 日志
 # 第一步，创建一个logger
 logger = logging.getLogger()
@@ -69,15 +71,6 @@ headers = {
     'Cache-Control': "no-cache"
 }
 
-# payload = "unique=" + unique + \
-#           "&uid=" + uid + \
-#           "&is_ad_ios=" + is_ad_ios + \
-#           "&versioncode=" + versioncode + \
-#           "&devicetype=" + devicetype + \
-#           "&channel=" + channel + \
-#           "&token=" + token + \
-#           "&ps=" + ps + \
-#           "&key=" + key
 payload = "is_ad_ios=" + is_ad_ios + \
           "&versioncode=" + versioncode + \
           "&devicetype=" + devicetype + \
@@ -228,32 +221,46 @@ def bixiang_upgrade(unique, uid):
         return -1
 
 
-def get_allTotal(token):
-    url = "https://server.diwuqu.vip/api/app/v1/properties"
+def bixiang_property_url(unique, uid):
+    url = "http://tui.yingshe.com/member/miningBxc"
 
-    headers = {
-        'Content-Type': "application/json",
-        'Connection': "Keep-Alive",
-        'Accept-Encoding': "gzip",
-        'Cache-Control': "no-cache",
-        'token': token
-    }
+    payload_property = payload + "&unique=" + unique + "&uid=" + uid
 
-    # try:
-    #     requests.packages.urllib3.disable_warnings()
-    #     ssl._create_default_https_context = ssl._create_unverified_context
-    #     time.sleep(1)
-    #     response = requests.request("GET", url, headers=headers)
-    #
-    #     res = response.json()["state"]
-    #     if res == 'success':
-    #         total_list = response.json()["data"]["list"]
-    #         return total_list
-    #     else:
-    #         return -1
-    # except Exception as e:
-    #     print(e)
-    #     return -1
+    try:
+        time.sleep(1)
+        response = requests.request("POST", url, data=payload_property, headers=headers)
+
+        res = response.json()["status"]
+        if res == 1:
+            property_url = response.json()["info"]["bxc_details"]
+            return property_url
+        else:
+            return -1
+    except Exception as e:
+        print(e)
+        return -1
+
+
+def get_allTotal(unique, uid):
+    # url = "http://tui.yingshe.com/user/property"
+    # querystring = {"xxx":"swh6XfD8FvRBZr17Hufua"}
+
+    url = bixiang_property_url(unique, uid)
+    logging.warning(">>>>>>>>>> Property URL = " + url)
+
+    payload_total = payload + "&unique=" + unique + "&uid=" + uid
+
+    try:
+
+        time.sleep(5)
+        # response = requests.request("GET", url, data=payload_total, headers=headers)
+        response = requests.request("GET", url, headers=headers)
+        logging.warning(">>>>>>>>>> response.status_code = " + str(response.status_code))
+        return response.content
+
+    except Exception as e:
+        print(e)
+        return -1
 
 
 def loop_bixiang():
@@ -281,37 +288,21 @@ def loop_bixiang():
                 if int(infoList[i]["share_total"]) < 20:
                     continue
                 lv_id = infoList[i]["lv_id"]
-                bixiang_sharing(unique, uid, lv_id)
-                bixiang_shared(unique, uid, lv_id)
+                # bixiang_sharing(unique, uid, lv_id)
+                # bixiang_shared(unique, uid, lv_id)
                 logging.warning('>>>>>>>>>> ' + str(count) + '. Shared info ' + str(lv_id))
                 count = count + 1
 
             # sign
             bixiang_sign(unique, uid)
+
             # upgrade
             bixiang_upgrade(unique, uid)
 
-        #     # calculate value
-        #     total_list = get_allTotal(token)
-        #
-        #     # 构建Json数组，用于发送HTML邮件
-        #     # Python 字典类型转换为 JSON 对象
-        #     for k in range(len(total_list)):
-        #         name = total_list[k]["integral"]["name"]
-        #         quantity = total_list[k]["total"]
-        #         price = total_list[k]["integral"]["referPrice"]
-        #         value = quantity * price
-        #
-        #         content_data = {
-        #             "name": name,
-        #             "quantity": quantity,
-        #             "price": price,
-        #             "value": value
-        #         }
-        #         content_list.append(content_data)
-        #
-        # # sending email
-        # Send_email.send_HtmlEmail('newseeing@163.com', phone, calculated, content_list)
+            # calculate value
+            content = get_allTotal(unique, uid)
+
+        Send_email.send_SimpleHtmlEmail('newseeing@163.com', uid, content)
     logging.warning('********** Sending Email Complete!')
 
 

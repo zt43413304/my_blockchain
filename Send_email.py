@@ -123,3 +123,28 @@ def send_HtmlEmail(to_list, phone, calculated, content_list):
     except Exception as e:
         print(e)
         return False
+
+
+def send_SimpleHtmlEmail(to_list, uid, content):
+    datetime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+
+    mail_msg = content
+
+    subject = "Bixiang,[" + str(uid) + "]"
+
+    msg = MIMEText(mail_msg, 'html', 'utf-8')
+    me = "newseeing@163.com"
+    msg['Subject'] = subject
+    msg['From'] = me
+    msg['To'] = "newseeing@163.com"
+    # msg['To'] = ";".join(to_list)  # 将收件人列表以‘；’分隔
+    try:
+        server = smtplib.SMTP()
+        server.connect(mail_host)  # 连接服务器
+        server.login(mail_user, mail_pass)  # 登录操作
+        server.sendmail(me, to_list, msg.as_string())
+        server.close()
+        return True
+    except Exception as e:
+        print(e)
+        return False

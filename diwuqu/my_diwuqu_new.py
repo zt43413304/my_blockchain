@@ -10,7 +10,7 @@ import time
 import requests
 import schedule
 
-import Send_email
+from common import Send_email
 
 # 日志
 # 第一步，创建一个logger
@@ -113,30 +113,6 @@ def login(phone):
     except Exception as e:
         print(e)
         return -1
-
-
-def save_token():
-    # file = open('data_diwuqu.json', 'r', encoding='utf-8')
-    # data_dict = json.load(file)
-
-    # Reading data
-    with open('data_diwuqu.json', 'r') as file:
-        data_dict = json.load(file)
-
-    for item in data_dict['data']:
-        phone = item.get('phone', 'NA')
-        logging.warning("========== Checking [" + phone + "] ==========")
-        captcha(phone)
-        token = login(phone)
-        # token = "f56fd821-7dcf-4edd-a52f-372147aa72dd"
-        item['token'] = token
-
-    # Writing JSON data
-    with open('data_diwuqu.json', 'w') as file_new:
-        json.dump(data_dict, file_new)
-
-    file_new.close()
-    file.close()
 
 
 def calculate(token):
@@ -244,17 +220,20 @@ def get_allTotal(token):
 
 def loop_diwuqu():
     global calculated
+    global token
 
-    # Reading data
-    with open('data_diwuqu.json', 'r') as file:
-        data_dict = json.load(file)
+    file = open('data_diwuqu.json', 'r', encoding='utf-8')
+    data_dict = json.load(file)
 
     for item in data_dict['data']:
         content_list = []
         phone = item.get('phone', 'NA')
-        token = item.get('token', 'NA')
+        logging.warning('\n')
         logging.warning("========== Checking [" + phone + "] ==========")
 
+        # captcha(phone)
+        # token = login(phone)
+        token = "f56fd821-7dcf-4edd-a52f-372147aa72dd"
         if token == -1:
             logging.warning('********** Login fail!')
             continue
@@ -295,7 +274,6 @@ def loop_diwuqu():
 
 
 # Start from here...
-save_token()
 loop_diwuqu()
 
 # ssl._create_default_https_context = ssl._create_unverified_context

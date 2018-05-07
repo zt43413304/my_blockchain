@@ -10,7 +10,7 @@ import time
 import requests
 import schedule
 
-import Send_email
+from common import Send_email
 
 # 日志
 # 第一步，创建一个logger

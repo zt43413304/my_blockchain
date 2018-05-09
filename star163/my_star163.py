@@ -12,6 +12,8 @@ from urllib.parse import urlparse
 import requests
 import schedule
 
+import AppiumStar163
+
 # 日志
 # 第一步，创建一个logger
 logger = logging.getLogger()
@@ -142,6 +144,7 @@ def start163_api_starUser_getCookie(k, p):
             logging.warning(">>>>>>>>>> Get Cookie = " + cookie)
             return cookie
         else:
+            logging.warning(">>>>>>>>>> Get Cookie failed.")
             return -1
     except Exception as e:
         print(e)
@@ -241,25 +244,23 @@ def star163_api_starUserOrigin_getTaskUrl(cookie):
         print(e)
         return -1
 
+
 def star163_access_channel_list(TaskUrl):
-
-
     url = "https://youliao.163yun.com/api-server/api/v1/channel/list"
 
     # TaskUrl='https://youliao.163yun.com/h5/list/?ak=50a07a16210f4a648cef0190d30ad828&sk=2a67c201957242dc85a7e191afb194e2&extra=%7B%22msg%22%3A%22WGpmWElNQUl6WkN2b2Nmc0t0VUNZUmVEd2JkSWRzOW1UK0ZiNmJFYU1WalljcWZieXY5cFkzRHg5QnNRTjhLQ1IvUHc3NjZOSmZtazBuWnBObllyWGU3b21mMGRDRUtnVkE1bDB5T3dDTGRvU0JLOFJBcmJxZWRhcmZFNlhnK3FwcjBWTDFSZCtNMk9JTWFZaHNjdm1hNGZEWEFzZVIzb2x2bXFud1VHM1BjPQ%22%2C%22add%22%3A%22YzEwZjE0ODJkZDAwYmVkY2MwMTZmNzZjMzlkYjIzZmE%22%7D&unid=YzEwZjE0ODJkZDAwYmVkY2MwMTZmNzZjMzlkYjIzZmE'
     query_dict = urllib.parse.parse_qs(urlparse(TaskUrl).query)
-    ak=query_dict.get('ak', 'NA')[0]
-    sk=query_dict.get('sk', 'NA')
-    extra=query_dict.get('extra', 'NA')
-    unid=query_dict.get('unid', 'NA')
+    ak = query_dict.get('ak', 'NA')[0]
+    sk = query_dict.get('sk', 'NA')
+    extra = query_dict.get('extra', 'NA')
+    unid = query_dict.get('unid', 'NA')
 
     timestamp = int(round(time.time() * 1000))
 
-    url_new = "https://youliao.163yun.com/api-server/api/v1/info/view/list?appkey="+ak+\
-        "&attachPlatform=1&channelTag=cb349a1183584b16bc7333b7890d86de&group=2&history=1&num=10&platform=3&"+\
-        "scene=f&signature=9d5720830aba54c4bff378b8ae49c83a&timestamp="+str(timestamp)+\
-        "&userId=YzEwZjE0ODJkZDAwYmVkY2MwMTZmNzZjMzlkYjIzZmE&version=v1.8.0"
-
+    url_new = "https://youliao.163yun.com/api-server/api/v1/info/view/list?appkey=" + ak + \
+              "&attachPlatform=1&channelTag=cb349a1183584b16bc7333b7890d86de&group=2&history=1&num=10&platform=3&" + \
+              "scene=f&signature=9d5720830aba54c4bff378b8ae49c83a&timestamp=" + str(timestamp) + \
+              "&userId=YzEwZjE0ODJkZDAwYmVkY2MwMTZmNzZjMzlkYjIzZmE&version=v1.8.0"
 
     headers = {
         'Host': "youliao.163yun.com",
@@ -278,10 +279,7 @@ def star163_access_channel_list(TaskUrl):
     print(response.text)
 
 
-
-
 def star163_access_default_url(Taskurl):
-
     headers = {
         'Host': "youliao.163yun.com",
         'Connection': "Keep-Alive",
@@ -296,8 +294,8 @@ def star163_access_default_url(Taskurl):
     # response = requests.request("GET", url, headers=headers, params=querystring)
     response = requests.request("GET", Taskurl, headers=headers)
 
-def star163_get_channel_list(TaskUrl):
 
+def star163_get_channel_list(TaskUrl):
     # 138
     # 53627a28b6d668d1e3d4e00a92a06cc1
     # 136
@@ -307,20 +305,19 @@ def star163_get_channel_list(TaskUrl):
 
     # TaskUrl='https://youliao.163yun.com/h5/list/?ak=50a07a16210f4a648cef0190d30ad828&sk=2a67c201957242dc85a7e191afb194e2&extra=%7B%22msg%22%3A%22WGpmWElNQUl6WkN2b2Nmc0t0VUNZUmVEd2JkSWRzOW1UK0ZiNmJFYU1WalljcWZieXY5cFkzRHg5QnNRTjhLQ1IvUHc3NjZOSmZtazBuWnBObllyWGU3b21mMGRDRUtnVkE1bDB5T3dDTGRvU0JLOFJBcmJxZWRhcmZFNlhnK3FwcjBWTDFSZCtNMk9JTWFZaHNjdm1hNGZEWEFzZVIzb2x2bXFud1VHM1BjPQ%22%2C%22add%22%3A%22YzEwZjE0ODJkZDAwYmVkY2MwMTZmNzZjMzlkYjIzZmE%22%7D&unid=YzEwZjE0ODJkZDAwYmVkY2MwMTZmNzZjMzlkYjIzZmE'
     query_dict = urllib.parse.parse_qs(urlparse(TaskUrl).query)
-    ak=query_dict.get('ak', 'NA')[0]
-    sk=query_dict.get('sk', 'NA')
-    extra=query_dict.get('extra', 'NA')
-    unid=query_dict.get('unid', 'NA')
+    ak = query_dict.get('ak', 'NA')[0]
+    sk = query_dict.get('sk', 'NA')
+    extra = query_dict.get('extra', 'NA')
+    unid = query_dict.get('unid', 'NA')
 
     timestamp = int(round(time.time() * 1000))
 
-    url_new = "https://youliao.163yun.com/api-server/api/v1/channel/list?appkey="+ak+ \
-              "&platform=3&signature=aaaec827671ab0ed7a0be838514c2c60&timestamp="+str(timestamp)+"&version=v1.8.0"
-
+    url_new = "https://youliao.163yun.com/api-server/api/v1/channel/list?appkey=" + ak + \
+              "&platform=3&signature=aaaec827671ab0ed7a0be838514c2c60&timestamp=" + str(timestamp) + "&version=v1.8.0"
 
     # querystring = {"appkey":"50a07a16210f4a648cef0190d30ad828","platform":"3","signature":"60ac74a4f5ec329c9e67afddbf25a099","timestamp":"1525682745640","version":"v1.8.0"}
-    querystring = {"appkey":ak,"platform":"3","signature":"aaaec827671ab0ed7a0be838514c2c60","timestamp":timestamp,"version":"v1.8.0"}
-
+    querystring = {"appkey": ak, "platform": "3", "signature": "aaaec827671ab0ed7a0be838514c2c60",
+                   "timestamp": timestamp, "version": "v1.8.0"}
 
     headers = {
         'Host': "youliao.163yun.com",
@@ -339,183 +336,30 @@ def star163_get_channel_list(TaskUrl):
     print(response.text)
 
 
+# def get_allTotal(unique, uid):
 
 
-def bixiang_login(unique, uid):
-    url = "http://tui.yingshe.com/check/index"
+# url = "http://tui.yingshe.com/user/property"
+# querystring = {"xxx":"swh6XfD8FvRBZr17Hufua"}
 
-    payload_login = payload + "&unique=" + unique + "&uid=" + uid
-
-    try:
-        time.sleep(1)
-        response = requests.request("POST", url, data=payload_login, headers=headers)
-
-        res = response.json()["status"]
-        if res == 1:
-            logging.warning('********** Login success. uid:' + uid)
-            return 1
-        else:
-            logging.warning('********** Login fail. uid:' + uid)
-            return -1
-    except Exception as e:
-        print(e)
-        return -1
-
-
-def bixiang_infoList(unique, uid):
-    url = "http://tui.yingshe.com/live/info"
-
-    payload_infoList = payload + "&unique=" + unique + "&uid=" + uid
-
-    try:
-        time.sleep(1)
-        response = requests.request("POST", url, data=payload_infoList, headers=headers)
-
-        res = response.json()["status"]
-        if res == 1:
-            info = response.json()["info"]
-            return info
-        else:
-            return -1
-    except Exception as e:
-        print(e)
-        return -1
+# url = bixiang_property_url(unique, uid)
+# logging.warning(">>>>>>>>>> Property URL = " + url)
+#
+# payload_total = payload + "&unique=" + unique + "&uid=" + uid
+#
+# try:
+#
+#     time.sleep(5)
+#     # response = requests.request("GET", url, data=payload_total, headers=headers)
+#     response = requests.request("GET", url, headers=headers)
+#     logging.warning(">>>>>>>>>> response.status_code = " + str(response.status_code))
+#     return response.content
+#
+# except Exception as e:
+#     print(e)
+#     return -1
 
 
-def bixiang_sharing(unique, uid, id):
-    url = "http://tui.yingshe.com/live/infofrist"
-
-    payload_id = payload + "&live_id=" + id + "&unique=" + unique + "&uid=" + uid
-
-    try:
-        time.sleep(1)
-        response = requests.request("POST", url, data=payload_id, headers=headers)
-
-        res = response.json()["status"]
-        if res == 1:
-            # logging.warning('^^^^^^^^^^ Sharing.')
-            return 1
-        else:
-            return -1
-    except Exception as e:
-        print(e)
-        return -1
-
-
-def bixiang_shared(unique, uid, id):
-    url = "http://tui.yingshe.com/share/getShareCircle"
-
-    payload_id = payload + "&live_id=" + id + "&unique=" + unique + "&uid=" + uid
-
-    try:
-        time.sleep(1)
-        response = requests.request("POST", url, data=payload_id, headers=headers)
-
-        res = response.json()["status"]
-        if res == 1:
-            # logging.warning('^^^^^^^^^^ Shared.')
-            return 1
-        else:
-            return -1
-    except Exception as e:
-        print(e)
-        return -1
-
-
-def bixiang_sign(unique, uid):
-    url_check = "http://tui.yingshe.com/check/index"
-    url_add = "http://tui.yingshe.com/check/add"
-
-    payload_sign = payload + "&unique=" + unique + "&uid=" + uid
-
-    try:
-        time.sleep(1)
-        response = requests.request("POST", url_check, data=payload_sign, headers=headers)
-
-        res = response.json()["status"]
-        if res == 1:
-            is_check = int(response.json()["info"]["is_check"])
-            # "is_check == 0",not signed
-            if is_check == 0:
-                time.sleep(1)
-                response = requests.request("POST", url_add, data=payload_sign, headers=headers)
-                time.sleep(1)
-                checked = int(response.json()["info"]["is_check"])
-                if checked == 1:
-                    logging.warning('>>>>>>>>>>  Not Sign, Just Signed.')
-                else:
-                    logging.warning('>>>>>>>>>>  Not Sign, Sign fail.')
-            else:
-                logging.warning('>>>>>>>>>>  Have Signed.')
-            return 1
-        else:
-            return -1
-    except Exception as e:
-        print(e)
-        return -1
-
-
-def bixiang_upgrade(unique, uid):
-    url = "http://tui.yingshe.com/member/getNoLevel"
-
-    payload_upgrade = payload + "&unique=" + unique + "&uid=" + uid
-
-    try:
-        time.sleep(1)
-        response = requests.request("POST", url, data=payload_upgrade, headers=headers)
-
-        res = response.json()["status"]
-        if res == 1:
-            logging.warning('>>>>>>>>>>  Upgrade. now_bxc=' + response.json()["info"]["now_bxc"])
-            logging.warning('>>>>>>>>>>  Upgrade. level_bxc=' + response.json()["info"]["level_bxc"])
-            return 1
-        else:
-            return -1
-    except Exception as e:
-        print(e)
-        return -1
-
-
-def bixiang_property_url(unique, uid):
-    url = "http://tui.yingshe.com/member/miningBxc"
-
-    payload_property = payload + "&unique=" + unique + "&uid=" + uid
-
-    try:
-        time.sleep(1)
-        response = requests.request("POST", url, data=payload_property, headers=headers)
-
-        res = response.json()["status"]
-        if res == 1:
-            property_url = response.json()["info"]["bxc_details"]
-            return property_url
-        else:
-            return -1
-    except Exception as e:
-        print(e)
-        return -1
-
-
-def get_allTotal(unique, uid):
-    # url = "http://tui.yingshe.com/user/property"
-    # querystring = {"xxx":"swh6XfD8FvRBZr17Hufua"}
-
-    url = bixiang_property_url(unique, uid)
-    logging.warning(">>>>>>>>>> Property URL = " + url)
-
-    payload_total = payload + "&unique=" + unique + "&uid=" + uid
-
-    try:
-
-        time.sleep(5)
-        # response = requests.request("GET", url, data=payload_total, headers=headers)
-        response = requests.request("GET", url, headers=headers)
-        logging.warning(">>>>>>>>>> response.status_code = " + str(response.status_code))
-        return response.content
-
-    except Exception as e:
-        print(e)
-        return -1
 
 
 def loop_star163():
@@ -539,7 +383,7 @@ def loop_star163():
     #         for i in range(len(collectCoins)):
     #             star_id = collectCoins[i]["id"]
     #             star163_api_collectUserCoin(cookie, star_id)
-    # logging.warning('********** Sending Email Complete!')
+    #     logging.warning('********** Sending Email Complete!')
 
     # read article
     for item in data_dict['data']:
@@ -549,11 +393,15 @@ def loop_star163():
         logging.warning('\n')
         logging.warning("========== Reading [" + k + "] ==========")
 
-        cookie = start163_api_starUser_getCookie(k, p)
-        TaskUrl = star163_api_starUserOrigin_getTaskUrl(cookie)
-        star163_access_default_url(TaskUrl)
-        star163_access_channel_list(TaskUrl)
-        star163_get_channel_list(TaskUrl)
+        appium = AppiumStar163.AppiumStar()
+        appium.appium_zixun()
+
+
+# cookie = start163_api_starUser_getCookie(k, p)
+        # TaskUrl = star163_api_starUserOrigin_getTaskUrl(cookie)
+        # star163_access_default_url(TaskUrl)
+        # star163_access_channel_list(TaskUrl)
+        # star163_get_channel_list(TaskUrl)
 
         #
         # if TaskUrl == -1:

@@ -5,12 +5,14 @@ import json
 import logging
 import os
 import re
+import sys
 import time
 
 import requests
 import schedule
 
-from common import Send_email
+sys.path.append('..')
+import common.Send_email
 
 # 日志
 # 第一步，创建一个logger
@@ -44,14 +46,14 @@ logger.addHandler(ch)
 
 # get config information
 curpath = os.getcwd()
-content = open(curpath + '/bixiang/config_bixiang.ini').read()
+content = open(curpath + '/config_bixiang.ini').read()
 content = re.sub(r"\xfe\xff", "", content)
 content = re.sub(r"\xff\xfe", "", content)
 content = re.sub(r"\xef\xbb\xbf", "", content)
-open(curpath + '/bixiang/config_bixiang.ini', 'w').write(content)
+open(curpath + '/config_bixiang.ini', 'w').write(content)
 
 cf = configparser.ConfigParser()
-cf.read(curpath + '/bixiang/config_bixiang.ini')
+cf.read(curpath + '/config_bixiang.ini')
 # unique = cf.get('info', 'unique').strip()
 # uid = cf.get('info', 'uid').strip()
 is_ad_ios = cf.get('info', 'is_ad_ios').strip()
@@ -79,7 +81,6 @@ payload = "is_ad_ios=" + is_ad_ios + \
           "&ps=" + ps + \
           "&key=" + key
 
-
 # start
 logging.warning('***** Start ...')
 
@@ -88,7 +89,6 @@ logging.warning('***** Start ...')
 # device_id = cf.get('info'+str(infoNum), 'device_id').strip()
 
 def bixiang_login_test():
-
     url = "http://tui.yingshe.com/check/index"
 
     payload = "unique=868687787575888&uid=395488&is_ad_ios=1&versioncode=229&devicetype=1&channel=Y1032&token=3824ea69dd6a26c4f476167e627693a9&ps=MTIzNTg0MTUyNg%3D%3D&key=MTUyNTQ0OTYxMjM1ODQxNTI2"
@@ -106,14 +106,15 @@ def bixiang_login_test():
 
     print(response.text)
 
+
 def bixiang_login(unique, uid):
     url = "http://tui.yingshe.com/check/index"
 
     payload_login = payload + "&unique=" + unique + "&uid=" + uid
 
     try:
-        time.sleep(1)
         response = requests.request("POST", url, data=payload_login, headers=headers)
+        time.sleep(1)
 
         res = response.json()["status"]
         if res == 1:
@@ -133,8 +134,8 @@ def bixiang_infoList(unique, uid):
     payload_infoList = payload + "&unique=" + unique + "&uid=" + uid
 
     try:
-        time.sleep(1)
         response = requests.request("POST", url, data=payload_infoList, headers=headers)
+        time.sleep(2)
 
         res = response.json()["status"]
         if res == 1:
@@ -153,8 +154,8 @@ def bixiang_sharing(unique, uid, id):
     payload_id = payload + "&live_id=" + id + "&unique=" + unique + "&uid=" + uid
 
     try:
-        time.sleep(1)
         response = requests.request("POST", url, data=payload_id, headers=headers)
+        time.sleep(2)
 
         res = response.json()["status"]
         if res == 1:
@@ -173,8 +174,8 @@ def bixiang_shared(unique, uid, id):
     payload_id = payload + "&live_id=" + id + "&unique=" + unique + "&uid=" + uid
 
     try:
-        time.sleep(1)
         response = requests.request("POST", url, data=payload_id, headers=headers)
+        time.sleep(2)
 
         res = response.json()["status"]
         if res == 1:
@@ -194,8 +195,8 @@ def bixiang_sign(unique, uid):
     payload_sign = payload + "&unique=" + unique + "&uid=" + uid
 
     try:
-        time.sleep(1)
         response = requests.request("POST", url_check, data=payload_sign, headers=headers)
+        time.sleep(2)
 
         res = response.json()["status"]
         if res == 1:
@@ -226,8 +227,8 @@ def bixiang_upgrade(unique, uid):
     payload_upgrade = payload + "&unique=" + unique + "&uid=" + uid
 
     try:
-        time.sleep(1)
         response = requests.request("POST", url, data=payload_upgrade, headers=headers)
+        time.sleep(2)
 
         res = response.json()["status"]
         if res == 1:
@@ -247,8 +248,8 @@ def bixiang_property_url(unique, uid):
     payload_property = payload + "&unique=" + unique + "&uid=" + uid
 
     try:
-        time.sleep(1)
         response = requests.request("POST", url, data=payload_property, headers=headers)
+        time.sleep(2)
 
         res = response.json()["status"]
         if res == 1:
@@ -271,10 +272,9 @@ def get_allTotal(unique, uid):
     payload_total = payload + "&unique=" + unique + "&uid=" + uid
 
     try:
-
-        time.sleep(5)
         # response = requests.request("GET", url, data=payload_total, headers=headers)
         response = requests.request("GET", url, headers=headers)
+        time.sleep(5)
         logging.warning(">>>>>>>>>> response.status_code = " + str(response.status_code))
         return response.content
 
@@ -286,7 +286,7 @@ def get_allTotal(unique, uid):
 def loop_bixiang():
     # bixiang_login_test()
 
-    file = open(curpath + '/bixiang/data_bixiang.json', 'r', encoding='utf-8')
+    file = open(curpath + '/data_bixiang.json', 'r', encoding='utf-8')
     data_dict = json.load(file)
 
     for item in data_dict['data']:
@@ -304,8 +304,8 @@ def loop_bixiang():
 
             count = 0
             for i in range(len(infoList)):
-                # if count > 15:
-                #     break
+                if count > 10:
+                    break
                 if int(infoList[i]["share_total"]) < 20:
                     continue
                 lv_id = infoList[i]["lv_id"]
@@ -323,7 +323,7 @@ def loop_bixiang():
             # calculate value
             content = get_allTotal(unique, uid)
 
-        Send_email.send_SimpleHtmlEmail('newseeing@163.com', uid, content)
+        common.Send_email.send_SimpleHtmlEmail('newseeing@163.com', uid, content)
     logging.warning('********** Sending Email Complete!')
 
 

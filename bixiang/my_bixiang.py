@@ -269,10 +269,10 @@ def get_allTotal(unique, uid):
     url = bixiang_property_url(unique, uid)
     logging.warning(">>>>>>>>>> Property URL = " + url)
 
-    payload_total = payload + "&unique=" + unique + "&uid=" + uid
+    if uid == '22024' or uid == '22014':
+        return url
 
     try:
-        # response = requests.request("GET", url, data=payload_total, headers=headers)
         response = requests.request("GET", url, headers=headers)
         time.sleep(5)
         logging.warning(">>>>>>>>>> response.status_code = " + str(response.status_code))
@@ -331,11 +331,11 @@ def loop_bixiang():
 loop_bixiang()
 
 # ssl._create_default_https_context = ssl._create_unverified_context
-# schedule.every(120).minutes.do(loop_data_mining)
+# schedule.every(120).minutes.do(loop_bixiang)
 schedule.every(6).hours.do(loop_bixiang)
-# schedule.every().day.at("01:05").do(loop_data_mining)
-# schedule.every().monday.do(loop_data_mining)
-# schedule.every().wednesday.at("13:15").do(loop_data_mining)
+# schedule.every().day.at("01:05").do(loop_bixiang)
+# schedule.every().monday.do(loop_bixiang)
+# schedule.every().wednesday.at("13:15").do(loop_bixiang)
 
 while True:
     schedule.run_pending()

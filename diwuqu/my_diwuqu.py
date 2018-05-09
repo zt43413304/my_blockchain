@@ -5,12 +5,14 @@ import logging
 import os
 import re
 import ssl
+import sys
 import time
 
 import requests
 import schedule
 
-from common import Send_email
+sys.path.append('..')
+import common.Send_email
 
 # 日志
 # 第一步，创建一个logger
@@ -290,7 +292,7 @@ def loop_diwuqu():
                 content_list.append(content_data)
 
         # sending email
-        Send_email.send_HtmlEmail('newseeing@163.com', phone, calculated, content_list)
+        common.Send_email.send_HtmlEmail('newseeing@163.com', phone, calculated, content_list)
         logging.warning('********** Sending Email Complete!')
 
 

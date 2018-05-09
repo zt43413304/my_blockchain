@@ -44,14 +44,14 @@ logger.addHandler(ch)
 
 # get config information
 curpath = os.getcwd()
-content = open(curpath + '/config_bixiang.ini').read()
+content = open(curpath + '/bixiang/config_bixiang.ini').read()
 content = re.sub(r"\xfe\xff", "", content)
 content = re.sub(r"\xff\xfe", "", content)
 content = re.sub(r"\xef\xbb\xbf", "", content)
-open(curpath + '/config_bixiang.ini', 'w').write(content)
+open(curpath + '/bixiang/config_bixiang.ini', 'w').write(content)
 
 cf = configparser.ConfigParser()
-cf.read(curpath + '/config_bixiang.ini')
+cf.read(curpath + '/bixiang/config_bixiang.ini')
 # unique = cf.get('info', 'unique').strip()
 # uid = cf.get('info', 'uid').strip()
 is_ad_ios = cf.get('info', 'is_ad_ios').strip()
@@ -79,12 +79,32 @@ payload = "is_ad_ios=" + is_ad_ios + \
           "&ps=" + ps + \
           "&key=" + key
 
+
 # start
 logging.warning('***** Start ...')
 
 
 # user_agent = cf.get('info'+str(infoNum), 'user_agent').strip()
 # device_id = cf.get('info'+str(infoNum), 'device_id').strip()
+
+def bixiang_login_test():
+
+    url = "http://tui.yingshe.com/check/index"
+
+    payload = "unique=868687787575888&uid=395488&is_ad_ios=1&versioncode=229&devicetype=1&channel=Y1032&token=3824ea69dd6a26c4f476167e627693a9&ps=MTIzNTg0MTUyNg%3D%3D&key=MTUyNTQ0OTYxMjM1ODQxNTI2"
+    # headers = {
+    #     'Host': "tui.yingshe.com",
+    #     'Connection': "Keep-Alive",
+    #     'Accept-Encoding': "gzip",
+    #     'User-Agent': "okhttp/3.4.1",
+    #     'Content-Type': "application/x-www-form-urlencoded",
+    #     'Cache-Control': "no-cache",
+    #     'Postman-Token': "bfda041f-affb-4e05-b867-021e7b7e14f9"
+    # }
+
+    response = requests.request("POST", url, data=payload, headers=headers)
+
+    print(response.text)
 
 def bixiang_login(unique, uid):
     url = "http://tui.yingshe.com/check/index"
@@ -264,7 +284,9 @@ def get_allTotal(unique, uid):
 
 
 def loop_bixiang():
-    file = open('data_bixiang.json', 'r', encoding='utf-8')
+    # bixiang_login_test()
+
+    file = open(curpath + '/bixiang/data_bixiang.json', 'r', encoding='utf-8')
     data_dict = json.load(file)
 
     for item in data_dict['data']:
@@ -310,7 +332,7 @@ loop_bixiang()
 
 # ssl._create_default_https_context = ssl._create_unverified_context
 # schedule.every(120).minutes.do(loop_data_mining)
-schedule.every(8).hours.do(loop_bixiang)
+schedule.every(6).hours.do(loop_bixiang)
 # schedule.every().day.at("01:05").do(loop_data_mining)
 # schedule.every().monday.do(loop_data_mining)
 # schedule.every().wednesday.at("13:15").do(loop_data_mining)

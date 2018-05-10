@@ -34,8 +34,7 @@ logger.addHandler(fh)
 ch.setFormatter(formatter)
 logger.addHandler(ch)
 
-logger.removeHandler(ch)
-logger.removeHandler(fh)
+
 # logger.debug('this is a logger debug message')
 # logger.info('this is a logger info message')
 # logger.warning('this is a logger warning message')
@@ -57,6 +56,7 @@ class AppiumStar:
         desired_caps['platformVersion'] = '4.4.4'
         desired_caps['deviceName'] = 'Android'
         desired_caps['noReset'] = 'True'
+        desired_caps['newCommandTimeout'] = '500'
         desired_caps['app'] = PATH(
             'C:/DevTools/Star163/blockchain112_163-e01170001.apk'
         )
@@ -95,7 +95,7 @@ class AppiumStar:
         time.sleep(15)
 
         # Article 1
-        TouchAction(self.driver).tap(x=600, y=300).perform()
+        TouchAction(self.driver).tap(x=200, y=160).perform()
         logging.warning(">>>>>>>>>> Article 1")
         time.sleep(15)
         if self.isElementExist("查看全文"):
@@ -105,7 +105,7 @@ class AppiumStar:
         time.sleep(15)
 
         # Article 2
-        TouchAction(self.driver).tap(x=600, y=600).perform()
+        TouchAction(self.driver).tap(x=200, y=260).perform()
         logging.warning(">>>>>>>>>> Article 2")
         time.sleep(15)
         if self.isElementExist("查看全文"):
@@ -115,7 +115,7 @@ class AppiumStar:
         time.sleep(15)
 
         # Article 3
-        TouchAction(self.driver).tap(x=600, y=900).perform()
+        TouchAction(self.driver).tap(x=200, y=360).perform()
         logging.warning(">>>>>>>>>> Article 3")
         time.sleep(15)
         if self.isElementExist("查看全文"):
@@ -125,7 +125,7 @@ class AppiumStar:
         time.sleep(15)
 
         # Article 4
-        TouchAction(self.driver).tap(x=600, y=1200).perform()
+        TouchAction(self.driver).tap(x=200, y=560).perform()
         logging.warning(">>>>>>>>>> Article 4")
         time.sleep(15)
         if self.isElementExist("查看全文"):

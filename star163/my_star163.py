@@ -383,7 +383,7 @@ def loop_star163():
     # result3 = execute_command(cmd_app_desktop)
 
     output3 = os.system(
-        "start node C:/Users/Jackie.Liu/AppData/Local/appium-desktop/app-1.6.0/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4723")
+        "start node C:/Users/jacki/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4723")
     print('result:------>' + str(output3))
     time.sleep(30)
 

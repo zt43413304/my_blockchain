@@ -130,7 +130,7 @@ def send_SimpleHtmlEmail(to_list, uid, content):
 
     mail_msg = content
 
-    subject = "Bixiang,[" + str(uid) + "]"
+    subject = "Bixiang [" + str(uid) + "]"
 
     msg = MIMEText(mail_msg, 'html', 'utf-8')
     me = "newseeing@163.com"

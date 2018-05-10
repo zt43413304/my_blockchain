@@ -1,18 +1,15 @@
 # coding=utf-8
 
-import configparser
 import json
 import logging
 import os
-import re
+import subprocess
 import time
 import urllib
 from urllib.parse import urlparse
 
-import requests
-import schedule
-
 import AppiumStar163
+import requests
 
 # 日志
 # 第一步，创建一个logger
@@ -37,49 +34,13 @@ logger.addHandler(fh)
 ch.setFormatter(formatter)
 logger.addHandler(ch)
 
+logger.removeHandler(ch)
+logger.removeHandler(fh)
 # logger.debug('this is a logger debug message')
 # logger.info('this is a logger info message')
 # logger.warning('this is a logger warning message')
 # logger.error('this is a logger error message')
 # logger.critical('this is a logger critical message')
-
-
-# get config information
-curpath = os.getcwd()
-content = open(curpath + '/config_star163.ini').read()
-content = re.sub(r"\xfe\xff", "", content)
-content = re.sub(r"\xff\xfe", "", content)
-content = re.sub(r"\xef\xbb\xbf", "", content)
-open(curpath + '/config_bixiang.ini', 'w').write(content)
-
-cf = configparser.ConfigParser()
-cf.read(curpath + '/config_star163.ini')
-# unique = cf.get('info', 'unique').strip()
-# uid = cf.get('info', 'uid').strip()
-is_ad_ios = cf.get('info', 'is_ad_ios').strip()
-versioncode = cf.get('info', 'versioncode').strip()
-devicetype = cf.get('info', 'devicetype').strip()
-channel = cf.get('info', 'channel').strip()
-token = cf.get('info', 'token').strip()
-ps = cf.get('info', 'ps').strip()
-key = cf.get('info', 'key').strip()
-
-headers = {
-    'Host': "tui.yingshe.com",
-    'Connection': "Keep-Alive",
-    'Accept-Encoding': "gzip",
-    'User-Agent': "okhttp/3.4.1",
-    'Content-Type': "application/x-www-form-urlencoded",
-    'Cache-Control': "no-cache"
-}
-
-payload = "is_ad_ios=" + is_ad_ios + \
-          "&versioncode=" + versioncode + \
-          "&devicetype=" + devicetype + \
-          "&channel=" + channel + \
-          "&token=" + token + \
-          "&ps=" + ps + \
-          "&key=" + key
 
 # start
 logging.warning('***** Start ...')
@@ -204,7 +165,7 @@ def star163_api_collectUserCoin(cookie, id):
 
         res = response.json()["code"]
         if res == 200:
-            logging.warning(">>>>>>>>>> Click Star ...  " + str(id))
+            logging.warning(">>>>>>>>>> Collect black diamond ...  " + str(id))
             return 0
         else:
             return -1
@@ -360,6 +321,18 @@ def star163_get_channel_list(TaskUrl):
 #     return -1
 
 
+def execute_command(cmd):
+    print('***** start executing cmd...')
+    p = subprocess.Popen(str(cmd), stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
+    stderrinfo, stdoutinfo = p.communicate()
+    for line in stdoutinfo.splitlines():
+        print(line)
+
+        # print('stderrinfo is -------> %s and stdoutinfo is -------> %s' % (stderrinfo, stdoutinfo))
+    print('stdoutinfo is -------> %s' % stdoutinfo)
+    print('stderrinfo is -------> %s' % stderrinfo)
+    print('finish executing cmd....')
+    return p.returncode
 
 
 def loop_star163():
@@ -367,60 +340,67 @@ def loop_star163():
     data_dict = json.load(file)
 
     # collect black diamond
-    # for item in data_dict['data']:
-    #     # content_list = []
-    #     k = item.get('k', 'NA')
-    #     p = item.get('p', 'NA')
-    #     logging.warning('\n')
-    #     logging.warning("========== Checking [" + k + "] ==========")
-    #
-    #     cookie = start163_api_starUser_getCookie(k, p)
-    #     if cookie == -1:
-    #         continue
-    #     else:
-    #         collectCoins = start163_api_home_index(cookie)
-    #
-    #         for i in range(len(collectCoins)):
-    #             star_id = collectCoins[i]["id"]
-    #             star163_api_collectUserCoin(cookie, star_id)
-    #     logging.warning('********** Sending Email Complete!')
-
-    # read article
     for item in data_dict['data']:
         # content_list = []
         k = item.get('k', 'NA')
         p = item.get('p', 'NA')
-        logging.warning('\n')
-        logging.warning("========== Reading [" + k + "] ==========")
+        # logging.warning("========== Checking [" + k + "] ==========")
+
+        cookie = start163_api_starUser_getCookie(k, p)
+        if cookie == -1:
+            continue
+        else:
+            collectCoins = start163_api_home_index(cookie)
+
+            for i in range(len(collectCoins)):
+                star_id = collectCoins[i]["id"]
+                star163_api_collectUserCoin(cookie, star_id)
+        logging.warning('********** Collect black diamond complete!')
+
+    # Get Calculate
+    for item in data_dict['data']:
+        # content_list = []
+        k = item.get('k', 'NA')
+        p = item.get('p', 'NA')
+        # logging.warning("========== Reading [" + k + "] ==========")
+
+        # cmd_clean = r'cmd.exe C:/DevTools/my_blockchain/star163/clean.bat'
+        # result1 = execute_command(cmd_clean)
+        # print('result:------>', result1)
+
+
+        output = os.system("C:/DevTools/MuMu/emulator/nemu/EmulatorShell/NemuPlayer.exe")
+        logging.warning(">>>>>>>>>> Start NemuPlayer.exe, output = " + str(output))
+        time.sleep(30)
+
+        cmd_adb = r'adb connect 127.0.0.1:7555'
+        result1 = execute_command(cmd_adb)
+        print('result:------>', result1)
+
+        cmd_adb1 = r'adb devices -l'
+        result2 = execute_command(cmd_adb1)
+        print('result:------>', result2)
+
+        # python执行直接用【os.system(要执行的命令)】即可，如果是windows下\n和\a需要转义，所以用下面的内容
+        # cmd_app_desktop = r'start /b node C:\Users\Jackie.Liu\AppData\Local\appium-desktop\app-1.6.0\resources\app\node_modules\appium\build\lib\main.js'
+
+        # cmd_appium = r'start /b node C:\DevTools\Appium\node_modules\appium\lib\server\main.js --address 127.0.0.1 --port 4723'
+        # result3 = execute_command(cmd_app_desktop)
+
+        output3 = os.system(
+            "start node C:/Users/Jackie.Liu/AppData/Local/appium-desktop/app-1.6.0/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4723")
+        print('result:------>' + str(output3))
+        time.sleep(30)
+
+        # 需要手动确定启动Server
+        # output3 = os.system("C:/Users/Jackie.Liu/AppData/Local/appium-desktop/Appium.exe -a 127.0.0.1 -p 4723")
 
         appium = AppiumStar163.AppiumStar()
         appium.appium_zixun()
 
+        break
+    # logging.warning('********** Sending Email Complete!')
 
-# cookie = start163_api_starUser_getCookie(k, p)
-        # TaskUrl = star163_api_starUserOrigin_getTaskUrl(cookie)
-        # star163_access_default_url(TaskUrl)
-        # star163_access_channel_list(TaskUrl)
-        # star163_get_channel_list(TaskUrl)
-
-        #
-        # if TaskUrl == -1:
-        #     continue
-        # else:
-        #     collectCoins = start163_api_home_index(cookie)
-        #
-        #     # collect black diamond
-        #     for i in range(len(collectCoins)):
-        #         star_id = collectCoins[i]["id"]
-        #         star163_api_collectUserCoin(cookie, star_id)
-    logging.warning('********** Sending Email Complete!')
-
-    # sign
-    # bixiang_sign(unique, uid)
-    #
-    # # upgrade
-    # bixiang_upgrade(unique, uid)
-    #
     # # calculate value
     # content = get_allTotal(unique, uid)
 
@@ -429,17 +409,15 @@ def loop_star163():
 
 
 # Start from here...
-
-
 loop_star163()
 
 # ssl._create_default_https_context = ssl._create_unverified_context
 # schedule.every(120).minutes.do(loop_star163)
-schedule.every(8).hours.do(loop_star163)
+# schedule.every(8).hours.do(loop_star163)
 # schedule.every().day.at("01:05").do(loop_star163)
 # schedule.every().monday.do(loop_star163)
 # schedule.every().wednesday.at("13:15").do(loop_star163)
 
-while True:
-    schedule.run_pending()
-    time.sleep(1)
+# while True:
+#     schedule.run_pending()
+#     time.sleep(1)

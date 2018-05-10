@@ -3,12 +3,44 @@
 # Then you can paste this into a file and simply run with Python
 
 
+import logging
 import os
 import time
 
 from appium import webdriver
-
 # Returns abs path relative to this file and not cwd
+from appium.webdriver.common.touch_action import TouchAction
+
+# 日志
+# 第一步，创建一个logger
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)  # Log等级总开关
+
+# 第二步，创建一个handler，用于写入日志文件
+rq = time.strftime('%Y%m%d%H%M', time.localtime(time.time()))
+logfile = 'star163_appium.log'
+fh = logging.FileHandler(logfile, mode='w')
+fh.setLevel(logging.WARNING)  # 输出到file的log等级的开关
+
+ch = logging.StreamHandler()
+ch.setLevel(logging.WARNING)  # 输出到console的log等级的开关
+
+# 第三步，定义handler的输出格式
+formatter = logging.Formatter("%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(message)s")
+fh.setFormatter(formatter)
+# 第四步，将logger添加到handler里面
+logger.addHandler(fh)
+
+ch.setFormatter(formatter)
+logger.addHandler(ch)
+
+# logger.debug('this is a logger debug message')
+# logger.info('this is a logger info message')
+# logger.warning('this is a logger warning message')
+# logger.error('this is a logger error message')
+# logger.critical('this is a logger critical message')
+
+
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
@@ -24,49 +56,97 @@ class AppiumStar:
         desired_caps['deviceName'] = 'Android'
         desired_caps['noReset'] = 'True'
         desired_caps['app'] = PATH(
-            'C:\\Tools\\star163\\blockchain112_163-e01170001.apk'
+            'C:/Tools/star163/blockchain112_163-e01170001.apk'
         )
         # desired_caps['appPackage'] = 'com.example.android.contactmanager'
         # desired_caps['appActivity'] = '.ContactManager'
 
         self.driver = webdriver.Remote('http://localhost:4723/wd/hub', desired_caps)
 
-    def appium_zixun(self):
-        # 测试导航页
-        print("start test...")
+    def isElementExist(self, id):
+        try:
+            self.driver.find_element_by_accessibility_id(id)
+            return True
+        except Exception as e:
+            print(e)
+            return False
 
-        time.sleep(10)
-        el1 = self.driver.find_element_by_accessibility_id("获取原力")
-        el1.click()
-        time.sleep(10)
-        el2 = self.driver.find_element_by_accessibility_id("资讯")
-        el2.click()
-        time.sleep(10)
-        # el3 = self.driver.find_element_by_accessibility_id("立即阅读")
-        # el3.click()
-        # el4 = self.driver.find_element_by_accessibility_id("区块链")
-        # el4.click()
-        # el5 = self.driver.find_element_by_accessibility_id("比特币跌破一万美元关口！虚拟货币们究竟是泡沫还是数字资产？财富日记说 Link")
-        # el5.click()
-        # el6 = self.driver.find_element_by_id("com.netease.blockchain:id/iv_back")
-        # el6.click()
-        # el7 = self.driver.find_element_by_accessibility_id("区块链要让淘宝给用户们分钱！马云：这个锅我不背财视传媒 Link")
-        # el7.click()
-        # el8 = self.driver.find_element_by_id("com.netease.blockchain:id/iv_back")
-        # el8.click()
-        # el9 = self.driver.find_element_by_accessibility_id("权重飙升国家队再出手？巨量资金涌入这类股望爆发巨丰财经 Link")
-        # el9.click()
-        # el10 = self.self.driver.find_element_by_accessibility_id("查看全文")
-        # el10.click()
-        # el11 = self.driver.find_element_by_id("com.netease.blockchain:id/iv_back")
-        # el11.click()
-        # el12 = self.driver.find_element_by_id("com.netease.blockchain:id/iv_back")
-        # el12.click()
-        # el13 = self.driver.find_element_by_accessibility_id("网易云音乐")
-        # el13.click()
-        # el14 = self.driver.find_element_by_accessibility_id("立即收听")
-        # el14.click()
-        # el15 = self.driver.find_element_by_id("com.netease.blockchain:id/iv_back")
-        # el15.click()
-        # el16 = self.driver.find_element_by_id("com.netease.blockchain:id/iv_back")
-        # el16.click()
+    def appium_zixun(self):
+        # level 1 main page
+        logging.warning(">>>>>>>>>> Start from level 1 main page ...")
+        time.sleep(5)
+        self.driver.find_element_by_accessibility_id("获取原力").click()
+        logging.warning(">>>>>>>>>> Level 2, 获取原力")
+        time.sleep(15)
+
+        # level 2 main page
+        self.driver.find_element_by_accessibility_id("资讯").click()
+        logging.warning(">>>>>>>>>> 资讯")
+        time.sleep(15)
+        if self.isElementExist("立即阅读"):
+            self.driver.find_element_by_accessibility_id("立即阅读").click()
+            time.sleep(5)
+
+        # channel "区块链"
+        self.driver.find_element_by_accessibility_id("区块链").click()
+        logging.warning(">>>>>>>>>> 区块链")
+        time.sleep(15)
+
+        # Article 1
+        TouchAction(self.driver).tap(x=600, y=300).perform()
+        logging.warning(">>>>>>>>>> Article 1")
+        time.sleep(15)
+        if self.isElementExist("查看全文"):
+            self.driver.find_element_by_accessibility_id("查看全文").click()
+        self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
+        time.sleep(15)
+
+        # Article 2
+        TouchAction(self.driver).tap(x=600, y=600).perform()
+        logging.warning(">>>>>>>>>> Article 2")
+        time.sleep(15)
+        if self.isElementExist("查看全文"):
+            self.driver.find_element_by_accessibility_id("查看全文").click()
+        self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
+        time.sleep(15)
+
+        # Article 3
+        TouchAction(self.driver).tap(x=600, y=900).perform()
+        logging.warning(">>>>>>>>>> Article 3")
+        time.sleep(15)
+        if self.isElementExist("查看全文"):
+            self.driver.find_element_by_accessibility_id("查看全文").click()
+        self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
+        time.sleep(15)
+
+        # Article 4
+        TouchAction(self.driver).tap(x=600, y=1200).perform()
+        logging.warning(">>>>>>>>>> Article 4")
+        time.sleep(15)
+        if self.isElementExist("查看全文"):
+            self.driver.find_element_by_accessibility_id("查看全文").click()
+        self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
+        time.sleep(15)
+
+
+        # level 2 main page
+        self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
+        logging.warning(">>>>>>>>>> Back to Level 2, 获取原力")
+        time.sleep(15)
+
+        # Music
+        self.driver.find_element_by_accessibility_id("网易云音乐").click()
+        logging.warning(">>>>>>>>>> 网易云音乐")
+        time.sleep(15)
+        if self.isElementExist("立即收听"):
+            self.driver.find_element_by_accessibility_id("立即收听").click()
+
+        # level 2 main page
+        self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
+        logging.warning(">>>>>>>>>> Back to Level 2, 获取原力")
+        time.sleep(15)
+
+        # level 1 main page
+        self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
+        logging.warning(">>>>>>>>>> Back to level 1 ...")
+        time.sleep(15)

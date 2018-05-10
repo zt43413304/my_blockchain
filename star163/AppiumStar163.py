@@ -34,6 +34,8 @@ logger.addHandler(fh)
 ch.setFormatter(formatter)
 logger.addHandler(ch)
 
+logger.removeHandler(ch)
+logger.removeHandler(fh)
 # logger.debug('this is a logger debug message')
 # logger.info('this is a logger info message')
 # logger.warning('this is a logger warning message')
@@ -56,7 +58,7 @@ class AppiumStar:
         desired_caps['deviceName'] = 'Android'
         desired_caps['noReset'] = 'True'
         desired_caps['app'] = PATH(
-            'C:/Tools/star163/blockchain112_163-e01170001.apk'
+            'C:/DevTools/Star163/blockchain112_163-e01170001.apk'
         )
         # desired_caps['appPackage'] = 'com.example.android.contactmanager'
         # desired_caps['appActivity'] = '.ContactManager'
@@ -71,7 +73,7 @@ class AppiumStar:
             print(e)
             return False
 
-    def appium_zixun(self):
+    def appium_calculate(self):
         # level 1 main page
         logging.warning(">>>>>>>>>> Start from level 1 main page ...")
         time.sleep(5)
@@ -98,6 +100,7 @@ class AppiumStar:
         time.sleep(15)
         if self.isElementExist("查看全文"):
             self.driver.find_element_by_accessibility_id("查看全文").click()
+        time.sleep(85)
         self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
         time.sleep(15)
 
@@ -107,6 +110,7 @@ class AppiumStar:
         time.sleep(15)
         if self.isElementExist("查看全文"):
             self.driver.find_element_by_accessibility_id("查看全文").click()
+        time.sleep(85)
         self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
         time.sleep(15)
 
@@ -116,6 +120,7 @@ class AppiumStar:
         time.sleep(15)
         if self.isElementExist("查看全文"):
             self.driver.find_element_by_accessibility_id("查看全文").click()
+        time.sleep(85)
         self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
         time.sleep(15)
 
@@ -125,9 +130,9 @@ class AppiumStar:
         time.sleep(15)
         if self.isElementExist("查看全文"):
             self.driver.find_element_by_accessibility_id("查看全文").click()
+        time.sleep(85)
         self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
         time.sleep(15)
-
 
         # level 2 main page
         self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()

@@ -10,6 +10,7 @@ from urllib.parse import urlparse
 
 import AppiumStar163
 import requests
+import schedule
 
 # 日志
 # 第一步，创建一个logger
@@ -358,50 +359,41 @@ def loop_star163():
         logging.warning('********** Collect black diamond complete!')
 
     # Get Calculate
-    for item in data_dict['data']:
-        # content_list = []
-        k = item.get('k', 'NA')
-        p = item.get('p', 'NA')
-        # logging.warning("========== Reading [" + k + "] ==========")
 
-        # cmd_clean = r'cmd.exe C:/DevTools/my_blockchain/star163/clean.bat'
-        # result1 = execute_command(cmd_clean)
-        # print('result:------>', result1)
+    # cmd_clean = r'cmd.exe C:/DevTools/my_blockchain/star163/clean.bat'
+    # result1 = execute_command(cmd_clean)
+    # print('result:------>', result1)
 
+    output = os.system("C:/DevTools/MuMu/emulator/nemu/EmulatorShell/NemuPlayer.exe")
+    logging.warning(">>>>>>>>>> Start NemuPlayer.exe, output = " + str(output))
+    time.sleep(30)
 
-        output = os.system("C:/DevTools/MuMu/emulator/nemu/EmulatorShell/NemuPlayer.exe")
-        logging.warning(">>>>>>>>>> Start NemuPlayer.exe, output = " + str(output))
-        time.sleep(30)
+    cmd_adb = r'adb connect 127.0.0.1:7555'
+    result1 = execute_command(cmd_adb)
+    print('result:------>', result1)
 
-        cmd_adb = r'adb connect 127.0.0.1:7555'
-        result1 = execute_command(cmd_adb)
-        print('result:------>', result1)
+    cmd_adb1 = r'adb devices -l'
+    result2 = execute_command(cmd_adb1)
+    print('result:------>', result2)
 
-        cmd_adb1 = r'adb devices -l'
-        result2 = execute_command(cmd_adb1)
-        print('result:------>', result2)
+    # python执行直接用【os.system(要执行的命令)】即可，如果是windows下\n和\a需要转义，所以用下面的内容
+    # cmd_app_desktop = r'start /b node C:\Users\Jackie.Liu\AppData\Local\appium-desktop\app-1.6.0\resources\app\node_modules\appium\build\lib\main.js'
 
-        # python执行直接用【os.system(要执行的命令)】即可，如果是windows下\n和\a需要转义，所以用下面的内容
-        # cmd_app_desktop = r'start /b node C:\Users\Jackie.Liu\AppData\Local\appium-desktop\app-1.6.0\resources\app\node_modules\appium\build\lib\main.js'
+    # cmd_appium = r'start /b node C:\DevTools\Appium\node_modules\appium\lib\server\main.js --address 127.0.0.1 --port 4723'
+    # result3 = execute_command(cmd_app_desktop)
 
-        # cmd_appium = r'start /b node C:\DevTools\Appium\node_modules\appium\lib\server\main.js --address 127.0.0.1 --port 4723'
-        # result3 = execute_command(cmd_app_desktop)
+    output3 = os.system(
+        "start node C:/Users/Jackie.Liu/AppData/Local/appium-desktop/app-1.6.0/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4723")
+    print('result:------>' + str(output3))
+    time.sleep(30)
 
-        output3 = os.system(
-            "start node C:/Users/Jackie.Liu/AppData/Local/appium-desktop/app-1.6.0/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4723")
-        print('result:------>' + str(output3))
-        time.sleep(30)
+    # 需要手动确定启动Server
+    # output3 = os.system("C:/Users/Jackie.Liu/AppData/Local/appium-desktop/Appium.exe -a 127.0.0.1 -p 4723")
 
-        # 需要手动确定启动Server
-        # output3 = os.system("C:/Users/Jackie.Liu/AppData/Local/appium-desktop/Appium.exe -a 127.0.0.1 -p 4723")
+    appium = AppiumStar163.AppiumStar()
+    appium.appium_calculate()
 
-        appium = AppiumStar163.AppiumStar()
-        appium.appium_zixun()
-
-        break
-    # logging.warning('********** Sending Email Complete!')
-
-    # # calculate value
+    # calculate value
     # content = get_allTotal(unique, uid)
 
     # Send_email.send_SimpleHtmlEmail('newseeing@163.com', uid, content)
@@ -413,11 +405,11 @@ loop_star163()
 
 # ssl._create_default_https_context = ssl._create_unverified_context
 # schedule.every(120).minutes.do(loop_star163)
-# schedule.every(8).hours.do(loop_star163)
+schedule.every(8).hours.do(loop_star163)
 # schedule.every().day.at("01:05").do(loop_star163)
 # schedule.every().monday.do(loop_star163)
 # schedule.every().wednesday.at("13:15").do(loop_star163)
 
-# while True:
-#     schedule.run_pending()
-#     time.sleep(1)
+while True:
+    schedule.run_pending()
+    time.sleep(1)

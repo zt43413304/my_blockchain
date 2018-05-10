@@ -1,0 +1,21 @@
+node /Applications/Appium.app/Contents/Resources/app/node_modules/appium/build/lib/main.js
+在命令行中添加--port、--bootstrap-port、--selendroid-port等appium服务命令行参数：
+
+C:\Users\Jackie.Liu\AppData\Local\appium-desktop\app-1.6.0\resources\app\main.js
+
+C:\Users\Jackie.Liu\AppData\Local\appium-desktop\app-1.6.0\resources\app\node_modules\appium\build\lib\main.js
+
+
+
+node C:\Users\Jackie.Liu\AppData\Local\appium-desktop\app-1.6.0\resources\app\node_modules\appium\build\lib\main.js --address 127.0.0.1 --port 4744
+
+node C:\DevTools\Appium\node_modules\appium\lib\server\main.js --address 127.0.0.1 --port 4766
+
+
+//*[@id="screenshotContainer"]/div/div/div/div/div/div[58]
+//*[@id="screenshotContainer"]/div/div/div/div/div/div[59]
+//*[@id="screenshotContainer"]/div/div/div/div/div/div[70]
+
+C:\WINDOWS\system32\cmd.exe /s /c "java -jar C:\DevTools\Appium\node_modules\appium\node_modules\appium-adb\jars\sign.jar C:\Tools\star163\blockchain112_163-e01170001.apk --override"
+
+C:\Users\Jackie.Liu\AppData\Local\appium-desktop\Appium.exe

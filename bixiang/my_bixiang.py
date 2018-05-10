@@ -106,6 +106,30 @@ def bixiang_login_test():
 
     print(response.text)
 
+def bixiang_userInfo(unique, uid):
+    global mail_subject
+    url = "http://tui.yingshe.com/member/userInfo"
+
+    payload_userInfo = payload + "&unique=" + unique + "&uid=" + uid
+
+    try:
+        response = requests.request("POST", url, data=payload_userInfo, headers=headers)
+        time.sleep(1)
+
+        res = response.json()["status"]
+        if res == 1:
+            show_id = response.json()["info"]["show_id"]
+            nickname = response.json()["info"]["nickname"]
+            phone = response.json()["info"]["phone"]
+            bxc = response.json()["info"]["bxc"]
+            mail_subject = show_id +', ' + phone
+            logging.warning('********** uid='+uid+', show_id='+show_id+', nickname='+nickname+', phone='+phone+', bxc='+bxc)
+            return 1
+        else:
+            return -1
+    except Exception as e:
+        print(e)
+        return -1
 
 def bixiang_login(unique, uid):
     url = "http://tui.yingshe.com/check/index"
@@ -119,6 +143,7 @@ def bixiang_login(unique, uid):
         res = response.json()["status"]
         if res == 1:
             logging.warning('********** Login success. uid:' + uid)
+            bixiang_userInfo(unique, uid)
             return 1
         else:
             logging.warning('********** Login fail. uid:' + uid)
@@ -174,6 +199,7 @@ def bixiang_shared(unique, uid, id):
     payload_id = payload + "&live_id=" + id + "&unique=" + unique + "&uid=" + uid
 
     try:
+        time.sleep(2)
         response = requests.request("POST", url, data=payload_id, headers=headers)
         time.sleep(2)
 
@@ -223,6 +249,7 @@ def bixiang_sign(unique, uid):
 
 def bixiang_upgrade(unique, uid):
     url = "http://tui.yingshe.com/member/getNoLevel"
+    url_upgrade = "http://tui.yingshe.com/member/getLevelReward"
 
     payload_upgrade = payload + "&unique=" + unique + "&uid=" + uid
 
@@ -232,8 +259,16 @@ def bixiang_upgrade(unique, uid):
 
         res = response.json()["status"]
         if res == 1:
-            logging.warning('>>>>>>>>>>  Upgrade. now_bxc=' + response.json()["info"]["now_bxc"])
-            logging.warning('>>>>>>>>>>  Upgrade. level_bxc=' + response.json()["info"]["level_bxc"])
+            now_bxc = response.json()["info"]["now_bxc"]
+            level_bxc = response.json()["info"]["level_bxc"]
+            logging.warning('>>>>>>>>>>  Upgrade. now_bxc=' + str(now_bxc))
+            logging.warning('>>>>>>>>>>  Upgrade. level_bxc=' + str(level_bxc))
+
+            if now_bxc > level_bxc:
+                response = requests.request("POST", url_upgrade, data=payload_upgrade, headers=headers)
+                if response.json()["status"] == 1:
+                    mail_subject = 'Upgrade, ' + mail_subject
+                    logging.warning('>>>>>>>>>>  Upgrade Success!  >>>>>>>>>>')
             return 1
         else:
             return -1
@@ -323,7 +358,7 @@ def loop_bixiang():
             # calculate value
             content = get_allTotal(unique, uid)
 
-        common.Send_email.send_SimpleHtmlEmail('newseeing@163.com', uid, content)
+        common.Send_email.send_SimpleHtmlEmail('newseeing@163.com', mail_subject, content)
     logging.warning('********** Sending Email Complete!')
 
 

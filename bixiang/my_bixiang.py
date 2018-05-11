@@ -106,6 +106,7 @@ def bixiang_login_test():
 
     print(response.text)
 
+
 def bixiang_userInfo(unique, uid):
     global mail_subject
     url = "http://tui.yingshe.com/member/userInfo"
@@ -122,14 +123,16 @@ def bixiang_userInfo(unique, uid):
             nickname = response.json()["info"]["nickname"]
             phone = response.json()["info"]["phone"]
             bxc = response.json()["info"]["bxc"]
-            mail_subject = show_id +', ' + phone
-            logging.warning('********** uid='+uid+', show_id='+show_id+', nickname='+nickname+', phone='+phone+', bxc='+bxc)
+            mail_subject = show_id + ', ' + phone
+            logging.warning(
+                '********** uid=' + uid + ', show_id=' + show_id + ', nickname=' + nickname + ', phone=' + phone + ', bxc=' + bxc)
             return 1
         else:
             return -1
     except Exception as e:
         print(e)
         return -1
+
 
 def bixiang_login(unique, uid):
     url = "http://tui.yingshe.com/check/index"

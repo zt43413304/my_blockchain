@@ -1,5 +1,4 @@
 import os
-import glob
 import unittest
 from time import sleep
 

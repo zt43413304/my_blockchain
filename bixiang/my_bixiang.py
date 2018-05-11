@@ -123,7 +123,7 @@ def bixiang_userInfo(unique, uid):
             nickname = response.json()["info"]["nickname"]
             phone = response.json()["info"]["phone"]
             bxc = response.json()["info"]["bxc"]
-            mail_subject = show_id + ', ' + phone
+            mail_subject = phone
             logging.warning(
                 '********** uid=' + uid + ', show_id=' + show_id + ', nickname=' + nickname + ', phone=' + phone + ', bxc=' + bxc)
             return 1
@@ -145,7 +145,7 @@ def bixiang_login(unique, uid):
 
         res = response.json()["status"]
         if res == 1:
-            logging.warning('********** Login success. uid:' + uid)
+            logging.warning('********** Login success.')
             bixiang_userInfo(unique, uid)
             return 1
         else:
@@ -270,7 +270,7 @@ def bixiang_upgrade(unique, uid):
             if now_bxc > level_bxc:
                 response = requests.request("POST", url_upgrade, data=payload_upgrade, headers=headers)
                 if response.json()["status"] == 1:
-                    mail_subject = 'Upgrade, ' + mail_subject
+                    mail_subject = mail_subject + ', Upgrade'
                     logging.warning('>>>>>>>>>>  Upgrade Success!  >>>>>>>>>>')
             return 1
         else:
@@ -331,8 +331,9 @@ def loop_bixiang():
         # content_list = []
         unique = item.get('unique', 'NA')
         uid = item.get('uid', 'NA')
+        phone = item.get('phone', 'NA')
         logging.warning('\n')
-        logging.warning("========== Checking [" + uid + "] ==========")
+        logging.warning("========== Checking [" + phone + "] ==========")
 
         status = bixiang_login(unique, uid)
         if status == -1:

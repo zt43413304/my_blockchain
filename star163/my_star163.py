@@ -366,7 +366,7 @@ def appium_calculate136():
     # output3 = os.system(
     #     "start node C:/Users/Jackie.Liu/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4723")
     output3 = os.system(
-        "start node C:/Users/jacki/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4723")
+        "start /b node C:/Users/jacki/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4723")
     print('result:------>' + str(output3))
     time.sleep(30)
 
@@ -399,7 +399,7 @@ def appium_calculate138():
     # output3 = os.system(
     #     "start node C:/Users/Jackie.Liu/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4725")
     output3 = os.system(
-        "start node C:/Users/jacki/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4725")
+        "start /b node C:/Users/jacki/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4725")
     print('result:------>' + str(output3))
     time.sleep(30)
 

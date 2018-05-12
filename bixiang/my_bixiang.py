@@ -268,9 +268,12 @@ def bixiang_upgrade(unique, uid):
             logging.warning('>>>>>>>>>>  Upgrade. level_bxc=' + str(level_bxc))
 
             if now_bxc > level_bxc:
+                logging.warning('>>>>>>>>>> now_bxc > level_bxc, before upgrade')
                 response = requests.request("POST", url_upgrade, data=payload_upgrade, headers=headers)
+                logging.warning('>>>>>>>>>> now_bxc > level_bxc, after upgrade')
+                logging.warning('>>>>>>>>>> now_bxc > level_bxc, response status = ' + str(response.json()["status"]))
+                mail_subject = mail_subject + ', Upgrade'
                 if response.json()["status"] == 1:
-                    mail_subject = mail_subject + ', Upgrade'
                     logging.warning('>>>>>>>>>>  Upgrade Success!  >>>>>>>>>>')
             return 1
         else:

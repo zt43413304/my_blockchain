@@ -72,6 +72,10 @@ class AppiumStar:
             return False
 
     def appium_calculate(self):
+        if self.isElementExist("Link"):
+            self.driver.find_element_by_id("com.netease.blockchain:id/Link").click()
+        time.sleep(15)
+
         # level 1 main page
         logging.warning("========== Start from level 1 main page ...")
         time.sleep(30)

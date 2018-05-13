@@ -72,8 +72,9 @@ class AppiumStar:
             return False
 
     def appium_calculate(self):
+        # close "0.01黑钻换..."
         if self.isElementExist("Link"):
-            self.driver.find_element_by_id("com.netease.blockchain:id/Link").click()
+            self.driver.find_element_by_accessibility_id("Link").click()
         time.sleep(15)
 
         # level 1 main page

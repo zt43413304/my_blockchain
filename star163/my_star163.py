@@ -434,12 +434,12 @@ def loop_star163():
 
         # calculate value
         coin, origin = get_allTotal(cookie)
-        content = ">>>>>>>>>> Black diamond:" + str(coin) + ", Calculate:" + str(origin)
-        common.Send_email.send_163HtmlEmail('newseeing@163.com', str(phone) + '的黑钻及原力', content)
+        content = ">>>>>>>>>> Calculate=" + str(origin) + ", Black diamond=" + str(coin)
+        common.Send_email.send_163HtmlEmail('newseeing@163.com', str(phone) + '的原力及黑钻', content)
         logging.warning('********** Sending Collect Email Complete!')
 
-    appium_calculate138()
     appium_calculate136()
+    appium_calculate138()
 
 
 # Start from here...

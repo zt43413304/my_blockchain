@@ -438,8 +438,8 @@ def loop_star163():
         common.Send_email.send_163HtmlEmail('newseeing@163.com', str(phone) + '的原力及黑钻', content)
         logging.warning('********** Sending Collect Email Complete!')
 
-    appium_calculate136()
     appium_calculate138()
+    appium_calculate136()
 
 
 # Start from here...
@@ -447,7 +447,7 @@ loop_star163()
 
 # ssl._create_default_https_context = ssl._create_unverified_context
 # schedule.every(120).minutes.do(loop_star163)
-schedule.every(6).hours.do(loop_star163)
+schedule.every(5).hours.do(loop_star163)
 # schedule.every().day.at("01:05").do(loop_star163)
 # schedule.every().monday.do(loop_star163)
 # schedule.every().wednesday.at("13:15").do(loop_star163)

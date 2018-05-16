@@ -72,10 +72,15 @@ class AppiumStar:
             return False
 
     def appium_calculate(self):
-        # close "0.01黑钻换..."
+        # close "0.01黑钻换..."       
+
+        time.sleep(5)
+        
         if self.isElementExist("Link"):
-            self.driver.find_element_by_accessibility_id("Link").click()
-        time.sleep(15)
+            TouchAction(self.driver).tap(x=332, y=104).perform()
+        #    self.driver.find_element_by_accessibility_id("Link").click()
+
+        time.sleep(5)
 
         # level 1 main page
         logging.warning("========== Start from level 1 main page ...")

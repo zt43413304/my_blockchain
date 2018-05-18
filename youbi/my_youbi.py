@@ -71,10 +71,10 @@ def appium_calculate136():
     result2 = execute_command(cmd_adb1)
     print('result:------>', result2)
 
-    output3 = os.system(
-        "start node C:/Users/Jackie.Liu/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4723")
     # output3 = os.system(
-    # "start /b node C:/Users/jacki/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4723")
+    #     "start node C:/Users/Jackie.Liu/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4723")
+    output3 = os.system(
+    "start /b node C:/Users/jacki/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4723")
     print('result:------>' + str(output3))
     time.sleep(10)
 
@@ -96,10 +96,10 @@ def appium_calculate138():
     result2 = execute_command(cmd_adb1)
     print('result:------>', result2)
 
-    output3 = os.system(
-        "start node C:/Users/Jackie.Liu/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4725")
     # output3 = os.system(
-    #     "start /b node C:/Users/jacki/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4725")
+    #     "start node C:/Users/Jackie.Liu/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4725")
+    output3 = os.system(
+        "start /b node C:/Users/jacki/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4725")
     print('result:------>' + str(output3))
     time.sleep(10)
 
@@ -129,8 +129,8 @@ scheduler = BlockingScheduler()
 # scheduler.add_job(appium_calculate136, "cron", second="0, 30", max_instances=2)
 # scheduler.add_job(appium_calculate138, "cron", second="0, 30", max_instances=2)
 
-scheduler.add_job(appium_calculate136, "cron", minute="*/5", max_instances=2)
-scheduler.add_job(appium_calculate138, "cron", minute="*/5", max_instances=2)
+scheduler.add_job(appium_calculate136, "cron", minute="0, 30", max_instances=2)
+scheduler.add_job(appium_calculate138, "cron", minute="0, 30", max_instances=2)
 
 try:
     scheduler.start()

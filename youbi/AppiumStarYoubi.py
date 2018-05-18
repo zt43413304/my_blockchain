@@ -63,7 +63,7 @@ class AppiumStar:
         desired_caps['noReset'] = 'True'
         desired_caps['newCommandTimeout'] = '600'
         desired_caps['app'] = PATH(
-            'C:/DevTools/Anti_Apk/com.manymanycoin.android_1.4.5_liqucn.com.apk'
+            'C:/DevTools/youbi/com.manymanycoin.android_1.4.5_liqucn.com.apk'
         )
         desired_caps['appPackage'] = 'com.manymanycoin.android'
         desired_caps['appActivity'] = 'com.manymanycoin.android.activity.MainActivity'

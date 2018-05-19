@@ -37,13 +37,7 @@ logger.addHandler(fh)
 ch.setFormatter(formatter)
 logger.addHandler(ch)
 
-# logger.removeHandler(ch)
-# logger.removeHandler(fh)
-# logger.debug('this is a logger debug message')
-# logger.info('this is a logger info message')
-# logger.warning('this is a logger warning message')
-# logger.error('this is a logger error message')
-# logger.critical('this is a logger critical message')
+
 
 
 def execute_command(cmd):
@@ -78,9 +72,9 @@ def appium_calculate136():
     print('result:------>' + str(output3))
     time.sleep(10)
 
-    appium = AppiumStarYoubi.AppiumStar('4.4.4', '127.0.0.1:7555', 4723)
-    appium.appium_youbi()
-    # common.Send_email.send_163HtmlEmail('newseeing@163.com', '136获取原力完成.', '')
+    appium136 = AppiumStarYoubi.AppiumStar('4.4.4', '127.0.0.1:7555', 4723)
+    appium136.appium_youbi("13601223469")
+    common.Send_email.send_163HtmlEmail('newseeing@163.com', '有币136获取完成.', '')
     logging.warning('********** Check youbi in NemuPlayer complete!')
 
 def appium_calculate138():
@@ -103,10 +97,10 @@ def appium_calculate138():
     print('result:------>' + str(output3))
     time.sleep(10)
 
-    appium = AppiumStarYoubi.AppiumStar('4.4.2', '127.0.0.1:62001', 4725)
-    appium.appium_youbi()
+    appium138 = AppiumStarYoubi.AppiumStar('4.4.2', '127.0.0.1:62001', 4725)
+    appium138.appium_youbi("13826090504")
 
-    # common.Send_email.send_163HtmlEmail('newseeing@163.com', '138获取原力完成.', '')
+    common.Send_email.send_163HtmlEmail('newseeing@163.com', '有币138获取完成.', '')
     logging.warning('********** Check youbi in Nox complete!')
 
 def test136():
@@ -118,19 +112,20 @@ def test138():
     return
 
 # start
-logging.warning('***** Start ...')
+logging.warning('***** Start from my_youbi.py ...')
 scheduler = BlockingScheduler()
 # scheduler = BackgroundScheduler()
 
 # @scheduler.scheduled_job("cron", second="*/3")
-# scheduler.add_job(test136, "cron", second="0, 30")
-# scheduler.add_job(test138, "cron", second="0, 30")
+# scheduler.add_job(test136, "cron", second="30")
+# scheduler.add_job(test138, "cron", second="30")
 
-# scheduler.add_job(appium_calculate136, "cron", second="0, 30", max_instances=2)
-# scheduler.add_job(appium_calculate138, "cron", second="0, 30", max_instances=2)
+# scheduler.add_job(appium_calculate136, "cron", minute="*/5", max_instances=2)
+# scheduler.add_job(appium_calculate138, "cron", minute="*/3", max_instances=2)
 
-scheduler.add_job(appium_calculate136, "cron", minute="0, 30", max_instances=2)
-scheduler.add_job(appium_calculate138, "cron", minute="0, 30", max_instances=2)
+scheduler.add_job(appium_calculate136, "cron", minute="0, 30", hour="8-23", max_instances=2)
+scheduler.add_job(appium_calculate138, "cron", minute="0, 30", hour="8-23", max_instances=2)
+
 
 try:
     scheduler.start()

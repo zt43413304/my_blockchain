@@ -13,28 +13,30 @@ from appium.webdriver.common.touch_action import TouchAction
 
 # 日志
 # 第一步，创建一个logger
-module_logger = logging.getLogger("AppiumStarYoubi.py")
+logger = logging.getLogger("AppiumStarYoubi.py")
 
-# logger.setLevel(logging.INFO)  # Log等级总开关
-#
-# # 第二步，创建一个handler，用于写入日志文件
-# rq = time.strftime('%Y%m%d%H%M', time.localtime(time.time()))
-# logfile = 'youbi_appium.log'
-# fh = logging.FileHandler(logfile, mode='w')
-# fh.setLevel(logging.WARNING)  # 输出到file的log等级的开关
-#
-# ch = logging.StreamHandler()
-# ch.setLevel(logging.WARNING)  # 输出到console的log等级的开关
-#
-# # 第三步，定义handler的输出格式
-# formatter = logging.Formatter("%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(message)s")
-# fh.setFormatter(formatter)
-# # 第四步，将logger添加到handler里面
-# logger.addHandler(fh)
-#
-# ch.setFormatter(formatter)
-# logger.addHandler(ch)
+logger.setLevel(logging.INFO)  # Log等级总开关
 
+# 第二步，创建一个handler，用于写入日志文件
+rq = time.strftime('%Y%m%d%H%M', time.localtime(time.time()))
+logfile = 'youbi_appium.log'
+fh = logging.FileHandler(logfile, mode='w')
+fh.setLevel(logging.WARNING)  # 输出到file的log等级的开关
+
+ch = logging.StreamHandler()
+ch.setLevel(logging.WARNING)  # 输出到console的log等级的开关
+
+# 第三步，定义handler的输出格式
+formatter = logging.Formatter("%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(message)s")
+fh.setFormatter(formatter)
+# 第四步，将logger添加到handler里面
+logger.addHandler(fh)
+
+ch.setFormatter(formatter)
+logger.addHandler(ch)
+
+# logger.removeHandler(ch)
+# logger.removeHandler(fh)
 # logger.debug('this is a logger debug message')
 # logger.info('this is a logger info message')
 # logger.warning('this is a logger warning message')
@@ -55,7 +57,7 @@ class AppiumStar:
         self.logger.warning("=== warning creating an instance in AppiumStarYoubi.py")
 
     def __init__(self, version, deviceName, port):
-        print("start __init__...")
+        logger.warning("********** start __init__...")
         desired_caps = {}
         desired_caps['platformName'] = 'Android'
         desired_caps['platformVersion'] = version
@@ -77,19 +79,19 @@ class AppiumStar:
             print(e)
             return False
 
-    def sign_get_coin(self):
+    def sign_get_coin(self, phone):
         # 抢币
         element_list = self.driver.find_elements_by_class_name("android.widget.Button")
         for i in range(len(element_list)):
             ele = element_list[i]
+            # logger.warning(">>>>>>>>>> sign_get_coin(" + phone + "), ele.text = " + ele.text)
             if ele.text == "立即领取" or ele.text == "签到领10个币":
                 ele.click()
-                module_logger.warning("=========sign_get_coin(),  ele.text = " + ele.text)
-                time.sleep(3)
+                logger.warning(">>>>>>>>>> sign_get_coin(" + phone + "), after click, ele.text = " + ele.text)
 
-        return
 
-    def appium_youbi(self):
+
+    def appium_youbi(self, phone):
         time.sleep(3)
         # 中间图片按钮“领币”
         # TouchAction(self.driver).tap(x=200, y=612).perform()
@@ -104,13 +106,13 @@ class AppiumStar:
         try:
             i = 0
             while i < 8:
-                self.sign_get_coin()
+                self.sign_get_coin(phone)
                 action = TouchAction(self.driver)
                 action.press(x=200,y=400).move_to(x=200,y=320).wait(200).release().wait(200).perform()
                 time.sleep(3)
-                self.driver.get_screenshot_as_file("file"+str(i)+".png")
+                self.driver.get_screenshot_as_file("file_"+phone+"_"+str(i)+".png")
                 i = i + 1
-                module_logger.warning("=========appium_youbi(), i = " + str(i))
+                logger.warning(">>>>>>>>>> appium_youbi(" + phone + "), i = " + str(i))
         except Exception as e:
             print(e)
         return

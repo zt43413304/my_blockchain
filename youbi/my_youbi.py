@@ -123,8 +123,8 @@ scheduler = BlockingScheduler()
 # scheduler.add_job(appium_calculate136, "cron", minute="*/5", max_instances=2)
 # scheduler.add_job(appium_calculate138, "cron", minute="*/3", max_instances=2)
 
-scheduler.add_job(appium_calculate136, "cron", minute="0, 30", hour="8-23", max_instances=2)
-scheduler.add_job(appium_calculate138, "cron", minute="0, 30", hour="8-23", max_instances=2)
+scheduler.add_job(appium_calculate136, "cron", minute="0,5,30,35", hour="8-23", max_instances=2)
+scheduler.add_job(appium_calculate138, "cron", minute="0,5,30,35", hour="8-23", max_instances=2)
 
 
 try:

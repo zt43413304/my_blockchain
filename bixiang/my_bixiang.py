@@ -370,15 +370,15 @@ def loop_bixiang():
 
 
 # Start from here...
-loop_bixiang()
+# loop_bixiang()
 
 # ssl._create_default_https_context = ssl._create_unverified_context
 # schedule.every(120).minutes.do(loop_bixiang)
-schedule.every(6).hours.do(loop_bixiang)
+# schedule.every(6).hours.do(loop_bixiang)
 # schedule.every().day.at("01:05").do(loop_bixiang)
 # schedule.every().monday.do(loop_bixiang)
 # schedule.every().wednesday.at("13:15").do(loop_bixiang)
 
-while True:
-    schedule.run_pending()
-    time.sleep(1)
+# while True:
+#     schedule.run_pending()
+#     time.sleep(1)

@@ -57,7 +57,7 @@ class AppiumStar:
         self.logger.warning("=== warning creating an instance in AppiumStarYoubi.py")
 
     def __init__(self, version, deviceName, port):
-        logger.warning("********** start __init__...")
+        logger.warning("********** start __init__..." + str(port))
         desired_caps = {}
         desired_caps['platformName'] = 'Android'
         desired_caps['platformVersion'] = version

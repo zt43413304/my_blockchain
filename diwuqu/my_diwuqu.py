@@ -46,11 +46,11 @@ logger.addHandler(ch)
 
 # get config information
 curpath = os.getcwd()
-content = open(curpath + '/config_diwuqu.ini').read()
+content = open(curpath + '/diwuqu/config_diwuqu.ini').read()
 content = re.sub(r"\xfe\xff", "", content)
 content = re.sub(r"\xff\xfe", "", content)
 content = re.sub(r"\xef\xbb\xbf", "", content)
-open(curpath + '/config_diwuqu.ini', 'w').write(content)
+open(curpath + '/diwuqu/config_diwuqu.ini', 'w').write(content)
 
 # start
 logging.warning('***** Start ...')
@@ -248,7 +248,7 @@ def loop_diwuqu():
     global calculated
 
     # Reading data
-    with open('data_diwuqu.json', 'r') as file:
+    with open('/diwuqu/data_diwuqu.json', 'r') as file:
         data_dict = json.load(file)
 
     for item in data_dict['data']:

@@ -46,14 +46,14 @@ logger.addHandler(ch)
 
 # get config information
 curpath = os.getcwd()
-content = open(curpath + '/config_bixiang.ini').read()
+content = open(curpath + '/bixiang/config_bixiang.ini').read()
 content = re.sub(r"\xfe\xff", "", content)
 content = re.sub(r"\xff\xfe", "", content)
 content = re.sub(r"\xef\xbb\xbf", "", content)
-open(curpath + '/config_bixiang.ini', 'w').write(content)
+open(curpath + '/bixiang/config_bixiang.ini', 'w').write(content)
 
 cf = configparser.ConfigParser()
-cf.read(curpath + '/config_bixiang.ini')
+cf.read(curpath + '/bixiang/config_bixiang.ini')
 # unique = cf.get('info', 'unique').strip()
 # uid = cf.get('info', 'uid').strip()
 is_ad_ios = cf.get('info', 'is_ad_ios').strip()
@@ -327,7 +327,7 @@ def get_allTotal(unique, uid):
 def loop_bixiang():
     # bixiang_login_test()
 
-    file = open(curpath + '/data_bixiang.json', 'r', encoding='utf-8')
+    file = open(curpath + '/bixiang/data_bixiang.json', 'r', encoding='utf-8')
     data_dict = json.load(file)
 
     for item in data_dict['data']:

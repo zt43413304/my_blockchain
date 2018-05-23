@@ -15,34 +15,23 @@ import urllib.parse
 sys.path.append('..')
 import common.Send_email
 
-# 日志
-# 第一步，创建一个logger
-logger = logging.getLogger()
+
+# 第一步，创建一个logger,并设置级别
+logger = logging.getLogger("my_bixiang.py")
 logger.setLevel(logging.INFO)  # Log等级总开关
-
 # 第二步，创建一个handler，用于写入日志文件
-rq = time.strftime('%Y%m%d%H%M', time.localtime(time.time()))
-logfile = 'bixiang.log'
-fh = logging.FileHandler(logfile, mode='w')
+fh = logging.FileHandler('./logs/bixiang.log', mode='w')
 fh.setLevel(logging.WARNING)  # 输出到file的log等级的开关
-
 ch = logging.StreamHandler()
-ch.setLevel(logging.WARNING)  # 输出到console的log等级的开关
-
+ch.setLevel(logging.INFO)  # 输出到console的log等级的开关
 # 第三步，定义handler的输出格式
 formatter = logging.Formatter("%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(message)s")
 fh.setFormatter(formatter)
+ch.setFormatter(formatter)
 # 第四步，将logger添加到handler里面
 logger.addHandler(fh)
-
-ch.setFormatter(formatter)
 logger.addHandler(ch)
 
-# logger.debug('this is a logger debug message')
-# logger.info('this is a logger info message')
-# logger.warning('this is a logger warning message')
-# logger.error('this is a logger error message')
-# logger.critical('this is a logger critical message')
 
 
 # get config information
@@ -82,8 +71,7 @@ payload = "is_ad_ios=" + is_ad_ios + \
           "&ps=" + ps + \
           "&key=" + key
 
-# start
-logging.warning('***** Start ...')
+
 
 
 # user_agent = cf.get('info'+str(infoNum), 'user_agent').strip()
@@ -125,7 +113,7 @@ def bixiang_userInfo(unique, uid):
             phone = response.json()["info"]["phone"]
             bxc = response.json()["info"]["bxc"]
             mail_subject = phone
-            logging.warning(
+            logger.warning(
                 '********** uid=' + uid + ', show_id=' + show_id + ', nickname=' + nickname + ', phone=' + phone + ', bxc=' + bxc)
             return 1
         else:
@@ -146,11 +134,11 @@ def bixiang_login(unique, uid):
 
         res = response.json()["status"]
         if res == 1:
-            logging.warning('********** Login success.')
+            logger.warning('********** Login success.')
             bixiang_userInfo(unique, uid)
             return 1
         else:
-            logging.warning('********** Login fail. uid:' + uid)
+            logger.warning('********** Login fail. uid:' + uid)
             return -1
     except Exception as e:
         print(e)
@@ -188,7 +176,7 @@ def bixiang_sharing(unique, uid, id):
 
         res = response.json()["status"]
         if res == 1:
-            # logging.warning('^^^^^^^^^^ Sharing.')
+            # logger.warning('^^^^^^^^^^ Sharing.')
             return 1
         else:
             return -1
@@ -209,7 +197,7 @@ def bixiang_shared(unique, uid, id):
 
         res = response.json()["status"]
         if res == 1:
-            # logging.warning('^^^^^^^^^^ Shared.')
+            # logger.warning('^^^^^^^^^^ Shared.')
             return 1
         else:
             return -1
@@ -238,11 +226,11 @@ def bixiang_sign(unique, uid):
                 time.sleep(1)
                 checked = int(response.json()["info"]["is_check"])
                 if checked == 1:
-                    logging.warning('>>>>>>>>>>  Not Sign, Just Signed.')
+                    logger.warning('>>>>>>>>>>  Not Sign, Just Signed.')
                 else:
-                    logging.warning('>>>>>>>>>>  Not Sign, Sign fail.')
+                    logger.warning('>>>>>>>>>>  Not Sign, Sign fail.')
             else:
-                logging.warning('>>>>>>>>>>  Have Signed.')
+                logger.warning('>>>>>>>>>>  Have Signed.')
             return 1
         else:
             return -1
@@ -265,17 +253,17 @@ def bixiang_upgrade(unique, uid):
         if res == 1:
             now_bxc = response.json()["info"]["now_bxc"]
             level_bxc = response.json()["info"]["level_bxc"]
-            logging.warning('>>>>>>>>>>  Upgrade. now_bxc=' + str(now_bxc))
-            logging.warning('>>>>>>>>>>  Upgrade. level_bxc=' + str(level_bxc))
+            logger.warning('>>>>>>>>>>  Upgrade. now_bxc=' + str(now_bxc))
+            logger.warning('>>>>>>>>>>  Upgrade. level_bxc=' + str(level_bxc))
 
             if now_bxc > level_bxc:
-                logging.warning('>>>>>>>>>> now_bxc > level_bxc, before upgrade')
+                logger.warning('>>>>>>>>>> now_bxc > level_bxc, before upgrade')
                 response = requests.request("POST", url_upgrade, data=payload_upgrade, headers=headers)
-                logging.warning('>>>>>>>>>> now_bxc > level_bxc, after upgrade')
-                logging.warning('>>>>>>>>>> now_bxc > level_bxc, response status = ' + str(response.json()["status"]))
+                logger.warning('>>>>>>>>>> now_bxc > level_bxc, after upgrade')
+                logger.warning('>>>>>>>>>> now_bxc > level_bxc, response status = ' + str(response.json()["status"]))
                 mail_subject = mail_subject + ', Upgrade'
                 if response.json()["status"] == 1:
-                    logging.warning('>>>>>>>>>>  Upgrade Success!  >>>>>>>>>>')
+                    logger.warning('>>>>>>>>>>  Upgrade Success!  >>>>>>>>>>')
             return 1
         else:
             return -1
@@ -309,7 +297,7 @@ def get_allTotal(unique, uid):
     # querystring = {"xxx":"swh6XfD8FvRBZr17Hufua"}
 
     url = bixiang_property_url(unique, uid)
-    logging.warning(">>>>>>>>>> Property URL = " + url)
+    logger.warning(">>>>>>>>>> Property URL = " + url)
 
     if uid == '22024' or uid == '22014':
         return url
@@ -317,7 +305,7 @@ def get_allTotal(unique, uid):
     try:
         response = requests.request("GET", url, headers=headers)
         time.sleep(5)
-        logging.warning(">>>>>>>>>> response.status_code = " + str(response.status_code))
+        logger.warning(">>>>>>>>>> response.status_code = " + str(response.status_code))
         return response.content
 
     except Exception as e:
@@ -326,7 +314,7 @@ def get_allTotal(unique, uid):
 
 def get_turntableFree(unique, uid):
     url = bixiang_property_url(unique, uid)
-    logging.warning(">>>>>>>>>> Property URL = " + url)
+    logger.warning(">>>>>>>>>> Property URL = " + url)
 
     parsed = urllib.parse.urlparse(url)
     parsed_query = parsed.query
@@ -353,6 +341,9 @@ def get_turntableFree(unique, uid):
 def loop_bixiang():
     # bixiang_login_test()
 
+    # start
+    logger.warning('********** Start from loop_bixiang() ...')
+
     file = open(curpath + '/bixiang/data_bixiang.json', 'r', encoding='utf-8')
     data_dict = json.load(file)
 
@@ -361,8 +352,8 @@ def loop_bixiang():
         unique = item.get('unique', 'NA')
         uid = item.get('uid', 'NA')
         phone = item.get('phone', 'NA')
-        logging.warning('\n')
-        logging.warning("========== Checking [" + phone + "] ==========")
+        logger.warning('\n')
+        logger.warning("========== Checking [" + phone + "] ==========")
 
         status = bixiang_login(unique, uid)
         if status == -1:
@@ -379,7 +370,7 @@ def loop_bixiang():
                 lv_id = infoList[i]["lv_id"]
                 bixiang_sharing(unique, uid, lv_id)
                 bixiang_shared(unique, uid, lv_id)
-                logging.warning('>>>>>>>>>> ' + str(count) + '. Shared info ' + str(lv_id))
+                logger.warning('>>>>>>>>>> ' + str(count) + '. Shared info ' + str(lv_id))
                 count = count + 1
 
             # sign
@@ -392,7 +383,7 @@ def loop_bixiang():
             content = get_allTotal(unique, uid)
 
         common.Send_email.send_SimpleHtmlEmail('newseeing@163.com', mail_subject, content)
-    logging.warning('********** Sending Email Complete!')
+    logger.warning('********** Sending Email Complete!')
 
 
 # Start from here...

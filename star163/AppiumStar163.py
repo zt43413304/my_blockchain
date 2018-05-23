@@ -11,34 +11,21 @@ from appium import webdriver
 # Returns abs path relative to this file and not cwd
 from appium.webdriver.common.touch_action import TouchAction
 
-# 日志
-# 第一步，创建一个logger
-logger = logging.getLogger()
+# 第一步，创建一个logger,并设置级别
+logger = logging.getLogger("my_star163.py")
 logger.setLevel(logging.INFO)  # Log等级总开关
-
 # 第二步，创建一个handler，用于写入日志文件
-rq = time.strftime('%Y%m%d%H%M', time.localtime(time.time()))
-logfile = 'star163_appium.log'
-fh = logging.FileHandler(logfile, mode='w')
+fh = logging.FileHandler('./logs/my_star163.log', mode='w')
 fh.setLevel(logging.WARNING)  # 输出到file的log等级的开关
-
 ch = logging.StreamHandler()
-ch.setLevel(logging.WARNING)  # 输出到console的log等级的开关
-
+ch.setLevel(logging.INFO)  # 输出到console的log等级的开关
 # 第三步，定义handler的输出格式
 formatter = logging.Formatter("%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(message)s")
 fh.setFormatter(formatter)
+ch.setFormatter(formatter)
 # 第四步，将logger添加到handler里面
 logger.addHandler(fh)
-
-ch.setFormatter(formatter)
 logger.addHandler(ch)
-
-# logger.debug('this is a logger debug message')
-# logger.info('this is a logger info message')
-# logger.warning('this is a logger warning message')
-# logger.error('this is a logger error message')
-# logger.critical('this is a logger critical message')
 
 
 PATH = lambda p: os.path.abspath(

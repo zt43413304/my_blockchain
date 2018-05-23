@@ -14,34 +14,22 @@ import schedule
 sys.path.append('..')
 import common.Send_email
 
-# 日志
-# 第一步，创建一个logger
-logger = logging.getLogger()
+# 第一步，创建一个logger,并设置级别
+logger = logging.getLogger("my_diwuqu.py")
 logger.setLevel(logging.INFO)  # Log等级总开关
-
 # 第二步，创建一个handler，用于写入日志文件
-rq = time.strftime('%Y%m%d%H%M', time.localtime(time.time()))
-logfile = 'diwuqu.log'
-fh = logging.FileHandler(logfile, mode='w')
+fh = logging.FileHandler('./logs/my_diwuqu.log', mode='w')
 fh.setLevel(logging.WARNING)  # 输出到file的log等级的开关
-
 ch = logging.StreamHandler()
-ch.setLevel(logging.WARNING)  # 输出到console的log等级的开关
-
+ch.setLevel(logging.INFO)  # 输出到console的log等级的开关
 # 第三步，定义handler的输出格式
 formatter = logging.Formatter("%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(message)s")
 fh.setFormatter(formatter)
+ch.setFormatter(formatter)
 # 第四步，将logger添加到handler里面
 logger.addHandler(fh)
-
-ch.setFormatter(formatter)
 logger.addHandler(ch)
 
-# logger.debug('this is a logger debug message')
-# logger.info('this is a logger info message')
-# logger.warning('this is a logger warning message')
-# logger.error('this is a logger error message')
-# logger.critical('this is a logger critical message')
 
 
 # get config information
@@ -51,9 +39,6 @@ content = re.sub(r"\xfe\xff", "", content)
 content = re.sub(r"\xff\xfe", "", content)
 content = re.sub(r"\xef\xbb\xbf", "", content)
 open(curpath + '/diwuqu/config_diwuqu.ini', 'w').write(content)
-
-# start
-logging.warning('***** Start ...')
 
 
 def captcha(phone):
@@ -75,11 +60,11 @@ def captcha(phone):
 
         res = response.json()["state"]
         if res == 'success':
-            logging.warning('********** Captcha is sent.')
+            logger.warning('********** Captcha is sent.')
             return 0
         else:
-            logging.warning('********** Captcha is not sent.')
-            logging.warn('\n')
+            logger.warning('********** Captcha is not sent.')
+            logger.warn('\n')
             return -1
     except Exception as e:
         print(e)
@@ -90,7 +75,7 @@ def login(phone):
     url = "https://server.diwuqu.vip/api/app/v1/login/captcha"
     time.sleep(3)
     captcha = input("********** Enter your Captcha: ")
-    logging.warning('********** Captcha input is: ' + captcha)
+    logger.warning('********** Captcha input is: ' + captcha)
 
     payload = "{\"phone\":" + phone + ",\"captcha\":" + captcha + "}"
     headers = {
@@ -127,7 +112,7 @@ def save_token():
 
     for item in data_dict['data']:
         phone = item.get('phone', 'NA')
-        logging.warning("========== Checking [" + phone + "] ==========")
+        logger.warning("========== Checking [" + phone + "] ==========")
         captcha(phone)
         token = login(phone)
         # token = "f56fd821-7dcf-4edd-a52f-372147aa72dd"
@@ -158,7 +143,7 @@ def calculate(token):
         res = response.json()["state"]
         if res == 'success':
             calculate = response.json()["data"]["calculate"]
-            logging.warning('********** Calculate is: ' + str(calculate))
+            logger.warning('********** Calculate is: ' + str(calculate))
             return calculate
         else:
             return -1
@@ -208,10 +193,10 @@ def accept(token, id):
 
         res = response.json()["state"]
         if res == 'success':
-            logging.warning('>>>>>>>>>> Mining ' + str(id))
+            logger.warning('>>>>>>>>>> Mining ' + str(id))
 
         else:
-            logging.warning('>>>>>>>>>> Mining error ' + str(id))
+            logger.warning('>>>>>>>>>> Mining error ' + str(id))
     except Exception as e:
         print(e)
 
@@ -245,23 +230,27 @@ def get_allTotal(token):
 
 
 def loop_diwuqu():
+
+    # start
+    logger.warning('********** Start from loop_diwuqu() ...')
+
     global calculated
 
     # Reading data
-    with open('/diwuqu/data_diwuqu.json', 'r') as file:
+    with open(curpath + '/diwuqu/data_diwuqu.json', 'r') as file:
         data_dict = json.load(file)
 
     for item in data_dict['data']:
         content_list = []
         phone = item.get('phone', 'NA')
         token = item.get('token', 'NA')
-        logging.warning("========== Checking [" + phone + "] ==========")
+        logger.warning("========== Checking [" + phone + "] ==========")
 
         if token == -1:
-            logging.warning('********** Login fail!')
+            logger.warning('********** Login fail!')
             continue
         else:
-            logging.warning('********** Login success! token:' + token)
+            logger.warning('********** Login success! token:' + token)
 
             calculated = calculate(token)
 
@@ -293,7 +282,7 @@ def loop_diwuqu():
 
         # sending email
         common.Send_email.send_HtmlEmail('newseeing@163.com', phone, calculated, content_list)
-        logging.warning('********** Sending Email Complete!')
+        logger.warning('********** Sending Email Complete!')
 
 
 # Start from here...
@@ -301,11 +290,11 @@ def loop_diwuqu():
 # loop_diwuqu()
 
 # ssl._create_default_https_context = ssl._create_unverified_context
-# schedule.every(120).minutes.do(loop_data_mining)
+# schedule.every(120).minutes.do(loop_onechain)
 # schedule.every(8).hours.do(loop_diwuqu)
-# schedule.every().day.at("01:05").do(loop_data_mining)
-# schedule.every().monday.do(loop_data_mining)
-# schedule.every().wednesday.at("13:15").do(loop_data_mining)
+# schedule.every().day.at("01:05").do(loop_onechain)
+# schedule.every().monday.do(loop_onechain)
+# schedule.every().wednesday.at("13:15").do(loop_onechain)
 
 # while True:
 #     schedule.run_pending()

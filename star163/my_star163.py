@@ -17,36 +17,22 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 sys.path.append('..')
 import common.Send_email
 
-# 日志
-# 第一步，创建一个logger
-logger = logging.getLogger()
+# 第一步，创建一个logger,并设置级别
+logger = logging.getLogger("my_star163.py")
 logger.setLevel(logging.INFO)  # Log等级总开关
-
 # 第二步，创建一个handler，用于写入日志文件
-rq = time.strftime('%Y%m%d%H%M', time.localtime(time.time()))
-logfile = 'star163.log'
-fh = logging.FileHandler(logfile, mode='w')
+fh = logging.FileHandler('./logs/my_star163.log', mode='w')
 fh.setLevel(logging.WARNING)  # 输出到file的log等级的开关
-
 ch = logging.StreamHandler()
-ch.setLevel(logging.WARNING)  # 输出到console的log等级的开关
-
+ch.setLevel(logging.INFO)  # 输出到console的log等级的开关
 # 第三步，定义handler的输出格式
 formatter = logging.Formatter("%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(message)s")
 fh.setFormatter(formatter)
+ch.setFormatter(formatter)
 # 第四步，将logger添加到handler里面
 logger.addHandler(fh)
-
-ch.setFormatter(formatter)
 logger.addHandler(ch)
 
-logger.removeHandler(ch)
-logger.removeHandler(fh)
-# logger.debug('this is a logger debug message')
-# logger.info('this is a logger info message')
-# logger.warning('this is a logger warning message')
-# logger.error('this is a logger error message')
-# logger.critical('this is a logger critical message')
 
 def start163_api_starUser_login():
     url = "https://star.8.163.com/api/starUser/login"
@@ -104,10 +90,10 @@ def start163_api_starUser_getCookie(k, p):
         res = response.json()["code"]
         if res == 200:
             cookie = response.json()["data"]["cookie"]
-            logging.warning("********** Get Cookie = " + cookie)
+            logger.warning("********** Get Cookie = " + cookie)
             return cookie
         else:
-            logging.warning(">>>>>>>>>> Get Cookie failed.")
+            logger.warning(">>>>>>>>>> Get Cookie failed.")
             return -1
     except Exception as e:
         print(e)
@@ -136,7 +122,7 @@ def start163_api_home_index(cookie):
         res = response.json()["code"]
         if res == 200:
             collectCoins = response.json()["data"]["collectCoins"]
-            logging.warning(">>>>>>>>>> Get collectCoins length = " + str(len(collectCoins)))
+            logger.warning(">>>>>>>>>> Get collectCoins length = " + str(len(collectCoins)))
             return collectCoins
         else:
             return -1
@@ -167,7 +153,7 @@ def star163_api_collectUserCoin(cookie, id):
 
         res = response.json()["code"]
         if res == 200:
-            logging.warning(">>>>>>>>>> Collect black diamond ...  " + str(id))
+            logger.warning(">>>>>>>>>> Collect black diamond ...  " + str(id))
             return 0
         else:
             return -1
@@ -199,7 +185,7 @@ def star163_api_starUserOrigin_getTaskUrl(cookie):
         res = response.json()["code"]
         if res == 200:
             TaskUrl = response.json()["data"]["url"]
-            logging.warning(">>>>>>>>>> Get TaskUrl = " + TaskUrl)
+            logger.warning(">>>>>>>>>> Get TaskUrl = " + TaskUrl)
             return TaskUrl
         else:
             return -1
@@ -322,7 +308,7 @@ def get_allTotal(cookie):
         if res == 200:
             coin = response.json()["data"]["coin"]
             origin = response.json()["data"]["origin"]
-            logging.warning(">>>>>>>>>> Black diamond:" + str(coin) + ", Calculate:" + str(origin))
+            logger.warning(">>>>>>>>>> Black diamond:" + str(coin) + ", Calculate:" + str(origin))
             return coin, origin
         else:
             return -1, -1
@@ -351,7 +337,7 @@ def appium_calculate136():
     # print('result:------>', result1)
 
     output = os.system("C:/DevTools/MuMu/emulator/nemu/EmulatorShell/NemuPlayer.exe")
-    logging.warning(">>>>>>>>>> Start NemuPlayer.exe, output = " + str(output))
+    logger.warning(">>>>>>>>>> Start NemuPlayer.exe, output = " + str(output))
     time.sleep(30)
     cmd_adb = r'adb connect 127.0.0.1:7555'
     result1 = execute_command(cmd_adb)
@@ -377,13 +363,13 @@ def appium_calculate136():
     appium136 = AppiumStar163.AppiumStar('4.4.4', '127.0.0.1:7555', 4723)
     appium136.appium_calculate()
     common.Send_email.send_163HtmlEmail('newseeing@163.com', '136获取原力完成.', '')
-    logging.warning('********** Sending 136获取原力完成 Email Complete!')
+    logger.warning('********** Sending 136获取原力完成 Email Complete!')
 
 
 def appium_calculate138():
     # output = os.system("C:/Program Files (x86)/Nox/bin/Nox.exe")
     output = os.system("C:/DevTools/Nox/Nox/bin/Nox.exe")
-    logging.warning("========== Start Nox.exe, output = " + str(output))
+    logger.warning("========== Start Nox.exe, output = " + str(output))
     time.sleep(30)
 
     cmd_adb = r'adb connect 127.0.0.1:62001'
@@ -403,7 +389,7 @@ def appium_calculate138():
     appium138 = AppiumStar163.AppiumStar('4.4.2', '127.0.0.1:62001', 4725)
     appium138.appium_calculate()
     common.Send_email.send_163HtmlEmail('newseeing@163.com', '138获取原力完成.', '')
-    logging.warning('********** Sending 138获取原力完成 Email Complete!')
+    logger.warning('********** Sending 138获取原力完成 Email Complete!')
 
 
 def loop_star163():
@@ -416,7 +402,7 @@ def loop_star163():
         phone = item.get('phone', 'NA')
         k = item.get('k', 'NA')
         p = item.get('p', 'NA')
-        # logging.warning("========== Checking [" + k + "] ==========")
+        # logger.warning("========== Checking [" + k + "] ==========")
 
         cookie = start163_api_starUser_getCookie(k, p)
         if cookie == -1:
@@ -427,13 +413,13 @@ def loop_star163():
             for i in range(len(collectCoins)):
                 star_id = collectCoins[i]["id"]
                 star163_api_collectUserCoin(cookie, star_id)
-        logging.warning('>>>>>>>>>> Collect black diamond complete!')
+        logger.warning('>>>>>>>>>> Collect black diamond complete!')
 
         # calculate value
         coin, origin = get_allTotal(cookie)
         content = ">>>>>>>>>> Calculate=" + str(origin) + ", Black diamond=" + str(coin)
         common.Send_email.send_163HtmlEmail('newseeing@163.com', str(phone) + '的原力及黑钻', content)
-        logging.warning('********** Sending Collect Email Complete!')
+        logger.warning('********** Sending Collect Email Complete!')
 
     appium_calculate138()
     appium_calculate136()
@@ -441,14 +427,14 @@ def loop_star163():
 
 
 # Start from here...
-logging.warning('***** Start ...')
-scheduler = BlockingScheduler()
+# logger.warning('***** Start ...')
+# scheduler = BlockingScheduler()
 
-scheduler.add_job(loop_star163, "cron", hour="0-9/2", max_instances=2)
+# scheduler.add_job(loop_star163, "cron", hour="0-9/2", max_instances=2)
 # scheduler.add_job(loop_star163, "cron", hour="0-9/2", max_instances=2)
 
-try:
-    scheduler.start()
-except (KeyboardInterrupt, SystemExit):
-    scheduler.shutdown()
+# try:
+#     scheduler.start()
+# except (KeyboardInterrupt, SystemExit):
+#     scheduler.shutdown()
 

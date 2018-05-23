@@ -9,37 +9,23 @@ import schedule
 
 import Send_email
 
-# 日志
-# 第一步，创建一个logger
-logger = logging.getLogger()
+# 第一步，创建一个logger,并设置级别
+logger = logging.getLogger("HashWorldLand.py")
 logger.setLevel(logging.INFO)  # Log等级总开关
-
 # 第二步，创建一个handler，用于写入日志文件
-rq = time.strftime('%Y%m%d%H%M', time.localtime(time.time()))
-logfile = 'land.log'
-fh = logging.FileHandler(logfile, mode='w')
+fh = logging.FileHandler('./logs/HashWorldLand.log', mode='w')
 fh.setLevel(logging.WARNING)  # 输出到file的log等级的开关
-
 ch = logging.StreamHandler()
-ch.setLevel(logging.WARNING)  # 输出到console的log等级的开关
-
+ch.setLevel(logging.INFO)  # 输出到console的log等级的开关
 # 第三步，定义handler的输出格式
 formatter = logging.Formatter("%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(message)s")
 fh.setFormatter(formatter)
+ch.setFormatter(formatter)
 # 第四步，将logger添加到handler里面
 logger.addHandler(fh)
-
-ch.setFormatter(formatter)
 logger.addHandler(ch)
 
-# logger.debug('this is a logger debug message')
-# logger.info('this is a logger info message')
-# logger.warning('this is a logger warning message')
-# logger.error('this is a logger error message')
-# logger.critical('this is a logger critical message')
 
-# start
-logging.warning('Start ...')
 
 def open_FirstPage():
     url = "https://game.hashworld.top/"
@@ -59,7 +45,7 @@ def open_FirstPage():
         time.sleep(1)
         response = requests.request("GET", url, headers=headers, verify=False)
         res = response.status_code
-        logging.warning('********** open_FirstPage(), status_code=' + str(res))
+        logger.warning('********** open_FirstPage(), status_code=' + str(res))
 
         if res == 200:
             return res
@@ -168,16 +154,16 @@ def loop_Land():
 
     token = login_GetAccessToken(data)
     if token == -1:
-        logging.warning('********** Login fail!')
+        logger.warning('********** Login fail!')
     else:
-        logging.warning('********** Login success! token:' + token)
+        logger.warning('********** Login success! token:' + token)
 
         # find land list and price
         land_list = get_Landlist(token)
         for i in range(len(land_list)):
             land_Num = land_list[i][0]
             (land_name, price, tradable_status, gen_time) = get_LandPrice(token, land_Num)
-            logging.warning(
+            logger.warning(
                 '********** Land_Num:' + str(land_Num) + ", Land_Name:" + land_name + ", Price = " + str(price))
 
             # 构建Json数组，用于发送HTML邮件
@@ -197,11 +183,14 @@ def loop_Land():
         # content_land_list = sorted(content_land_list, key=lambda x: x["price"])
         content_land_list = sorted(content_land_list, key=lambda x: (x["tradable_status"], x["price"]))
         Send_email.send_LandEmail('newseeing@163.com', content_land_list)
-        logging.warning('********** Sending Land Email Complete!')
-        logging.warning('\n')
+        logger.warning('********** Sending Land Email Complete!')
+        logger.warning('\n')
 
 
-def daily_job():
+def loop_hashworldland():
+    # start
+    logger.warning('********** Start from loop_hashworldland() ...')
+
     status_code = open_FirstPage()
     while status_code != 200:
         time.sleep(300)
@@ -210,15 +199,15 @@ def daily_job():
 
 
 # Start from here...
-daily_job()
+# loop_hashworldland()
 
 # ssl._create_default_https_context = ssl._create_unverified_context
-# schedule.every(120).minutes.do(daily_job)
-schedule.every(2).hours.do(daily_job)
-# schedule.every().day.at("18:30").do(daily_job)
-# schedule.every().monday.do(daily_job)
-# schedule.every().wednesday.at("13:15").do(daily_job)
+# schedule.every(120).minutes.do(loop_hashworldcheck)
+# schedule.every(2).hours.do(loop_hashworldcheck)
+# schedule.every().day.at("18:30").do(loop_hashworldcheck)
+# schedule.every().monday.do(loop_hashworldcheck)
+# schedule.every().wednesday.at("13:15").do(loop_hashworldcheck)
 
-while True:
-    schedule.run_pending()
-    time.sleep(1)
+# while True:
+#     schedule.run_pending()
+#     time.sleep(1)

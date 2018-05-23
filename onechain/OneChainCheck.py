@@ -12,47 +12,31 @@ import schedule
 
 import Send_email
 
-# 日志
-# 第一步，创建一个logger
-logger = logging.getLogger()
+# 第一步，创建一个logger,并设置级别
+logger = logging.getLogger("OneChainCheck.py")
 logger.setLevel(logging.INFO)  # Log等级总开关
-
 # 第二步，创建一个handler，用于写入日志文件
-rq = time.strftime('%Y%m%d%H%M', time.localtime(time.time()))
-logfile = 'new.log'
-fh = logging.FileHandler(logfile, mode='w')
+fh = logging.FileHandler('./logs/OneChainCheck.log', mode='w')
 fh.setLevel(logging.WARNING)  # 输出到file的log等级的开关
-
 ch = logging.StreamHandler()
-ch.setLevel(logging.WARNING)  # 输出到console的log等级的开关
-
+ch.setLevel(logging.INFO)  # 输出到console的log等级的开关
 # 第三步，定义handler的输出格式
 formatter = logging.Formatter("%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(message)s")
 fh.setFormatter(formatter)
+ch.setFormatter(formatter)
 # 第四步，将logger添加到handler里面
 logger.addHandler(fh)
-
-ch.setFormatter(formatter)
 logger.addHandler(ch)
-
-# logger.debug('this is a logger debug message')
-# logger.info('this is a logger info message')
-# logger.warning('this is a logger warning message')
-# logger.error('this is a logger error message')
-# logger.critical('this is a logger critical message')
 
 
 # get config information
 curpath = os.getcwd()
-content = open(curpath + '/config.ini').read()
+content = open(curpath + '/onechain/config.ini').read()
 content = re.sub(r"\xfe\xff", "", content)
 content = re.sub(r"\xff\xfe", "", content)
 content = re.sub(r"\xef\xbb\xbf", "", content)
-open(curpath + '/config.ini', 'w').write(content)
+open(curpath + '/onechain/config.ini', 'w').write(content)
 
-
-# start
-logging.warning('***** Start ...')
 
 headers = {
     'Content-Type': 'application/x-www-form-urlencoded',
@@ -67,7 +51,7 @@ headers = {
 def getInfoNum(infoNum):
     global version, l, user_agent, device_id
     cf = configparser.ConfigParser()
-    cf.read(curpath + '/config.ini')
+    cf.read(curpath + '/onechain/config.ini')
     version = cf.get('info', 'version').strip()
     l = cf.get('info', 'l').strip()
     user_agent = cf.get('info'+str(infoNum), 'user_agent').strip()
@@ -107,7 +91,7 @@ def open_mining(user_agent, device_id, l, token, version):
 
         res = r.json()["msg"]
         if res == 'Success':
-            logging.warning('>>>>>>>>>> mining_opened.')
+            logger.warning('>>>>>>>>>> mining_opened.')
             return 0
         else:
             return -1
@@ -129,10 +113,10 @@ def get_calculated(user_agent, device_id, l, token, version):
             mining_flag = r.json()['data']['map']['mining_flag']
             if mining_flag == "NO":
                 open_mining(user_agent, device_id, l, token, version)
-                logging.warning('>>>>>>>>>> mining opened')
+                logger.warning('>>>>>>>>>> mining opened')
 
             calculated = r.json()['data']['map']['calculated']
-            logging.warning('>>>>>>>>>> calculated: ' + calculated)
+            logger.warning('>>>>>>>>>> calculated: ' + calculated)
             return calculated
     except Exception as e:
         print(e)
@@ -148,7 +132,7 @@ def mining_click(user_agent, device_id, l, token, version, mining_detail_uuid):
 
         res = r.json()["msg"]
         if res == 'Success':
-            logging.warning('>>>>>>>>>> mining...... ' + str(mining_detail_uuid))
+            logger.warning('>>>>>>>>>> mining...... ' + str(mining_detail_uuid))
             return 0
         else:
             return -1
@@ -173,9 +157,9 @@ def mining_check(user_agent, device_id, l, token, version):
                 mining_click(user_agent, device_id, l, token, version, str(uni_uuid))
 
             if i == 0:
-                logging.warning('>>>>>>>>>> mining_clicked: ' + str(i))
+                logger.warning('>>>>>>>>>> mining_clicked: ' + str(i))
             else:
-                logging.warning('>>>>>>>>>> mining_clicked: ' + str(i + 1))
+                logger.warning('>>>>>>>>>> mining_clicked: ' + str(i + 1))
             return 0
         else:
             return -1
@@ -206,7 +190,7 @@ def check_allTotal(user_agent, device_id, l, token, version):
                     one = total
                 if asset_code == "ONELUCK":
                     oneluck = total
-                logging.warning('>>>>>>>>>> ' + asset_code + ': ' + str(total))
+                logger.warning('>>>>>>>>>> ' + asset_code + ': ' + str(total))
             return one, oneluck
         else:
             return -1, -1
@@ -271,14 +255,18 @@ def postman_allTotal():
 
     print(response.text)
 
-def loop_data_mining():
+def loop_onechain():
+
+    # start
+    logger.warning('********** Start from loop_onechain() ...')
+
     global data
     global token
     one_total = 0
     oneluck_total = 0
     content = "\t\n"
 
-    file = open('one_chain_data.json', 'r', encoding='utf-8')
+    file = open(curpath + '/onechain/one_chain_data.json', 'r', encoding='utf-8')
     data_dict = json.load(file)
     content_list = []
     # print(data_dict)
@@ -305,14 +293,14 @@ def loop_data_mining():
         signed_message = item.get('signed_message', 'NA')
         data = dict(account_id=account_id, account_name=account_name, signed_message=signed_message)
 
-        logging.warning("========== Checking [" + account_name + "] ==========")
+        logger.warning("========== Checking [" + account_name + "] ==========")
 
         token = loginGetAccessToken(user_agent, device_id, l, version)
         if token == -1:
-            logging.warning('********** Login fail!')
+            logger.warning('********** Login fail!')
             continue
         else:
-            logging.warning('********** Login success! token:' + token)
+            logger.warning('********** Login success! token:' + token)
 
             calculated = get_calculated(user_agent, device_id, l, token, version)
             mining_check(user_agent, device_id, l, token, version)
@@ -321,9 +309,9 @@ def loop_data_mining():
             oneluck_total = oneluck_total + float(oneluck)
             content = content + " [" + account_name + "], Total[ONE:" + str(one_total) + ", ONELUCK:" + str(
                 oneluck_total) + "] \t\n"
-            logging.warning("========== End[" + account_name + "], Total[ONE:" + str(one_total) + ", ONELUCK:" + str(
+            logger.warning("========== End[" + account_name + "], Total[ONE:" + str(one_total) + ", ONELUCK:" + str(
                 oneluck_total) + "] ==========")
-            logging.warning('\n')
+            logger.warning('\n')
 
             # 构建Json数组，用于发送HTML邮件
             # Python 字典类型转换为 JSON 对象
@@ -338,19 +326,19 @@ def loop_data_mining():
 
     # sending email
     Send_email.send_HtmlEmail('newseeing@163.com', content_list)
-    logging.warning('********** Sending Email Complete!')
+    logger.warning('********** Sending Email Complete!')
 
 
 # Start from here...
-loop_data_mining()
+# loop_onechain()
 
 # ssl._create_default_https_context = ssl._create_unverified_context
-# schedule.every(120).minutes.do(loop_data_mining)
-schedule.every(8).hours.do(loop_data_mining)
-# schedule.every().day.at("01:05").do(loop_data_mining)
-# schedule.every().monday.do(loop_data_mining)
-# schedule.every().wednesday.at("13:15").do(loop_data_mining)
+# schedule.every(120).minutes.do(loop_onechain)
+# schedule.every(8).hours.do(loop_onechain)
+# schedule.every().day.at("01:05").do(loop_onechain)
+# schedule.every().monday.do(loop_onechain)
+# schedule.every().wednesday.at("13:15").do(loop_onechain)
 
-while True:
-    schedule.run_pending()
-    time.sleep(1)
+# while True:
+#     schedule.run_pending()
+#     time.sleep(1)

@@ -14,27 +14,20 @@ from apscheduler.schedulers.background import BackgroundScheduler
 sys.path.append('..')
 import common.Send_email
 
-# 日志
-# 第一步，创建一个logger
+# 第一步，创建一个logger,并设置级别
 logger = logging.getLogger("my_youbi.py")
 logger.setLevel(logging.INFO)  # Log等级总开关
-
 # 第二步，创建一个handler，用于写入日志文件
-rq = time.strftime('%Y%m%d%H%M', time.localtime(time.time()))
-logfile = 'youbi.log'
-fh = logging.FileHandler(logfile, mode='w')
+fh = logging.FileHandler('./logs/my_youbi.log', mode='w')
 fh.setLevel(logging.WARNING)  # 输出到file的log等级的开关
-
 ch = logging.StreamHandler()
-ch.setLevel(logging.WARNING)  # 输出到console的log等级的开关
-
+ch.setLevel(logging.INFO)  # 输出到console的log等级的开关
 # 第三步，定义handler的输出格式
 formatter = logging.Formatter("%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(message)s")
 fh.setFormatter(formatter)
+ch.setFormatter(formatter)
 # 第四步，将logger添加到handler里面
 logger.addHandler(fh)
-
-ch.setFormatter(formatter)
 logger.addHandler(ch)
 
 
@@ -56,7 +49,7 @@ def execute_command(cmd):
 def appium_calculate136():
 
     output = os.system("C:/DevTools/MuMu/emulator/nemu/EmulatorShell/NemuPlayer.exe")
-    logging.warning(">>>>>>>>>> Start NemuPlayer.exe, output = " + str(output))
+    logger.warning(">>>>>>>>>> Start NemuPlayer.exe, output = " + str(output))
     time.sleep(15)
     cmd_adb = r'adb connect 127.0.0.1:7555'
     result1 = execute_command(cmd_adb)
@@ -75,12 +68,12 @@ def appium_calculate136():
     appium136 = AppiumStarYoubi.AppiumStar('4.4.4', '127.0.0.1:7555', 4723)
     appium136.appium_youbi("13601223469")
     common.Send_email.send_163HtmlEmail('newseeing@163.com', '有币136获取完成.', '')
-    logging.warning('********** Check youbi in NemuPlayer complete!')
+    logger.warning('********** Check youbi in NemuPlayer complete!')
 
 def appium_calculate138():
 
     output = os.system("C:/DevTools/Nox/Nox/bin/Nox.exe")
-    logging.warning("========== Start Nox.exe, output = " + str(output))
+    logger.warning("========== Start Nox.exe, output = " + str(output))
     time.sleep(15)
 
     cmd_adb = r'adb connect 127.0.0.1:62001'
@@ -101,7 +94,7 @@ def appium_calculate138():
     appium138.appium_youbi("13826090504")
 
     common.Send_email.send_163HtmlEmail('newseeing@163.com', '有币138获取完成.', '')
-    logging.warning('********** Check youbi in Nox complete!')
+    logger.warning('********** Check youbi in Nox complete!')
 
 def test136():
     print("now 136 is '%s' " % datetime.datetime.now())
@@ -112,8 +105,8 @@ def test138():
     return
 
 # start
-logging.warning('***** Start from my_youbi.py ...')
-scheduler = BlockingScheduler()
+# logger.warning('***** Start from my_youbi.py ...')
+# scheduler = BlockingScheduler()
 # scheduler = BackgroundScheduler()
 
 # @scheduler.scheduled_job("cron", second="*/3")
@@ -123,11 +116,11 @@ scheduler = BlockingScheduler()
 # scheduler.add_job(appium_calculate136, "cron", minute="*/5", max_instances=2)
 # scheduler.add_job(appium_calculate138, "cron", minute="*/3", max_instances=2)
 
-scheduler.add_job(appium_calculate136, "cron", minute="0,5,30,35", hour="8-23", max_instances=2)
-scheduler.add_job(appium_calculate138, "cron", minute="0,5,30,35", hour="8-23", max_instances=2)
-
-
-try:
-    scheduler.start()
-except (KeyboardInterrupt, SystemExit):
-    scheduler.shutdown()
+# scheduler.add_job(appium_calculate136, "cron", minute="0,5,30,35", hour="8-23", max_instances=2)
+# scheduler.add_job(appium_calculate138, "cron", minute="0,5,30,35", hour="8-23", max_instances=2)
+#
+#
+# try:
+#     scheduler.start()
+# except (KeyboardInterrupt, SystemExit):
+#     scheduler.shutdown()

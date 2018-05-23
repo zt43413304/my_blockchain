@@ -12,45 +12,32 @@ import schedule
 
 import Send_email
 
-# 日志
-# 第一步，创建一个logger
-logger = logging.getLogger()
+# 第一步，创建一个logger,并设置级别
+logger = logging.getLogger("HashWorldCheck.py")
 logger.setLevel(logging.INFO)  # Log等级总开关
-
 # 第二步，创建一个handler，用于写入日志文件
-rq = time.strftime('%Y%m%d%H%M', time.localtime(time.time()))
-logfile = 'new.log'
-fh = logging.FileHandler(logfile, mode='w')
+fh = logging.FileHandler('./logs/HashWorldCheck.log', mode='w')
 fh.setLevel(logging.WARNING)  # 输出到file的log等级的开关
-
 ch = logging.StreamHandler()
-ch.setLevel(logging.WARNING)  # 输出到console的log等级的开关
-
+ch.setLevel(logging.INFO)  # 输出到console的log等级的开关
 # 第三步，定义handler的输出格式
 formatter = logging.Formatter("%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(message)s")
 fh.setFormatter(formatter)
+ch.setFormatter(formatter)
 # 第四步，将logger添加到handler里面
 logger.addHandler(fh)
-
-ch.setFormatter(formatter)
 logger.addHandler(ch)
 
-# logger.debug('this is a logger debug message')
-# logger.info('this is a logger info message')
-# logger.warning('this is a logger warning message')
-# logger.error('this is a logger error message')
-# logger.critical('this is a logger critical message')
 
-# start
-logging.warning('Start ...')
+
 curpath = os.getcwd()
 
 # get config information
-content = open(curpath + '/config.ini').read()
+content = open(curpath + '/hashworld/config.ini').read()
 content = re.sub(r"\xfe\xff", "", content)
 content = re.sub(r"\xff\xfe", "", content)
 content = re.sub(r"\xef\xbb\xbf", "", content)
-open(curpath + '\config.ini', 'w').write(content)
+open(curpath + '/hashworld/config.ini', 'w').write(content)
 
 
 def open_FirstPage():
@@ -212,7 +199,7 @@ def loop_Lottery():
     all_total = 0
     content_list = []
 
-    file = open('hash_world_data.json', 'r', encoding='utf-8')
+    file = open(curpath + '/hashworld/hash_world_data.json', 'r', encoding='utf-8')
     data_dict = json.load(file)
     # print(data_dict)
     # print(type(data_dict))
@@ -274,7 +261,10 @@ def loop_Lottery():
     logging.warning('\n')
 
 
-def daily_job():
+def loop_hashworldcheck():
+    # start
+    logger.warning('********** Start from loop_hashworldcheck() ...')
+
     status_code = open_FirstPage()
     while status_code != 200:
         time.sleep(300)
@@ -283,14 +273,14 @@ def daily_job():
 
 
 # Start from here...
-daily_job()
+# loop_hashworldcheck()
 
-# schedule.every(120).minutes.do(daily_job)
-schedule.every(8).hours.do(daily_job)
-# schedule.every().day.at("18:30").do(daily_job)
-# schedule.every().monday.do(daily_job)
-# schedule.every().wednesday.at("13:15").do(daily_job)
+# schedule.every(120).minutes.do(loop_hashworldcheck)
+# schedule.every(8).hours.do(loop_hashworldcheck)
+# schedule.every().day.at("18:30").do(loop_hashworldcheck)
+# schedule.every().monday.do(loop_hashworldcheck)
+# schedule.every().wednesday.at("13:15").do(loop_hashworldcheck)
 
-while True:
-    schedule.run_pending()
-    time.sleep(1)
+# while True:
+#     schedule.run_pending()
+#     time.sleep(1)

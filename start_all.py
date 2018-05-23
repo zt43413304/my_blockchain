@@ -11,6 +11,7 @@ from diwuqu import my_diwuqu
 from hashworld import HashWorldCheck
 from hashworld import HashWorldLand
 from onechain import OneChainCheck
+from star163 import my_star163
 
 # 日志
 # 第一步，创建一个logger
@@ -59,13 +60,16 @@ scheduler = BlockingScheduler()
 # scheduler.add_job(HashWorldCheck.loop_hashworldcheck, "cron", minute="*/3", max_instances=1)
 # scheduler.add_job(HashWorldLand.loop_hashworldland, "cron", minute="*/3", max_instances=1)
 
-scheduler.add_job(my_bixiang.loop_bixiang, "cron", hour="1,9,17", max_instances=1)
-scheduler.add_job(OneChainCheck.loop_onechain, "cron", hour="3,11,19", max_instances=1)
-scheduler.add_job(my_diwuqu.loop_diwuqu, "cron", hour="5,13,21", max_instances=1)
-scheduler.add_job(HashWorldCheck.loop_hashworldcheck, "cron", hour="7,15,23", max_instances=1)
-scheduler.add_job(HashWorldLand.loop_hashworldland, "cron", hour="8,10,12,14,16,18,20,22,0,2,4,6", max_instances=1)
+# scheduler.add_job(my_bixiang.loop_bixiang, "cron", hour="1,9,17", max_instances=1)
+# scheduler.add_job(OneChainCheck.loop_onechain, "cron", hour="3,11,19", max_instances=1)
+# scheduler.add_job(my_diwuqu.loop_diwuqu, "cron", hour="5,13,21", max_instances=1)
+# scheduler.add_job(HashWorldCheck.loop_hashworldcheck, "cron", hour="7,15,23", max_instances=1)
+# scheduler.add_job(HashWorldLand.loop_hashworldland, "cron", hour="8,10,12,14,16,18,20,22,0,2,4,6", max_instances=1)
+#
+# scheduler.add_job(my_star163.loop_star163(), "cron", hour="0-10/2", max_instances=1)
+# scheduler.add_job(my_star163.loop_star163_136(), "cron", hour="0-10/2", max_instances=1)
+# scheduler.add_job(my_star163.loop_star163_138(), "cron", hour="0-10/2", max_instances=1)
 
-# scheduler.add_job(my_star163.loop_star163, "cron", minute="0,5,30,35", hour="8-23", max_instances=2)
 # scheduler.add_job(my_youbi., "cron", minute="0,5,30,35", hour="8-23", max_instances=2)
 
 

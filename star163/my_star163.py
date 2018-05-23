@@ -360,7 +360,7 @@ def appium_calculate136():
 
     appium136 = AppiumStar163.AppiumStar('4.4.4', '127.0.0.1:7555', 4723)
     appium136.appium_calculate()
-    common.send_email.send_163HtmlEmail('newseeing@163.com', '136获取原力完成.', '')
+    send_email.send_163HtmlEmail('newseeing@163.com', '136获取原力完成.', '')
     logger.warning('********** Sending 136获取原力完成 Email Complete!')
 
 
@@ -386,7 +386,7 @@ def appium_calculate138():
 
     appium138 = AppiumStar163.AppiumStar('4.4.2', '127.0.0.1:62001', 4725)
     appium138.appium_calculate()
-    common.send_email.send_163HtmlEmail('newseeing@163.com', '138获取原力完成.', '')
+    send_email.send_163HtmlEmail('newseeing@163.com', '138获取原力完成.', '')
     logger.warning('********** Sending 138获取原力完成 Email Complete!')
 
 
@@ -416,11 +416,80 @@ def loop_star163():
         # calculate value
         coin, origin = get_allTotal(cookie)
         content = ">>>>>>>>>> Calculate=" + str(origin) + ", Black diamond=" + str(coin)
-        common.send_email.send_163HtmlEmail('newseeing@163.com', str(phone) + '的原力及黑钻', content)
+        send_email.send_163HtmlEmail('newseeing@163.com', str(phone) + '的原力及黑钻', content)
         logger.warning('********** Sending Collect Email Complete!')
-
     appium_calculate138()
     appium_calculate136()
+
+
+def loop_star163_136():
+    file = open('data_star163.json', 'r', encoding='utf-8')
+    data_dict = json.load(file)
+
+    # collect black diamond
+    for item in data_dict['data']:
+        # content_list = []
+        phone = item.get('phone', 'NA')
+        k = item.get('k', 'NA')
+        p = item.get('p', 'NA')
+
+        if phone != "13601223469":
+            continue
+
+        # logger.warning("========== Checking [" + k + "] ==========")
+
+        cookie = start163_api_starUser_getCookie(k, p)
+        if cookie == -1:
+            continue
+        else:
+            collectCoins = start163_api_home_index(cookie)
+
+            for i in range(len(collectCoins)):
+                star_id = collectCoins[i]["id"]
+                star163_api_collectUserCoin(cookie, star_id)
+        logger.warning('>>>>>>>>>> Collect black diamond complete!')
+
+        # calculate value
+        coin, origin = get_allTotal(cookie)
+        content = ">>>>>>>>>> Calculate=" + str(origin) + ", Black diamond=" + str(coin)
+        send_email.send_163HtmlEmail('newseeing@163.com', str(phone) + '的原力及黑钻', content)
+        logger.warning('********** Sending Collect Email Complete!')
+    appium_calculate136()
+
+def loop_star163_138():
+    file = open('data_star163.json', 'r', encoding='utf-8')
+    data_dict = json.load(file)
+
+    # collect black diamond
+    for item in data_dict['data']:
+        # content_list = []
+        phone = item.get('phone', 'NA')
+        k = item.get('k', 'NA')
+        p = item.get('p', 'NA')
+
+        if phone != "13826090504":
+            continue
+
+        # logger.warning("========== Checking [" + k + "] ==========")
+
+        cookie = start163_api_starUser_getCookie(k, p)
+        if cookie == -1:
+            continue
+        else:
+            collectCoins = start163_api_home_index(cookie)
+
+            for i in range(len(collectCoins)):
+                star_id = collectCoins[i]["id"]
+                star163_api_collectUserCoin(cookie, star_id)
+        logger.warning('>>>>>>>>>> Collect black diamond complete!')
+
+        # calculate value
+        coin, origin = get_allTotal(cookie)
+        content = ">>>>>>>>>> Calculate=" + str(origin) + ", Black diamond=" + str(coin)
+        send_email.send_163HtmlEmail('newseeing@163.com', str(phone) + '的原力及黑钻', content)
+        logger.warning('********** Sending Collect Email Complete!')
+    appium_calculate138()
+
 
 # Start from here...
 # logger.warning('***** Start ...')

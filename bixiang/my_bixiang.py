@@ -353,7 +353,7 @@ def loop_bixiang():
 
             count = 0
             for i in range(len(infoList)):
-                if count > 10:
+                if count > 5:
                     break
                 if int(infoList[i]["share_total"]) < 20:
                     continue

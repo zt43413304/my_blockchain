@@ -10,6 +10,7 @@ import time
 
 import requests
 import schedule
+import urllib.parse
 
 sys.path.append('..')
 import common.Send_email
@@ -322,6 +323,31 @@ def get_allTotal(unique, uid):
     except Exception as e:
         print(e)
         return -1
+
+def get_turntableFree(unique, uid):
+    url = bixiang_property_url(unique, uid)
+    logging.warning(">>>>>>>>>> Property URL = " + url)
+
+    parsed = urllib.parse.urlparse(url)
+    parsed_query = parsed.query
+    #'xxx=vzlsIdmCYyW2Ji1CbiWsc'
+    print(parsed_query)
+
+    try:
+        lottery_enter = 'http://tui.yingshe.com/lottery/enters?'+parsed_query
+        response = requests.request("GET", lottery_enter, headers=headers)
+        print(response.text)
+
+        # <p id="xxx" style="display:none">WXObEc%3DRCHwyyTxnxbBUpb6MN</p>
+
+        return response.content
+
+    except Exception as e:
+        print(e)
+        return -1
+
+
+
 
 
 def loop_bixiang():

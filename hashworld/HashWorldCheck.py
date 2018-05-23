@@ -8,7 +8,6 @@ import ssl
 import time
 
 import requests
-import schedule
 
 import Send_email
 
@@ -27,8 +26,6 @@ ch.setFormatter(formatter)
 # 第四步，将logger添加到handler里面
 logger.addHandler(fh)
 logger.addHandler(ch)
-
-
 
 curpath = os.getcwd()
 
@@ -270,7 +267,6 @@ def loop_hashworldcheck():
         time.sleep(300)
         status_code = open_FirstPage()
     loop_Lottery()
-
 
 # Start from here...
 # loop_hashworldcheck()

@@ -1,28 +1,16 @@
 # coding=utf-8
 
-import datetime
 import logging
 import os
-import subprocess
-import sys
 import time
 
-from test import testing1
-from test import testing2
+from apscheduler.schedulers.blocking import BlockingScheduler
+
 from bixiang import my_bixiang
-from common import Send_email
 from diwuqu import my_diwuqu
 from hashworld import HashWorldCheck
 from hashworld import HashWorldLand
 from onechain import OneChainCheck
-from youbi import my_youbi
-from star163 import my_star163
-
-
-from apscheduler.schedulers.blocking import BlockingScheduler
-
-
-
 
 # 日志
 # 第一步，创建一个logger
@@ -32,7 +20,7 @@ logger.setLevel(logging.INFO)  # Log等级总开关
 rq = time.strftime('%Y%m%d%H%M', time.localtime(time.time()))
 # log_path = os.path.dirname(os.getcwd()) + '/logs/'
 log_path = os.getcwd() + '/logs/'
-log_name = log_path + 'start_all_'+rq + '.log'
+log_name = log_path + 'start_all_' + rq + '.log'
 logfile = log_name
 
 fh = logging.FileHandler(logfile, mode='w')
@@ -49,7 +37,6 @@ ch.setFormatter(formatter)
 # 第四步，将logger添加到handler里面
 logger.addHandler(fh)
 logger.addHandler(ch)
-
 
 # start
 logger.warning('********** Start from start_all.py ...')

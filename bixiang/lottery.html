@@ -8,11 +8,12 @@
     <script src="/lottery/js/jquery-1.8.3.min.js" type="text/javascript"></script>
     <script src="/lottery/js/awardRotate.js"></script>
     <style>
-        *{
+        * {
             margin: 0;
             padding: 0;
         }
-        html{
+
+        html {
             background-image: url(/lottery/images/new_bg.png);
             background-size: contain;
             background-repeat: no-repeat;
@@ -20,158 +21,194 @@
             width: 100%;
             min-height: 100vh;
         }
-        .banner{
+
+        .banner {
             padding-top: 0.48rem;
             width: 7.466667rem;
         }
-        .banner .turnplate{
+
+        .banner .turnplate {
             background-image: url(/lottery/images/turntable_bg.png);
             background-size: contain;
             background-repeat: no-repeat;
         }
-        .banner{display:block;margin-left:auto;margin-right:auto;}
-        .banner .turnplate{display:block;width:100%;position:relative;}
-        .banner .turnplate canvas.item{width:100%;}
-        .box_number{
+
+        .banner {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .banner .turnplate {
+            display: block;
+            width: 100%;
+            position: relative;
+        }
+
+        .banner .turnplate canvas.item {
+            width: 100%;
+        }
+
+        .box_number {
             margin-top: 5.5rem;
             position: relative;
             width: 100%;
             height: 0.853334rem;
             text-align: center;
         }
-        .box_number img{
+
+        .box_number img {
             width: 6.613334rem;
             height: 1.733334rem;
             position: absolute;
             left: 50%;
-            transform:translate(-50%,0);
-            -ms-transform:translate(-50%,0);
-            -moz-transform:translate(-50%,0);
-            -webkit-transform:translate(-50%,0);
-            -o-transform:translate(-50%,0);
+            transform: translate(-50%, 0);
+            -ms-transform: translate(-50%, 0);
+            -moz-transform: translate(-50%, 0);
+            -webkit-transform: translate(-50%, 0);
+            -o-transform: translate(-50%, 0);
         }
-        .box_number span.cs{
+
+        .box_number span.cs {
             width: 6.613334rem;
             position: absolute;
             left: 50%;
             top: 50%;
-            transform:translate(-50%,-50%);
-            -ms-transform:translate(-50%,-50%);
-            -moz-transform:translate(-50%,-50%);
-            -webkit-transform:translate(-50%,-50%);
-            -o-transform:translate(-50%,-50%);
+            transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            -moz-transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
+            -o-transform: translate(-50%, -50%);
             color: #fff;
             font-weight: bold;
             font-size: 0.4rem;
         }
-        .box_number span.sy{
+
+        .box_number span.sy {
             width: 6.613334rem;
             position: absolute;
             left: 50%;
             top: 140%;
-            transform:translate(-50%,-50%);
-            -ms-transform:translate(-50%,-50%);
-            -moz-transform:translate(-50%,-50%);
-            -webkit-transform:translate(-50%,-50%);
-            -o-transform:translate(-50%,-50%);
+            transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            -moz-transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
+            -o-transform: translate(-50%, -50%);
             color: #fff;
             font-weight: bold;
             font-size: 0.4rem;
         }
-        .box_number span span{
+
+        .box_number span span {
             color: #ffe71f;
         }
-        .reward_box{
+
+        .reward_box {
             margin: 0.8rem 0.533334rem 1.866667rem;
             background-color: #fff;
             padding: 0.533334rem 0.533334rem 1.066667rem;
         }
-        .reward_box h2{
+
+        .reward_box h2 {
             font-size: 0.453334rem;
             color: #636bb0;
             margin-bottom: 0.266667rem;
         }
-        .reward_box ul{
+
+        .reward_box ul {
             border: 1px solid #e5e5e5;
             margin-bottom: 0.533334rem;
         }
-        .reward_box ul li{
+
+        .reward_box ul li {
             padding: 0 0.213334rem;
             height: 0.8rem;
             border-top: 1px solid #e5e5e5;
             position: relative;
         }
-        .reward_box ul li span{
+
+        .reward_box ul li span {
             position: absolute;
             top: 50%;
-            transform:translate(0,-50%);
-            -ms-transform:translate(0,-50%);
-            -moz-transform:translate(0,-50%);
-            -webkit-transform:translate(0,-50%);
-            -o-transform:translate(0,-50%);
+            transform: translate(0, -50%);
+            -ms-transform: translate(0, -50%);
+            -moz-transform: translate(0, -50%);
+            -webkit-transform: translate(0, -50%);
+            -o-transform: translate(0, -50%);
             font-size: 0.32rem;
             color: #333;
         }
-        .reward_box ul li.title{
+
+        .reward_box ul li.title {
             border-top: none;
         }
-        .reward_box ul li.title span{
+
+        .reward_box ul li.title span {
             color: #727171;
         }
-        .reward_box ul li.title span.name{
+
+        .reward_box ul li.title span.name {
             left: 0.213334rem;
         }
-        .reward_box ul li span.num{
+
+        .reward_box ul li span.num {
             right: 0.213334rem;
         }
-        .reward_box ul li img{
+
+        .reward_box ul li img {
             width: 0.48rem;
             height: auto;
             position: absolute;
             top: 50%;
-            transform:translate(0,-50%);
-            -ms-transform:translate(0,-50%);
-            -moz-transform:translate(0,-50%);
-            -webkit-transform:translate(0,-50%);
-            -o-transform:translate(0,-50%);
+            transform: translate(0, -50%);
+            -ms-transform: translate(0, -50%);
+            -moz-transform: translate(0, -50%);
+            -webkit-transform: translate(0, -50%);
+            -o-transform: translate(0, -50%);
         }
-        .reward_box ul li span.name{
+
+        .reward_box ul li span.name {
             left: 0.826667rem;
         }
-        .reward_box div.rule{
+
+        .reward_box div.rule {
             font-size: 0.32rem;
             color: #333;
             line-height: 0.4rem;
         }
-        .reward_box div.rule p{
+
+        .reward_box div.rule p {
             text-indent: -0.8em;
             margin-left: 0.8em;
         }
-        .button{
+
+        .button {
             width: 2.4rem;
             height: 2.4rem;
             position: absolute;
             left: 50%;
             top: 50%;
-            transform:translate(-50%,-50%);
-            -ms-transform:translate(-50%,-50%);
-            -moz-transform:translate(-50%,-50%);
-            -webkit-transform:translate(-50%,-50%);
-            -o-transform:translate(-50%,-50%);
+            transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            -moz-transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
+            -o-transform: translate(-50%, -50%);
         }
-        .pointer{
+
+        .pointer {
             width: 0.64rem;
             height: 1.04rem;
             position: absolute;
             top: -0.373334rem;
             left: 50%;
-            transform:translate(-50%,0);
-            -ms-transform:translate(-50%,0);
-            -moz-transform:translate(-50%,0);
-            -webkit-transform:translate(-50%,0);
-            -o-transform:translate(-50%,0);
+            transform: translate(-50%, 0);
+            -ms-transform: translate(-50%, 0);
+            -moz-transform: translate(-50%, 0);
+            -webkit-transform: translate(-50%, 0);
+            -o-transform: translate(-50%, 0);
         }
-        .mask,.mask2{
+
+        .mask, .mask2 {
             display: none;
             width: 100%;
             min-height: 100vh;
@@ -179,33 +216,36 @@
             top: 0;
             left: 0;
         }
-        .alert_box{
+
+        .alert_box {
             width: 4rem;
             height: 4.4rem;
             background-color: #fff;
             position: fixed;
             left: 50%;
             top: 50%;
-            transform:translate(-50%,-50%);
-            -ms-transform:translate(-50%,-50%);
-            -moz-transform:translate(-50%,-50%);
-            -webkit-transform:translate(-50%,-50%);
-            -o-transform:translate(-50%,-50%);
+            transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            -moz-transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
+            -o-transform: translate(-50%, -50%);
             z-index: 9999999;
         }
-        .alert_box img{
+
+        .alert_box img {
             width: 2.24rem;
             height: auto;
             position: absolute;
             top: 0.533334rem;
             left: 50%;
-            transform:translate(-50%,0);
-            -ms-transform:translate(-50%,0);
-            -moz-transform:translate(-50%,0);
-            -webkit-transform:translate(-50%,0);
-            -o-transform:translate(-50%,0);
+            transform: translate(-50%, 0);
+            -ms-transform: translate(-50%, 0);
+            -moz-transform: translate(-50%, 0);
+            -webkit-transform: translate(-50%, 0);
+            -o-transform: translate(-50%, 0);
         }
-        .alert_box p{
+
+        .alert_box p {
             width: 100%;
             font-size: 0.533334rem;
             color: #353c4c;
@@ -213,23 +253,24 @@
             position: absolute;
             left: 50%;
             bottom: 0.666667rem;
-            transform:translate(-50%,0);
-            -ms-transform:translate(-50%,0);
-            -moz-transform:translate(-50%,0);
-            -webkit-transform:translate(-50%,0);
-            -o-transform:translate(-50%,0);
+            transform: translate(-50%, 0);
+            -ms-transform: translate(-50%, 0);
+            -moz-transform: translate(-50%, 0);
+            -webkit-transform: translate(-50%, 0);
+            -o-transform: translate(-50%, 0);
         }
-        .none{
+
+        .none {
             width: 50%;
             text-align: center;
             position: fixed;
             left: 50%;
             top: 50%;
-            transform:translate(-50%,-50%);
-            -ms-transform:translate(-50%,-50%);
-            -moz-transform:translate(-50%,-50%);
-            -webkit-transform:translate(-50%,-50%);
-            -o-transform:translate(-50%,-50%);
+            transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            -moz-transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
+            -o-transform: translate(-50%, -50%);
             background: #fff;
             height: 2rem;
             line-height: 2rem;
@@ -237,20 +278,25 @@
             font-size: 0.4rem;
             border-radius: 8px;
         }
-        #surlus{
+
+        #surlus {
             margin-right: 5px;
         }
-        #me_bxb{
+
+        #me_bxb {
             font-size: 0.533334rem;
         }
-        .bxbInfo{
+
+        .bxbInfo {
             margin: 4.32rem 0 0.48rem;
         }
-        .bxbInfo>div{
+
+        .bxbInfo > div {
             display: flex;
             margin: 0 0.866667rem;
         }
-        .bxbInfo>div div{
+
+        .bxbInfo > div div {
             width: 4rem;
             height: 1.6rem;
             font-size: 0.4rem;
@@ -261,50 +307,62 @@
             text-align: center;
             box-sizing: border-box;
         }
-        .bxbInfo>div div:last-child{
+
+        .bxbInfo > div div:last-child {
             margin-left: 0.266667rem;
         }
-        .bxbInfo>div div h2{
+
+        .bxbInfo > div div h2 {
             width: 100%;
             color: #fff;
             margin-top: 0.213334rem;
         }
-        .bxbInfo>div div span{
+
+        .bxbInfo > div div span {
             color: #ffd21d;
             vertical-align: middle;
         }
-        .bxbInfo>div div span.colorff{
+
+        .bxbInfo > div div span.colorff {
             color: #ffe71f;
         }
-        .bxbInfo>div div img{
+
+        .bxbInfo > div div img {
             width: 0.453334rem;
             height: auto;
             vertical-align: middle;
         }
-        .bxbInfo>p{
+
+        .bxbInfo > p {
             color: #fff;
             font-size: 0.4rem;
             font-weight: bold;
         }
-        .bxbInfo p.p1{
+
+        .bxbInfo p.p1 {
             margin: 0.4rem 0 0.266667rem 0.866667rem;
         }
-        .bxbInfo p.p2{
+
+        .bxbInfo p.p2 {
             margin-left: 0.866667rem;
         }
-        .bxbInfo>p span{
+
+        .bxbInfo > p span {
             color: #ffd21d;
         }
-        .bxbInfo>p span.color7f{
+
+        .bxbInfo > p span.color7f {
             color: #7f888f;
             font-size: 0.32rem;
         }
-        .bxbInfo>p a{
+
+        .bxbInfo > p a {
             color: #4285d5;
             font-size: 0.32rem;
             text-decoration: underline;
         }
-        .mr10{
+
+        .mr10 {
             margin-right: 0.133334rem;
         }
 
@@ -312,8 +370,8 @@
     </style>
 </head>
 <body>
-<img src="/lottery/images/on_icon.png" id="shan-img" style="display:none;" />
-<img src="/lottery/images/2.png" id="sorry-img" style="display:none;" />
+<img src="/lottery/images/on_icon.png" id="shan-img" style="display:none;"/>
+<img src="/lottery/images/2.png" id="sorry-img" style="display:none;"/>
 <!-- <div class="box_number">
     <img src="/lottery/images/box_number.png" alt="">
     <span class="cs">5 BX糖果/次，今日剩余：<span id="surlus"><br />
@@ -325,7 +383,7 @@
     <div>
         <div>
             <h2>今日奖励</h2>
-            <span>+</span><span id="today_bxc" >0</span>
+            <span>+</span><span id="today_bxc">0</span>
             <img src="/lottery/images/on_icon.png">
         </div>
         <div>
@@ -334,11 +392,15 @@
             <img src="/lottery/images/on_icon.png">
         </div>
     </div>
-    <p class="p1">剩余常规抽奖次数：<span id="conventional_remaining">10</span><span class="mr10">次</span><span class="color7f">(扣5BX/次)</span></p>
-    <p class="p2">剩余<span>免费</span>抽奖次数：<span id="free_number_remaining">0</span><span class="mr10">次</span><a href="javascript:;" onclick="my_skip()" >立即邀请好友得10次免费机会</a></p>
+    <p class="p1">剩余常规抽奖次数：<span id="conventional_remaining">10</span><span class="mr10">次</span><span class="color7f">(扣5BX/次)</span>
+    </p>
+    <p class="p2">剩余<span>免费</span>抽奖次数：<span id="free_number_remaining">0</span><span class="mr10">次</span><a
+            href="javascript:;" onclick="my_skip()">立即邀请好友得10次免费机会</a></p>
 </div>
 <div id="encryption" style="display:none">410670</div>
-<div id="url_info" style="display:none">http://tui.yingshe.com/thumb/2018/05/12/394027497460d4f364cb03583ae14d76_thumb.png?t=1526113550</div>
+<div id="url_info" style="display:none">
+    http://tui.yingshe.com/thumb/2018/05/12/394027497460d4f364cb03583ae14d76_thumb.png?t=1526113550
+</div>
 <p id="xxx" style="display:none">UEPgrXKVyZoquabSDV8WG</p>
 <div class="banner">
     <div class="turnplate">
@@ -375,15 +437,15 @@
     var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
     var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 
-    var turnplate={
-        restaraunts:[],             //大转盘奖品名称
-        colors:[],                  //大转盘奖品区块对应背景颜色
-        outsideRadius:192,          //大转盘外圆的半径
-        textRadius:155,             //大转盘奖品位置距离圆心的距离
-        insideRadius:60,            //大转盘内圆的半径
-        startAngle:0,               //开始角度
-        randomRate:[],              //控制获奖率，百分制(相加需等于100%)，对应restaraunts(顺序需要保持一致)，
-        bRotate:false               //false:停止;ture:旋转
+    var turnplate = {
+        restaraunts: [],             //大转盘奖品名称
+        colors: [],                  //大转盘奖品区块对应背景颜色
+        outsideRadius: 192,          //大转盘外圆的半径
+        textRadius: 155,             //大转盘奖品位置距离圆心的距离
+        insideRadius: 60,            //大转盘内圆的半径
+        startAngle: 0,               //开始角度
+        randomRate: [],              //控制获奖率，百分制(相加需等于100%)，对应restaraunts(顺序需要保持一致)，
+        bRotate: false               //false:停止;ture:旋转
     };
 
     // 安卓 ios 跳转到首页
@@ -391,13 +453,13 @@
         var url = $('#url_info').html();
         // var url = url_info.toString();
         try {
-            if(isiOS){
+            if (isiOS) {
                 if (window.webkit.messageHandlers.main_func && typeof(window.webkit.messageHandlers.main_func) == "object") {
                     window.webkit.messageHandlers.main_func.postMessage('{"action":"share", "data":{"url":"' + url + '","qq":"0","wechat":"0","weibo":"0","friends":"0"}}');
                 } else {
                     location.href = "http://m.bixiang.com";
                 }
-            }else {
+            } else {
                 if (clienthandle.main_func && typeof(clienthandle.main_func) == "function") {
                     clienthandle.main_func('{"action":"share", "data":{"url":"' + url + '","qq":"0","wechat":"0","weibo":"0","friends":"0"}}');
                 } else {
@@ -410,142 +472,146 @@
     }
 
 
-    $(document).ready(function(){
+    $(document).ready(function () {
         //动态添加大转盘的奖品与奖品区域背景颜色
-        turnplate.restaraunts = ['BX糖果+8','谢谢参与','BX糖果+5','BX糖果+3','BX糖果+6','BX糖果+88'];
-        turnplate.colors = ["#ffefa2", "#ffe464", "#ffefa2", "#ffe464","#ffefa2", "#ffe464"];
+        turnplate.restaraunts = ['BX糖果+8', '谢谢参与', 'BX糖果+5', 'BX糖果+3', 'BX糖果+6', 'BX糖果+88'];
+        turnplate.colors = ["#ffefa2", "#ffe464", "#ffefa2", "#ffe464", "#ffefa2", "#ffe464"];
         turnplate.randomRate = ["100%"];
-        var rotateTimeOut = function (){
+        var rotateTimeOut = function () {
             $('#wheelcanvas').rotate({
-                angle:0,
-                animateTo:2160,
-                duration:8000,
-                callback:function (){
+                angle: 0,
+                animateTo: 2160,
+                duration: 8000,
+                callback: function () {
                     alert('网络超时，请检查您的网络设置！');
                 }
             });
         };
         //旋转转盘 item:奖品位置; txt：提示语;
-        var rotateFn = function (item, txt){
-            var angles = item * (360 / turnplate.restaraunts.length) - (360 / (turnplate.restaraunts.length*2));
-            if(angles<270){
+        var rotateFn = function (item, txt) {
+            var angles = item * (360 / turnplate.restaraunts.length) - (360 / (turnplate.restaraunts.length * 2));
+            if (angles < 270) {
                 angles = 270 - angles;
-            }else{
+            } else {
                 angles = 360 - angles + 270;
             }
             $('#wheelcanvas').stopRotate();
             $('#wheelcanvas').rotate({
-                angle:0,
-                animateTo:angles+1800,
-                duration:6000,
-                callback:function (){
+                angle: 0,
+                animateTo: angles + 1800,
+                duration: 6000,
+                callback: function () {
                     // alert(txt);
                     turnplate.bRotate = !turnplate.bRotate;
                 }
             });
         };
-        $('.button').click(function (){
-            if(turnplate.bRotate)return;
+        $('.button').click(function () {
+            if (turnplate.bRotate) return;
             turnplate.bRotate = !turnplate.bRotate;
             //获取随机数(奖品个数范围内)
             var encryptions = $('#encryption').html();
             // turnplate.restaraunts = [];
             var xxx = $('#xxx').html();
 
-            if($('#surlus').html() != 0){
+            if ($('#surlus').html() != 0) {
                 var number = $("#me_bxb").html() - 5;
                 $("#me_bxb").html(number);
             }
             $.ajax({
                 // url:'http://m.bixiang.com/lottery/turntable',
-                url:'/lottery/turntableFree',
-                async:true,
-                type:"get",
-                dataType:'json',
-                data:{
-                    "psid":encryptions,
+                url: '/lottery/turntableFree',
+                async: true,
+                type: "get",
+                dataType: 'json',
+                data: {
+                    "psid": encryptions,
                     "xxx": xxx
                 },
-                success:function(result){
-                    if(result.status == 1){
+                success: function (result) {
+                    if (result.status == 1) {
 
                         $("#bxb").html(result.bxc_add);
-                        setTimeout(function(){
+                        setTimeout(function () {
                             $("#me_bxb").html(result.me_bxb);
-                        },7000)
+                        }, 7000)
 
-                        if(result.bxc_add == 0){
+                        if (result.bxc_add == 0) {
                             $('.bxb_text').html('谢谢参与');
                         }
                         var item = result.arr_name;
                         //奖品数量等于10,指针落在对应奖品区域的中心角度[252, 216, 180, 144, 108, 72, 36, 360, 324, 288]
-                        rotateFn(item, turnplate.restaraunts[item-1]);
+                        rotateFn(item, turnplate.restaraunts[item - 1]);
                         //turnplate.restaraunts.push(a0,a1,a2,a3,a4,a5);
-                        setTimeout(function(){
+                        setTimeout(function () {
                             $('#encryption').html(result.encryption);
                             $('.colorff').html(result.me_bxb); // 账户余额
                             $('#today_bxc').html(result.today_bxc);  // 今日转盘获得糖果数
                             $('#free_number_remaining').html(result.free_number_remaining); // 剩余 今日剩余免费次数
                             $('#conventional_remaining').html(result.conventional_remaining); // 剩余 今日常规次数
-                        },5000);
+                        }, 5000);
 
-                    }else{
-                        var tan =  result.tan;
-                        if(tan == 0){
+                    } else {
+                        var tan = result.tan;
+                        if (tan == 0) {
                             $('#surlus').html(result.surlus);
                             $('.mask2').show();
-                            setTimeout(function(){
+                            setTimeout(function () {
                                 $('.mask2').hide();
-                            },3000);
+                            }, 3000);
                         }
 
                     }
                 }
             });
-            setTimeout(function(){
+            setTimeout(function () {
                 down_change();
-            },6000)
-            function down_change(){
+            }, 6000)
+
+            function down_change() {
                 // $('.mask').show();
             }
-            setTimeout(function(){
+
+            setTimeout(function () {
                 $('.mask').hide();
-            },11000)
+            }, 11000)
         });
     });
     maskClick();
-    function maskClick(){
+
+    function maskClick() {
         $('.mask').height($('html').height());
-        $('.alert_box').click(function(){
+        $('.alert_box').click(function () {
             $('.mask').hide();
         });
-        $('.none').click(function(){
+        $('.none').click(function () {
             $('.mask2').hide();
         })
     };
-    function rnd(rate){
+
+    function rnd(rate) {
         var random = Math.floor(Math.random() * 100);
         var myRandom = [];
         var randomList = [];
         var randomParent = [];
-        for(var i = 0; i < 100; i++){
+        for (var i = 0; i < 100; i++) {
             myRandom.push(parseInt([i]) + 1);
         }
-        for(var i = 0; i < rate.length; i++){
+        for (var i = 0; i < rate.length; i++) {
             var temp = [];
             var start = 0;
             var end = 0;
             randomList.push(parseInt(rate[i].split('%')[0]));
-            for(var j = 0; j < randomList.length; j++){
-                start += randomList[j-1] || 0
+            for (var j = 0; j < randomList.length; j++) {
+                start += randomList[j - 1] || 0
                 end += randomList[j]
             }
             temp = myRandom.slice(start, end);
             randomParent.push(temp)
         }
-        for(var i = 0; i < randomParent.length; i++){
-            if($.inArray(random, randomParent[i]) > 0){
-                return(i+1)
+        for (var i = 0; i < randomParent.length; i++) {
+            if ($.inArray(random, randomParent[i]) > 0) {
+                return (i + 1)
             }
         }
 
@@ -553,7 +619,7 @@
 
 
     //页面所有元素加载完毕后执行drawRouletteWheel()方法对转盘进行渲染
-    window.onload=function(){
+    window.onload = function () {
         drawRouletteWheel();
     };
 
@@ -561,15 +627,15 @@
         var canvas = document.getElementById("wheelcanvas");
         if (canvas.getContext) {
             //根据奖品个数计算圆周角度
-            var arc = Math.PI / (turnplate.restaraunts.length/2);
+            var arc = Math.PI / (turnplate.restaraunts.length / 2);
             var ctx = canvas.getContext("2d");
             //在给定矩形内清空一个矩形
-            ctx.clearRect(0,0,422,422);
+            ctx.clearRect(0, 0, 422, 422);
             //strokeStyle 属性设置或返回用于笔触的颜色、渐变或模式
             ctx.strokeStyle = "#FFBE04";
             //font 属性设置或返回画布上文本内容的当前字体属性
             ctx.font = '16px Microsoft YaHei';
-            for(var i = 0; i < turnplate.restaraunts.length; i++) {
+            for (var i = 0; i < turnplate.restaraunts.length; i++) {
                 var angle = turnplate.startAngle + i * arc;
                 ctx.fillStyle = turnplate.colors[i];
                 ctx.beginPath();
@@ -592,35 +658,35 @@
                 ctx.rotate(angle + arc / 2 + Math.PI / 2);
 
                 /** 下面代码根据奖品类型、奖品名称长度渲染不同效果，如字体、颜色、图片效果。(具体根据实际情况改变) **/
-                if(text.indexOf("M")>0){//流量包
+                if (text.indexOf("M") > 0) {//流量包
                     var texts = text.split("M");
-                    for(var j = 0; j<texts.length; j++){
-                        ctx.font = j == 0?'bold 20px Microsoft YaHei':'16px Microsoft YaHei';
-                        if(j == 0){
-                            ctx.fillText(texts[j]+"M", -ctx.measureText(texts[j]+"M").width / 2, j * line_height);
-                        }else{
+                    for (var j = 0; j < texts.length; j++) {
+                        ctx.font = j == 0 ? 'bold 20px Microsoft YaHei' : '16px Microsoft YaHei';
+                        if (j == 0) {
+                            ctx.fillText(texts[j] + "M", -ctx.measureText(texts[j] + "M").width / 2, j * line_height);
+                        } else {
                             ctx.fillText(texts[j], -ctx.measureText(texts[j]).width / 2, j * line_height);
                         }
                     }
-                }else if(text.indexOf("M") == -1 && text.length>10){//奖品名称长度超过一定范围
-                    text = text.substring(0,6)+"||"+text.substring(6);
+                } else if (text.indexOf("M") == -1 && text.length > 10) {//奖品名称长度超过一定范围
+                    text = text.substring(0, 6) + "||" + text.substring(6);
                     var texts = text.split("||");
-                    for(var j = 0; j<texts.length; j++){
+                    for (var j = 0; j < texts.length; j++) {
                         ctx.fillText(texts[j], -ctx.measureText(texts[j]).width / 2, j * line_height);
                     }
-                }else{
+                } else {
                     //在画布上绘制填色的文本。文本的默认颜色是黑色
                     //measureText()方法返回包含一个对象，该对象包含以像素计的指定字体宽度
                     ctx.fillText(text, -ctx.measureText(text).width / 2, 0);
                 }
 
                 //添加对应图标
-                if(true){
-                    var img= document.getElementById("shan-img");
-                    img.onload=function(){
-                        ctx.drawImage(img,-15,8,36,36);
+                if (true) {
+                    var img = document.getElementById("shan-img");
+                    img.onload = function () {
+                        ctx.drawImage(img, -15, 8, 36, 36);
                     };
-                    ctx.drawImage(img,-15,8,36,36);
+                    ctx.drawImage(img, -15, 8, 36, 36);
                 }
                 // else if(text.indexOf("谢谢参与")>=0){
                 //  var img= document.getElementById("sorry-img");

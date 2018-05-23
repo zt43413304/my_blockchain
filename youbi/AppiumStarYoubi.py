@@ -9,6 +9,7 @@ import time
 
 from appium import webdriver
 from appium.webdriver.common.touch_action import TouchAction
+
 # Returns abs path relative to this file and not cwd
 
 # 第一步，创建一个logger,并设置级别
@@ -26,7 +27,6 @@ ch.setFormatter(formatter)
 # 第四步，将logger添加到handler里面
 logger.addHandler(fh)
 logger.addHandler(ch)
-
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -73,8 +73,6 @@ class AppiumStar:
                 ele.click()
                 logger.warning(">>>>>>>>>> sign_get_coin(" + phone + "), after click, ele.text = " + ele.text)
 
-
-
     def appium_youbi(self, phone):
         time.sleep(3)
         # 中间图片按钮“领币”
@@ -92,16 +90,11 @@ class AppiumStar:
             while i < 8:
                 self.sign_get_coin(phone)
                 action = TouchAction(self.driver)
-                action.press(x=200,y=400).move_to(x=200,y=320).wait(200).release().wait(200).perform()
+                action.press(x=200, y=400).move_to(x=200, y=320).wait(200).release().wait(200).perform()
                 time.sleep(3)
-                self.driver.get_screenshot_as_file("file_"+phone+"_"+str(i)+".png")
+                self.driver.get_screenshot_as_file("file_" + phone + "_" + str(i) + ".png")
                 i = i + 1
                 logger.warning(">>>>>>>>>> appium_youbi(" + phone + "), i = " + str(i))
         except Exception as e:
             print(e)
         return
-
-
-
-
-

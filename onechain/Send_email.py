@@ -32,7 +32,6 @@ def send_mail(to_list, sub, content):
 
 
 def send_HtmlEmail(to_list, content_list):
-
     datetime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
     head = '<!DOCTYPE HTML>' + \
            '<html id="pageLoading">' + \
@@ -67,7 +66,7 @@ def send_HtmlEmail(to_list, content_list):
            '</style>' + \
            '</head>' + \
            '<body>' + \
-           '<p> ********** '+ datetime +' ********** </p>' + \
+           '<p> ********** ' + datetime + ' ********** </p>' + \
            '<table border="1px" cellspacing="0px" style="border-collapse:collapse" id="table-7">' + \
            '<thead>' + \
            '<th align="center">No.</th>' + \
@@ -107,7 +106,6 @@ def send_HtmlEmail(to_list, content_list):
           str(round(ONTLUCK_Total, 2)) + '</td></tr>'
     mail_msg = head + sum + end
 
-
     subject = "Onechain, [ONE:" + str(round(ONE_Total, 2)) + ", ONELUCK:" + str(
         round(ONTLUCK_Total, 2)) + "]"
 
@@ -127,4 +125,3 @@ def send_HtmlEmail(to_list, content_list):
     except Exception as e:
         print(e)
         return False
-

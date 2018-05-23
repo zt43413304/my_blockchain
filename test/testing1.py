@@ -1,10 +1,5 @@
 import datetime
 import logging
-import os
-import subprocess
-import sys
-import time
-
 
 # 第一步，创建一个logger,并设置级别
 logger = logging.getLogger("testing1.py")
@@ -23,9 +18,7 @@ logger.addHandler(fh)
 logger.addHandler(ch)
 
 
-
 def test136():
     logger.info("in info 136 is '%s' " % datetime.datetime.now())
     logger.warning("in warning 136 is '%s' " % datetime.datetime.now())
     return
-

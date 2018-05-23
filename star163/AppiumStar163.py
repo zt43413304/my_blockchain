@@ -27,7 +27,6 @@ ch.setFormatter(formatter)
 logger.addHandler(fh)
 logger.addHandler(ch)
 
-
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
@@ -62,7 +61,7 @@ class AppiumStar:
         # close "0.01黑钻换..."       
 
         time.sleep(5)
-        
+
         if self.isElementExist("Link"):
             TouchAction(self.driver).tap(x=332, y=104).perform()
         #    self.driver.find_element_by_accessibility_id("Link").click()

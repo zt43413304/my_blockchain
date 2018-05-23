@@ -9,10 +9,9 @@ import time
 import urllib
 from urllib.parse import urlparse
 
-import AppiumStar163
 import requests
-import schedule
-from apscheduler.schedulers.blocking import BlockingScheduler
+
+import AppiumStar163
 
 sys.path.append('..')
 import common.Send_email
@@ -424,8 +423,6 @@ def loop_star163():
     appium_calculate138()
     appium_calculate136()
 
-
-
 # Start from here...
 # logger.warning('***** Start ...')
 # scheduler = BlockingScheduler()
@@ -437,4 +434,3 @@ def loop_star163():
 #     scheduler.start()
 # except (KeyboardInterrupt, SystemExit):
 #     scheduler.shutdown()
-

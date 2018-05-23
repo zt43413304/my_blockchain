@@ -8,8 +8,6 @@ import sys
 import time
 
 import AppiumStarYoubi
-from apscheduler.schedulers.blocking import BlockingScheduler
-from apscheduler.schedulers.background import BackgroundScheduler
 
 sys.path.append('..')
 import common.Send_email
@@ -31,8 +29,6 @@ logger.addHandler(fh)
 logger.addHandler(ch)
 
 
-
-
 def execute_command(cmd):
     print('***** start executing cmd...')
     p = subprocess.Popen(str(cmd), stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
@@ -46,8 +42,8 @@ def execute_command(cmd):
     print('finish executing cmd....')
     return p.returncode
 
-def appium_calculate136():
 
+def appium_calculate136():
     output = os.system("C:/DevTools/MuMu/emulator/nemu/EmulatorShell/NemuPlayer.exe")
     logger.warning(">>>>>>>>>> Start NemuPlayer.exe, output = " + str(output))
     time.sleep(15)
@@ -61,7 +57,7 @@ def appium_calculate136():
     # output3 = os.system(
     #     "start node C:/Users/Jackie.Liu/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4723")
     output3 = os.system(
-    "start /b node C:/Users/jacki/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4723")
+        "start /b node C:/Users/jacki/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4723")
     print('result:------>' + str(output3))
     time.sleep(10)
 
@@ -70,8 +66,8 @@ def appium_calculate136():
     common.Send_email.send_163HtmlEmail('newseeing@163.com', '有币136获取完成.', '')
     logger.warning('********** Check youbi in NemuPlayer complete!')
 
-def appium_calculate138():
 
+def appium_calculate138():
     output = os.system("C:/DevTools/Nox/Nox/bin/Nox.exe")
     logger.warning("========== Start Nox.exe, output = " + str(output))
     time.sleep(15)
@@ -96,9 +92,11 @@ def appium_calculate138():
     common.Send_email.send_163HtmlEmail('newseeing@163.com', '有币138获取完成.', '')
     logger.warning('********** Check youbi in Nox complete!')
 
+
 def test136():
     print("now 136 is '%s' " % datetime.datetime.now())
     return
+
 
 def test138():
     print("now 138 is '%s' " % datetime.datetime.now())

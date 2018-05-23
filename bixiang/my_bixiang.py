@@ -7,14 +7,12 @@ import os
 import re
 import sys
 import time
+import urllib.parse
 
 import requests
-import schedule
-import urllib.parse
 
 sys.path.append('..')
 import common.Send_email
-
 
 # 第一步，创建一个logger,并设置级别
 logger = logging.getLogger("my_bixiang.py")
@@ -31,8 +29,6 @@ ch.setFormatter(formatter)
 # 第四步，将logger添加到handler里面
 logger.addHandler(fh)
 logger.addHandler(ch)
-
-
 
 # get config information
 curpath = os.getcwd()
@@ -70,8 +66,6 @@ payload = "is_ad_ios=" + is_ad_ios + \
           "&token=" + token + \
           "&ps=" + ps + \
           "&key=" + key
-
-
 
 
 # user_agent = cf.get('info'+str(infoNum), 'user_agent').strip()
@@ -312,17 +306,18 @@ def get_allTotal(unique, uid):
         print(e)
         return -1
 
+
 def get_turntableFree(unique, uid):
     url = bixiang_property_url(unique, uid)
     logger.warning(">>>>>>>>>> Property URL = " + url)
 
     parsed = urllib.parse.urlparse(url)
     parsed_query = parsed.query
-    #'xxx=vzlsIdmCYyW2Ji1CbiWsc'
+    # 'xxx=vzlsIdmCYyW2Ji1CbiWsc'
     print(parsed_query)
 
     try:
-        lottery_enter = 'http://tui.yingshe.com/lottery/enters?'+parsed_query
+        lottery_enter = 'http://tui.yingshe.com/lottery/enters?' + parsed_query
         response = requests.request("GET", lottery_enter, headers=headers)
         print(response.text)
 
@@ -333,9 +328,6 @@ def get_turntableFree(unique, uid):
     except Exception as e:
         print(e)
         return -1
-
-
-
 
 
 def loop_bixiang():
@@ -384,7 +376,6 @@ def loop_bixiang():
 
         common.Send_email.send_SimpleHtmlEmail('newseeing@163.com', mail_subject, content)
     logger.warning('********** Sending Email Complete!')
-
 
 # Start from here...
 # loop_bixiang()

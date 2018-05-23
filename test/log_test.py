@@ -1,7 +1,7 @@
 import logging  # 引入logging模块
-import logging  # 引入logging模块
 import os.path
 import time
+
 import testing1
 import testing2
 
@@ -23,8 +23,6 @@ import testing2
 # logging.warning(u"小泽玛利亚")
 # logging.error(u"桃谷绘里香")
 # logging.critical(u"泷泽萝拉")
-
-
 
 
 # 第一步，创建一个logger

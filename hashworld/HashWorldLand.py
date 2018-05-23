@@ -5,7 +5,6 @@ import ssl
 import time
 
 import requests
-import schedule
 
 import Send_email
 
@@ -24,7 +23,6 @@ ch.setFormatter(formatter)
 # 第四步，将logger添加到handler里面
 logger.addHandler(fh)
 logger.addHandler(ch)
-
 
 
 def open_FirstPage():
@@ -196,7 +194,6 @@ def loop_hashworldland():
         time.sleep(300)
         status_code = open_FirstPage()
     loop_Land()
-
 
 # Start from here...
 # loop_hashworldland()

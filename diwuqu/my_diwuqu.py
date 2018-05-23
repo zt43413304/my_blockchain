@@ -9,7 +9,6 @@ import sys
 import time
 
 import requests
-import schedule
 
 sys.path.append('..')
 import common.Send_email
@@ -29,8 +28,6 @@ ch.setFormatter(formatter)
 # 第四步，将logger添加到handler里面
 logger.addHandler(fh)
 logger.addHandler(ch)
-
-
 
 # get config information
 curpath = os.getcwd()
@@ -230,7 +227,6 @@ def get_allTotal(token):
 
 
 def loop_diwuqu():
-
     # start
     logger.warning('********** Start from loop_diwuqu() ...')
 
@@ -283,7 +279,6 @@ def loop_diwuqu():
         # sending email
         common.Send_email.send_HtmlEmail('newseeing@163.com', phone, calculated, content_list)
         logger.warning('********** Sending Email Complete!')
-
 
 # Start from here...
 # save_token()

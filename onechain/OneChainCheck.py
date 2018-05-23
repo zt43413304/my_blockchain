@@ -8,7 +8,6 @@ import re
 import time
 
 import requests
-import schedule
 
 import Send_email
 
@@ -28,7 +27,6 @@ ch.setFormatter(formatter)
 logger.addHandler(fh)
 logger.addHandler(ch)
 
-
 # get config information
 curpath = os.getcwd()
 content = open(curpath + '/onechain/config.ini').read()
@@ -36,7 +34,6 @@ content = re.sub(r"\xfe\xff", "", content)
 content = re.sub(r"\xff\xfe", "", content)
 content = re.sub(r"\xef\xbb\xbf", "", content)
 open(curpath + '/onechain/config.ini', 'w').write(content)
-
 
 headers = {
     'Content-Type': 'application/x-www-form-urlencoded',
@@ -54,8 +51,8 @@ def getInfoNum(infoNum):
     cf.read(curpath + '/onechain/config.ini')
     version = cf.get('info', 'version').strip()
     l = cf.get('info', 'l').strip()
-    user_agent = cf.get('info'+str(infoNum), 'user_agent').strip()
-    device_id = cf.get('info'+str(infoNum), 'device_id').strip()
+    user_agent = cf.get('info' + str(infoNum), 'user_agent').strip()
+    device_id = cf.get('info' + str(infoNum), 'device_id').strip()
     return version, l, user_agent, device_id
 
 
@@ -199,44 +196,46 @@ def check_allTotal(user_agent, device_id, l, token, version):
         print(e)
         return -1, -1
 
+
 def postman_login():
     url = "http://hkopenservice1.yuyin365.com:8000/one-chain/login"
 
-    querystring = {"user_agent":"android","l":"zh-CN","device_id":"008796747873160","token":"","version":"128"}
+    querystring = {"user_agent": "android", "l": "zh-CN", "device_id": "008796747873160", "token": "", "version": "128"}
 
     payload = "account_id=1.2.470628&account_name=xudaisi&signed_message=G6gWd1Uv%2BjknXrJBxO%2FqvjMmBntXu5MZZOBM2JFIINHdUp%2BQvZn%2FN0y8P9mlLs8gOwuzn0aIkDPRqQzGXLnTKWg%3D"
-
 
     response = requests.request("POST", url, data=payload, headers=headers, params=querystring)
 
     print(response.text)
 
+
 def postman_getCalculated():
     url = "http://hkopenservice1.yuyin365.com:8000/one-chain/mining/user/infoString"
 
-    querystring = {"user_agent":"android","l":"zh-CN","device_id":"008796747873160","token":"0404abe7478949d0abdbd71858066446","version":"128"}
-
+    querystring = {"user_agent": "android", "l": "zh-CN", "device_id": "008796747873160",
+                   "token": "0404abe7478949d0abdbd71858066446", "version": "128"}
 
     response = requests.request("GET", url, headers=headers, params=querystring)
 
     print(response.text)
+
 
 def postman_getList():
-
     url = "http://hkopenservice1.yuyin365.com:8000/one-chain/mining/detail/list"
 
-    querystring = {"user_agent":"android","l":"zh-CN","device_id":"008796747873160","token":"0404abe7478949d0abdbd71858066446","version":"128"}
-
+    querystring = {"user_agent": "android", "l": "zh-CN", "device_id": "008796747873160",
+                   "token": "0404abe7478949d0abdbd71858066446", "version": "128"}
 
     response = requests.request("GET", url, headers=headers, params=querystring)
 
     print(response.text)
 
-def postman_miningClick():
 
+def postman_miningClick():
     url = "http://hkopenservice1.yuyin365.com:8000/one-chain/mining/detail/click"
 
-    querystring = {"user_agent":"android","l":"zh-CN","device_id":"008796747873160","token":"0404abe7478949d0abdbd71858066446","version":"128"}
+    querystring = {"user_agent": "android", "l": "zh-CN", "device_id": "008796747873160",
+                   "token": "0404abe7478949d0abdbd71858066446", "version": "128"}
 
     payload = "account_id=1.2.470628&account_name=xudaisi&signed_message=G6gWd1Uv%2BjknXrJBxO%2FqvjMmBntXu5MZZOBM2JFIINHdUp%2BQvZn%2FN0y8P9mlLs8gOwuzn0aIkDPRqQzGXLnTKWg%3D&mining_detail_uuid%3Dcab375674834408e846305af3d58936d="
 
@@ -244,19 +243,19 @@ def postman_miningClick():
 
     print(response.text)
 
-def postman_allTotal():
 
+def postman_allTotal():
     url = "http://hkopenservice1.yuyin365.com:8000/one-chain/mining/allTotalString"
 
-    querystring = {"user_agent":"android","l":"zh-CN","device_id":"008796747873160","token":"0404abe7478949d0abdbd71858066446","version":"128"}
-
+    querystring = {"user_agent": "android", "l": "zh-CN", "device_id": "008796747873160",
+                   "token": "0404abe7478949d0abdbd71858066446", "version": "128"}
 
     response = requests.request("GET", url, headers=headers, params=querystring)
 
     print(response.text)
 
-def loop_onechain():
 
+def loop_onechain():
     # start
     logger.warning('********** Start from loop_onechain() ...')
 
@@ -272,13 +271,11 @@ def loop_onechain():
     # print(data_dict)
     # print(type(data_dict))
 
-
     # value = 1
     # hashCode=(int)(value ^ (value >> 32))
     # index=hashCode%20
     # print(index)
     # result is "0 ~ 19"
-
 
     # determine info number
     i = 0
@@ -327,7 +324,6 @@ def loop_onechain():
     # sending email
     Send_email.send_HtmlEmail('newseeing@163.com', content_list)
     logger.warning('********** Sending Email Complete!')
-
 
 # Start from here...
 # loop_onechain()

@@ -12,7 +12,7 @@ import urllib.parse
 import requests
 
 sys.path.append('..')
-import common.Send_email
+import common.send_email
 
 # 第一步，创建一个logger,并设置级别
 logger = logging.getLogger("my_bixiang.py")
@@ -374,7 +374,7 @@ def loop_bixiang():
             # calculate value
             content = get_allTotal(unique, uid)
 
-        common.Send_email.send_SimpleHtmlEmail('newseeing@163.com', mail_subject, content)
+        common.send_email.send_SimpleHtmlEmail('newseeing@163.com', mail_subject, content)
     logger.warning('********** Sending Email Complete!')
 
 # Start from here...

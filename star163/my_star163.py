@@ -14,7 +14,7 @@ import requests
 import AppiumStar163
 
 sys.path.append('..')
-import common.Send_email
+import common.send_email
 
 # 第一步，创建一个logger,并设置级别
 logger = logging.getLogger("my_star163.py")
@@ -361,7 +361,7 @@ def appium_calculate136():
 
     appium136 = AppiumStar163.AppiumStar('4.4.4', '127.0.0.1:7555', 4723)
     appium136.appium_calculate()
-    common.Send_email.send_163HtmlEmail('newseeing@163.com', '136获取原力完成.', '')
+    common.send_email.send_163HtmlEmail('newseeing@163.com', '136获取原力完成.', '')
     logger.warning('********** Sending 136获取原力完成 Email Complete!')
 
 
@@ -387,7 +387,7 @@ def appium_calculate138():
 
     appium138 = AppiumStar163.AppiumStar('4.4.2', '127.0.0.1:62001', 4725)
     appium138.appium_calculate()
-    common.Send_email.send_163HtmlEmail('newseeing@163.com', '138获取原力完成.', '')
+    common.send_email.send_163HtmlEmail('newseeing@163.com', '138获取原力完成.', '')
     logger.warning('********** Sending 138获取原力完成 Email Complete!')
 
 
@@ -417,7 +417,7 @@ def loop_star163():
         # calculate value
         coin, origin = get_allTotal(cookie)
         content = ">>>>>>>>>> Calculate=" + str(origin) + ", Black diamond=" + str(coin)
-        common.Send_email.send_163HtmlEmail('newseeing@163.com', str(phone) + '的原力及黑钻', content)
+        common.send_email.send_163HtmlEmail('newseeing@163.com', str(phone) + '的原力及黑钻', content)
         logger.warning('********** Sending Collect Email Complete!')
 
     appium_calculate138()

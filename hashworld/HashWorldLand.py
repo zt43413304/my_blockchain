@@ -2,11 +2,13 @@
 
 import logging
 import ssl
+import sys
 import time
 
 import requests
 
-import Send_email
+sys.path.append('..')
+import common.send_email
 
 # 第一步，创建一个logger,并设置级别
 logger = logging.getLogger("HashWorldLand.py")

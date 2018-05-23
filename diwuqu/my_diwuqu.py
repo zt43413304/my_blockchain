@@ -11,7 +11,7 @@ import time
 import requests
 
 sys.path.append('..')
-import common.Send_email
+import common.send_email
 
 # 第一步，创建一个logger,并设置级别
 logger = logging.getLogger("my_diwuqu.py")
@@ -277,7 +277,7 @@ def loop_diwuqu():
                 content_list.append(content_data)
 
         # sending email
-        common.Send_email.send_HtmlEmail('newseeing@163.com', phone, calculated, content_list)
+        common.send_email.send_HtmlEmail('newseeing@163.com', phone, calculated, content_list)
         logger.warning('********** Sending Email Complete!')
 
 # Start from here...

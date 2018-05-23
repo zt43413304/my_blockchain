@@ -5,11 +5,13 @@ import json
 import logging
 import os
 import re
+import sys
 import time
 
 import requests
 
-import Send_email
+sys.path.append('..')
+import common.send_email
 
 # 第一步，创建一个logger,并设置级别
 logger = logging.getLogger("OneChainCheck.py")
@@ -322,7 +324,7 @@ def loop_onechain():
             time.sleep(2)
 
     # sending email
-    Send_email.send_HtmlEmail('newseeing@163.com', content_list)
+    send_email.send_HtmlEmail('newseeing@163.com', content_list)
     logger.warning('********** Sending Email Complete!')
 
 # Start from here...

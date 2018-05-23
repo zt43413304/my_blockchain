@@ -10,7 +10,7 @@ import time
 import AppiumStarYoubi
 
 sys.path.append('..')
-import common.Send_email
+import common.send_email
 
 # 第一步，创建一个logger,并设置级别
 logger = logging.getLogger("my_youbi.py")
@@ -63,7 +63,7 @@ def appium_calculate136():
 
     appium136 = AppiumStarYoubi.AppiumStar('4.4.4', '127.0.0.1:7555', 4723)
     appium136.appium_youbi("13601223469")
-    common.Send_email.send_163HtmlEmail('newseeing@163.com', '有币136获取完成.', '')
+    common.send_email.send_163HtmlEmail('newseeing@163.com', '有币136获取完成.', '')
     logger.warning('********** Check youbi in NemuPlayer complete!')
 
 
@@ -89,7 +89,7 @@ def appium_calculate138():
     appium138 = AppiumStarYoubi.AppiumStar('4.4.2', '127.0.0.1:62001', 4725)
     appium138.appium_youbi("13826090504")
 
-    common.Send_email.send_163HtmlEmail('newseeing@163.com', '有币138获取完成.', '')
+    common.send_email.send_163HtmlEmail('newseeing@163.com', '有币138获取完成.', '')
     logger.warning('********** Check youbi in Nox complete!')
 
 

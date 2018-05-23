@@ -46,11 +46,11 @@ logger.addHandler(ch)
 
 # get config information
 curpath = os.getcwd()
-content = open(curpath + '/config_diwuqu.ini').read()
+content = open(curpath + '/diwuqu/config_diwuqu.ini').read()
 content = re.sub(r"\xfe\xff", "", content)
 content = re.sub(r"\xff\xfe", "", content)
 content = re.sub(r"\xef\xbb\xbf", "", content)
-open(curpath + '/config_diwuqu.ini', 'w').write(content)
+open(curpath + '/diwuqu/config_diwuqu.ini', 'w').write(content)
 
 # start
 logging.warning('***** Start ...')
@@ -248,7 +248,7 @@ def loop_diwuqu():
     global calculated
 
     # Reading data
-    with open('data_diwuqu.json', 'r') as file:
+    with open('/diwuqu/data_diwuqu.json', 'r') as file:
         data_dict = json.load(file)
 
     for item in data_dict['data']:
@@ -297,16 +297,16 @@ def loop_diwuqu():
 
 
 # Start from here...
-save_token()
-loop_diwuqu()
+# save_token()
+# loop_diwuqu()
 
 # ssl._create_default_https_context = ssl._create_unverified_context
 # schedule.every(120).minutes.do(loop_data_mining)
-schedule.every(8).hours.do(loop_diwuqu)
+# schedule.every(8).hours.do(loop_diwuqu)
 # schedule.every().day.at("01:05").do(loop_data_mining)
 # schedule.every().monday.do(loop_data_mining)
 # schedule.every().wednesday.at("13:15").do(loop_data_mining)
 
-while True:
-    schedule.run_pending()
-    time.sleep(1)
+# while True:
+#     schedule.run_pending()
+#     time.sleep(1)

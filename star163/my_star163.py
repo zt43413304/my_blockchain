@@ -12,6 +12,7 @@ from urllib.parse import urlparse
 import AppiumStar163
 import requests
 import schedule
+from apscheduler.schedulers.blocking import BlockingScheduler
 
 sys.path.append('..')
 import common.Send_email
@@ -46,10 +47,6 @@ logger.removeHandler(fh)
 # logger.warning('this is a logger warning message')
 # logger.error('this is a logger error message')
 # logger.critical('this is a logger critical message')
-
-# start
-logging.warning('***** Start ...')
-
 
 def start163_api_starUser_login():
     url = "https://star.8.163.com/api/starUser/login"
@@ -377,8 +374,8 @@ def appium_calculate136():
     # 需要手动确定启动Server
     # output3 = os.system("C:/Users/Jackie.Liu/AppData/Local/appium-desktop/Appium.exe -a 127.0.0.1 -p 4723")
 
-    appium = AppiumStar163.AppiumStar('4.4.4', '127.0.0.1:7555', 4723)
-    appium.appium_calculate()
+    appium136 = AppiumStar163.AppiumStar('4.4.4', '127.0.0.1:7555', 4723)
+    appium136.appium_calculate()
     common.Send_email.send_163HtmlEmail('newseeing@163.com', '136获取原力完成.', '')
     logging.warning('********** Sending 136获取原力完成 Email Complete!')
 
@@ -403,8 +400,8 @@ def appium_calculate138():
     print('result:------>' + str(output3))
     time.sleep(30)
 
-    appium = AppiumStar163.AppiumStar('4.4.2', '127.0.0.1:62001', 4725)
-    appium.appium_calculate()
+    appium138 = AppiumStar163.AppiumStar('4.4.2', '127.0.0.1:62001', 4725)
+    appium138.appium_calculate()
     common.Send_email.send_163HtmlEmail('newseeing@163.com', '138获取原力完成.', '')
     logging.warning('********** Sending 138获取原力完成 Email Complete!')
 
@@ -442,16 +439,16 @@ def loop_star163():
     appium_calculate136()
 
 
+
 # Start from here...
-loop_star163()
+logging.warning('***** Start ...')
+scheduler = BlockingScheduler()
 
-# ssl._create_default_https_context = ssl._create_unverified_context
-# schedule.every(120).minutes.do(loop_star163)
-schedule.every(5).hours.do(loop_star163)
-# schedule.every().day.at("01:05").do(loop_star163)
-# schedule.every().monday.do(loop_star163)
-# schedule.every().wednesday.at("13:15").do(loop_star163)
+scheduler.add_job(loop_star163, "cron", hour="0-9/2", max_instances=2)
+# scheduler.add_job(loop_star163, "cron", hour="0-9/2", max_instances=2)
 
-while True:
-    schedule.run_pending()
-    time.sleep(1)
+try:
+    scheduler.start()
+except (KeyboardInterrupt, SystemExit):
+    scheduler.shutdown()
+

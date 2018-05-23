@@ -47,14 +47,14 @@ logger.addHandler(ch)
 
 # get config information
 curpath = os.getcwd()
-content = open(curpath + '/config_bixiang.ini').read()
+content = open(curpath + '/bixiang/config_bixiang.ini').read()
 content = re.sub(r"\xfe\xff", "", content)
 content = re.sub(r"\xff\xfe", "", content)
 content = re.sub(r"\xef\xbb\xbf", "", content)
-open(curpath + '/config_bixiang.ini', 'w').write(content)
+open(curpath + '/bixiang/config_bixiang.ini', 'w').write(content)
 
 cf = configparser.ConfigParser()
-cf.read(curpath + '/config_bixiang.ini')
+cf.read(curpath + '/bixiang/config_bixiang.ini')
 # unique = cf.get('info', 'unique').strip()
 # uid = cf.get('info', 'uid').strip()
 is_ad_ios = cf.get('info', 'is_ad_ios').strip()
@@ -353,7 +353,7 @@ def get_turntableFree(unique, uid):
 def loop_bixiang():
     # bixiang_login_test()
 
-    file = open(curpath + '/data_bixiang.json', 'r', encoding='utf-8')
+    file = open(curpath + '/bixiang/data_bixiang.json', 'r', encoding='utf-8')
     data_dict = json.load(file)
 
     for item in data_dict['data']:
@@ -396,15 +396,15 @@ def loop_bixiang():
 
 
 # Start from here...
-loop_bixiang()
+# loop_bixiang()
 
 # ssl._create_default_https_context = ssl._create_unverified_context
 # schedule.every(120).minutes.do(loop_bixiang)
-schedule.every(6).hours.do(loop_bixiang)
+# schedule.every(6).hours.do(loop_bixiang)
 # schedule.every().day.at("01:05").do(loop_bixiang)
 # schedule.every().monday.do(loop_bixiang)
 # schedule.every().wednesday.at("13:15").do(loop_bixiang)
 
-while True:
-    schedule.run_pending()
-    time.sleep(1)
+# while True:
+#     schedule.run_pending()
+#     time.sleep(1)

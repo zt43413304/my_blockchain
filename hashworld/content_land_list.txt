@@ -1,0 +1,6 @@
+content_land_list=[{'land_num': 233, 'land_name': '天坛公园', 'price': 2.0, 'tradable_status': 'initial', 'gen_time': '2018-04-21T22:37:58'}, {'land_num': 234, 'land_name': '北京十三陵风景区', 'price': 2100000.0, 'tradable_status': 'untradable', 'gen_time': '2018-04-21T22:37:59'}, {'land_num': 235, 'land_name': '北京奥林匹克公园', 'price': 10000000.0, 'tradable_status': 'tradable', 'gen_time': '2018-04-21T22:37:59'}, {'land_num': 236, 'land_name': '北京动物园', 'price': 1.0, 'tradable_status': 'initial', 'gen_time': '2018-04-21T22:37:59'}]
+
+sorted(content_land_list, key=lambda x:(x["tradable_status"],x["price"]))
+
+
+{'land_num': 247, 'land_name': 'error', 'price': 0, 'tradable_status': 0, 'gen_time': 0}

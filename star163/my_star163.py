@@ -4,16 +4,14 @@ import json
 import logging
 import os
 import subprocess
-import sys
 import time
 import urllib
 from urllib.parse import urlparse
 
 import requests
 
-import AppiumStar163
-
 from common import send_email
+from star163 import AppiumStar163
 
 # 第一步，创建一个logger,并设置级别
 logger = logging.getLogger("my_star163.py")
@@ -391,7 +389,8 @@ def appium_calculate138():
 
 
 def loop_star163():
-    file = open('data_star163.json', 'r', encoding='utf-8')
+    curpath = os.getcwd()
+    file = open(curpath + '/star163/data_star163.json', 'r', encoding='utf-8')
     data_dict = json.load(file)
 
     # collect black diamond
@@ -418,8 +417,9 @@ def loop_star163():
         content = ">>>>>>>>>> Calculate=" + str(origin) + ", Black diamond=" + str(coin)
         send_email.send_163HtmlEmail('newseeing@163.com', str(phone) + '的原力及黑钻', content)
         logger.warning('********** Sending Collect Email Complete!')
-    appium_calculate138()
+
     appium_calculate136()
+    appium_calculate138()
 
 
 def loop_star163_136():
@@ -456,6 +456,7 @@ def loop_star163_136():
         logger.warning('********** Sending Collect Email Complete!')
     appium_calculate136()
 
+
 def loop_star163_138():
     file = open('data_star163.json', 'r', encoding='utf-8')
     data_dict = json.load(file)
@@ -489,7 +490,6 @@ def loop_star163_138():
         send_email.send_163HtmlEmail('newseeing@163.com', str(phone) + '的原力及黑钻', content)
         logger.warning('********** Sending Collect Email Complete!')
     appium_calculate138()
-
 
 # Start from here...
 # logger.warning('***** Start ...')

@@ -12,10 +12,10 @@ from appium import webdriver
 from appium.webdriver.common.touch_action import TouchAction
 
 # 第一步，创建一个logger,并设置级别
-logger = logging.getLogger("my_star163.py")
+logger = logging.getLogger("AppiumStar163.py")
 logger.setLevel(logging.INFO)  # Log等级总开关
 # 第二步，创建一个handler，用于写入日志文件
-fh = logging.FileHandler('./logs/my_star163.log', mode='w')
+fh = logging.FileHandler('./logs/AppiumStar163.log', mode='w')
 fh.setLevel(logging.WARNING)  # 输出到file的log等级的开关
 ch = logging.StreamHandler()
 ch.setLevel(logging.INFO)  # 输出到console的log等级的开关
@@ -43,7 +43,7 @@ class AppiumStar:
         desired_caps['noReset'] = 'True'
         desired_caps['newCommandTimeout'] = '600'
         desired_caps['app'] = PATH(
-            'C:/DevTools/Star163/blockchain112_163-e01170001.apk'
+            'C:/DevTools/Star163/protect_163-e01170001_120.apk'
         )
         # desired_caps['appPackage'] = 'com.example.android.contactmanager'
         # desired_caps['appActivity'] = '.ContactManager'
@@ -69,10 +69,10 @@ class AppiumStar:
         time.sleep(5)
 
         # level 1 main page
-        logging.warning("========== Start from level 1 main page ...")
+        logger.warning("========== Start from level 1 main page ...")
         time.sleep(30)
         self.driver.find_element_by_accessibility_id("获取原力").click()
-        logging.warning("========== Level 2, 获取原力")
+        logger.warning("========== Level 2, 获取原力")
         time.sleep(30)
 
         self.appium_zixun()
@@ -81,57 +81,57 @@ class AppiumStar:
 
         # level 1 main page
         # self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
-        # logging.warning(">>>>>>>>>> Back to level 1 ...")
+        # logger.warning(">>>>>>>>>> Back to level 1 ...")
         # time.sleep(15)
         return
 
     def appium_music(self):
         # Music
         self.driver.find_element_by_accessibility_id("网易云音乐").click()
-        logging.warning("========== 网易云音乐")
+        logger.warning("========== 网易云音乐")
         time.sleep(30)
         if self.isElementExist("立即收听"):
             self.driver.find_element_by_accessibility_id("立即收听").click()
         time.sleep(90)
 
         TouchAction(self.driver).tap(x=329, y=425).perform()
-        logging.warning("========== Play music 1")
+        logger.warning("========== Play music 1")
         time.sleep(300)
 
         TouchAction(self.driver).tap(x=329, y=485).perform()
-        logging.warning("========== Play music 2")
+        logger.warning("========== Play music 2")
         time.sleep(300)
 
         TouchAction(self.driver).tap(x=329, y=545).perform()
-        logging.warning("========== Play music 3")
+        logger.warning("========== Play music 3")
         time.sleep(300)
 
         TouchAction(self.driver).tap(x=329, y=605).perform()
-        logging.warning("========== Play music 4")
+        logger.warning("========== Play music 4")
         time.sleep(300)
 
         # level 2 main page
         # self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
-        # logging.warning(">>>>>>>>>> Back to Level 2, 获取原力")
+        # logger.warning(">>>>>>>>>> Back to Level 2, 获取原力")
         # time.sleep(15)
         return
 
     def appium_zixun(self):
         # level 2 main page
         self.driver.find_element_by_accessibility_id("资讯").click()
-        logging.warning("========== 资讯")
+        logger.warning("========== 资讯")
         time.sleep(30)
         if self.isElementExist("立即阅读"):
             self.driver.find_element_by_accessibility_id("立即阅读").click()
             time.sleep(15)
         # channel "区块链"
         self.driver.find_element_by_accessibility_id("区块链").click()
-        logging.warning("========== 区块链")
+        logger.warning("========== 区块链")
         time.sleep(45)
 
         # Article 1
         TouchAction(self.driver).tap(x=200, y=185).perform()
-        logging.warning("========== Article 1")
+        logger.warning("========== Article 1")
         time.sleep(15)
         if self.isElementExist("查看全文"):
             self.driver.find_element_by_accessibility_id("查看全文").click()
@@ -141,7 +141,7 @@ class AppiumStar:
 
         # Article 2
         TouchAction(self.driver).tap(x=200, y=315).perform()
-        logging.warning("========== Article 2")
+        logger.warning("========== Article 2")
         time.sleep(15)
         if self.isElementExist("查看全文"):
             self.driver.find_element_by_accessibility_id("查看全文").click()
@@ -151,7 +151,7 @@ class AppiumStar:
 
         # Article 3
         TouchAction(self.driver).tap(x=200, y=445).perform()
-        logging.warning("========== Article 3")
+        logger.warning("========== Article 3")
         time.sleep(15)
         if self.isElementExist("查看全文"):
             self.driver.find_element_by_accessibility_id("查看全文").click()
@@ -161,7 +161,7 @@ class AppiumStar:
 
         # Article 4
         TouchAction(self.driver).tap(x=200, y=575).perform()
-        logging.warning("========== Article 4")
+        logger.warning("========== Article 4")
         time.sleep(15)
         if self.isElementExist("查看全文"):
             self.driver.find_element_by_accessibility_id("查看全文").click()
@@ -172,6 +172,6 @@ class AppiumStar:
 
         # level 2 main page
         self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
-        logging.warning("========== Back to Level 2, 获取原力")
+        logger.warning("========== Back to Level 2, 获取原力")
         time.sleep(15)
         return

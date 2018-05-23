@@ -53,6 +53,7 @@ scheduler = BlockingScheduler()
 # my_diwuqu.loop_diwuqu()
 # HashWorldCheck.loop_hashworldcheck()
 # HashWorldLand.loop_hashworldland()
+# my_star163.loop_star163()
 
 # scheduler.add_job(my_bixiang.loop_bixiang, "cron", minute="*/3", max_instances=1)
 # scheduler.add_job(OneChainCheck.loop_onechain, "cron", minute="*/3", max_instances=1)
@@ -65,15 +66,15 @@ scheduler = BlockingScheduler()
 # scheduler.add_job(my_diwuqu.loop_diwuqu, "cron", hour="5,13,21", max_instances=1)
 # scheduler.add_job(HashWorldCheck.loop_hashworldcheck, "cron", hour="7,15,23", max_instances=1)
 # scheduler.add_job(HashWorldLand.loop_hashworldland, "cron", hour="8,10,12,14,16,18,20,22,0,2,4,6", max_instances=1)
-#
-# scheduler.add_job(my_star163.loop_star163(), "cron", hour="0-10/2", max_instances=1)
-# scheduler.add_job(my_star163.loop_star163_136(), "cron", hour="0-10/2", max_instances=1)
-# scheduler.add_job(my_star163.loop_star163_138(), "cron", hour="0-10/2", max_instances=1)
+
+# scheduler.add_job(my_star163.loop_star163, "cron", hour="0-10/2", max_instances=1)
+# scheduler.add_job(my_star163.loop_star163_136, "cron", hour="0-10/2", max_instances=1)
+# scheduler.add_job(my_star163.loop_star163_138, "cron", hour="0-10/2", max_instances=1)
 
 # scheduler.add_job(my_youbi., "cron", minute="0,5,30,35", hour="8-23", max_instances=2)
 
 
-try:
-    scheduler.start()
-except (KeyboardInterrupt, SystemExit):
-    scheduler.shutdown()
+# try:
+#     scheduler.start()
+# except (KeyboardInterrupt, SystemExit):
+#     scheduler.shutdown()

@@ -10,8 +10,7 @@ import time
 
 import requests
 
-sys.path.append('..')
-import common.send_email
+from common import send_email
 
 # 第一步，创建一个logger,并设置级别
 logger = logging.getLogger("my_diwuqu.py")

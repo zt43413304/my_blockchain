@@ -5,7 +5,6 @@ import json
 import logging
 import os
 import re
-import sys
 import time
 import urllib.parse
 
@@ -373,7 +372,7 @@ def loop_bixiang():
             # calculate value
             content = get_allTotal(unique, uid)
 
-        common.send_email.send_SimpleHtmlEmail('newseeing@163.com', mail_subject, content)
+        send_email.send_SimpleHtmlEmail('newseeing@163.com', mail_subject, content)
     logger.warning('********** Sending Email Complete!')
 
 # Start from here...

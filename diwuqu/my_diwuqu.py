@@ -5,7 +5,6 @@ import logging
 import os
 import re
 import ssl
-import sys
 import time
 
 import requests
@@ -276,7 +275,7 @@ def loop_diwuqu():
                 content_list.append(content_data)
 
         # sending email
-        common.send_email.send_HtmlEmail('newseeing@163.com', phone, calculated, content_list)
+        send_email.send_HtmlEmail('newseeing@163.com', phone, calculated, content_list)
         logger.warning('********** Sending Email Complete!')
 
 # Start from here...

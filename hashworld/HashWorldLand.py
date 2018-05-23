@@ -2,7 +2,6 @@
 
 import logging
 import ssl
-import sys
 import time
 
 import requests
@@ -181,7 +180,7 @@ def loop_Land():
         # sending email
         # content_land_list = sorted(content_land_list, key=lambda x: x["price"])
         content_land_list = sorted(content_land_list, key=lambda x: (x["tradable_status"], x["price"]))
-        Send_email.send_LandEmail('newseeing@163.com', content_land_list)
+        send_email.send_LandEmail('newseeing@163.com', content_land_list)
         logger.warning('********** Sending Land Email Complete!')
         logger.warning('\n')
 

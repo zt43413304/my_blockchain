@@ -5,10 +5,10 @@ import logging
 import os
 import re
 import ssl
-import sys
 import time
 
 import requests
+
 from common import send_email
 
 # 第一步，创建一个logger,并设置级别
@@ -55,7 +55,7 @@ def open_FirstPage():
         time.sleep(1)
         response = requests.request("GET", url, headers=headers, verify=False)
         res = response.status_code
-        logging.warning('********** open_FirstPage(), status_code=' + str(res))
+        logger.warning('********** open_FirstPage(), status_code=' + str(res))
 
         if res == 200:
             return res
@@ -146,7 +146,7 @@ def click_Lottery(token, block_number):
         res = response.json()["status"]
         if res == 'common_OK':
             coin_name = response.json()["data"]["coin_name"]
-            logging.warning('>>>>>>>>>> lottery...... ' + coin_name)
+            logger.warning('>>>>>>>>>> lottery...... ' + coin_name)
             return 0
         else:
             return -1
@@ -183,7 +183,7 @@ def check_UserTotal(token):
                 market_price_cny = totallist[i]['coin']['market_price_cny']
                 active_balance = totallist[i]['active_balance']
                 total = total + market_price_cny * active_balance
-            logging.warning('>>>>>>>>>> Total: ' + str(total))
+            logger.warning('>>>>>>>>>> Total: ' + str(total))
             return total
         else:
             return -1
@@ -205,14 +205,14 @@ def loop_Lottery():
         phone = item.get('phone', 'NA')
         password = item.get('password', 'NA')
         data = dict(phone=phone, password=password)
-        logging.warning("========== Checking [" + phone + "] ==========")
+        logger.warning("========== Checking [" + phone + "] ==========")
 
         token = login_GetAccessToken(data)
         if token == -1:
-            logging.warning('********** Login fail!')
+            logger.warning('********** Login fail!')
             continue
         else:
-            logging.warning('********** Login success! token:' + token)
+            logger.warning('********** Login success! token:' + token)
 
             wonder_list = get_prize_wheel(token)
             if wonder_list == -1:
@@ -223,14 +223,14 @@ def loop_Lottery():
                 has_reveal = wonder_list[i]['has_reveal']
                 if bool(has_reveal):
                     reveal = reveal + 1
-            logging.warning('********** Has revealed: ' + str(reveal))
+            logger.warning('********** Has revealed: ' + str(reveal))
 
             for j in range(len(wonder_list)):
                 if reveal > 2:
                     break
                 has_reveal = wonder_list[j]['has_reveal']
                 if not bool(has_reveal):
-                    # logging.warning('********** lottery_click')
+                    # logger.warning('********** lottery_click')
                     lottery = click_Lottery(token, j)
                     if lottery == -1:
                         continue
@@ -239,8 +239,8 @@ def loop_Lottery():
 
             value = check_UserTotal(token)
             all_total = all_total + value
-            logging.warning("========== End[" + phone + "], Total[ " + str(all_total) + " ] ==========")
-            logging.warning('\n')
+            logger.warning("========== End[" + phone + "], Total[ " + str(all_total) + " ] ==========")
+            logger.warning('\n')
 
             # 构建Json数组，用于发送HTML邮件
             # Python 字典类型转换为 JSON 对象
@@ -253,9 +253,9 @@ def loop_Lottery():
             # break
 
     # sending email
-    Send_email.send_HtmlEmail('newseeing@163.com', content_list)
-    logging.warning('********** Sending Email Complete!')
-    logging.warning('\n')
+    send_email.send_HtmlEmail('newseeing@163.com', content_list)
+    logger.warning('********** Sending Email Complete!')
+    logger.warning('\n')
 
 
 def loop_hashworldcheck():

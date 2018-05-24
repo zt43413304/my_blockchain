@@ -102,7 +102,7 @@ def save_token():
     # data_dict = json.load(file)
 
     # Reading data
-    with open('data_diwuqu.json', 'r') as file:
+    with open(curpath + '/diwuqu/data_diwuqu.json', 'r') as file:
         data_dict = json.load(file)
 
     for item in data_dict['data']:
@@ -114,7 +114,7 @@ def save_token():
         item['token'] = token
 
     # Writing JSON data
-    with open('data_diwuqu.json', 'w') as file_new:
+    with open(curpath + '/diwuqu/data_diwuqu.json', 'w') as file_new:
         json.dump(data_dict, file_new)
 
     file_new.close()

@@ -253,7 +253,7 @@ def loop_Lottery():
             # break
 
     # sending email
-    send_email.send_HtmlEmail('newseeing@163.com', content_list)
+    send_email.send_HashWorld_HtmlEmail('newseeing@163.com', content_list)
     logger.warning('********** Sending Email Complete!')
     logger.warning('\n')
 

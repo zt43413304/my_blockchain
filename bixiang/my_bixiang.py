@@ -372,7 +372,7 @@ def loop_bixiang():
             # calculate value
             content = get_allTotal(unique, uid)
 
-        send_email.send_SimpleHtmlEmail('newseeing@163.com', mail_subject, content)
+        send_email.send_Bixiang_HtmlEmail('newseeing@163.com', mail_subject, content)
     logger.warning('********** Sending Email Complete!')
 
 # Start from here...

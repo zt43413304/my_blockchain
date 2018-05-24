@@ -322,7 +322,7 @@ def loop_onechain():
             time.sleep(2)
 
     # sending email
-    send_email.send_HtmlEmail('newseeing@163.com', content_list)
+    send_email.send_OneChain_HtmlEmail('newseeing@163.com', content_list)
     logger.warning('********** Sending Email Complete!')
 
 # Start from here...

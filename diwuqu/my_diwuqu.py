@@ -275,7 +275,7 @@ def loop_diwuqu():
                 content_list.append(content_data)
 
         # sending email
-        send_email.send_HtmlEmail('newseeing@163.com', phone, calculated, content_list)
+        send_email.send_diwuqu_HtmlEmail('newseeing@163.com', phone, calculated, content_list)
         logger.warning('********** Sending Email Complete!')
 
 # Start from here...

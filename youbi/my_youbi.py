@@ -4,11 +4,11 @@ import datetime
 import logging
 import os
 import subprocess
-import sys
 import time
 
 import AppiumStarYoubi
 from common import send_email
+
 #
 # sys.path.append('..')
 # import common.send_email
@@ -90,7 +90,7 @@ def appium_calculate138():
     appium138 = AppiumStarYoubi.AppiumStar('4.4.2', '127.0.0.1:62001', 4725)
     appium138.appium_youbi("13826090504")
 
-    common.send_email.send_163HtmlEmail('newseeing@163.com', '有币138获取完成.', '')
+    # send_email.send_163HtmlEmail('newseeing@163.com', '有币138获取完成.', '')
     logger.warning('********** Check youbi in Nox complete!')
 
 

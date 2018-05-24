@@ -1,9 +1,26 @@
 #! /usr/bin/env python
 # -*- coding: UTF-8 -*-
 
+import logging
 import smtplib
 import time
 from email.mime.text import MIMEText
+
+# 第一步，创建一个logger,并设置级别
+logger = logging.getLogger("send_email.py")
+logger.setLevel(logging.INFO)  # Log等级总开关
+# 第二步，创建一个handler，用于写入日志文件
+fh = logging.FileHandler('./logs/send_email.log', mode='w', encoding='UTF-8')
+fh.setLevel(logging.WARNING)  # 输出到file的log等级的开关
+ch = logging.StreamHandler()
+ch.setLevel(logging.INFO)  # 输出到console的log等级的开关
+# 第三步，定义handler的输出格式
+formatter = logging.Formatter("%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(message)s")
+fh.setFormatter(formatter)
+ch.setFormatter(formatter)
+# 第四步，将logger添加到handler里面
+logger.addHandler(fh)
+logger.addHandler(ch)
 
 mailto_list = ['']  # 收件人(列表)
 mail_host = "smtp.163.com"  # 使用的邮箱的smtp服务器地址，这里是163的smtp地址
@@ -176,6 +193,8 @@ def send_star163_HtmlEmail(to_list, subject, content):
 
 
 def send_HashWorld_LandEmail(to_list, content_list):
+    logger.warning('********** send_HashWorld_LandEmail(), content_list length=' + str(len(content_list)))
+
     datetime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
     head = '<!DOCTYPE HTML>' + \
@@ -360,7 +379,6 @@ def send_HashWorld_HtmlEmail(to_list, content_list):
 
 
 def send_OneChain_HtmlEmail(to_list, content_list):
-
     datetime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
     head = '<!DOCTYPE HTML>' + \
            '<html id="pageLoading">' + \
@@ -395,7 +413,7 @@ def send_OneChain_HtmlEmail(to_list, content_list):
            '</style>' + \
            '</head>' + \
            '<body>' + \
-           '<p> ********** '+ datetime +' ********** </p>' + \
+           '<p> ********** ' + datetime + ' ********** </p>' + \
            '<table border="1px" cellspacing="0px" style="border-collapse:collapse" id="table-7">' + \
            '<thead>' + \
            '<th align="center">No.</th>' + \
@@ -434,7 +452,6 @@ def send_OneChain_HtmlEmail(to_list, content_list):
           str(round(ONE_Total, 2)) + '</td><td align="right">' + \
           str(round(ONTLUCK_Total, 2)) + '</td></tr>'
     mail_msg = head + sum + end
-
 
     subject = "Onechain, [ONE:" + str(round(ONE_Total, 2)) + ", ONELUCK:" + str(
         round(ONTLUCK_Total, 2)) + "]"

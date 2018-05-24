@@ -225,13 +225,29 @@ def loop_Lottery():
                     reveal = reveal + 1
             logger.warning('********** Has revealed: ' + str(reveal))
 
+            # click Jackielg's land
             for j in range(len(wonder_list)):
                 if reveal > 2:
                     break
                 has_reveal = wonder_list[j]['has_reveal']
                 if not bool(has_reveal):
+                    if wonder_list[j]['land']['user']['nickname'] != "Jackielg":
+                        continue
                     # logger.warning('********** lottery_click')
                     lottery = click_Lottery(token, j)
+                    if lottery == -1:
+                        continue
+                    else:
+                        reveal = reveal + 1
+
+            # click others land
+            for k in range(len(wonder_list)):
+                if reveal > 2:
+                    break
+                has_reveal = wonder_list[k]['has_reveal']
+                if not bool(has_reveal):
+                    # logger.warning('********** lottery_click')
+                    lottery = click_Lottery(token, k)
                     if lottery == -1:
                         continue
                     else:

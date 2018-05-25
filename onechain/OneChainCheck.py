@@ -4,6 +4,7 @@ import configparser
 import json
 import logging
 import os
+import random
 import re
 import time
 
@@ -43,6 +44,10 @@ headers = {
     'Accept-Encoding': 'gzip',
     'Cache-Control': "no-cache"
 }
+
+# Random seconds
+MIN_SEC = 2
+MAX_SEC = 5
 
 
 def getInfoNum(infoNum):
@@ -319,7 +324,7 @@ def loop_onechain():
                 "ONELUCK": oneluck
             }
             content_list.append(content_data)
-            time.sleep(2)
+            time.sleep(random.randint(MIN_SEC, MAX_SEC))
 
     # sending email
     send_email.send_OneChain_HtmlEmail('newseeing@163.com', content_list)

@@ -4,6 +4,7 @@ import configparser
 import json
 import logging
 import os
+import random
 import re
 import time
 import urllib.parse
@@ -65,9 +66,13 @@ payload = "is_ad_ios=" + is_ad_ios + \
           "&ps=" + ps + \
           "&key=" + key
 
-
 # user_agent = cf.get('info'+str(infoNum), 'user_agent').strip()
 # device_id = cf.get('info'+str(infoNum), 'device_id').strip()
+
+# Random seconds
+MIN_SEC = 2
+MAX_SEC = 5
+
 
 def bixiang_login_test():
     url = "http://tui.yingshe.com/check/index"
@@ -96,7 +101,7 @@ def bixiang_userInfo(unique, uid):
 
     try:
         response = requests.request("POST", url, data=payload_userInfo, headers=headers)
-        time.sleep(1)
+        time.sleep(random.randint(MIN_SEC, MAX_SEC))
 
         res = response.json()["status"]
         if res == 1:
@@ -122,7 +127,7 @@ def bixiang_login(unique, uid):
 
     try:
         response = requests.request("POST", url, data=payload_login, headers=headers)
-        time.sleep(1)
+        time.sleep(random.randint(MIN_SEC, MAX_SEC))
 
         res = response.json()["status"]
         if res == 1:
@@ -144,7 +149,7 @@ def bixiang_infoList(unique, uid):
 
     try:
         response = requests.request("POST", url, data=payload_infoList, headers=headers)
-        time.sleep(2)
+        time.sleep(random.randint(MIN_SEC, MAX_SEC))
 
         res = response.json()["status"]
         if res == 1:
@@ -164,7 +169,7 @@ def bixiang_sharing(unique, uid, id):
 
     try:
         response = requests.request("POST", url, data=payload_id, headers=headers)
-        time.sleep(2)
+        time.sleep(random.randint(MIN_SEC, MAX_SEC))
 
         res = response.json()["status"]
         if res == 1:
@@ -183,9 +188,9 @@ def bixiang_shared(unique, uid, id):
     payload_id = payload + "&live_id=" + id + "&unique=" + unique + "&uid=" + uid
 
     try:
-        time.sleep(2)
+        time.sleep(random.randint(MIN_SEC, MAX_SEC))
         response = requests.request("POST", url, data=payload_id, headers=headers)
-        time.sleep(2)
+        time.sleep(random.randint(MIN_SEC, MAX_SEC))
 
         res = response.json()["status"]
         if res == 1:
@@ -206,16 +211,16 @@ def bixiang_sign(unique, uid):
 
     try:
         response = requests.request("POST", url_check, data=payload_sign, headers=headers)
-        time.sleep(2)
+        time.sleep(random.randint(MIN_SEC, MAX_SEC))
 
         res = response.json()["status"]
         if res == 1:
             is_check = int(response.json()["info"]["is_check"])
             # "is_check == 0",not signed
             if is_check == 0:
-                time.sleep(1)
+                time.sleep(random.randint(MIN_SEC, MAX_SEC))
                 response = requests.request("POST", url_add, data=payload_sign, headers=headers)
-                time.sleep(1)
+                time.sleep(random.randint(MIN_SEC, MAX_SEC))
                 checked = int(response.json()["info"]["is_check"])
                 if checked == 1:
                     logger.warning('>>>>>>>>>>  Not Sign, Just Signed.')
@@ -239,7 +244,7 @@ def bixiang_upgrade(unique, uid):
 
     try:
         response = requests.request("POST", url, data=payload_upgrade, headers=headers)
-        time.sleep(2)
+        time.sleep(random.randint(MIN_SEC, MAX_SEC))
 
         res = response.json()["status"]
         if res == 1:
@@ -271,7 +276,7 @@ def bixiang_property_url(unique, uid):
 
     try:
         response = requests.request("POST", url, data=payload_property, headers=headers)
-        time.sleep(2)
+        time.sleep(random.randint(MIN_SEC, MAX_SEC))
 
         res = response.json()["status"]
         if res == 1:
@@ -288,6 +293,15 @@ def get_allTotal(unique, uid):
     # url = "http://tui.yingshe.com/user/property"
     # querystring = {"xxx":"swh6XfD8FvRBZr17Hufua"}
 
+    headers = {
+        'Host': "tui.yingshe.com",
+        'Connection': "close",
+        'Accept-Encoding': "gzip",
+        'User-Agent': "okhttp/3.4.1",
+        'Content-Type': "application/x-www-form-urlencoded",
+        'Cache-Control': "no-cache"
+    }
+
     url = bixiang_property_url(unique, uid)
     logger.warning(">>>>>>>>>> Property URL = " + url)
 
@@ -296,7 +310,7 @@ def get_allTotal(unique, uid):
 
     try:
         response = requests.request("GET", url, headers=headers)
-        time.sleep(5)
+        time.sleep(random.randint(MIN_SEC, MAX_SEC))
         logger.warning(">>>>>>>>>> response.status_code = " + str(response.status_code))
         return response.content
 

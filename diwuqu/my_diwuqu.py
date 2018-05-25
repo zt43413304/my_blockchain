@@ -3,6 +3,7 @@
 import json
 import logging
 import os
+import random
 import re
 import ssl
 import time
@@ -35,6 +36,10 @@ content = re.sub(r"\xff\xfe", "", content)
 content = re.sub(r"\xef\xbb\xbf", "", content)
 open(curpath + '/diwuqu/config_diwuqu.ini', 'w').write(content)
 
+# Random seconds
+MIN_SEC = 2
+MAX_SEC = 5
+
 
 def captcha(phone):
     url = "https://server.diwuqu.vip/api/common/v1/captcha"
@@ -50,7 +55,7 @@ def captcha(phone):
     try:
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
-        time.sleep(1)
+        time.sleep(random.randint(MIN_SEC, MAX_SEC))
         response = requests.request("POST", url, data=payload, headers=headers)
 
         res = response.json()["state"]
@@ -68,7 +73,7 @@ def captcha(phone):
 
 def login(phone):
     url = "https://server.diwuqu.vip/api/app/v1/login/captcha"
-    time.sleep(3)
+    time.sleep(random.randint(MIN_SEC, MAX_SEC))
     captcha = input("********** Enter your Captcha: ")
     logger.warning('********** Captcha input is: ' + captcha)
 
@@ -83,7 +88,7 @@ def login(phone):
     try:
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
-        time.sleep(1)
+        time.sleep(random.randint(MIN_SEC, MAX_SEC))
         response = requests.request("POST", url, data=payload, headers=headers)
 
         res = response.json()["state"]
@@ -132,7 +137,7 @@ def calculate(token):
     try:
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
-        time.sleep(1)
+        time.sleep(random.randint(MIN_SEC, MAX_SEC))
         response = requests.request("GET", url, headers=headers)
 
         res = response.json()["state"]
@@ -158,7 +163,7 @@ def record(token):
     try:
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
-        time.sleep(1)
+        time.sleep(random.randint(MIN_SEC, MAX_SEC))
         response = requests.request("GET", url, headers=headers)
 
         res = response.json()["state"]
@@ -183,7 +188,7 @@ def accept(token, id):
     try:
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
-        time.sleep(1)
+        time.sleep(random.randint(MIN_SEC, MAX_SEC))
         response = requests.request("PUT", url, headers=headers)
 
         res = response.json()["state"]
@@ -201,7 +206,7 @@ def get_allTotal(token):
 
     headers = {
         'Content-Type': "application/json",
-        'Connection': "Keep-Alive",
+        'Connection': "close",
         'Accept-Encoding': "gzip",
         'Cache-Control': "no-cache",
         'token': token
@@ -210,7 +215,7 @@ def get_allTotal(token):
     try:
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
-        time.sleep(1)
+        time.sleep(random.randint(MIN_SEC, MAX_SEC))
         response = requests.request("GET", url, headers=headers)
 
         res = response.json()["state"]

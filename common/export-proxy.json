@@ -1,0 +1,425 @@
+{
+  "random": false,
+  "authPass": null,
+  "useOnlinePac": false,
+  "TTL": 0,
+  "global": false,
+  "reconnectTimes": 3,
+  "index": 0,
+  "proxyType": 0,
+  "proxyHost": null,
+  "authUser": null,
+  "proxyAuthPass": null,
+  "isDefault": false,
+  "pacUrl": null,
+  "configs": [
+    {
+      "enable": true,
+      "password": "vingo1990",
+      "method": "rc4-md5",
+      "remarks": "",
+      "server": "jp.a.cloudss.win",
+      "kcptun": {
+        "nocomp": false,
+        "key": "it's a secrect",
+        "crypt": "aes",
+        "datashard": 10,
+        "mtu": 1350,
+        "mode": "fast",
+        "parityshard": 3,
+        "arguments": ""
+      },
+      "enabled_kcptun": false,
+      "server_port": 17771,
+      "remarks_base64": ""
+    },
+    {
+      "enable": true,
+      "password": "vingo1990",
+      "method": "rc4-md5",
+      "remarks": "",
+      "server": "jp.b.cloudss.win",
+      "kcptun": {
+        "nocomp": false,
+        "key": "it's a secrect",
+        "crypt": "aes",
+        "datashard": 10,
+        "mtu": 1350,
+        "mode": "fast",
+        "parityshard": 3,
+        "arguments": ""
+      },
+      "enabled_kcptun": false,
+      "server_port": 17771,
+      "remarks_base64": ""
+    },
+    {
+      "enable": true,
+      "password": "vingo1990",
+      "method": "rc4-md5",
+      "remarks": "",
+      "server": "jp.c.cloudss.win",
+      "kcptun": {
+        "nocomp": false,
+        "key": "it's a secrect",
+        "crypt": "aes",
+        "datashard": 10,
+        "mtu": 1350,
+        "mode": "fast",
+        "parityshard": 3,
+        "arguments": ""
+      },
+      "enabled_kcptun": false,
+      "server_port": 17771,
+      "remarks_base64": ""
+    },
+    {
+      "enable": true,
+      "password": "vingo1990",
+      "method": "rc4-md5",
+      "remarks": "",
+      "server": "hk.a.cloudss.win",
+      "kcptun": {
+        "nocomp": false,
+        "key": "it's a secrect",
+        "crypt": "aes",
+        "datashard": 10,
+        "mtu": 1350,
+        "mode": "fast",
+        "parityshard": 3,
+        "arguments": ""
+      },
+      "enabled_kcptun": false,
+      "server_port": 17771,
+      "remarks_base64": ""
+    },
+    {
+      "enable": true,
+      "password": "vingo1990",
+      "method": "rc4-md5",
+      "remarks": "",
+      "server": "hk.b.cloudss.win",
+      "kcptun": {
+        "nocomp": false,
+        "key": "it's a secrect",
+        "crypt": "aes",
+        "datashard": 10,
+        "mtu": 1350,
+        "mode": "fast",
+        "parityshard": 3,
+        "arguments": ""
+      },
+      "enabled_kcptun": false,
+      "server_port": 17771,
+      "remarks_base64": ""
+    },
+    {
+      "enable": true,
+      "password": "vingo1990",
+      "method": "rc4-md5",
+      "remarks": "",
+      "server": "hk.c.cloudss.win",
+      "kcptun": {
+        "nocomp": false,
+        "key": "it's a secrect",
+        "crypt": "aes",
+        "datashard": 10,
+        "mtu": 1350,
+        "mode": "fast",
+        "parityshard": 3,
+        "arguments": ""
+      },
+      "enabled_kcptun": false,
+      "server_port": 17771,
+      "remarks_base64": ""
+    },
+    {
+      "enable": true,
+      "password": "vingo1990",
+      "method": "rc4-md5",
+      "remarks": "",
+      "server": "hk.d.cloudss.win",
+      "kcptun": {
+        "nocomp": false,
+        "key": "it's a secrect",
+        "crypt": "aes",
+        "datashard": 10,
+        "mtu": 1350,
+        "mode": "fast",
+        "parityshard": 3,
+        "arguments": ""
+      },
+      "enabled_kcptun": false,
+      "server_port": 17771,
+      "remarks_base64": ""
+    },
+    {
+      "enable": true,
+      "password": "vingo1990",
+      "method": "rc4-md5",
+      "remarks": "",
+      "server": "hk.e.cloudss.win",
+      "kcptun": {
+        "nocomp": false,
+        "key": "it's a secrect",
+        "crypt": "aes",
+        "datashard": 10,
+        "mtu": 1350,
+        "mode": "fast",
+        "parityshard": 3,
+        "arguments": ""
+      },
+      "enabled_kcptun": false,
+      "server_port": 17771,
+      "remarks_base64": ""
+    },
+    {
+      "enable": true,
+      "password": "vingo1990",
+      "method": "rc4-md5",
+      "remarks": "",
+      "server": "sg.a.cloudss.win",
+      "kcptun": {
+        "nocomp": false,
+        "key": "it's a secrect",
+        "crypt": "aes",
+        "datashard": 10,
+        "mtu": 1350,
+        "mode": "fast",
+        "parityshard": 3,
+        "arguments": ""
+      },
+      "enabled_kcptun": false,
+      "server_port": 17771,
+      "remarks_base64": ""
+    },
+    {
+      "enable": true,
+      "password": "vingo1990",
+      "method": "rc4-md5",
+      "remarks": "",
+      "server": "sg.b.cloudss.win",
+      "kcptun": {
+        "nocomp": false,
+        "key": "it's a secrect",
+        "crypt": "aes",
+        "datashard": 10,
+        "mtu": 1350,
+        "mode": "fast",
+        "parityshard": 3,
+        "arguments": ""
+      },
+      "enabled_kcptun": false,
+      "server_port": 17771,
+      "remarks_base64": ""
+    },
+    {
+      "enable": true,
+      "password": "vingo1990",
+      "method": "rc4-md5",
+      "remarks": "",
+      "server": "sg.c.cloudss.win",
+      "kcptun": {
+        "nocomp": false,
+        "key": "it's a secrect",
+        "crypt": "aes",
+        "datashard": 10,
+        "mtu": 1350,
+        "mode": "fast",
+        "parityshard": 3,
+        "arguments": ""
+      },
+      "enabled_kcptun": false,
+      "server_port": 17771,
+      "remarks_base64": ""
+    },
+    {
+      "enable": true,
+      "password": "vingo1990",
+      "method": "rc4-md5",
+      "remarks": "",
+      "server": "kr.a.cloudss.win",
+      "kcptun": {
+        "nocomp": false,
+        "key": "it's a secrect",
+        "crypt": "aes",
+        "datashard": 10,
+        "mtu": 1350,
+        "mode": "fast",
+        "parityshard": 3,
+        "arguments": ""
+      },
+      "enabled_kcptun": false,
+      "server_port": 17771,
+      "remarks_base64": ""
+    },
+    {
+      "enable": true,
+      "password": "vingo1990",
+      "method": "rc4-md5",
+      "remarks": "",
+      "server": "kr.b.cloudss.win",
+      "kcptun": {
+        "nocomp": false,
+        "key": "it's a secrect",
+        "crypt": "aes",
+        "datashard": 10,
+        "mtu": 1350,
+        "mode": "fast",
+        "parityshard": 3,
+        "arguments": ""
+      },
+      "enabled_kcptun": false,
+      "server_port": 17771,
+      "remarks_base64": ""
+    },
+    {
+      "enable": true,
+      "password": "vingo1990",
+      "method": "rc4-md5",
+      "remarks": "",
+      "server": "tw.a.cloudss.win",
+      "kcptun": {
+        "nocomp": false,
+        "key": "it's a secrect",
+        "crypt": "aes",
+        "datashard": 10,
+        "mtu": 1350,
+        "mode": "fast",
+        "parityshard": 3,
+        "arguments": ""
+      },
+      "enabled_kcptun": false,
+      "server_port": 17771,
+      "remarks_base64": ""
+    },
+    {
+      "enable": true,
+      "password": "vingo1990",
+      "method": "rc4-md5",
+      "remarks": "",
+      "server": "us.a.cloudss.win",
+      "kcptun": {
+        "nocomp": false,
+        "key": "it's a secrect",
+        "crypt": "aes",
+        "datashard": 10,
+        "mtu": 1350,
+        "mode": "fast",
+        "parityshard": 3,
+        "arguments": ""
+      },
+      "enabled_kcptun": false,
+      "server_port": 17771,
+      "remarks_base64": ""
+    },
+    {
+      "enable": true,
+      "password": "vingo1990",
+      "method": "rc4-md5",
+      "remarks": "",
+      "server": "us.b.cloudss.win",
+      "kcptun": {
+        "nocomp": false,
+        "key": "it's a secrect",
+        "crypt": "aes",
+        "datashard": 10,
+        "mtu": 1350,
+        "mode": "fast",
+        "parityshard": 3,
+        "arguments": ""
+      },
+      "enabled_kcptun": false,
+      "server_port": 17771,
+      "remarks_base64": ""
+    },
+    {
+      "enable": true,
+      "password": "vingo1990",
+      "method": "rc4-md5",
+      "remarks": "",
+      "server": "us.c.cloudss.win",
+      "kcptun": {
+        "nocomp": false,
+        "key": "it's a secrect",
+        "crypt": "aes",
+        "datashard": 10,
+        "mtu": 1350,
+        "mode": "fast",
+        "parityshard": 3,
+        "arguments": ""
+      },
+      "enabled_kcptun": false,
+      "server_port": 17771,
+      "remarks_base64": ""
+    },
+    {
+      "enable": true,
+      "password": "vingo1990",
+      "method": "rc4-md5",
+      "remarks": "",
+      "server": "us.d.cloudss.win",
+      "kcptun": {
+        "nocomp": false,
+        "key": "it's a secrect",
+        "crypt": "aes",
+        "datashard": 10,
+        "mtu": 1350,
+        "mode": "fast",
+        "parityshard": 3,
+        "arguments": ""
+      },
+      "enabled_kcptun": false,
+      "server_port": 17771,
+      "remarks_base64": ""
+    },
+    {
+      "enable": true,
+      "password": "vingo1990",
+      "method": "rc4-md5",
+      "remarks": "",
+      "server": "uk.a.cloudss.win",
+      "kcptun": {
+        "nocomp": false,
+        "key": "it's a secrect",
+        "crypt": "aes",
+        "datashard": 10,
+        "mtu": 1350,
+        "mode": "fast",
+        "parityshard": 3,
+        "arguments": ""
+      },
+      "enabled_kcptun": false,
+      "server_port": 17771,
+      "remarks_base64": ""
+    },
+    {
+      "enable": true,
+      "password": "vingo1990",
+      "method": "rc4-md5",
+      "remarks": "",
+      "server": "ru.a.cloudss.win",
+      "kcptun": {
+        "nocomp": false,
+        "key": "it's a secrect",
+        "crypt": "aes",
+        "datashard": 10,
+        "mtu": 1350,
+        "mode": "fast",
+        "parityshard": 3,
+        "arguments": ""
+      },
+      "enabled_kcptun": false,
+      "server_port": 17771,
+      "remarks_base64": ""
+    }
+  ],
+  "proxyPort": 0,
+  "randomAlgorithm": 0,
+  "proxyEnable": false,
+  "enabled": true,
+  "autoban": false,
+  "proxyAuthUser": null,
+  "shareOverLan": false,
+  "localPort": 1080
+}

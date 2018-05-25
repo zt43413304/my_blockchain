@@ -3,6 +3,7 @@
 import json
 import logging
 import os
+import random
 import re
 import ssl
 import time
@@ -36,6 +37,10 @@ content = re.sub(r"\xff\xfe", "", content)
 content = re.sub(r"\xef\xbb\xbf", "", content)
 open(curpath + '/hashworld/config.ini', 'w').write(content)
 
+# Random seconds
+MIN_SEC = 2
+MAX_SEC = 5
+
 
 def open_FirstPage():
     url = "https://game.hashworld.top/"
@@ -43,16 +48,16 @@ def open_FirstPage():
     headers = {
         'content-type': "application/x-www-form-urlencoded",
         'accept': "application/json, text/plain, */*",
-        'user-agent': "Mozilla/5.0 (Linux; Android 4.4.2; ZTE Q2S-T Build/KVT49L) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.83 Mobile Safari/537.36",
         'accept-language': "zh-CN,zh;q=0.8",
         'accept-encoding': "gzip, deflate, br",
-        'cache-control': "no-cache"
+        'cache-control': "no-cache",
+        'connection': "keep-alive"
     }
 
     try:
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
-        time.sleep(1)
+        time.sleep(random.randint(MIN_SEC, MAX_SEC))
         response = requests.request("GET", url, headers=headers, verify=False)
         res = response.status_code
         logger.warning('********** open_FirstPage(), status_code=' + str(res))
@@ -72,16 +77,16 @@ def login_GetAccessToken(payload):
     headers = {
         'content-type': "application/x-www-form-urlencoded",
         'accept': "application/json, text/plain, */*",
-        'user-agent': "Mozilla/5.0 (Linux; Android 4.4.2; ZTE Q2S-T Build/KVT49L) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.83 Mobile Safari/537.36",
         'accept-language': "zh-CN,zh;q=0.8",
         'accept-encoding': "gzip, deflate, br",
-        'cache-control': "no-cache"
+        'cache-control': "no-cache",
+        'connection': "keep-alive"
     }
 
     try:
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
-        time.sleep(1)
+        time.sleep(random.randint(MIN_SEC, MAX_SEC))
         response = requests.request("POST", url, data=payload, headers=headers)
 
         res = response.json()["status"]
@@ -101,17 +106,17 @@ def get_prize_wheel(token):
     headers = {
         'content-type': "application/x-www-form-urlencoded",
         'accept': "application/json, text/plain, */*",
-        'user-agent': "Mozilla/5.0 (Linux; Android 4.4.2; ZTE Q2S-T Build/KVT49L) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.83 Mobile Safari/537.36",
         'accept-language': "zh-CN,zh;q=0.8",
         'accept-encoding': "gzip, deflate, br",
         'authorization': "Token " + token,
-        'cache-control': "no-cache"
+        'cache-control': "no-cache",
+        'connection': "keep-alive"
     }
 
     try:
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
-        time.sleep(1)
+        time.sleep(random.randint(MIN_SEC, MAX_SEC))
         response = requests.request("GET", url, headers=headers)
 
         res = response.json()["status"]
@@ -140,7 +145,7 @@ def click_Lottery(token, block_number):
 
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
-        time.sleep(1)
+        time.sleep(random.randint(MIN_SEC, MAX_SEC))
         response = requests.request("PUT", url, data=payload, headers=headers)
 
         res = response.json()["status"]
@@ -161,11 +166,11 @@ def check_UserTotal(token):
     headers = {
         'content-type': "application/x-www-form-urlencoded",
         'accept': "application/json, text/plain, */*",
-        'user-agent': "Mozilla/5.0 (Linux; Android 4.4.2; ZTE Q2S-T Build/KVT49L) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.83 Mobile Safari/537.36",
         'accept-language': "zh-CN,zh;q=0.8",
         'accept-encoding': "gzip, deflate, br",
         'authorization': "Token " + token,
-        'cache-control': "no-cache"
+        'cache-control': "no-cache",
+        'connection': "close"
     }
 
     total = 0
@@ -173,7 +178,7 @@ def check_UserTotal(token):
     try:
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
-        time.sleep(1)
+        time.sleep(random.randint(MIN_SEC, MAX_SEC))
         response = requests.request("GET", url, headers=headers)
 
         res = response.json()["status"]
@@ -190,6 +195,8 @@ def check_UserTotal(token):
     except Exception as e:
         print(e)
         return -1
+    finally:
+        requests.session().close()
 
 
 def loop_Lottery():
@@ -234,10 +241,12 @@ def loop_Lottery():
                     if wonder_list[j]['land']['user']['nickname'] != "Jackielg":
                         continue
                     lottery = click_Lottery(token, j)
-                    logger.warning('>>>>>>>>>> Click Jackielg land.')
+
                     if lottery == -1:
+                        logger.warning('>>>>>>>>>> Click Jackielg land failed.')
                         continue
                     else:
+                        logger.warning('>>>>>>>>>> Click Jackielg land success.')
                         reveal = reveal + 1
 
             # click others land
@@ -247,10 +256,12 @@ def loop_Lottery():
                 has_reveal = wonder_list[k]['has_reveal']
                 if not bool(has_reveal):
                     lottery = click_Lottery(token, k)
-                    logger.warning('>>>>>>>>>> Click Others land.')
+
                     if lottery == -1:
+                        logger.warning('>>>>>>>>>> Click Others land failed.')
                         continue
                     else:
+                        logger.warning('>>>>>>>>>> Click Others land success.')
                         reveal = reveal + 1
 
             value = check_UserTotal(token)
@@ -265,7 +276,7 @@ def loop_Lottery():
                 "value": value
             }
             content_list.append(content_data)
-            time.sleep(2)
+            time.sleep(random.randint(MIN_SEC, MAX_SEC))
             # break
 
     # sending email
@@ -284,8 +295,9 @@ def loop_hashworldcheck():
         status_code = open_FirstPage()
     loop_Lottery()
 
+
 # Start from here...
-# loop_hashworldcheck()
+loop_hashworldcheck()
 
 # schedule.every(120).minutes.do(loop_hashworldcheck)
 # schedule.every(8).hours.do(loop_hashworldcheck)

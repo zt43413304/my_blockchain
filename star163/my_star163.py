@@ -3,6 +3,7 @@
 import json
 import logging
 import os
+import random
 import subprocess
 import time
 import urllib
@@ -28,6 +29,10 @@ ch.setFormatter(formatter)
 # 第四步，将logger添加到handler里面
 logger.addHandler(fh)
 logger.addHandler(ch)
+
+# Random seconds
+MIN_SEC = 1
+MAX_SEC = 3
 
 
 def start163_api_starUser_login():
@@ -80,7 +85,7 @@ def start163_api_starUser_getCookie(k, p):
     }
 
     try:
-        time.sleep(1)
+        time.sleep(random.randint(MIN_SEC, MAX_SEC))
         response = requests.request("POST", url, data=payload, headers=headers)
 
         res = response.json()["code"]
@@ -112,7 +117,7 @@ def start163_api_home_index(cookie):
     }
 
     try:
-        time.sleep(1)
+        time.sleep(random.randint(MIN_SEC, MAX_SEC))
         response = requests.request("POST", url, headers=headers)
 
         res = response.json()["code"]
@@ -144,7 +149,7 @@ def star163_api_collectUserCoin(cookie, id):
     }
 
     try:
-        time.sleep(1)
+        time.sleep(random.randint(MIN_SEC, MAX_SEC))
         response = requests.request("POST", url, data=payload, headers=headers)
 
         res = response.json()["code"]
@@ -175,7 +180,7 @@ def star163_api_starUserOrigin_getTaskUrl(cookie):
     }
 
     try:
-        time.sleep(1)
+        time.sleep(random.randint(MIN_SEC, MAX_SEC))
         response = requests.request("POST", url, data=payload, headers=headers)
 
         res = response.json()["code"]
@@ -297,7 +302,7 @@ def get_allTotal(cookie):
     }
 
     try:
-        time.sleep(1)
+        time.sleep(random.randint(MIN_SEC, MAX_SEC))
         response = requests.request("POST", url, headers=headers)
 
         res = response.json()["code"]

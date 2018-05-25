@@ -7,7 +7,6 @@ import subprocess
 import time
 
 import AppiumStarYoubi
-from common import send_email
 
 #
 # sys.path.append('..')

@@ -6,13 +6,7 @@ import time
 
 from apscheduler.schedulers.blocking import BlockingScheduler
 
-from bixiang import my_bixiang
 from diwuqu import my_diwuqu
-from hashworld import HashWorldCheck
-from hashworld import HashWorldLand
-from onechain import OneChainCheck
-from star163 import my_star163
-
 
 # 第一步，创建一个logger
 logger = logging.getLogger("start_all.py")

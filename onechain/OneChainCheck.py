@@ -157,6 +157,7 @@ def mining_check(user_agent, device_id, l, token, version):
             for i in range(len(contentlist)):
                 uni_uuid = contentlist[i]['uni_uuid']
                 mining_click(user_agent, device_id, l, token, version, str(uni_uuid))
+                time.sleep(random.randint(0.3, 0.8))
 
             if i == 0:
                 logger.warning('>>>>>>>>>> mining_clicked: ' + str(i))
@@ -173,6 +174,16 @@ def mining_check(user_agent, device_id, l, token, version):
 
 def check_allTotal(user_agent, device_id, l, token, version):
     url_check = 'http://hkopenservice1.yuyin365.com:8000/one-chain/mining/allTotal?user_agent=' + user_agent + '&device_id=' + device_id + '&l=' + l + '&token=' + token + '&version=' + version
+
+
+    headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Connection': 'close',
+        'Accept': '*/*',
+        'Accept-Language': 'zh-Hans-CN;q=1',
+        'Accept-Encoding': 'gzip',
+        'Cache-Control': "no-cache"
+    }
 
     one = 0
     oneluck = 0
@@ -306,6 +317,8 @@ def loop_onechain():
 
             calculated = get_calculated(user_agent, device_id, l, token, version)
             mining_check(user_agent, device_id, l, token, version)
+            time.sleep(random.randint(MIN_SEC, MAX_SEC))
+
             (one, oneluck) = check_allTotal(user_agent, device_id, l, token, version)
             one_total = one_total + float(one)
             oneluck_total = oneluck_total + float(oneluck)

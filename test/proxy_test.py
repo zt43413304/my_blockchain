@@ -1,6 +1,8 @@
 # -*- coding: UTF-8 -*-
 import urllib
 from urllib import request
+from urllib.request import urlopen
+import requests
 
 # if __name__ == "__main__":
 #     #访问网址
@@ -31,11 +33,14 @@ from urllib import request
 #     html = response.read().decode("utf-8")
 #     #打印信息
 #     print(html)
-from urllib.request import urlopen
 
-proxy_handler = urllib.request.ProxyHandler({'http': '111.76.137.119:808'})
+
+proxy_handler = urllib.request.ProxyHandler({'http': '14.118.255.157:6666'})
 opener = urllib.request.build_opener(proxy_handler)
 urllib.request.install_opener(opener)
 page = urlopen('http://ip.chinaz.com/getip.aspx')
 print(page.read().decode('utf-8'))
 # {ip:'221.238.67.231',address:'天津市 电信'}
+
+
+

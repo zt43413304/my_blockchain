@@ -297,7 +297,7 @@ def loop_hashworldcheck():
 
 
 # Start from here...
-loop_hashworldcheck()
+# loop_hashworldcheck()
 
 # schedule.every(120).minutes.do(loop_hashworldcheck)
 # schedule.every(8).hours.do(loop_hashworldcheck)

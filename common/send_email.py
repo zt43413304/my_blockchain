@@ -49,6 +49,8 @@ def send_mail(to_list, sub, content):
 
 
 def send_diwuqu_HtmlEmail(to_list, phone, calculated, content_list):
+    logger.warning('********** send_diwuqu_HtmlEmail(), phone =' + str(phone))
+    logger.warning('********** send_diwuqu_HtmlEmail(), content_list length =' + str(len(content_list)))
     datetime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
     head = '<!DOCTYPE HTML>' + \
            '<html id="pageLoading">' + \
@@ -123,6 +125,10 @@ def send_diwuqu_HtmlEmail(to_list, phone, calculated, content_list):
     mail_msg = head + sum + end
 
     subject = "Diwuqu,[" + str(phone) + " : " + str(round(total_values, 2)) + "]"
+
+
+    logger.warning('********** send_diwuqu_HtmlEmail(), subject =' + subject)
+    logger.warning('********** send_diwuqu_HtmlEmail(), mail_msg =' + mail_msg)
 
     msg = MIMEText(mail_msg, 'html', 'utf-8')
     me = "newseeing@163.com"

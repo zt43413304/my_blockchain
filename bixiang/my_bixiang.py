@@ -202,7 +202,7 @@ def bixiang_shared(unique, uid, id):
         print(e)
         return -1
 
-
+# 返回值：出错-1，第一次签到成功1，第二次检查2
 def bixiang_sign(unique, uid):
     url_check = "http://tui.yingshe.com/check/index"
     url_add = "http://tui.yingshe.com/check/add"
@@ -224,11 +224,13 @@ def bixiang_sign(unique, uid):
                 checked = int(response.json()["info"]["is_check"])
                 if checked == 1:
                     logger.warning('>>>>>>>>>>  Not Sign, Just Signed.')
+                    return 1
                 else:
                     logger.warning('>>>>>>>>>>  Not Sign, Sign fail.')
+                    return -1
             else:
                 logger.warning('>>>>>>>>>>  Have Signed.')
-            return 1
+                return 2
         else:
             return -1
     except Exception as e:
@@ -363,11 +365,17 @@ def loop_bixiang():
         if status == -1:
             continue
         else:
-            infoList = bixiang_infoList(unique, uid)
 
+            # 如已签到就退出
+            signed = bixiang_sign(unique, uid)
+            if signed == 2:
+                continue
+
+            # 分享列表
+            infoList = bixiang_infoList(unique, uid)
             count = 0
             for i in range(len(infoList)):
-                if count > 5:
+                if count > 10:
                     break
                 if int(infoList[i]["share_total"]) < 20:
                     continue
@@ -376,9 +384,6 @@ def loop_bixiang():
                 bixiang_shared(unique, uid, lv_id)
                 logger.warning('>>>>>>>>>> ' + str(count) + '. Shared info ' + str(lv_id))
                 count = count + 1
-
-            # sign
-            bixiang_sign(unique, uid)
 
             # upgrade
             bixiang_upgrade(unique, uid)

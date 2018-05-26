@@ -46,6 +46,8 @@ def open_FirstPage():
     url = "https://game.hashworld.top/"
 
     headers = {
+        'user-agent': "Mozilla/5.0 (Linux; Android 7.1.1; MI MAX 2 Build/NMF26F; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/57.0.2987.132 MQQBrowser/6.2 TBS/044033 Mobile Safari/537.36",
+        'referer': "https://game.hashworld.top/",
         'content-type': "application/x-www-form-urlencoded",
         'accept': "application/json, text/plain, */*",
         'accept-language': "zh-CN,zh;q=0.8",
@@ -75,6 +77,8 @@ def login_GetAccessToken(payload):
     url = "https://game.hashworld.top/apis/accounts/token/"
 
     headers = {
+        'user-agent': "Mozilla/5.0 (Linux; Android 7.1.1; MI MAX 2 Build/NMF26F; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/57.0.2987.132 MQQBrowser/6.2 TBS/044033 Mobile Safari/537.36",
+        'referer': "https://game.hashworld.top/",
         'content-type': "application/x-www-form-urlencoded",
         'accept': "application/json, text/plain, */*",
         'accept-language': "zh-CN,zh;q=0.8",
@@ -100,10 +104,42 @@ def login_GetAccessToken(payload):
         return -1
 
 
+def get_strength_info(token):
+    url = "https://game.hashworld.top/apis/game/strength/get_strength_info/"
+
+    headers = {
+        'user-agent': "Mozilla/5.0 (Linux; Android 7.1.1; MI MAX 2 Build/NMF26F; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/57.0.2987.132 MQQBrowser/6.2 TBS/044033 Mobile Safari/537.36",
+        'referer': "https://game.hashworld.top/",
+        'content-type': "application/x-www-form-urlencoded",
+        'accept': "application/json, text/plain, */*",
+        'accept-language': "zh-CN,zh;q=0.8",
+        'accept-encoding': "gzip, deflate, br",
+        'authorization': "Token " + token,
+        'cache-control': "no-cache",
+        'connection': "keep-alive"
+    }
+
+    try:
+        requests.packages.urllib3.disable_warnings()
+        ssl._create_default_https_context = ssl._create_unverified_context
+        time.sleep(random.randint(MIN_SEC, MAX_SEC))
+        response = requests.request("GET", url, headers=headers)
+
+        res = response.json()["status"]
+        if res == 'common_OK':
+            strength = response.json()['data']['strength']
+            return strength
+    except Exception as e:
+        print(e)
+        return -1
+
+
 def get_prize_wheel(token):
     url = "https://game.hashworld.top/apis/game/prize_wheel/"
 
     headers = {
+        'user-agent': "Mozilla/5.0 (Linux; Android 7.1.1; MI MAX 2 Build/NMF26F; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/57.0.2987.132 MQQBrowser/6.2 TBS/044033 Mobile Safari/537.36",
+        'referer': "https://game.hashworld.top/",
         'content-type': "application/x-www-form-urlencoded",
         'accept': "application/json, text/plain, */*",
         'accept-language': "zh-CN,zh;q=0.8",
@@ -133,6 +169,7 @@ def click_Lottery(token, block_number):
 
     headers = {
         'user-agent': "application/x-www-form-urlencoded",
+        'referer': "https://game.hashworld.top/",
         'accept-language': "zh-CN,zh;q=0.8",
         'accept-encoding': "gzip, deflate, br",
         'authorization': "Token " + token,
@@ -151,7 +188,8 @@ def click_Lottery(token, block_number):
         res = response.json()["status"]
         if res == 'common_OK':
             coin_name = response.json()["data"]["coin_name"]
-            logger.warning('>>>>>>>>>> lottery...... ' + coin_name)
+            amount = response.json()["data"]["amount"]
+            logger.warning('>>>>>>>>>> lottery...... ' + coin_name + ', ' + str(amount))
             return 0
         else:
             return -1
@@ -164,6 +202,8 @@ def check_UserTotal(token):
     url = "https://game.hashworld.top/apis/coin/gift_wallet/"
 
     headers = {
+        'user-agent': "Mozilla/5.0 (Linux; Android 7.1.1; MI MAX 2 Build/NMF26F; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/57.0.2987.132 MQQBrowser/6.2 TBS/044033 Mobile Safari/537.36",
+        'referer': "https://game.hashworld.top/",
         'content-type': "application/x-www-form-urlencoded",
         'accept': "application/json, text/plain, */*",
         'accept-language': "zh-CN,zh;q=0.8",
@@ -199,6 +239,50 @@ def check_UserTotal(token):
         requests.session().close()
 
 
+def click_hashworld_land(token, strength, wonder_list):
+    # 根据体力值判断循环次数
+    while strength > 0:
+
+        # reveal = 0
+        # for i in range(len(wonder_list)):
+        #     has_reveal = wonder_list[i]['has_reveal']
+        #     if bool(has_reveal):
+        #         reveal = reveal + 1
+        # logger.warning('********** Has revealed: ' + str(reveal))
+
+        # click Jackielg's land
+        for j in range(len(wonder_list)):
+            if strength < 1:
+                break
+            has_reveal = wonder_list[j]['has_reveal']
+            if not bool(has_reveal):
+                if wonder_list[j]['land']['user']['nickname'] != "Jackielg":
+                    continue
+                lottery = click_Lottery(token, j)
+
+                if lottery == -1:
+                    logger.warning('>>>>>>>>>> Click Jackielg land failed.')
+                    continue
+                else:
+                    logger.warning('>>>>>>>>>> Click Jackielg land success.')
+                    strength = strength - 1
+
+        # click others land
+        for k in range(len(wonder_list)):
+            if strength < 1:
+                break
+            has_reveal = wonder_list[k]['has_reveal']
+            if not bool(has_reveal):
+                lottery = click_Lottery(token, k)
+
+                if lottery == -1:
+                    logger.warning('>>>>>>>>>> Click Others land failed.')
+                    continue
+                else:
+                    logger.warning('>>>>>>>>>> Click Others land success.')
+                    strength = strength - 1
+
+
 def loop_Lottery():
     all_total = 0
     content_list = []
@@ -221,48 +305,15 @@ def loop_Lottery():
         else:
             logger.warning('********** Login success! token:' + token)
 
+            # 体力值
+            strength = get_strength_info(token)
+
+            # 土地列表
             wonder_list = get_prize_wheel(token)
-            if wonder_list == -1:
+            if wonder_list == -1 or strength == -1:
                 continue
 
-            reveal = 0
-            for i in range(len(wonder_list)):
-                has_reveal = wonder_list[i]['has_reveal']
-                if bool(has_reveal):
-                    reveal = reveal + 1
-            logger.warning('********** Has revealed: ' + str(reveal))
-
-            # click Jackielg's land
-            for j in range(len(wonder_list)):
-                if reveal > 2:
-                    break
-                has_reveal = wonder_list[j]['has_reveal']
-                if not bool(has_reveal):
-                    if wonder_list[j]['land']['user']['nickname'] != "Jackielg":
-                        continue
-                    lottery = click_Lottery(token, j)
-
-                    if lottery == -1:
-                        logger.warning('>>>>>>>>>> Click Jackielg land failed.')
-                        continue
-                    else:
-                        logger.warning('>>>>>>>>>> Click Jackielg land success.')
-                        reveal = reveal + 1
-
-            # click others land
-            for k in range(len(wonder_list)):
-                if reveal > 2:
-                    break
-                has_reveal = wonder_list[k]['has_reveal']
-                if not bool(has_reveal):
-                    lottery = click_Lottery(token, k)
-
-                    if lottery == -1:
-                        logger.warning('>>>>>>>>>> Click Others land failed.')
-                        continue
-                    else:
-                        logger.warning('>>>>>>>>>> Click Others land success.')
-                        reveal = reveal + 1
+            click_hashworld_land(token, strength, wonder_list)
 
             value = check_UserTotal(token)
             all_total = all_total + value

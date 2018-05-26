@@ -51,7 +51,7 @@ headers = {
 # Random seconds
 MIN_SEC = 2
 MAX_SEC = 5
-proxies = daxiang_proxy.get_proxy("http://hkopenservice1.yuyin365.com:8000/one-chain/login")
+proxies = ''
 
 
 def getInfoNum(infoNum):
@@ -296,6 +296,8 @@ def loop_onechain():
 
     # start
     logger.warning('********** Start from loop_onechain() ...')
+    global proxies
+    proxies = daxiang_proxy.get_proxy("http://hkopenservice1.yuyin365.com:8000/one-chain/login")
 
     file = open(curpath + '/onechain/one_chain_data.json', 'r', encoding='utf-8')
     data_dict = json.load(file)

@@ -73,7 +73,7 @@ payload = "is_ad_ios=" + is_ad_ios + \
 # Random seconds
 MIN_SEC = 2
 MAX_SEC = 5
-proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
+proxies = ''
 
 def bixiang_login_test():
     url = "http://tui.yingshe.com/check/index"
@@ -360,6 +360,8 @@ def loop_bixiang():
 
     # start
     logger.warning('********** Start from loop_bixiang() ...')
+    global proxies
+    proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
 
     file = open(curpath + '/bixiang/data_bixiang.json', 'r', encoding='utf-8')
     data_dict = json.load(file)

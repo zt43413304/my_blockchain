@@ -41,7 +41,7 @@ open(curpath + '/hashworld/config.ini', 'w').write(content)
 # Random seconds
 MIN_SEC = 2
 MAX_SEC = 5
-proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
+proxies = ''
 
 
 def open_FirstPage():
@@ -349,6 +349,9 @@ def loop_Lottery():
 def loop_hashworldcheck():
     # start
     logger.warning('********** Start from loop_hashworldcheck() ...')
+
+    global proxies
+    proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
 
     status_code = open_FirstPage()
     while status_code != 200:

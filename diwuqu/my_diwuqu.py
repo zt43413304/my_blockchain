@@ -40,7 +40,7 @@ open(curpath + '/diwuqu/config_diwuqu.ini', 'w').write(content)
 # Random seconds
 MIN_SEC = 2
 MAX_SEC = 5
-proxies = daxiang_proxy.get_proxy("https://server.diwuqu.vip")
+proxies = ''
 
 def captcha(phone):
     url = "https://server.diwuqu.vip/api/common/v1/captcha"
@@ -237,6 +237,9 @@ def get_allTotal(token):
 def loop_diwuqu():
     # start
     logger.warning('********** Start from loop_diwuqu() ...')
+
+    global proxies
+    proxies = daxiang_proxy.get_proxy("https://server.diwuqu.vip")
 
     global calculated
 

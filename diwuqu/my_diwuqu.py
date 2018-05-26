@@ -10,6 +10,7 @@ import time
 
 import requests
 
+from common import daxiang_proxy
 from common import send_email
 
 # 第一步，创建一个logger,并设置级别
@@ -39,7 +40,7 @@ open(curpath + '/diwuqu/config_diwuqu.ini', 'w').write(content)
 # Random seconds
 MIN_SEC = 2
 MAX_SEC = 5
-
+proxies = daxiang_proxy.get_proxy("https://server.diwuqu.vip")
 
 def captcha(phone):
     url = "https://server.diwuqu.vip/api/common/v1/captcha"
@@ -135,10 +136,11 @@ def calculate(token):
     }
 
     try:
+        logger.warning(">>>>>>>>>> calculate(), proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
-        response = requests.request("GET", url, headers=headers)
+        response = requests.request("GET", url, headers=headers, proxies=proxies)
 
         res = response.json()["state"]
         if res == 'success':
@@ -161,10 +163,11 @@ def record(token):
     }
 
     try:
+        logger.warning(">>>>>>>>>> record(), proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
-        response = requests.request("GET", url, headers=headers)
+        response = requests.request("GET", url, headers=headers, proxies=proxies)
 
         res = response.json()["state"]
         if res == 'success':
@@ -186,10 +189,11 @@ def accept(token, id):
     }
 
     try:
+        logger.warning(">>>>>>>>>> record(), proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
-        response = requests.request("PUT", url, headers=headers)
+        response = requests.request("PUT", url, headers=headers, proxies=proxies)
 
         res = response.json()["state"]
         if res == 'success':
@@ -213,10 +217,11 @@ def get_allTotal(token):
     }
 
     try:
+        logger.warning(">>>>>>>>>> record(), proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
-        response = requests.request("GET", url, headers=headers)
+        response = requests.request("GET", url, headers=headers, proxies=proxies)
 
         res = response.json()["state"]
         if res == 'success':
@@ -243,6 +248,8 @@ def loop_diwuqu():
         content_list = []
         phone = item.get('phone', 'NA')
         token = item.get('token', 'NA')
+
+        logger.warning('\n')
         logger.warning("========== Checking [" + phone + "] ==========")
 
         if token == -1:

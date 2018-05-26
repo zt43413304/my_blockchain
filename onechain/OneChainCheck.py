@@ -10,6 +10,7 @@ import time
 
 import requests
 
+from common import daxiang_proxy
 from common import send_email
 
 # 第一步，创建一个logger,并设置级别
@@ -37,6 +38,8 @@ content = re.sub(r"\xef\xbb\xbf", "", content)
 open(curpath + '/onechain/config.ini', 'w').write(content)
 
 headers = {
+    'User-Agent': "okhttp/3.5.0",
+    'Host': "hkopenservice1.yuyin365.com:8000",
     'Content-Type': 'application/x-www-form-urlencoded',
     'Connection': 'keep-alive',
     'Accept': '*/*',
@@ -48,6 +51,7 @@ headers = {
 # Random seconds
 MIN_SEC = 2
 MAX_SEC = 5
+proxies = daxiang_proxy.get_proxy("http://hkopenservice1.yuyin365.com:8000/one-chain/login")
 
 
 def getInfoNum(infoNum):
@@ -65,8 +69,9 @@ def loginGetAccessToken(user_agent, device_id, l, version):
     url_login = 'http://hkopenservice1.yuyin365.com:8000/one-chain/login?user_agent=' + user_agent + '&device_id=' + device_id + '&l=' + l + '&token=&version=' + version
 
     try:
+        logger.warning(">>>>>>>>>> loginGetAccessToken(), proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
-        r = requests.post(url_login, data=data, headers=headers)
+        r = requests.post(url_login, data=data, headers=headers, proxies=proxies)
 
         # if bProxy == 0:
         #     r = requests.post(url_login, headers=headers, verify=False) #headers=headers,
@@ -88,8 +93,9 @@ def open_mining(user_agent, device_id, l, token, version):
     url_check = 'http://hkopenservice1.yuyin365.com:8000/one-chain/mining/start?user_agent=' + user_agent + '&device_id=' + device_id + '&l=' + l + '&token=' + token + '&version=' + version
 
     try:
+        logger.warning(">>>>>>>>>> Using proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
-        r = requests.post(url_check, data=data, headers=headers)
+        r = requests.post(url_check, data=data, headers=headers, proxies=proxies)
 
         res = r.json()["msg"]
         if res == 'Success':
@@ -107,8 +113,9 @@ def get_calculated(user_agent, device_id, l, token, version):
     url_check = 'http://hkopenservice1.yuyin365.com:8000/one-chain/mining/user/infoString?user_agent=' + user_agent + '&device_id=' + device_id + '&l=' + l + '&token=' + token + '&version=' + version
 
     try:
+        logger.warning(">>>>>>>>>> get_calculated(), proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
-        r = requests.post(url_check, data=data, headers=headers)
+        r = requests.post(url_check, data=data, headers=headers, proxies=proxies)
 
         res = r.json()["msg"]
         if res == 'Success':
@@ -129,8 +136,9 @@ def mining_click(user_agent, device_id, l, token, version, mining_detail_uuid):
     url_check = 'http://hkopenservice1.yuyin365.com:8000/one-chain/mining/detail/click?user_agent=' + user_agent + '&device_id=' + device_id + '&l=' + l + '&token=' + token + '&version=' + version + '&mining_detail_uuid=' + mining_detail_uuid
 
     try:
+        # logger.warning(">>>>>>>>>> Using proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
-        r = requests.post(url_check, data=data, headers=headers)
+        r = requests.post(url_check, data=data, headers=headers, proxies=proxies)
 
         res = r.json()["msg"]
         if res == 'Success':
@@ -144,11 +152,13 @@ def mining_click(user_agent, device_id, l, token, version, mining_detail_uuid):
 
 
 def mining_check(user_agent, device_id, l, token, version):
+    global proxies
     url_check = 'http://hkopenservice1.yuyin365.com:8000/one-chain/mining/detail/list?user_agent=' + user_agent + '&device_id=' + device_id + '&l=' + l + '&token=' + token + '&version=' + version
 
     try:
+        logger.warning(">>>>>>>>>> mining_check(), proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
-        r = requests.post(url_check, data=data, headers=headers)
+        r = requests.post(url_check, data=data, headers=headers, proxies=proxies)
 
         res = r.json()["msg"]
         if res == 'Success':
@@ -157,7 +167,7 @@ def mining_check(user_agent, device_id, l, token, version):
             for i in range(len(contentlist)):
                 uni_uuid = contentlist[i]['uni_uuid']
                 mining_click(user_agent, device_id, l, token, version, str(uni_uuid))
-                time.sleep(random.randint(0.3, 0.8))
+                time.sleep(random.random())
 
             if i == 0:
                 logger.warning('>>>>>>>>>> mining_clicked: ' + str(i))
@@ -169,14 +179,18 @@ def mining_check(user_agent, device_id, l, token, version):
 
     except Exception as e:
         print(e)
-        return
+        logger.warning("Connection refused by the server..")
+        logger.warning("Let me get a new proxy")
+
+        proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
 
 
 def check_allTotal(user_agent, device_id, l, token, version):
     url_check = 'http://hkopenservice1.yuyin365.com:8000/one-chain/mining/allTotal?user_agent=' + user_agent + '&device_id=' + device_id + '&l=' + l + '&token=' + token + '&version=' + version
 
-
     headers = {
+        'User-Agent': "okhttp/3.5.0",
+        'Host': "hkopenservice1.yuyin365.com:8000",
         'Content-Type': 'application/x-www-form-urlencoded',
         'Connection': 'close',
         'Accept': '*/*',
@@ -189,8 +203,9 @@ def check_allTotal(user_agent, device_id, l, token, version):
     oneluck = 0
 
     try:
+        logger.warning(">>>>>>>>>> check_allTotal(), proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
-        r = requests.post(url_check, data=data, headers=headers)
+        r = requests.post(url_check, data=data, headers=headers, proxies=proxies)
 
         res = r.json()["msg"]
         if res == 'Success':
@@ -272,14 +287,15 @@ def postman_allTotal():
 
 
 def loop_onechain():
-    # start
-    logger.warning('********** Start from loop_onechain() ...')
-
     global data
     global token
+
     one_total = 0
     oneluck_total = 0
     content = "\t\n"
+
+    # start
+    logger.warning('********** Start from loop_onechain() ...')
 
     file = open(curpath + '/onechain/one_chain_data.json', 'r', encoding='utf-8')
     data_dict = json.load(file)
@@ -306,6 +322,7 @@ def loop_onechain():
         signed_message = item.get('signed_message', 'NA')
         data = dict(account_id=account_id, account_name=account_name, signed_message=signed_message)
 
+        logger.warning('\n')
         logger.warning("========== Checking [" + account_name + "] ==========")
 
         token = loginGetAccessToken(user_agent, device_id, l, version)

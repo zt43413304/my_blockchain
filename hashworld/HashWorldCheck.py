@@ -10,6 +10,7 @@ import time
 
 import requests
 
+from common import daxiang_proxy
 from common import send_email
 
 # 第一步，创建一个logger,并设置级别
@@ -40,6 +41,7 @@ open(curpath + '/hashworld/config.ini', 'w').write(content)
 # Random seconds
 MIN_SEC = 2
 MAX_SEC = 5
+proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
 
 
 def open_FirstPage():
@@ -57,10 +59,11 @@ def open_FirstPage():
     }
 
     try:
+        logger.warning(">>>>>>>>>> open_FirstPage(), proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
-        response = requests.request("GET", url, headers=headers, verify=False)
+        response = requests.request("GET", url, headers=headers, verify=False, proxies=proxies, timeout=60)
         res = response.status_code
         logger.warning('********** open_FirstPage(), status_code=' + str(res))
 
@@ -88,10 +91,11 @@ def login_GetAccessToken(payload):
     }
 
     try:
+        logger.warning(">>>>>>>>>> login_GetAccessToken(), proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
-        response = requests.request("POST", url, data=payload, headers=headers)
+        response = requests.request("POST", url, data=payload, headers=headers, proxies=proxies, timeout=60)
 
         res = response.json()["status"]
         if res == 'common_OK':
@@ -120,14 +124,16 @@ def get_strength_info(token):
     }
 
     try:
+        logger.warning(">>>>>>>>>> get_strength_info(), proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
-        response = requests.request("GET", url, headers=headers)
+        response = requests.request("GET", url, headers=headers, proxies=proxies, timeout=60)
 
         res = response.json()["status"]
         if res == 'common_OK':
             strength = response.json()['data']['strength']
+            logger.warning(">>>>>>>>>> strength = " + str(strength))
             return strength
     except Exception as e:
         print(e)
@@ -150,10 +156,11 @@ def get_prize_wheel(token):
     }
 
     try:
+        logger.warning(">>>>>>>>>> get_prize_wheel(), proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
-        response = requests.request("GET", url, headers=headers)
+        response = requests.request("GET", url, headers=headers, proxies=proxies, timeout=60)
 
         res = response.json()["status"]
         if res == 'common_OK':
@@ -178,18 +185,19 @@ def click_Lottery(token, block_number):
     }
 
     try:
+        # logger.warning(">>>>>>>>>> click_Lottery(), proxies = " + str(proxies))
         payload = "{\n\t\"block_number\": " + str(block_number) + "\n}"
 
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
-        response = requests.request("PUT", url, data=payload, headers=headers)
+        response = requests.request("PUT", url, data=payload, headers=headers, proxies=proxies, timeout=60)
 
         res = response.json()["status"]
         if res == 'common_OK':
             coin_name = response.json()["data"]["coin_name"]
-            amount = response.json()["data"]["amount"]
-            logger.warning('>>>>>>>>>> lottery...... ' + coin_name + ', ' + str(amount))
+            # amount = response.json()["data"]["amount"]
+            logger.warning('>>>>>>>>>> lottery...... ' + coin_name)
             return 0
         else:
             return -1
@@ -216,10 +224,11 @@ def check_UserTotal(token):
     total = 0
 
     try:
+        logger.warning(">>>>>>>>>> check_UserTotal(), proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
-        response = requests.request("GET", url, headers=headers)
+        response = requests.request("GET", url, headers=headers, proxies=proxies, timeout=60)
 
         res = response.json()["status"]
         if res == 'common_OK':
@@ -296,6 +305,8 @@ def loop_Lottery():
         phone = item.get('phone', 'NA')
         password = item.get('password', 'NA')
         data = dict(phone=phone, password=password)
+
+        logger.warning('\n')
         logger.warning("========== Checking [" + phone + "] ==========")
 
         token = login_GetAccessToken(data)
@@ -318,7 +329,6 @@ def loop_Lottery():
             value = check_UserTotal(token)
             all_total = all_total + value
             logger.warning("========== End[" + phone + "], Total[ " + str(all_total) + " ] ==========")
-            logger.warning('\n')
 
             # 构建Json数组，用于发送HTML邮件
             # Python 字典类型转换为 JSON 对象

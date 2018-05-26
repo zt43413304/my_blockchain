@@ -128,7 +128,7 @@ def send_diwuqu_HtmlEmail(to_list, phone, calculated, content_list):
 
 
     logger.warning('********** send_diwuqu_HtmlEmail(), subject =' + subject)
-    logger.warning('********** send_diwuqu_HtmlEmail(), mail_msg =' + mail_msg)
+    # logger.warning('********** send_diwuqu_HtmlEmail(), mail_msg =' + mail_msg)
 
     msg = MIMEText(mail_msg, 'html', 'utf-8')
     me = "newseeing@163.com"

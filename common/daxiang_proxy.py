@@ -19,39 +19,59 @@ logger.addHandler(fh)
 logger.addHandler(ch)
 
 
-def get_proxy():
+def get_proxyIP():
     url = 'http://tvp.daxiangdaili.com/ip/?tid=559810758325225&num=1&delay=1&category=2&protocol=https&filter=on&sortby=speed'
 
     try:
         response = requests.get(url)
-        proxy = response.text
-        logger.warning(">>>>>>>>>> Get proxy = " + proxy)
-        return proxy
+        proxy_ip = response.text
+        logger.warning(">>>>>>>>>> Get proxy ip = " + proxy_ip)
+        return proxy_ip
     except Exception as e:
         print(e)
-        logger.warning(">>>>>>>>>> Get proxy error!")
-        return -1
+        logger.warning(">>>>>>>>>> Get proxy ip error!")
+        return 'none'
 
 
-def test_ip(proxy):
+def test_ip(url, proxy_ip):
     # url = 'http://ip.chinaz.com/getip.aspx'
-    url = 'https://www.baidu.com'
+    # url = 'https://www.baidu.com'
+    # url = "https://game.hashworld.top/"
+    # url = 'https://www.whatismyip.com/'
 
     proxies = {
-        'http': 'http://' + proxy,
-        'https': 'https://' + proxy
+        # 'http': 'http://' + proxy_ip,
+        'https': 'https://' + proxy_ip
     }
 
+    # proxies = {'http': 'http://182.113.169.222:36269', 'https': 'https://182.113.169.222:36269'}
+    # requests.get('http://example.org', proxies=proxies, timeout=10)
+
     try:
-        response = requests.get(url, proxies=proxies, timeout=5)
-        result = response.text
-        logger.warning(">>>>>>>>>> Test proxy = " + result)
+        response = requests.get(url, proxies=proxies, timeout=15)
+        result = response.status_code
+        logger.warning(">>>>>>>>>> Test url = " + url)
+        logger.warning(">>>>>>>>>> Test proxies = " + str(proxies))
+        logger.warning(">>>>>>>>>> Test proxies result = " + str(result))
+        if result == 200:
+            return proxies
+        else:
+            return ''
     except Exception as e:
         print(e)
-        logger.warning(">>>>>>>>>> Test proxy error!")
+        logger.warning(">>>>>>>>>> Test proxies error!")
+        return ''
 
 
-# proxy = get_proxy()
-proxy = '117.36.103.170:8118'
-if proxy != -1:
-    test_ip(proxy)
+def get_proxy(url):
+    proxies = ''
+    count = 0
+    while proxies == '':
+        if count > 5:
+            break
+        proxy_ip = get_proxyIP()
+        proxies = test_ip(url, proxy_ip)
+        count += 1
+    return proxies
+
+# get_proxy("https://game.hashworld.top/")

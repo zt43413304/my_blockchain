@@ -11,6 +11,7 @@ import urllib.parse
 
 import requests
 
+from common import daxiang_proxy
 from common import send_email
 
 # 第一步，创建一个logger,并设置级别
@@ -72,7 +73,7 @@ payload = "is_ad_ios=" + is_ad_ios + \
 # Random seconds
 MIN_SEC = 2
 MAX_SEC = 5
-
+proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
 
 def bixiang_login_test():
     url = "http://tui.yingshe.com/check/index"
@@ -100,7 +101,8 @@ def bixiang_userInfo(unique, uid):
     payload_userInfo = payload + "&unique=" + unique + "&uid=" + uid
 
     try:
-        response = requests.request("POST", url, data=payload_userInfo, headers=headers)
+        logger.warning(">>>>>>>>>> bixiang_userInfo(), proxies = " + str(proxies))
+        response = requests.request("POST", url, data=payload_userInfo, headers=headers, proxies=proxies)
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
 
         res = response.json()["status"]
@@ -126,7 +128,8 @@ def bixiang_login(unique, uid):
     payload_login = payload + "&unique=" + unique + "&uid=" + uid
 
     try:
-        response = requests.request("POST", url, data=payload_login, headers=headers)
+        logger.warning(">>>>>>>>>> bixiang_login(), proxies = " + str(proxies))
+        response = requests.request("POST", url, data=payload_login, headers=headers, proxies=proxies)
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
 
         res = response.json()["status"]
@@ -148,7 +151,8 @@ def bixiang_infoList(unique, uid):
     payload_infoList = payload + "&unique=" + unique + "&uid=" + uid
 
     try:
-        response = requests.request("POST", url, data=payload_infoList, headers=headers)
+        logger.warning(">>>>>>>>>> bixiang_infoList(), proxies = " + str(proxies))
+        response = requests.request("POST", url, data=payload_infoList, headers=headers, proxies=proxies)
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
 
         res = response.json()["status"]
@@ -168,7 +172,8 @@ def bixiang_sharing(unique, uid, id):
     payload_id = payload + "&live_id=" + id + "&unique=" + unique + "&uid=" + uid
 
     try:
-        response = requests.request("POST", url, data=payload_id, headers=headers)
+        logger.warning(">>>>>>>>>> bixiang_sharing(), proxies = " + str(proxies))
+        response = requests.request("POST", url, data=payload_id, headers=headers, proxies=proxies)
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
 
         res = response.json()["status"]
@@ -188,8 +193,9 @@ def bixiang_shared(unique, uid, id):
     payload_id = payload + "&live_id=" + id + "&unique=" + unique + "&uid=" + uid
 
     try:
+        logger.warning(">>>>>>>>>> bixiang_shared(), proxies = " + str(proxies))
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
-        response = requests.request("POST", url, data=payload_id, headers=headers)
+        response = requests.request("POST", url, data=payload_id, headers=headers, proxies=proxies)
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
 
         res = response.json()["status"]
@@ -210,7 +216,8 @@ def bixiang_sign(unique, uid):
     payload_sign = payload + "&unique=" + unique + "&uid=" + uid
 
     try:
-        response = requests.request("POST", url_check, data=payload_sign, headers=headers)
+        logger.warning(">>>>>>>>>> bixiang_sign(), proxies = " + str(proxies))
+        response = requests.request("POST", url_check, data=payload_sign, headers=headers, proxies=proxies)
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
 
         res = response.json()["status"]
@@ -245,7 +252,8 @@ def bixiang_upgrade(unique, uid):
     payload_upgrade = payload + "&unique=" + unique + "&uid=" + uid
 
     try:
-        response = requests.request("POST", url, data=payload_upgrade, headers=headers)
+        logger.warning(">>>>>>>>>> bixiang_upgrade(), proxies = " + str(proxies))
+        response = requests.request("POST", url, data=payload_upgrade, headers=headers, proxies=proxies)
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
 
         res = response.json()["status"]
@@ -277,7 +285,8 @@ def bixiang_property_url(unique, uid):
     payload_property = payload + "&unique=" + unique + "&uid=" + uid
 
     try:
-        response = requests.request("POST", url, data=payload_property, headers=headers)
+        logger.warning(">>>>>>>>>> bixiang_property_url(), proxies = " + str(proxies))
+        response = requests.request("POST", url, data=payload_property, headers=headers, proxies=proxies)
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
 
         res = response.json()["status"]
@@ -311,7 +320,8 @@ def get_allTotal(unique, uid):
         return url
 
     try:
-        response = requests.request("GET", url, headers=headers)
+        logger.warning(">>>>>>>>>> get_allTotal(), proxies = " + str(proxies))
+        response = requests.request("GET", url, headers=headers, proxies=proxies)
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
         logger.warning(">>>>>>>>>> response.status_code = " + str(response.status_code))
         return response.content
@@ -331,8 +341,9 @@ def get_turntableFree(unique, uid):
     print(parsed_query)
 
     try:
+        logger.warning(">>>>>>>>>> get_turntableFree(), proxies = " + str(proxies))
         lottery_enter = 'http://tui.yingshe.com/lottery/enters?' + parsed_query
-        response = requests.request("GET", lottery_enter, headers=headers)
+        response = requests.request("GET", lottery_enter, headers=headers, proxies=proxies)
         print(response.text)
 
         # <p id="xxx" style="display:none">WXObEc%3DRCHwyyTxnxbBUpb6MN</p>
@@ -358,6 +369,7 @@ def loop_bixiang():
         unique = item.get('unique', 'NA')
         uid = item.get('uid', 'NA')
         phone = item.get('phone', 'NA')
+
         logger.warning('\n')
         logger.warning("========== Checking [" + phone + "] ==========")
 

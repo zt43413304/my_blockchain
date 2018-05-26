@@ -1,7 +1,4 @@
 # -*- coding: UTF-8 -*-
-import urllib
-from urllib import request
-from urllib.request import urlopen
 import requests
 
 # if __name__ == "__main__":
@@ -35,12 +32,22 @@ import requests
 #     print(html)
 
 
-proxy_handler = urllib.request.ProxyHandler({'http': '14.118.255.157:6666'})
-opener = urllib.request.build_opener(proxy_handler)
-urllib.request.install_opener(opener)
-page = urlopen('http://ip.chinaz.com/getip.aspx')
-print(page.read().decode('utf-8'))
-# {ip:'221.238.67.231',address:'天津市 电信'}
+# proxy_handler = urllib.request.ProxyHandler({'https': 'https://115.198.39.196:6666'})
+# opener = urllib.request.build_opener(proxy_handler)
+# urllib.request.install_opener(opener)
+# page = urlopen('http://ip.chinaz.com/getip.aspx')
+# print(page.read().decode('utf-8'))
+# # {ip:'221.238.67.231',address:'天津市 电信'}
 
 
+# proxies = {'http': 'http://115.198.39.196:6666', 'https': 'https://115.198.39.196:6666'}
+# proxies = {'https': 'https://115.198.39.196:6666'}
+proxies = ''
+# requests.get('http://example.org', proxies=proxies, timeout=10)
 
+try:
+    response = requests.get('http://hkopenservice1.yuyin365.com:8000/one-chain/login', proxies=proxies, timeout=15)
+    result = response.status_code
+    print(result)
+except Exception as e:
+    print(e)

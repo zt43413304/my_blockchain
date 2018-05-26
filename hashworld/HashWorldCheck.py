@@ -105,6 +105,8 @@ def login_GetAccessToken(payload):
             return -1
     except Exception as e:
         print(e)
+        global proxies
+        proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
         return -1
 
 
@@ -137,6 +139,8 @@ def get_strength_info(token):
             return strength
     except Exception as e:
         print(e)
+        global proxies
+        proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
         return -1
 
 
@@ -168,6 +172,8 @@ def get_prize_wheel(token):
             return wonder_list
     except Exception as e:
         print(e)
+        global proxies
+        proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
         return -1
 
 
@@ -203,6 +209,8 @@ def click_Lottery(token, block_number):
             return -1
     except Exception as e:
         print(e)
+        global proxies
+        proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
         return -1
 
 
@@ -243,6 +251,8 @@ def check_UserTotal(token):
             return -1
     except Exception as e:
         print(e)
+        global proxies
+        proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
         return -1
     finally:
         requests.session().close()

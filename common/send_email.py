@@ -147,12 +147,80 @@ def send_diwuqu_HtmlEmail(to_list, phone, calculated, content_list):
         return False
 
 
-def send_Bixiang_HtmlEmail(to_list, uid, content):
+def send_Bixiang_HtmlEmail(to_list, content_list):
     datetime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+    head = '<!DOCTYPE HTML>' + \
+           '<html id="pageLoading">' + \
+           '<head>' + \
+           '<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>' + \
+           '<title></title>' + \
+           '<style type="text/css">' + \
+           '/* Table Head */' + \
+           '#table-7 thead th {' + \
+           'background-color: rgb(81, 130, 187);' + \
+           'color: #fff;' + \
+           'border-bottom-width: 1;' + \
+           '}' + \
+           '/* Column Style */' + \
+           '#table-7' + \
+           'td {' + \
+           'color: #000;' + \
+           '}' + \
+           '/* Heading and Column Style */' + \
+           '#table-7 tr, #table-7 th {' + \
+           'border-width: 1px;' + \
+           'border-style: solid;' + \
+           'border-color: rgb(0, 0, 0);' + \
+           '}' + \
+           '/* Padding and font style */' + \
+           '#table-7 td, #table-7 th {' + \
+           'padding: 5px 10px;' + \
+           'font-size: 12px;' + \
+           'font-family: Verdana;' + \
+           'font-weight: bold;' + \
+           '}' + \
+           '</style>' + \
+           '</head>' + \
+           '<body>' + \
+           '<p> ********** ' + datetime + ' ********** </p>' + \
+           '<table border="1px" cellspacing="0px" style="border-collapse:collapse" id="table-7">' + \
+           '<thead>' + \
+           '<th align="center">No.</th>' + \
+           '<th align="center">Phone</th>' + \
+           '<th align="center">BX总数</th>' + \
+           '<th align="center">BX今日</th>' + \
+           '</thead>' + \
+           '<tbody>'
 
-    mail_msg = content
+    end = '</tbody>' + \
+          '</table>' + \
+          '</body>' + \
+          ' </html>'
 
-    subject = "Bixiang [" + str(uid) + "]"
+    body = ''
+    total_bx_all = 0
+    today_bx_all = 0
+    i = 0
+    for item in content_list:
+        i = i + 1
+        phone = item.get('phone', 'NA')
+        total_bx = item.get('total_bx', 'NA')
+        total_bx_all = total_bx_all + total_bx
+        today_bx = item.get('today_bx', 'NA')
+        today_bx_all = today_bx_all + today_bx
+        body = body + '<tr><td align="center">' + str(i) + \
+               '</td><td align="center">' + phone + \
+               '</td><td align="right">' + str(round(total_bx, 2)) + \
+               '</td><td align="right">' + str(round(today_bx, 2)) + \
+               '</td></tr>'
+
+    sum = body + '<tr><td colspan="2" align="center">Sum:</td><td align="right">' + \
+          str(round(total_bx_all, 2)) + '</td><td align="right">' + \
+          str(round(today_bx_all, 2)) + '</td></tr>'
+    mail_msg = head + sum + end
+
+    subject = "Bixiang, [BX总数:" + str(round(total_bx_all, 2)) + ", BX今日:" + str(
+        round(today_bx_all, 2)) + "]"
 
     msg = MIMEText(mail_msg, 'html', 'utf-8')
     me = "newseeing@163.com"

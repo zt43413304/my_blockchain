@@ -8,8 +8,10 @@ import random
 import re
 import time
 import urllib.parse
+from io import StringIO
 
 import requests
+from lxml import etree
 
 from common import daxiang_proxy
 from common import send_email
@@ -245,13 +247,13 @@ def bixiang_sign(unique, uid):
                 time.sleep(random.randint(MIN_SEC, MAX_SEC))
                 checked = int(response.json()["info"]["is_check"])
                 if checked == 1:
-                    logger.warning('>>>>>>>>>>  Not Sign, Just Signed.')
+                    logger.warning('>>>>>>>>>> Not Sign, Just Signed.')
                     return 1
                 else:
-                    logger.warning('**********  Not Sign, Sign fail.')
+                    logger.warning('********** Not Sign, Sign fail.')
                     return -1
             else:
-                logger.warning('**********  Have Signed.')
+                logger.warning('********** Have Signed.')
                 return 2
         else:
             return -1
@@ -278,8 +280,8 @@ def bixiang_upgrade(unique, uid):
         if res == 1:
             now_bxc = response.json()["info"]["now_bxc"]
             level_bxc = response.json()["info"]["level_bxc"]
-            logger.warning('**********  Upgrade. now_bxc=' + str(now_bxc))
-            logger.warning('**********  Upgrade. level_bxc=' + str(level_bxc))
+            logger.warning('********** Upgrade. now_bxc=' + str(now_bxc))
+            logger.warning('********** Upgrade. level_bxc=' + str(level_bxc))
 
             if now_bxc > level_bxc:
                 # logger.warning('********** now_bxc > level_bxc, before upgrade')
@@ -336,22 +338,31 @@ def get_allTotal(unique, uid):
     }
 
     url = bixiang_property_url(unique, uid)
-    logger.warning("********** Property URL = " + url)
-
-    if uid == '22024' or uid == '22014':
-        return url
 
     try:
         logger.warning("********** get_allTotal(), proxies = " + str(proxies))
         response = requests.request("GET", url, headers=headers, proxies=proxies)
-        time.sleep(random.randint(MIN_SEC, MAX_SEC))
-        logger.warning("********** response.status_code = " + str(response.status_code))
-        return response.content
+
+        html = response.text
+
+        parser = etree.HTMLParser()
+        tree = etree.parse(StringIO(html), parser)
+
+        # result = etree.tostring(tree.getroot(), pretty_print=True, method="html")
+        # print(result)
+
+        total_bx_list = tree.xpath('//*[@id="wallet"]/a[1]/li/span[2]/text()')
+        total_bx = float(total_bx_list[0].encode('utf-8'))
+
+        today_bx_list = tree.xpath('//*[@id="wallet"]/a[1]/li/span[3]/span/text()')
+        today_bx = float(today_bx_list[0].encode('utf-8'))
+        # logger.warning("********** response.status_code = " + str(response.status_code))
+        return total_bx, today_bx
 
     except Exception as e:
         print(e)
         proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
-        return -1
+        return -1, -1
 
 
 def get_turntableFree(unique, uid):
@@ -382,6 +393,9 @@ def get_turntableFree(unique, uid):
 
 def loop_bixiang():
     global mail_subject
+    total_bx_all = 0
+    today_bx_all = 0
+
     # bixiang_login_test()
 
     # start
@@ -392,6 +406,7 @@ def loop_bixiang():
 
     file = open(curpath + '/bixiang/data_bixiang.json', 'r', encoding='utf-8')
     data_dict = json.load(file)
+    content_list = []
 
     for item in data_dict['data']:
         # content_list = []
@@ -430,9 +445,24 @@ def loop_bixiang():
             bixiang_upgrade(unique, uid)
 
             # calculate value
-            content = get_allTotal(unique, uid)
+            (total_bx, today_bx) = get_allTotal(unique, uid)
+            total_bx_all = total_bx_all + total_bx
+            today_bx_all = today_bx_all + today_bx
+            logger.warning("========== End[" + phone + "], total_bx:" + str(total_bx) + ", today_bx:" + str(
+                today_bx) + "] ==========")
 
-        send_email.send_Bixiang_HtmlEmail('newseeing@163.com', mail_subject, content)
+            # 构建Json数组，用于发送HTML邮件
+            # Python 字典类型转换为 JSON 对象
+            content_data = {
+                "phone": phone,
+                "total_bx": total_bx,
+                "today_bx": today_bx
+            }
+            content_list.append(content_data)
+            time.sleep(random.randint(MIN_SEC, MAX_SEC))
+
+    content_list = sorted(content_list, reverse=True, key=lambda x: (x["total_bx"], x["today_bx"]))
+    send_email.send_Bixiang_HtmlEmail('newseeing@163.com', content_list)
     logger.warning('********** Sending Email Complete!')
 
 # Start from here...

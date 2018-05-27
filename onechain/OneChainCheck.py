@@ -67,10 +67,11 @@ def getInfoNum(infoNum):
 
 def loginGetAccessToken(user_agent, device_id, l, version):
     global proxies
-    url_login = 'http://hkopenservice1.yuyin365.com:8000/one-chain/login?user_agent=' + user_agent + '&device_id=' + device_id + '&l=' + l + '&token=&version=' + version
+    url_login = 'http://hkopenservice1.yuyin365.com:8000/one-chain/login?user_agent=' + user_agent + \
+                '&device_id=' + device_id + '&l=' + l + '&token=&version=' + version
 
     try:
-        logger.warning(">>>>>>>>>> loginGetAccessToken(), proxies = " + str(proxies))
+        logger.warning("********** loginGetAccessToken(), proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
         r = requests.post(url_login, data=data, headers=headers, proxies=proxies)
 
@@ -93,16 +94,17 @@ def loginGetAccessToken(user_agent, device_id, l, version):
 
 def open_mining(user_agent, device_id, l, token, version):
     global proxies
-    url_check = 'http://hkopenservice1.yuyin365.com:8000/one-chain/mining/start?user_agent=' + user_agent + '&device_id=' + device_id + '&l=' + l + '&token=' + token + '&version=' + version
+    url_check = 'http://hkopenservice1.yuyin365.com:8000/one-chain/mining/start?user_agent=' + user_agent + \
+                '&device_id=' + device_id + '&l=' + l + '&token=' + token + '&version=' + version
 
     try:
-        logger.warning(">>>>>>>>>> Using proxies = " + str(proxies))
+        logger.warning("********** Using proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
         r = requests.post(url_check, data=data, headers=headers, proxies=proxies)
 
         res = r.json()["msg"]
         if res == 'Success':
-            logger.warning('>>>>>>>>>> mining_opened.')
+            logger.warning('********** mining_opened.')
             return 0
         else:
             return -1
@@ -115,10 +117,11 @@ def open_mining(user_agent, device_id, l, token, version):
 
 def get_calculated(user_agent, device_id, l, token, version):
     global proxies
-    url_check = 'http://hkopenservice1.yuyin365.com:8000/one-chain/mining/user/infoString?user_agent=' + user_agent + '&device_id=' + device_id + '&l=' + l + '&token=' + token + '&version=' + version
+    url_check = 'http://hkopenservice1.yuyin365.com:8000/one-chain/mining/user/infoString?user_agent=' + user_agent + \
+                '&device_id=' + device_id + '&l=' + l + '&token=' + token + '&version=' + version
 
     try:
-        logger.warning(">>>>>>>>>> get_calculated(), proxies = " + str(proxies))
+        logger.warning("********** get_calculated(), proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
         r = requests.post(url_check, data=data, headers=headers, proxies=proxies)
 
@@ -130,7 +133,7 @@ def get_calculated(user_agent, device_id, l, token, version):
                 logger.warning('>>>>>>>>>> mining opened')
 
             calculated = r.json()['data']['map']['calculated']
-            logger.warning('>>>>>>>>>> calculated: ' + calculated)
+            logger.warning('********** calculated: ' + calculated)
             return calculated
     except Exception as e:
         print(e)
@@ -140,10 +143,12 @@ def get_calculated(user_agent, device_id, l, token, version):
 
 def mining_click(user_agent, device_id, l, token, version, mining_detail_uuid):
     global proxies
-    url_check = 'http://hkopenservice1.yuyin365.com:8000/one-chain/mining/detail/click?user_agent=' + user_agent + '&device_id=' + device_id + '&l=' + l + '&token=' + token + '&version=' + version + '&mining_detail_uuid=' + mining_detail_uuid
+    url_check = 'http://hkopenservice1.yuyin365.com:8000/one-chain/mining/detail/click?user_agent=' + user_agent + \
+                '&device_id=' + device_id + '&l=' + l + '&token=' + token + '&version=' + version + \
+                '&mining_detail_uuid=' + mining_detail_uuid
 
     try:
-        # logger.warning(">>>>>>>>>> Using proxies = " + str(proxies))
+        # logger.warning("********** Using proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
         r = requests.post(url_check, data=data, headers=headers, proxies=proxies)
 
@@ -161,10 +166,11 @@ def mining_click(user_agent, device_id, l, token, version, mining_detail_uuid):
 
 def mining_check(user_agent, device_id, l, token, version):
     global proxies
-    url_check = 'http://hkopenservice1.yuyin365.com:8000/one-chain/mining/detail/list?user_agent=' + user_agent + '&device_id=' + device_id + '&l=' + l + '&token=' + token + '&version=' + version
+    url_check = 'http://hkopenservice1.yuyin365.com:8000/one-chain/mining/detail/list?user_agent=' + user_agent + \
+                '&device_id=' + device_id + '&l=' + l + '&token=' + token + '&version=' + version
 
     try:
-        logger.warning(">>>>>>>>>> mining_check(), proxies = " + str(proxies))
+        logger.warning("********** mining_check(), proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
         r = requests.post(url_check, data=data, headers=headers, proxies=proxies)
 
@@ -178,9 +184,9 @@ def mining_check(user_agent, device_id, l, token, version):
                 time.sleep(random.random())
 
             if i == 0:
-                logger.warning('>>>>>>>>>> mining_clicked: ' + str(i))
+                logger.warning('********** mining_clicked: ' + str(i))
             else:
-                logger.warning('>>>>>>>>>> mining_clicked: ' + str(i + 1))
+                logger.warning('********** mining_clicked: ' + str(i + 1))
             return 0
         else:
             return -1
@@ -193,7 +199,8 @@ def mining_check(user_agent, device_id, l, token, version):
 
 def check_allTotal(user_agent, device_id, l, token, version):
     global proxies
-    url_check = 'http://hkopenservice1.yuyin365.com:8000/one-chain/mining/allTotal?user_agent=' + user_agent + '&device_id=' + device_id + '&l=' + l + '&token=' + token + '&version=' + version
+    url_check = 'http://hkopenservice1.yuyin365.com:8000/one-chain/mining/allTotal?user_agent=' + user_agent + \
+                '&device_id=' + device_id + '&l=' + l + '&token=' + token + '&version=' + version
 
     headers = {
         'User-Agent': "okhttp/3.5.0",
@@ -210,7 +217,7 @@ def check_allTotal(user_agent, device_id, l, token, version):
     oneluck = 0
 
     try:
-        logger.warning(">>>>>>>>>> check_allTotal(), proxies = " + str(proxies))
+        logger.warning("********** check_allTotal(), proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
         r = requests.post(url_check, data=data, headers=headers, proxies=proxies)
 
@@ -225,7 +232,7 @@ def check_allTotal(user_agent, device_id, l, token, version):
                     one = total
                 if asset_code == "ONELUCK":
                     oneluck = total
-                logger.warning('>>>>>>>>>> ' + asset_code + ': ' + str(total))
+                logger.warning('********** ' + asset_code + ': ' + str(total))
             return one, oneluck
         else:
             return -1, -1

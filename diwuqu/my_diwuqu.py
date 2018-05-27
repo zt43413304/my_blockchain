@@ -137,7 +137,7 @@ def calculate(token):
     }
 
     try:
-        logger.warning(">>>>>>>>>> calculate(), proxies = " + str(proxies))
+        logger.warning("********** calculate(), proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
@@ -146,7 +146,7 @@ def calculate(token):
         res = response.json()["state"]
         if res == 'success':
             calculate = response.json()["data"]["calculate"]
-            logger.warning('********** Calculate is: ' + str(calculate))
+            logger.warning('>>>>>>>>>> Calculate is: ' + str(calculate))
             return calculate
         else:
             return -1
@@ -164,7 +164,7 @@ def record(token):
     }
 
     try:
-        logger.warning(">>>>>>>>>> record(), proxies = " + str(proxies))
+        logger.warning("********** record(), proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
@@ -190,7 +190,7 @@ def accept(token, id):
     }
 
     try:
-        logger.warning(">>>>>>>>>> record(), proxies = " + str(proxies))
+        logger.warning("********** accept(), proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
@@ -218,7 +218,7 @@ def get_allTotal(token):
     }
 
     try:
-        logger.warning(">>>>>>>>>> record(), proxies = " + str(proxies))
+        logger.warning("********** get_allTotal(), proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))

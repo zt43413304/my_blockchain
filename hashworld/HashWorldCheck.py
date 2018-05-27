@@ -60,7 +60,7 @@ def open_FirstPage():
     }
 
     try:
-        logger.warning(">>>>>>>>>> open_FirstPage(), proxies = " + str(proxies))
+        logger.warning("********** open_FirstPage(), proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
@@ -94,7 +94,7 @@ def login_GetAccessToken(payload):
     }
 
     try:
-        logger.warning(">>>>>>>>>> login_GetAccessToken(), proxies = " + str(proxies))
+        logger.warning("********** login_GetAccessToken(), proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
@@ -129,7 +129,7 @@ def get_strength_info(token):
     }
 
     try:
-        logger.warning(">>>>>>>>>> get_strength_info(), proxies = " + str(proxies))
+        logger.warning("********** get_strength_info(), proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
@@ -163,7 +163,7 @@ def get_prize_wheel(token):
     }
 
     try:
-        logger.warning(">>>>>>>>>> get_prize_wheel(), proxies = " + str(proxies))
+        logger.warning("********** get_prize_wheel(), proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
@@ -194,7 +194,7 @@ def click_Lottery(token, block_number):
     }
 
     try:
-        # logger.warning(">>>>>>>>>> click_Lottery(), proxies = " + str(proxies))
+        # logger.warning("********** click_Lottery(), proxies = " + str(proxies))
         payload = "{\n\t\"block_number\": " + str(block_number) + "\n}"
 
         requests.packages.urllib3.disable_warnings()
@@ -206,7 +206,7 @@ def click_Lottery(token, block_number):
         if res == 'common_OK':
             coin_name = response.json()["data"]["coin_name"]
             # amount = response.json()["data"]["amount"]
-            logger.warning('>>>>>>>>>> lottery...... ' + coin_name)
+            logger.warning('********** lottery...... ' + coin_name)
             return 0
         else:
             return -1
@@ -235,7 +235,7 @@ def check_UserTotal(token):
     total = 0
 
     try:
-        logger.warning(">>>>>>>>>> check_UserTotal(), proxies = " + str(proxies))
+        logger.warning("********** check_UserTotal(), proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
@@ -248,7 +248,7 @@ def check_UserTotal(token):
                 market_price_cny = totallist[i]['coin']['market_price_cny']
                 active_balance = totallist[i]['active_balance']
                 total = total + market_price_cny * active_balance
-            logger.warning('>>>>>>>>>> Total: ' + str(total))
+            logger.warning('********** Total: ' + str(total))
             return total
         else:
             return -1
@@ -282,7 +282,7 @@ def click_hashworld_land(token, strength, wonder_list):
                 lottery = click_Lottery(token, j)
 
                 if lottery == -1:
-                    logger.warning('>>>>>>>>>> Click Jackielg land failed.')
+                    logger.warning('********** Click Jackielg land failed.')
                     continue
                 else:
                     logger.warning('>>>>>>>>>> Click Jackielg land success.')
@@ -297,7 +297,7 @@ def click_hashworld_land(token, strength, wonder_list):
                 lottery = click_Lottery(token, k)
 
                 if lottery == -1:
-                    logger.warning('>>>>>>>>>> Click Others land failed.')
+                    logger.warning('********** Click Others land failed.')
                     continue
                 else:
                     logger.warning('>>>>>>>>>> Click Others land success.')

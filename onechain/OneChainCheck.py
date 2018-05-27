@@ -98,13 +98,13 @@ def open_mining(user_agent, device_id, l, token, version):
                 '&device_id=' + device_id + '&l=' + l + '&token=' + token + '&version=' + version
 
     try:
-        logger.warning("********** Using proxies = " + str(proxies))
+        logger.warning("********** open_mining(), proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
         r = requests.post(url_check, data=data, headers=headers, proxies=proxies)
 
         res = r.json()["msg"]
         if res == 'Success':
-            logger.warning('********** mining_opened.')
+            logger.warning('********** open_mining() Success.')
             return 0
         else:
             return -1
@@ -130,10 +130,10 @@ def get_calculated(user_agent, device_id, l, token, version):
             mining_flag = r.json()['data']['map']['mining_flag']
             if mining_flag == "NO":
                 open_mining(user_agent, device_id, l, token, version)
-                logger.warning('>>>>>>>>>> mining opened')
+                logger.warning('********** mining opened')
 
             calculated = r.json()['data']['map']['calculated']
-            logger.warning('********** calculated: ' + calculated)
+            logger.warning('>>>>>>>>>> calculated: ' + calculated)
             return calculated
     except Exception as e:
         print(e)
@@ -148,7 +148,7 @@ def mining_click(user_agent, device_id, l, token, version, mining_detail_uuid):
                 '&mining_detail_uuid=' + mining_detail_uuid
 
     try:
-        # logger.warning("********** Using proxies = " + str(proxies))
+        # logger.warning("********** mining_click(), proxies =  " + str(proxies))
         requests.packages.urllib3.disable_warnings()
         r = requests.post(url_check, data=data, headers=headers, proxies=proxies)
 
@@ -184,9 +184,9 @@ def mining_check(user_agent, device_id, l, token, version):
                 time.sleep(random.random())
 
             if i == 0:
-                logger.warning('********** mining_clicked: ' + str(i))
+                logger.warning('>>>>>>>>>> mining_clicked: ' + str(i))
             else:
-                logger.warning('********** mining_clicked: ' + str(i + 1))
+                logger.warning('>>>>>>>>>> mining_clicked: ' + str(i + 1))
             return 0
         else:
             return -1

@@ -71,9 +71,11 @@ payload = "is_ad_ios=" + is_ad_ios + \
 # device_id = cf.get('info'+str(infoNum), 'device_id').strip()
 
 # Random seconds
+mail_subject = ''
 MIN_SEC = 2
 MAX_SEC = 5
 proxies = ''
+
 
 def bixiang_login_test():
     url = "http://tui.yingshe.com/check/index"
@@ -95,6 +97,7 @@ def bixiang_login_test():
 
 
 def bixiang_userInfo(unique, uid):
+    global proxies
     global mail_subject
     url = "http://tui.yingshe.com/member/userInfo"
 
@@ -113,16 +116,19 @@ def bixiang_userInfo(unique, uid):
             bxc = response.json()["info"]["bxc"]
             mail_subject = phone
             logger.warning(
-                '********** uid=' + uid + ', show_id=' + show_id + ', nickname=' + nickname + ', phone=' + phone + ', bxc=' + bxc)
+                '********** uid=' + uid + ', show_id=' + show_id + ', nickname=' + nickname +
+                ', phone=' + phone + ', bxc=' + bxc)
             return 1
         else:
             return -1
     except Exception as e:
         print(e)
+        proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
         return -1
 
 
 def bixiang_login(unique, uid):
+    global proxies
     url = "http://tui.yingshe.com/check/index"
 
     payload_login = payload + "&unique=" + unique + "&uid=" + uid
@@ -142,10 +148,12 @@ def bixiang_login(unique, uid):
             return -1
     except Exception as e:
         print(e)
+        proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
         return -1
 
 
 def bixiang_infoList(unique, uid):
+    global proxies
     url = "http://tui.yingshe.com/live/info"
 
     payload_infoList = payload + "&unique=" + unique + "&uid=" + uid
@@ -163,16 +171,18 @@ def bixiang_infoList(unique, uid):
             return -1
     except Exception as e:
         print(e)
+        proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
         return -1
 
 
 def bixiang_sharing(unique, uid, id):
+    global proxies
     url = "http://tui.yingshe.com/live/infofrist"
 
     payload_id = payload + "&live_id=" + id + "&unique=" + unique + "&uid=" + uid
 
     try:
-        logger.warning(">>>>>>>>>> bixiang_sharing(), proxies = " + str(proxies))
+        # logger.warning(">>>>>>>>>> bixiang_sharing(), proxies = " + str(proxies))
         response = requests.request("POST", url, data=payload_id, headers=headers, proxies=proxies)
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
 
@@ -184,16 +194,18 @@ def bixiang_sharing(unique, uid, id):
             return -1
     except Exception as e:
         print(e)
+        proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
         return -1
 
 
 def bixiang_shared(unique, uid, id):
+    global proxies
     url = "http://tui.yingshe.com/share/getShareCircle"
 
     payload_id = payload + "&live_id=" + id + "&unique=" + unique + "&uid=" + uid
 
     try:
-        logger.warning(">>>>>>>>>> bixiang_shared(), proxies = " + str(proxies))
+        # logger.warning(">>>>>>>>>> bixiang_shared(), proxies = " + str(proxies))
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
         response = requests.request("POST", url, data=payload_id, headers=headers, proxies=proxies)
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
@@ -206,10 +218,13 @@ def bixiang_shared(unique, uid, id):
             return -1
     except Exception as e:
         print(e)
+        proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
         return -1
+
 
 # 返回值：出错-1，第一次签到成功1，第二次检查2
 def bixiang_sign(unique, uid):
+    global proxies
     url_check = "http://tui.yingshe.com/check/index"
     url_add = "http://tui.yingshe.com/check/add"
 
@@ -242,10 +257,13 @@ def bixiang_sign(unique, uid):
             return -1
     except Exception as e:
         print(e)
+        proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
         return -1
 
 
 def bixiang_upgrade(unique, uid):
+    global mail_subject
+    global proxies
     url = "http://tui.yingshe.com/member/getNoLevel"
     url_upgrade = "http://tui.yingshe.com/member/getLevelReward"
 
@@ -276,10 +294,12 @@ def bixiang_upgrade(unique, uid):
             return -1
     except Exception as e:
         print(e)
+        proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
         return -1
 
 
 def bixiang_property_url(unique, uid):
+    global proxies
     url = "http://tui.yingshe.com/member/miningBxc"
 
     payload_property = payload + "&unique=" + unique + "&uid=" + uid
@@ -297,10 +317,12 @@ def bixiang_property_url(unique, uid):
             return -1
     except Exception as e:
         print(e)
+        proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
         return -1
 
 
 def get_allTotal(unique, uid):
+    global proxies
     # url = "http://tui.yingshe.com/user/property"
     # querystring = {"xxx":"swh6XfD8FvRBZr17Hufua"}
 
@@ -328,10 +350,12 @@ def get_allTotal(unique, uid):
 
     except Exception as e:
         print(e)
+        proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
         return -1
 
 
 def get_turntableFree(unique, uid):
+    global proxies
     url = bixiang_property_url(unique, uid)
     logger.warning(">>>>>>>>>> Property URL = " + url)
 
@@ -352,14 +376,17 @@ def get_turntableFree(unique, uid):
 
     except Exception as e:
         print(e)
+        proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
         return -1
 
 
 def loop_bixiang():
+    global mail_subject
     # bixiang_login_test()
 
     # start
     logger.warning('********** Start from loop_bixiang() ...')
+
     global proxies
     proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
 
@@ -382,14 +409,14 @@ def loop_bixiang():
 
             # 如已签到就退出
             signed = bixiang_sign(unique, uid)
-            if signed == 2:
-                continue
+            # if signed == 2:
+            #     continue
 
             # 分享列表
             infoList = bixiang_infoList(unique, uid)
             count = 0
             for i in range(len(infoList)):
-                if count > 10:
+                if count > 5:
                     break
                 if int(infoList[i]["share_total"]) < 20:
                     continue

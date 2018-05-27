@@ -45,6 +45,7 @@ proxies = ''
 
 
 def open_FirstPage():
+    global proxies
     url = "https://game.hashworld.top/"
 
     headers = {
@@ -73,6 +74,7 @@ def open_FirstPage():
             return -1
     except Exception as e:
         print(e)
+        proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
         return -1
 
 
@@ -106,7 +108,6 @@ def login_GetAccessToken(payload):
             return -1
     except Exception as e:
         print(e)
-
         proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
         return -1
 
@@ -141,7 +142,6 @@ def get_strength_info(token):
             return strength
     except Exception as e:
         print(e)
-
         proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
         return -1
 
@@ -175,7 +175,6 @@ def get_prize_wheel(token):
             return wonder_list
     except Exception as e:
         print(e)
-
         proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
         return -1
 
@@ -213,7 +212,6 @@ def click_Lottery(token, block_number):
             return -1
     except Exception as e:
         print(e)
-
         proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
         return -1
 
@@ -256,7 +254,6 @@ def check_UserTotal(token):
             return -1
     except Exception as e:
         print(e)
-
         proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
         return -1
     finally:
@@ -373,7 +370,6 @@ def loop_hashworldcheck():
         time.sleep(300)
         status_code = open_FirstPage()
     loop_Lottery()
-
 
 # Start from here...
 # loop_hashworldcheck()

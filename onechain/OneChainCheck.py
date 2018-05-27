@@ -66,6 +66,7 @@ def getInfoNum(infoNum):
 
 
 def loginGetAccessToken(user_agent, device_id, l, version):
+    global proxies
     url_login = 'http://hkopenservice1.yuyin365.com:8000/one-chain/login?user_agent=' + user_agent + '&device_id=' + device_id + '&l=' + l + '&token=&version=' + version
 
     try:
@@ -86,10 +87,12 @@ def loginGetAccessToken(user_agent, device_id, l, version):
             return -1
     except Exception as e:
         print(e)
+        proxies = daxiang_proxy.get_proxy("http://hkopenservice1.yuyin365.com:8000/one-chain/login")
         return -1
 
 
 def open_mining(user_agent, device_id, l, token, version):
+    global proxies
     url_check = 'http://hkopenservice1.yuyin365.com:8000/one-chain/mining/start?user_agent=' + user_agent + '&device_id=' + device_id + '&l=' + l + '&token=' + token + '&version=' + version
 
     try:
@@ -106,10 +109,12 @@ def open_mining(user_agent, device_id, l, token, version):
 
     except Exception as e:
         print(e)
+        proxies = daxiang_proxy.get_proxy("http://hkopenservice1.yuyin365.com:8000/one-chain/login")
         return
 
 
 def get_calculated(user_agent, device_id, l, token, version):
+    global proxies
     url_check = 'http://hkopenservice1.yuyin365.com:8000/one-chain/mining/user/infoString?user_agent=' + user_agent + '&device_id=' + device_id + '&l=' + l + '&token=' + token + '&version=' + version
 
     try:
@@ -129,10 +134,12 @@ def get_calculated(user_agent, device_id, l, token, version):
             return calculated
     except Exception as e:
         print(e)
+        proxies = daxiang_proxy.get_proxy("http://hkopenservice1.yuyin365.com:8000/one-chain/login")
         return -1
 
 
 def mining_click(user_agent, device_id, l, token, version, mining_detail_uuid):
+    global proxies
     url_check = 'http://hkopenservice1.yuyin365.com:8000/one-chain/mining/detail/click?user_agent=' + user_agent + '&device_id=' + device_id + '&l=' + l + '&token=' + token + '&version=' + version + '&mining_detail_uuid=' + mining_detail_uuid
 
     try:
@@ -148,6 +155,7 @@ def mining_click(user_agent, device_id, l, token, version, mining_detail_uuid):
             return -1
     except Exception as e:
         print(e)
+        proxies = daxiang_proxy.get_proxy("http://hkopenservice1.yuyin365.com:8000/one-chain/login")
         return
 
 
@@ -179,13 +187,12 @@ def mining_check(user_agent, device_id, l, token, version):
 
     except Exception as e:
         print(e)
-        logger.warning("Connection refused by the server..")
-        logger.warning("Let me get a new proxy")
-
-        proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
+        proxies = daxiang_proxy.get_proxy("http://hkopenservice1.yuyin365.com:8000/one-chain/login")
+        return
 
 
 def check_allTotal(user_agent, device_id, l, token, version):
+    global proxies
     url_check = 'http://hkopenservice1.yuyin365.com:8000/one-chain/mining/allTotal?user_agent=' + user_agent + '&device_id=' + device_id + '&l=' + l + '&token=' + token + '&version=' + version
 
     headers = {
@@ -225,65 +232,8 @@ def check_allTotal(user_agent, device_id, l, token, version):
 
     except Exception as e:
         print(e)
+        proxies = daxiang_proxy.get_proxy("http://hkopenservice1.yuyin365.com:8000/one-chain/login")
         return -1, -1
-
-
-def postman_login():
-    url = "http://hkopenservice1.yuyin365.com:8000/one-chain/login"
-
-    querystring = {"user_agent": "android", "l": "zh-CN", "device_id": "008796747873160", "token": "", "version": "128"}
-
-    payload = "account_id=1.2.470628&account_name=xudaisi&signed_message=G6gWd1Uv%2BjknXrJBxO%2FqvjMmBntXu5MZZOBM2JFIINHdUp%2BQvZn%2FN0y8P9mlLs8gOwuzn0aIkDPRqQzGXLnTKWg%3D"
-
-    response = requests.request("POST", url, data=payload, headers=headers, params=querystring)
-
-    print(response.text)
-
-
-def postman_getCalculated():
-    url = "http://hkopenservice1.yuyin365.com:8000/one-chain/mining/user/infoString"
-
-    querystring = {"user_agent": "android", "l": "zh-CN", "device_id": "008796747873160",
-                   "token": "0404abe7478949d0abdbd71858066446", "version": "128"}
-
-    response = requests.request("GET", url, headers=headers, params=querystring)
-
-    print(response.text)
-
-
-def postman_getList():
-    url = "http://hkopenservice1.yuyin365.com:8000/one-chain/mining/detail/list"
-
-    querystring = {"user_agent": "android", "l": "zh-CN", "device_id": "008796747873160",
-                   "token": "0404abe7478949d0abdbd71858066446", "version": "128"}
-
-    response = requests.request("GET", url, headers=headers, params=querystring)
-
-    print(response.text)
-
-
-def postman_miningClick():
-    url = "http://hkopenservice1.yuyin365.com:8000/one-chain/mining/detail/click"
-
-    querystring = {"user_agent": "android", "l": "zh-CN", "device_id": "008796747873160",
-                   "token": "0404abe7478949d0abdbd71858066446", "version": "128"}
-
-    payload = "account_id=1.2.470628&account_name=xudaisi&signed_message=G6gWd1Uv%2BjknXrJBxO%2FqvjMmBntXu5MZZOBM2JFIINHdUp%2BQvZn%2FN0y8P9mlLs8gOwuzn0aIkDPRqQzGXLnTKWg%3D&mining_detail_uuid%3Dcab375674834408e846305af3d58936d="
-
-    response = requests.request("POST", url, data=payload, headers=headers, params=querystring)
-
-    print(response.text)
-
-
-def postman_allTotal():
-    url = "http://hkopenservice1.yuyin365.com:8000/one-chain/mining/allTotalString"
-
-    querystring = {"user_agent": "android", "l": "zh-CN", "device_id": "008796747873160",
-                   "token": "0404abe7478949d0abdbd71858066446", "version": "128"}
-
-    response = requests.request("GET", url, headers=headers, params=querystring)
-
-    print(response.text)
 
 
 def loop_onechain():
@@ -296,6 +246,7 @@ def loop_onechain():
 
     # start
     logger.warning('********** Start from loop_onechain() ...')
+
     global proxies
     proxies = daxiang_proxy.get_proxy("http://hkopenservice1.yuyin365.com:8000/one-chain/login")
 
@@ -345,7 +296,7 @@ def loop_onechain():
                 oneluck_total) + "] \t\n"
             logger.warning("========== End[" + account_name + "], Total[ONE:" + str(one_total) + ", ONELUCK:" + str(
                 oneluck_total) + "] ==========")
-            logger.warning('\n')
+            # logger.warning('\n')
 
             # 构建Json数组，用于发送HTML邮件
             # Python 字典类型转换为 JSON 对象

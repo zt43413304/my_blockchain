@@ -126,7 +126,6 @@ def send_diwuqu_HtmlEmail(to_list, phone, calculated, content_list):
 
     subject = "Diwuqu,[" + str(phone) + " : " + str(round(total_values, 2)) + "]"
 
-
     logger.warning('********** send_diwuqu_HtmlEmail(), subject =' + subject)
     # logger.warning('********** send_diwuqu_HtmlEmail(), mail_msg =' + mail_msg)
 

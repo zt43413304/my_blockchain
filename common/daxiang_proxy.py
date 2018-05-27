@@ -48,7 +48,7 @@ def test_ip(url, proxy_ip):
     # requests.get('http://example.org', proxies=proxies, timeout=10)
 
     try:
-        response = requests.get(url, proxies=proxies, timeout=15)
+        response = requests.get(url, proxies=proxies, timeout=5)
         result = response.status_code
         logger.warning(">>>>>>>>>> Test url = " + url)
         logger.warning(">>>>>>>>>> Test proxies = " + str(proxies))

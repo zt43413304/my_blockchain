@@ -42,6 +42,7 @@ MIN_SEC = 2
 MAX_SEC = 5
 proxies = ''
 
+
 def captcha(phone):
     url = "https://server.diwuqu.vip/api/common/v1/captcha"
 

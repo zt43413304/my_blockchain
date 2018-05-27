@@ -8,15 +8,14 @@
 # 在西刺网站高匿网页上寻找可用ip并筛选出响应快的ip存放在ip.txt或mongodb中
 
 
-import redis
-import gevent
 import logging
-import pymongo
-import requests
 
-from lxml import etree
-from gevent import monkey
+import gevent
+import pymongo
+import redis
+import requests
 from gevent import pool as gp
+from lxml import etree
 
 # monkey.patch_all()
 
@@ -43,13 +42,12 @@ class GetIp():
         self.m_db = self.conn['ipdb']
         self.m_coll = self.m_db['ip_good']
         self.redis_db = 'ip'
-        self.new_ip_num = 0     # 新入库的ip数量
-        self.fast_ip_num = 0    # 筛选后的ip数量
-        self.fast_ip_lst = []   # 响应快ip的列表
-        self.slow_num = 0       # 不符合标准的ip数量
-        logging.basicConfig(level=logging.INFO)    #设置logging等级为DeBUG
-        logging.getLogger("requests").setLevel(logging.WARNING)     #设置requests等级
-
+        self.new_ip_num = 0  # 新入库的ip数量
+        self.fast_ip_num = 0  # 筛选后的ip数量
+        self.fast_ip_lst = []  # 响应快ip的列表
+        self.slow_num = 0  # 不符合标准的ip数量
+        logging.basicConfig(level=logging.INFO)  # 设置logging等级为DeBUG
+        logging.getLogger("requests").setLevel(logging.WARNING)  # 设置requests等级
 
     def GetIpDict(self, pagenumber):
         '''
@@ -68,7 +66,6 @@ class GetIp():
                 self.new_ip_num += 1
             except:
                 logging.error('new ip insert error')
-
 
     def GetFastIp(self, item):
         '''
@@ -95,7 +92,6 @@ class GetIp():
             self.slow_num += 1
         print(self.slow_num)
 
-
     def SaveFastIp(self, fast_ip):
         '''
         将ip存入ip.txt中
@@ -103,7 +99,6 @@ class GetIp():
         with open('ip.txt', 'w') as f:  # 将优质ip写入文件
             for ip in fast_ip:
                 f.write(str(ip) + '\n')
-
 
     def get_ip_lst(self):
         '''
@@ -123,8 +118,6 @@ class GetIp():
             IpList.append(ip_dict)
         return IpList
 
-
-
     def saveip_mongo(self):
         '''
         存入mongo，并记录数量，数量越高，ip越稳定
@@ -132,11 +125,10 @@ class GetIp():
         for item in self.fast_ip_lst:
             for i, p in item.items():
                 ip_str = i + ':' + p
-                if self.m_coll.find_one({'ip':ip_str}) == None:
+                if self.m_coll.find_one({'ip': ip_str}) == None:
                     self.m_coll.insert({'ip': ip_str, 'num': 1})
                 else:
                     self.m_coll.update({'ip': ip_str}, {"$inc": {"num": 1}})
-
 
     def goodip(self):
         '''
@@ -146,7 +138,6 @@ class GetIp():
         for i in ip_lst:
             print(i['ip'], i['num'])
 
-
     def removeip(self):
         '''
         将num小于5的从库中删除
@@ -154,7 +145,6 @@ class GetIp():
         for i in range(1, 5):
             data = {'num': i}
             self.m_coll.remove(data)
-
 
     def get_ip_lst_m(self):
         '''
@@ -172,7 +162,6 @@ class GetIp():
             }
             ip_lst.append(ip_dict)
         return ip_lst
-
 
     def save_good_ip(self):
         '''
@@ -194,10 +183,10 @@ if __name__ == '__main__':
     Ip.saveip_mongo()
     print(Ip.fast_ip_num)
     Ip.goodip()
-    Ip.SaveFastIp(Ip.fast_ip_lst) #存入ip.txt 中
+    Ip.SaveFastIp(Ip.fast_ip_lst)  # 存入ip.txt 中
     print(Ip.fast_ip_num)
 
-    ip = Ip.get_ip_lst()  #取出并测试
+    ip = Ip.get_ip_lst()  # 取出并测试
     Ip.removeip()
     Ip.goodip()
     ip_lst = Ip.get_ip_lst_m()

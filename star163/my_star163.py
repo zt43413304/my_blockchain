@@ -196,21 +196,37 @@ def star163_api_starUserOrigin_getTaskUrl(cookie):
 
 
 def star163_access_channel_list(TaskUrl):
-    url = "https://youliao.163yun.com/api-server/api/v1/channel/list"
+    # 需要signature
+    # 可访问URL格式
+    url_access = "https://youliao.163yun.com/api-server/api/v1/info/view/list?appkey=50a07a16210f4a648cef0190d30ad828&attachPlatform=1&channelTag=cb349a1183584b16bc7333b7890d86de&group=2&history=1&num=10&platform=3&scene=f&signature=d0246201d85de349f9af52804d5ef6db&timestamp=1527307808000&userId=YzEwZjE0ODJkZDAwYmVkY2MwMTZmNzZjMzlkYjIzZmE&version=v1.8.0"
 
-    # TaskUrl='https://youliao.163yun.com/h5/list/?ak=50a07a16210f4a648cef0190d30ad828&sk=2a67c201957242dc85a7e191afb194e2&extra=%7B%22msg%22%3A%22WGpmWElNQUl6WkN2b2Nmc0t0VUNZUmVEd2JkSWRzOW1UK0ZiNmJFYU1WalljcWZieXY5cFkzRHg5QnNRTjhLQ1IvUHc3NjZOSmZtazBuWnBObllyWGU3b21mMGRDRUtnVkE1bDB5T3dDTGRvU0JLOFJBcmJxZWRhcmZFNlhnK3FwcjBWTDFSZCtNMk9JTWFZaHNjdm1hNGZEWEFzZVIzb2x2bXFud1VHM1BjPQ%22%2C%22add%22%3A%22YzEwZjE0ODJkZDAwYmVkY2MwMTZmNzZjMzlkYjIzZmE%22%7D&unid=YzEwZjE0ODJkZDAwYmVkY2MwMTZmNzZjMzlkYjIzZmE'
+    # taskurl的格式, 调用返回值 “You need to enable JavaScript to run this app.”
+    _taskurl = "https://youliao.163yun.com/h5/list/?ak=50a07a16210f4a648cef0190d30ad828&sk=2a67c201957242dc85a7e191afb194e2&extra=%7B%22msg%22%3A%22aklNVnVXbk50R3UwY2dqczkvb01ENUFlNE1TNnh3R3ZVdDVwdjlrNHkzMksrNnRxeE9tU0RFUXJBUGpjbkt3d3hwSExyRUdGQmV3RUl6eU9CRFQ2c1BoTGFCQkdOWk9VNncxZGxUbVdJclZCSXpWZXdjMkExbEk5UXhNMUM1aWx3Y0Vha1RrenpBRE9tKzgyY0ozaHRVenBZZGFhSFhDbmFBOG9saENpdWk0alVFRlNWQ09kTlVTb1JNeTNBUXMrRG95dGtmRkxhcXNBYWErOWF2OU81bU1NY3VWZWpsSVpXSko1U2FiVXRid3RFZFV5ZkZmdTQxL0pBU2dhekYrTUVKeWoxcG10OTIxK0x2Q2Y1UjM0SFprZ1AyTisxd1BaeGhpZWFIOC83NW1hVGt4TDZXQUNwMFI1ME9ZTThDdGxtcHQrUEI1d3BKeGhISmNRZnZJVjNZak9RZzlFa0E9PQ%22%2C%22add%22%3A%22YzEwZjE0ODJkZDAwYmVkY2MwMTZmNzZjMzlkYjIzZmE%22%7D&unid=YzEwZjE0ODJkZDAwYmVkY2MwMTZmNzZjMzlkYjIzZmE"
+
+    # 构造新的new_url
     query_dict = urllib.parse.parse_qs(urlparse(TaskUrl).query)
     ak = query_dict.get('ak', 'NA')[0]
     sk = query_dict.get('sk', 'NA')
     extra = query_dict.get('extra', 'NA')
-    unid = query_dict.get('unid', 'NA')
+    unid = query_dict.get('unid', 'NA')[0]
 
     timestamp = int(round(time.time() * 1000))
 
+    signature = "d0246201d85de349f9af52804d5ef6db"
+    # "9d5720830aba54c4bff378b8ae49c83a"
+
     url_new = "https://youliao.163yun.com/api-server/api/v1/info/view/list?appkey=" + ak + \
-              "&attachPlatform=1&channelTag=cb349a1183584b16bc7333b7890d86de&group=2&history=1&num=10&platform=3&" + \
-              "scene=f&signature=9d5720830aba54c4bff378b8ae49c83a&timestamp=" + str(timestamp) + \
-              "&userId=YzEwZjE0ODJkZDAwYmVkY2MwMTZmNzZjMzlkYjIzZmE&version=v1.8.0"
+              "&attachPlatform=1" + \
+              "&channelTag=cb349a1183584b16bc7333b7890d86de" + \
+              "&group=2" + \
+              "&history=1" + \
+              "&num=10" + \
+              "&platform=3" + \
+              "&scene=f" + \
+              "&signature=" + signature + \
+              "&timestamp=" + str(timestamp) + \
+              "&userId=" + unid + \
+              "&version=v1.8.0"
 
     headers = {
         'Host': "youliao.163yun.com",
@@ -227,6 +243,7 @@ def star163_access_channel_list(TaskUrl):
     response = requests.request("GET", url_new, headers=headers)
 
     print(response.text)
+    # {"requestId":"66af50cbb53a4f0798af6e08b36c5e31","code":1001,"message":"invalid signature","data":null}
 
 
 def star163_access_default_url(Taskurl):
@@ -363,7 +380,7 @@ def appium_calculate136():
 
     appium136 = AppiumStar163.AppiumStar('4.4.4', '127.0.0.1:7555', 4723)
     appium136.appium_calculate()
-    send_email.send_163HtmlEmail('newseeing@163.com', '136获取原力完成.', '')
+    send_email.send_star163_HtmlEmail('newseeing@163.com', '136获取原力完成.', '')
     logger.warning('********** Sending 136获取原力完成 Email Complete!')
 
 
@@ -389,7 +406,7 @@ def appium_calculate138():
 
     appium138 = AppiumStar163.AppiumStar('4.4.2', '127.0.0.1:62001', 4725)
     appium138.appium_calculate()
-    send_email.send_163HtmlEmail('newseeing@163.com', '138获取原力完成.', '')
+    send_email.send_star163_HtmlEmail('newseeing@163.com', '138获取原力完成.', '')
     logger.warning('********** Sending 138获取原力完成 Email Complete!')
 
 
@@ -416,6 +433,10 @@ def loop_star163():
                 star_id = collectCoins[i]["id"]
                 star163_api_collectUserCoin(cookie, star_id)
         logger.warning('>>>>>>>>>> Collect black diamond complete!')
+
+        # taskUrl = star163_api_starUserOrigin_getTaskUrl(cookie)
+        # 有签名问题，未完成
+        # star163_access_channel_list(taskUrl)
 
         # calculate value
         coin, origin = get_allTotal(cookie)
@@ -457,7 +478,7 @@ def loop_star163_136():
         # calculate value
         coin, origin = get_allTotal(cookie)
         content = ">>>>>>>>>> Calculate=" + str(origin) + ", Black diamond=" + str(coin)
-        send_email.send_163HtmlEmail('newseeing@163.com', str(phone) + '的原力及黑钻', content)
+        send_email.send_star163_HtmlEmail('newseeing@163.com', str(phone) + '的原力及黑钻', content)
         logger.warning('********** Sending Collect Email Complete!')
     appium_calculate136()
 
@@ -492,12 +513,15 @@ def loop_star163_138():
         # calculate value
         coin, origin = get_allTotal(cookie)
         content = ">>>>>>>>>> Calculate=" + str(origin) + ", Black diamond=" + str(coin)
-        send_email.send_163HtmlEmail('newseeing@163.com', str(phone) + '的原力及黑钻', content)
+        send_email.send_star163_HtmlEmail('newseeing@163.com', str(phone) + '的原力及黑钻', content)
         logger.warning('********** Sending Collect Email Complete!')
     appium_calculate138()
 
 # Start from here...
 # logger.warning('***** Start ...')
+
+# loop_star163()
+
 # scheduler = BlockingScheduler()
 
 # scheduler.add_job(loop_star163, "cron", hour="0-9/2", max_instances=2)

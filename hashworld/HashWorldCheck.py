@@ -342,9 +342,11 @@ def get_LandPrice(token, land_number):
     url = "https://game.hashworld.top/apis/land/hall/"
 
     headers = {
-        'user-agent': "Mozilla/5.0 (Linux; Android 7.1.1; MI MAX 2 Build/NMF26F; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/57.0.2987.132 MQQBrowser/6.2 TBS/044033 Mobile Safari/537.36",
+        # 不能用这个user-agent
+        # 'user-agent': "Mozilla/5.0 (Linux; Android 7.1.1; MI MAX 2 Build/NMF26F; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/57.0.2987.132 MQQBrowser/6.2 TBS/044033 Mobile Safari/537.36",
         'referer': "https://game.hashworld.top/",
-        'content-type': "application/x-www-form-urlencoded",
+        'user-agent': "application/x-www-form-urlencoded",
+        'content-type': "application/json",
         'accept': "application/json, text/plain, */*",
         'accept-language': "zh-CN,zh;q=0.8",
         'accept-encoding': "gzip, deflate, br",

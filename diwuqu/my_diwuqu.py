@@ -129,6 +129,7 @@ def save_token():
 
 
 def calculate(token):
+    global proxies
     url = "https://server.diwuqu.vip/api/app/v1/user"
 
     headers = {
@@ -152,10 +153,12 @@ def calculate(token):
             return -1
     except Exception as e:
         print(e)
+        proxies = daxiang_proxy.get_proxy("https://server.diwuqu.vip")
         return -1
 
 
 def record(token):
+    global proxies
     url = "https://server.diwuqu.vip/api/app/v1/records/waiting"
 
     headers = {
@@ -178,10 +181,12 @@ def record(token):
             return -1
     except Exception as e:
         print(e)
+        proxies = daxiang_proxy.get_proxy("https://server.diwuqu.vip")
         return -1
 
 
 def accept(token, id):
+    global proxies
     url = "https://server.diwuqu.vip/api/app/v1/record/accept/" + str(id)
 
     headers = {
@@ -204,9 +209,11 @@ def accept(token, id):
             logger.warning('>>>>>>>>>> Mining error ' + str(id))
     except Exception as e:
         print(e)
+        proxies = daxiang_proxy.get_proxy("https://server.diwuqu.vip")
 
 
 def get_allTotal(token):
+    global proxies
     url = "https://server.diwuqu.vip/api/app/v1/properties"
 
     headers = {
@@ -232,6 +239,7 @@ def get_allTotal(token):
             return -1
     except Exception as e:
         print(e)
+        proxies = daxiang_proxy.get_proxy("https://server.diwuqu.vip")
         return -1
 
 
@@ -242,12 +250,11 @@ def loop_diwuqu():
     global proxies
     proxies = daxiang_proxy.get_proxy("https://server.diwuqu.vip")
 
-    global calculated
-
     # Reading data
     with open(curpath + '/diwuqu/data_diwuqu.json', 'r') as file:
         data_dict = json.load(file)
 
+    account_list = []
     for item in data_dict['data']:
         content_list = []
         phone = item.get('phone', 'NA')
@@ -283,16 +290,19 @@ def loop_diwuqu():
                 value = quantity * price
 
                 content_data = {
+                    "phone": phone,
+                    "calculated": calculated,
                     "name": name,
                     "quantity": quantity,
                     "price": price,
                     "value": value
                 }
                 content_list.append(content_data)
+        account_list.append(content_list)
 
-        # sending email
-        send_email.send_diwuqu_HtmlEmail('newseeing@163.com', phone, calculated, content_list)
-        logger.warning('********** Sending Email Complete!')
+    # sending email
+    send_email.send_diwuqu_HtmlEmail('newseeing@163.com', account_list)
+    logger.warning('********** Sending Email Complete!')
 
 # Start from here...
 # save_token()

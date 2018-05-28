@@ -48,9 +48,9 @@ def send_mail(to_list, sub, content):
         return False
 
 
-def send_diwuqu_HtmlEmail(to_list, phone, calculated, content_list):
-    logger.warning('********** send_diwuqu_HtmlEmail(), phone =' + str(phone))
-    logger.warning('********** send_diwuqu_HtmlEmail(), content_list length =' + str(len(content_list)))
+def send_diwuqu_HtmlEmail(to_list, account_list):
+    # logger.warning('********** send_diwuqu_HtmlEmail(), phone =' + str(phone))
+    logger.warning('********** send_diwuqu_HtmlEmail(), content_list length =' + str(len(account_list)))
     datetime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
     head = '<!DOCTYPE HTML>' + \
            '<html id="pageLoading">' + \
@@ -86,7 +86,6 @@ def send_diwuqu_HtmlEmail(to_list, phone, calculated, content_list):
            '</head>' + \
            '<body>' + \
            '<p> ********** ' + datetime + ' ********** </p>' + \
-           '<p> ********** Calculated: ' + str(calculated) + ' ********** </p>' + \
            '<table border="1px" cellspacing="0px" style="border-collapse:collapse" id="table-7">' + \
            '<thead>' + \
            '<th align="center">No.</th>' + \
@@ -102,27 +101,35 @@ def send_diwuqu_HtmlEmail(to_list, phone, calculated, content_list):
           '</body>' + \
           ' </html>'
 
-    body = ''
-    total_values = 0
-    i = 0
-    for item in content_list:
-        i = i + 1
-        name = item.get('name', 'NA')
-        quantity = item.get('quantity', 'NA')
-        price = item.get('price', 'NA')
-        value = item.get('value', 'NA')
-        total_values = total_values + value
-        body = body + '<tr><td align="center">' + str(i) + \
-               '</td><td align="center">' + name + \
-               '</td><td align="center">' + str(round(quantity, 2)) + \
-               '</td><td align="right">' + str(round(price, 2)) + \
-               '</td><td align="right">' + str(round(value, 2)) + \
-               '</td></tr>'
+    html_body = ''
 
-    sum = body + '<tr><td colspan="2" align="center">Sum:</td><td></td><td align="right">' + \
-          str(round(0, 2)) + '</td><td align="right">' + \
-          str(round(total_values, 2)) + '</td></tr>'
-    mail_msg = head + sum + end
+    for m in range(len(account_list)):
+        content_list = account_list[m]
+        total_values = 0
+        i = 0
+        body = ''
+        account_body = ''
+        for item in content_list:
+            i = i + 1
+            phone = item.get('phone', 'NA')
+            calculated = item.get('calculated', 'NA')
+            name = item.get('name', 'NA')
+            quantity = item.get('quantity', 'NA')
+            price = item.get('price', 'NA')
+            value = item.get('value', 'NA')
+            total_values = total_values + value
+            body = body + '<tr><td align="center">' + str(i) + \
+                   '</td><td align="center">' + name + \
+                   '</td><td align="center">' + str(round(quantity, 2)) + \
+                   '</td><td align="right">' + str(round(price, 2)) + \
+                   '</td><td align="right">' + str(round(value, 2)) + \
+                   '</td></tr>'
+        body_sum = '<tr><td colspan="4" align="center">' + str(phone) + ' (' + str(calculated) + ')' + '</td>' + \
+                   '<td align="right">' + str(round(total_values, 2)) + '</td></tr>'
+
+        account_body = body + body_sum
+        html_body = html_body + account_body
+    mail_msg = head + html_body + end
 
     subject = "Diwuqu,[" + str(phone) + " : " + str(round(total_values, 2)) + "]"
 

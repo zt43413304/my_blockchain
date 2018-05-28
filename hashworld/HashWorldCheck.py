@@ -304,6 +304,80 @@ def click_hashworld_land(token, strength, wonder_list):
                     strength = strength - 1
 
 
+def get_Landlist(token):
+    global proxies
+    url = "https://game.hashworld.top/apis/land/lbsland/"
+
+    headers = {
+        'user-agent': "Mozilla/5.0 (Linux; Android 7.1.1; MI MAX 2 Build/NMF26F; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/57.0.2987.132 MQQBrowser/6.2 TBS/044033 Mobile Safari/537.36",
+        'referer': "https://game.hashworld.top/",
+        'content-type': "application/x-www-form-urlencoded",
+        'accept': "application/json, text/plain, */*",
+        'accept-language': "zh-CN,zh;q=0.8",
+        'accept-encoding': "gzip, deflate, br",
+        'authorization': "Token " + token,
+        'cache-control': "no-cache",
+        'connection': "keep-alive"
+    }
+
+    try:
+        logger.warning("********** get_Landlist(), proxies = " + str(proxies))
+        requests.packages.urllib3.disable_warnings()
+        ssl._create_default_https_context = ssl._create_unverified_context
+        time.sleep(random.randint(MIN_SEC, MAX_SEC))
+        response = requests.request("GET", url, headers=headers)
+
+        res = response.json()["status"]
+        if res == 'common_OK':
+            land_list = response.json()['data']
+            return land_list
+    except Exception as e:
+        print(e)
+        proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
+        return -1
+
+
+def get_LandPrice(token, land_number):
+    global proxies
+    url = "https://game.hashworld.top/apis/land/hall/"
+
+    headers = {
+        'user-agent': "Mozilla/5.0 (Linux; Android 7.1.1; MI MAX 2 Build/NMF26F; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/57.0.2987.132 MQQBrowser/6.2 TBS/044033 Mobile Safari/537.36",
+        'referer': "https://game.hashworld.top/",
+        'content-type': "application/x-www-form-urlencoded",
+        'accept': "application/json, text/plain, */*",
+        'accept-language': "zh-CN,zh;q=0.8",
+        'accept-encoding': "gzip, deflate, br",
+        'authorization': "Token " + token,
+        'cache-control': "no-cache",
+        'connection': "keep-alive"
+    }
+
+    try:
+        logger.warning("********** get_LandPrice(), proxies = " + str(proxies))
+        payload = "{\n\t\"land\": {\n\t\t\"id\": [" + str(land_number) + "]\n\t}\n}"
+
+        requests.packages.urllib3.disable_warnings()
+        ssl._create_default_https_context = ssl._create_unverified_context
+        time.sleep(random.randint(MIN_SEC, MAX_SEC))
+        response = requests.request("POST", url, data=payload, headers=headers)
+
+        res = response.json()["status"]
+        if res == 'common_OK':
+            land_name = response.json()["data"][0]["land_name"]
+            price = response.json()["data"][0]["price"]
+            tradable_status = response.json()["data"][0]["tradable_status"]
+            gen_time = response.json()["data"][0]["gen_time"]
+            nickname = response.json()["data"][0]["user"]["nickname"]
+            return land_name, price, tradable_status, gen_time, nickname
+        else:
+            return "error", 0, "untradable", 0, ""
+    except Exception as e:
+        print(e)
+        proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
+        return "error", 0, "untradable", 0, ""
+
+
 def loop_Lottery():
     all_total = 0
     content_list = []
@@ -358,6 +432,46 @@ def loop_Lottery():
     logger.warning('\n')
 
 
+def loop_Land():
+    content_land_list = []
+
+    data = dict(phone="+8614716980512", password="Liuxb0504")
+
+    token = login_GetAccessToken(data)
+    if token == -1:
+        logger.warning('********** Login fail!')
+    else:
+        logger.warning('********** Login success! token:' + token)
+
+        # find land list and price
+        land_list = get_Landlist(token)
+        for i in range(len(land_list)):
+            land_Num = land_list[i][0]
+            (land_name, price, tradable_status, gen_time, nickname) = get_LandPrice(token, land_Num)
+            logging.warning(
+                '********** Land_Num:' + str(land_Num) + ", Land_Name:" + land_name + ", Price = " + str(price))
+
+            # 构建Json数组，用于发送HTML邮件
+            # Python 字典类型转换为 JSON 对象
+            land_data = {
+                "land_num": land_Num,
+                "land_name": land_name,
+                "price": price,
+                "tradable_status": tradable_status,
+                "gen_time": gen_time,
+                "nickname": nickname
+            }
+            content_land_list.append(land_data)
+            # if i == 2:
+            #     break
+
+        # sending email
+        # content_land_list = sorted(content_land_list, key=lambda x: x["price"])
+        content_land_list = sorted(content_land_list, key=lambda x: (x["tradable_status"], x["price"]))
+        send_email.send_HashWorld_LandEmail('newseeing@163.com', content_land_list)
+        logger.warning('********** Sending Land Email Complete!')
+        logger.warning('\n')
+
 def loop_hashworldcheck():
     # start
     logger.warning('********** Start from loop_hashworldcheck() ...')
@@ -370,6 +484,7 @@ def loop_hashworldcheck():
         time.sleep(300)
         status_code = open_FirstPage()
     loop_Lottery()
+    loop_Land()
 
 # Start from here...
 # loop_hashworldcheck()

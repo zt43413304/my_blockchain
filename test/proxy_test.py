@@ -41,13 +41,26 @@ import requests
 
 
 # proxies = {'http': 'http://115.198.39.196:6666', 'https': 'https://115.198.39.196:6666'}
-# proxies = {'https': 'https://115.198.39.196:6666'}
-proxies = ''
+from urllib3.exceptions import ConnectTimeoutError, MaxRetryError
+
+proxies = {'https': 'https://115.198.39.196:6666'}
+# proxies = ''
 # requests.get('http://example.org', proxies=proxies, timeout=10)
 
 try:
-    response = requests.get('http://hkopenservice1.yuyin365.com:8000/one-chain/login', proxies=proxies, timeout=15)
+    # url = 'http://hkopenservice1.yuyin365.com:8000/one-chain/login'
+    url = 'http://www.whatismyip.com.tw/'
+    response = requests.get(url, proxies=proxies, timeout=5)
     result = response.status_code
     print(result)
-except Exception as e:
+except (MaxRetryError, ConnectTimeoutError) as f:
+    print("This is f")
+    print(f)
+except requests.exceptions.ConnectionError as e:
+    print("This is e")
     print(e)
+
+
+except Exception as g:
+    print("This is g")
+    print(g)

@@ -359,9 +359,12 @@ def get_allTotal(unique, uid):
         # logger.warning("********** response.status_code = " + str(response.status_code))
         return total_bx, today_bx
 
+    except requests.exceptions.ConnectionError as f:
+        print(f)
+        proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
+        return -1, -1
     except Exception as e:
         print(e)
-        proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
         return -1, -1
 
 

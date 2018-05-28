@@ -237,9 +237,12 @@ def get_allTotal(token):
             return total_list
         else:
             return -1
+    except requests.exceptions.ConnectionError as f:
+        print(f)
+        proxies = daxiang_proxy.get_proxy("https://server.diwuqu.vip")
+        return -1
     except Exception as e:
         print(e)
-        proxies = daxiang_proxy.get_proxy("https://server.diwuqu.vip")
         return -1
 
 

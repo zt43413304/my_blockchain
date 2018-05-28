@@ -195,7 +195,7 @@ def accept(token, id):
     }
 
     try:
-        logger.warning("********** accept(), proxies = " + str(proxies))
+        # logger.warning("********** accept(), proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))

@@ -50,7 +50,7 @@ def send_mail(to_list, sub, content):
 
 def send_diwuqu_HtmlEmail(to_list, account_list):
     # logger.warning('********** send_diwuqu_HtmlEmail(), phone =' + str(phone))
-    logger.warning('********** send_diwuqu_HtmlEmail(), content_list length =' + str(len(account_list)))
+    # logger.warning('********** send_diwuqu_HtmlEmail(), content_list length =' + str(len(account_list)))
     datetime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
     head = '<!DOCTYPE HTML>' + \
            '<html id="pageLoading">' + \

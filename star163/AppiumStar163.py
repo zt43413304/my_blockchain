@@ -5,6 +5,7 @@
 
 import logging
 import os
+import random
 import time
 
 from appium import webdriver
@@ -33,6 +34,8 @@ PATH = lambda p: os.path.abspath(
 
 
 class AppiumStar:
+    MIN_SEC = 15
+    MAX_SEC = 20
 
     def __init__(self, version, deviceName, port):
         print("start __init__...")
@@ -132,46 +135,46 @@ class AppiumStar:
         # Article 1
         TouchAction(self.driver).tap(x=200, y=185).perform()
         logger.warning("========== Article 1")
-        time.sleep(15)
+        time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
         if self.isElementExist("查看全文"):
             self.driver.find_element_by_accessibility_id("查看全文").click()
         time.sleep(85)
         self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
-        time.sleep(15)
+        time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
 
         # Article 2
         TouchAction(self.driver).tap(x=200, y=315).perform()
         logger.warning("========== Article 2")
-        time.sleep(15)
+        time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
         if self.isElementExist("查看全文"):
             self.driver.find_element_by_accessibility_id("查看全文").click()
         time.sleep(85)
         self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
-        time.sleep(15)
+        time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
 
         # Article 3
         TouchAction(self.driver).tap(x=200, y=445).perform()
         logger.warning("========== Article 3")
-        time.sleep(15)
+        time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
         if self.isElementExist("查看全文"):
             self.driver.find_element_by_accessibility_id("查看全文").click()
         time.sleep(85)
         self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
-        time.sleep(15)
+        time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
 
         # Article 4
         TouchAction(self.driver).tap(x=200, y=575).perform()
         logger.warning("========== Article 4")
-        time.sleep(15)
+        time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
         if self.isElementExist("查看全文"):
             self.driver.find_element_by_accessibility_id("查看全文").click()
         time.sleep(85)
 
         self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
-        time.sleep(15)
+        time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
 
         # level 2 main page
         self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
         logger.warning("========== Back to Level 2, 获取原力")
-        time.sleep(15)
+        time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
         return

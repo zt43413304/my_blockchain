@@ -7,7 +7,6 @@ import time
 from apscheduler.schedulers.blocking import BlockingScheduler
 
 from hashworld import HashWorldCheck
-from star163 import my_star163
 
 # 第一步，创建一个logger
 logger = logging.getLogger("start_lenovo.py")
@@ -45,7 +44,7 @@ scheduler = BlockingScheduler()
 
 # Lenovo Sever
 scheduler.add_job(HashWorldCheck.loop_hashworldcheck, "cron", hour="1,9,17", max_instances=1)
-scheduler.add_job(my_star163.loop_star163, "cron", hour="6-23/2", max_instances=1)
+# scheduler.add_job(my_star163.loop_star163, "cron", hour="6-23/2", max_instances=1)
 
 try:
     scheduler.start()

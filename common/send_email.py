@@ -60,7 +60,7 @@ def send_diwuqu_HtmlEmail(to_list, account_list):
            '<style type="text/css">' + \
            '/* Table Head */' + \
            '#table-7 thead th {' + \
-           'background-color: rgb(81, 130, 187);' + \
+           'background-color: RGB(255,94,102);' + \
            'color: #fff;' + \
            'border-bottom-width: 1;' + \
            '}' + \
@@ -102,7 +102,7 @@ def send_diwuqu_HtmlEmail(to_list, account_list):
           ' </html>'
 
     html_body = ''
-
+    total_values_all = 0
     for m in range(len(account_list)):
         content_list = account_list[m]
         total_values = 0
@@ -127,11 +127,12 @@ def send_diwuqu_HtmlEmail(to_list, account_list):
         body_sum = '<tr><td colspan="4" align="center">' + str(phone) + ' (' + str(calculated) + ')' + '</td>' + \
                    '<td align="right">' + str(round(total_values, 2)) + '</td></tr>'
 
+        total_values_all = total_values_all + total_values
         account_body = body + body_sum
         html_body = html_body + account_body
     mail_msg = head + html_body + end
 
-    subject = "Diwuqu,[" + str(phone) + " : " + str(round(total_values, 2)) + "]"
+    subject = "Diwuqu,[账号数:" + str(len(account_list)) + ", 总额:" + str(round(total_values_all, 2)) + "]"
 
     logger.warning('********** send_diwuqu_HtmlEmail(), subject =' + subject)
     # logger.warning('********** send_diwuqu_HtmlEmail(), mail_msg =' + mail_msg)

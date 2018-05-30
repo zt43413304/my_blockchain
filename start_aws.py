@@ -40,9 +40,9 @@ logger.warning('********** Start from start_aws.py ...')
 scheduler = BlockingScheduler()
 
 # Tokyo Sever
-scheduler.add_job(OneChainCheck.loop_onechain, "cron", hour="3,11,19", max_instances=1)
-scheduler.add_job(my_diwuqu.loop_diwuqu, "cron", hour="5,13,21", max_instances=1)
-scheduler.add_job(my_bixiang.loop_bixiang, "cron", hour="7,15,23", max_instances=1)
+scheduler.add_job(OneChainCheck.loop_onechain, "cron", hour="3,11,19", max_instances=3)
+scheduler.add_job(my_diwuqu.loop_diwuqu, "cron", hour="5,13,21", max_instances=3)
+scheduler.add_job(my_bixiang.loop_bixiang, "cron", hour="7,15,23", max_instances=3)
 
 # Lenovo Sever
 # scheduler.add_job(HashWorldCheck.loop_hashworldcheck, "cron", hour="1,9,17", max_instances=1)

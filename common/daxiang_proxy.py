@@ -1,4 +1,5 @@
 import logging
+import time
 
 import requests
 
@@ -29,8 +30,16 @@ def get_proxyIP():
         return proxy_ip
     except Exception as e:
         print(e)
-        logger.warning(">>>>>>>>>> Get proxy ip error!")
-        return 'none'
+        logger.warning(">>>>>>>>>> Get proxy ip error, sleep 5 seconds...")
+        logger.warning(">>>>>>>>>> Zzzzzzzzzzzzzzzz...")
+        time.sleep(5)
+        response = requests.get(url)
+        proxy_ip = response.text
+
+        if proxy_ip is None or proxy_ip is '':
+            return ''
+        else:
+            return proxy_ip
 
 
 def test_ip(url, proxy_ip):

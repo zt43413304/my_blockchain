@@ -78,7 +78,7 @@ class AppiumStar:
         logger.warning("========== Level 2, 获取原力")
         time.sleep(30)
 
-        self.appium_zixun()
+        # self.appium_zixun()
 
         self.appium_music()
 

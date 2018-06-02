@@ -33,14 +33,18 @@ def get_proxyIP():
         logger.warning(">>>>>>>>>> Get proxy ip error, sleep 5 seconds...")
         logger.warning(">>>>>>>>>> Zzzzzzzzzzzzzzzz...")
         time.sleep(5)
-        response = requests.get(url)
-        proxy_ip = response.text
 
-        if proxy_ip is None or proxy_ip is '':
+        try:
+            response = requests.get(url)
+            proxy_ip = response.text
+
+            if proxy_ip is None or proxy_ip is '':
+                return ''
+            else:
+                return proxy_ip
+        except Exception as f:
+            print(f)
             return ''
-        else:
-            return proxy_ip
-
 
 def test_ip(url, proxy_ip):
     # url = 'http://ip.chinaz.com/getip.aspx'

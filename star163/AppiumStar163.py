@@ -80,7 +80,7 @@ class AppiumStar:
 
         self.appium_zixun()
 
-        self.appium_music()
+        # self.appium_music()
 
         # level 1 main page
         # self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()

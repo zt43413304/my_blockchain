@@ -251,7 +251,7 @@ def loop_diwuqu():
     logger.warning('********** Start from loop_diwuqu() ...')
 
     global proxies
-    proxies = daxiang_proxy.get_proxy("https://server.diwuqu.vip")
+    # proxies = daxiang_proxy.get_proxy("https://server.diwuqu.vip")
 
     # Reading data
     with open(curpath + '/diwuqu/data_diwuqu.json', 'r') as file:

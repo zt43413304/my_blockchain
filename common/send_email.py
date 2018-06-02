@@ -134,7 +134,7 @@ def send_diwuqu_HtmlEmail(to_list, account_list):
 
     subject = "Diwuqu,[账号数:" + str(len(account_list)) + ", 总额:" + str(round(total_values_all, 2)) + "]"
 
-    logger.warning('********** send_diwuqu_HtmlEmail(), subject =' + subject)
+
     # logger.warning('********** send_diwuqu_HtmlEmail(), mail_msg =' + mail_msg)
 
     msg = MIMEText(mail_msg, 'html', 'utf-8')
@@ -148,6 +148,9 @@ def send_diwuqu_HtmlEmail(to_list, account_list):
         server.connect(mail_host)  # 连接服务器
         server.login(mail_user, mail_pass)  # 登录操作
         server.sendmail(me, to_list, msg.as_string())
+
+        logger.warning('********** send_diwuqu_HtmlEmail(), subject =' + subject)
+
         server.close()
         return True
     except Exception as e:
@@ -241,6 +244,9 @@ def send_Bixiang_HtmlEmail(to_list, content_list):
         server.connect(mail_host)  # 连接服务器
         server.login(mail_user, mail_pass)  # 登录操作
         server.sendmail(me, to_list, msg.as_string())
+
+        logger.warning('********** send_Bixiang_HtmlEmail(), subject =' + subject)
+
         server.close()
         return True
     except Exception as e:
@@ -366,6 +372,9 @@ def send_HashWorld_LandEmail(to_list, content_list):
         server.connect(mail_host)  # 连接服务器
         server.login(mail_user, mail_pass)  # 登录操作
         server.sendmail(me, to_list, msg.as_string())
+
+        logger.warning('********** send_HashWorld_LandEmail(), subject =' + subject)
+
         server.close()
         return True
     except Exception as e:
@@ -452,6 +461,9 @@ def send_HashWorld_HtmlEmail(to_list, content_list):
         server.connect(mail_host)  # 连接服务器
         server.login(mail_user, mail_pass)  # 登录操作
         server.sendmail(me, to_list, msg.as_string())
+
+        logger.warning('********** send_HashWorld_HtmlEmail(), subject =' + subject)
+
         server.close()
         return True
     except Exception as e:
@@ -537,6 +549,7 @@ def send_OneChain_HtmlEmail(to_list, content_list):
     subject = "Onechain, [ONE:" + str(round(ONE_Total, 2)) + ", ONELUCK:" + str(
         round(ONTLUCK_Total, 2)) + "]"
 
+
     msg = MIMEText(mail_msg, 'html', 'utf-8')
     me = "newseeing@163.com"
     msg['Subject'] = subject
@@ -548,6 +561,9 @@ def send_OneChain_HtmlEmail(to_list, content_list):
         server.connect(mail_host)  # 连接服务器
         server.login(mail_user, mail_pass)  # 登录操作
         server.sendmail(me, to_list, msg.as_string())
+
+        logger.warning('********** send_OneChain_HtmlEmail(), subject =' + subject)
+
         server.close()
         return True
     except Exception as e:

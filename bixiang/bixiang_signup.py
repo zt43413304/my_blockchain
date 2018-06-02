@@ -42,11 +42,7 @@ def execute_command(cmd):
     return p.returncode
 
 
-def signup():
-    # cmd_clean = r'cmd.exe C:/DevTools/my_blockchain/star163/clean.bat'
-    # result1 = execute_command(cmd_clean)
-    # print('result:------>', result1)
-
+def startup_emulator():
     output = os.system("/Applications/NemuPlayer.app")
     logger.warning(">>>>>>>>>> Start NemuPlayer.app, output = " + str(output))
     time.sleep(15)
@@ -60,18 +56,28 @@ def signup():
     output = os.system(
         "node /Applications/Appium.app/Contents/Resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4723")
     print('result:------>' + str(output))
-    time.sleep(15)
+    time.sleep(5)
 
-    # python执行直接用【os.system(要执行的命令)】即可，如果是windows下\n和\a需要转义，所以用下面的内容
-    # cmd_app_desktop = r'start /b node C:\Users\Jackie.Liu\AppData\Local\appium-desktop\app-1.6.0\resources\app\node_modules\appium\build\lib\main.js'
-    # cmd_appium = r'start /b node C:\DevTools\Appium\node_modules\appium\lib\server\main.js --address 127.0.0.1 --port 4723'
-    # result3 = execute_command(cmd_app_desktop)
-    # 需要手动确定启动Server
-    # output3 = os.system("C:/Users/Jackie.Liu/AppData/Local/appium-desktop/Appium.exe -a 127.0.0.1 -p 4723")
 
-    App_signup = Appium_bixiang.Signup('4.4.4', '127.0.0.1:7555', 4723)
-    App_signup.registry()
+def signup_html():
+    pass
+    # App_signup = Appium_bixiang.Signup('4.4.4', '127.0.0.1:7555', 4723)
+    # App_signup.html_signup()
     # send_email.send_star163_HtmlEmail('newseeing@163.com', '136获取原力完成.', '')
     # logger.warning('********** Sending 136获取原力完成 Email Complete!')
 
-signup()
+
+def signup_app():
+    pass
+    # App_signup = Appium_bixiang.Signup('4.4.4', '127.0.0.1:7555', 4723)
+    # App_signup.registry()
+    # send_email.send_star163_HtmlEmail('newseeing@163.com', '136获取原力完成.', '')
+    # logger.warning('********** Sending 136获取原力完成 Email Complete!')
+
+
+# startup_emulator()
+# HTML_signup = Appium_bixiang.Signup()
+# HTML_signup.html_signup()
+
+APP_signup = Appium_bixiang.Signup('4.4.4')
+APP_signup.app_signup()

@@ -5,9 +5,9 @@ import os
 import random
 import time
 
+import appium
 from PIL import Image
-# from appium import webdriver
-from selenium import webdriver
+from appium import webdriver
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -39,8 +39,14 @@ PATH = lambda p: os.path.abspath(
 class Signup:
     MIN_SEC = 15
     MAX_SEC = 20
+    rate = 1
+
 
     def __init__(self):
+        logger.warning("********** start __init()__...")
+
+
+    def get_html_driver(self):
         desired_caps = {}
         desired_caps['platformName'] = 'Android'
         desired_caps['platformVersion'] = '4.4.4'
@@ -49,16 +55,15 @@ class Signup:
         desired_caps['newCommandTimeout'] = '600'
         desired_caps['browserName'] = 'Chrome'
         self.driver = webdriver.Remote('http://localhost:4723/wd/hub', desired_caps)
-        logger.warning("********** start __init()__...")
 
-    def __init__(self, version):
-        print("start __init(version)__...")
+    def get_app_driver(self):
         desired_caps = {}
         desired_caps['platformName'] = 'Android'
-        desired_caps['platformVersion'] = version
+        desired_caps['platformVersion'] = '4.4.4'
         desired_caps['deviceName'] = 'emulator-5554'
         desired_caps['noReset'] = 'True'
         desired_caps['newCommandTimeout'] = '600'
+        # desired_caps['autoWebview'] = 'True'
         desired_caps['app'] = PATH(
             '/Users/Jackie.Liu/Documents/MuMu共享文件夹/bixiang-229-1.4.1-Y1032_1BA281650150FE92ADA35DB3DF335D28.apk'
         )
@@ -66,9 +71,17 @@ class Signup:
         desired_caps['appActivity'] = 'com.coinstation.bixiang.view.activity.MainActivity'
         self.driver = webdriver.Remote('http://localhost:4723/wd/hub', desired_caps)
 
-    def isElementExist(self, id):
+    def isElementExist_by_classname(self, classname):
         try:
-            self.driver.find_element_by_accessibility_id(id)
+            self.driver.find_element(By.CLASS_NAME, classname)
+            return True
+        except Exception as e:
+            print(e)
+            return False
+
+    def isElementExist_by_id(self, id):
+        try:
+            self.driver.find_element(By.ID, id)
             return True
         except Exception as e:
             print(e)
@@ -92,6 +105,7 @@ class Signup:
         '''
         wait = WebDriverWait(self.driver, 10)
         time.sleep(2)  # 保证图片刷新出来
+        # print(self.driver.page_source)
         img = wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'geetest_canvas_img')))
         location = img.location
         size = img.size
@@ -267,7 +281,7 @@ class Signup:
         # 识别当前总共移动距离是大于还是小于position
         # 大于则补连续的-1，小于则补连续的1
         offset = int(sum(tracks) - len_ori)
-        print(">>>>> offset=" + str(offset))
+        # print(">>>>> offset=" + str(offset))
         if offset > 0:
             tracks.extend([-1 for i in range(offset)])
         elif offset < 0:
@@ -276,8 +290,7 @@ class Signup:
         # 模拟终点附近的左右移动
         tracks.extend(
             [0, 0, 1, -1, 0, 0])
-        # logger.warning("********** 4. 计算轨迹后，偏差值 = " + str(sum(tracks) - distance))
-        print("********** 42. 计算轨迹后，偏差值 = " + str(sum(tracks) - len_ori))
+        logger.warning("********** 4. 计算轨迹后，偏差值 = " + str(sum(tracks) - len_ori))
 
         return tracks
 
@@ -326,8 +339,7 @@ class Signup:
             track.extend([1 for i in range(abs(offset))])
 
         # 模拟终点附近的左右移动
-        track.extend(
-            [0, 1, -1, 0])
+        track.extend([0, -1, 1])
         logger.warning("********** 4. 计算轨迹后，偏差值 = " + str(sum(track) - distance))
         return track
 
@@ -380,7 +392,7 @@ class Signup:
             print(f)
             return False
 
-    def login_with_sms(self, sms):
+    def login_with_sms(self, sms_code):
         """
         打开网页输入用户名密码
         :return: None
@@ -391,26 +403,29 @@ class Signup:
 
         code2 = wait.until(EC.presence_of_element_located((By.ID, 'code2')))
         # phones.send_keys(self.phones)
-        code2.send_keys(sms)
-        print(">>>>> login with SMS=" + sms)
+        code2.send_keys(sms_code)
 
-        button = wait.until(EC.presence_of_element_located((By.ID, 'download')))
-        button.click()
+        wait.until(EC.presence_of_element_located((By.ID, 'download'))).click()
+        print(">>>>> login with SMS=" + sms_code)
 
-    def html_signup(self):
+
+    def html_signup(self, suma_phone, suma):
+        global rate
 
         try:
-            suma = my_suma.suma()
-            # suma_phone = suma.getMobilenum()
-            suma_phone = '13945860933'
+            self.get_html_driver()
+            # suma = my_suma.suma()
+
             logger.warning("********** suma_phone = " + suma_phone)
+
+            # /Users/Jackie.Liu/DevTools/Selenium/chromedriver
 
             # driver = webdriver.Chrome()
             # driver.maximize_window()
             # self.driver.set_window_size(600, 800)
             # self.driver.set_window_position(y=0, x=0)
 
-            self.driver.get('http://bixiang8.com/inVdO')
+            self.driver.get('http://bixiang8.com/dz5vU')
             wait = WebDriverWait(self.driver, 10)
             phones = self.driver.find_element_by_id('phones')
             # code2 = driver.find_element_by_id('code2')
@@ -471,15 +486,15 @@ class Signup:
                 if success:
                     # 步骤八：滑块验证通过，短信登录
                     time.sleep(5)
-                    suma_sms = suma.getVcodeAndHoldMobilenum(suma_phone)
-                    if suma_sms == '':
-                        button = wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'geetest_refresh_1')))
-                        button.click()
+                    suma_code = suma.getVcodeAndHoldMobilenum(suma_phone)
+
+                    if suma_code == -1:
+                        wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'geetest_refresh_1'))).click()
                         logger.warning(">>>>>>>>>> 8. 滑块验证成功，但未收到短信，重新验证. ")
                         logger.warning("\n")
                         geetest = False
                     else:
-                        self.login_with_sms(suma_sms)
+                        self.login_with_sms(suma_code)
                         logger.warning(">>>>>>>>>> 6. 滑块验证成功，短信登录. ")
                         # 退出循环
                         geetest = True
@@ -491,9 +506,51 @@ class Signup:
                     logger.warning(">>>>>>>>>> 7. 滑块验证不成功，重新验证. ")
                     time.sleep(random.randint(3, 4))
                     logger.warning("\n")
+                time.sleep(3)
+            return 0
+        except Exception as e:
+            print(e)
+            return -1
+        finally:
+            self.driver.close()
+
+    def html_signup1(self, suma_phone, suma):
+        global rate
+
+        try:
+            self.get_html_driver()
+            # suma = my_suma.suma()
+
+            logger.warning("********** suma_phone = " + suma_phone)
+
+            # /Users/Jackie.Liu/DevTools/Selenium/chromedriver
+
+            # driver = webdriver.Chrome()
+            # driver.maximize_window()
+            # self.driver.set_window_size(600, 800)
+            # self.driver.set_window_position(y=0, x=0)
+
+            self.driver.get('http://bixiang8.com/dz5vU')
+            wait = WebDriverWait(self.driver, 10)
+            phones = self.driver.find_element_by_id('phones')
+            # code2 = driver.find_element_by_id('code2')
+            phones.send_keys(suma_phone)
+
+            # 步骤一：先点击按钮，弹出没有缺口的图片
+            button = wait.until(EC.presence_of_element_located((By.ID, 'getCode')))
+            button.click()
+
+            time.sleep(5)
+            suma_code = suma.getVcodeAndHoldMobilenum(suma_phone)
+
+            self.login_with_sms(suma_code)
+            time.sleep(5)
+            logger.warning(">>>>>>>>>> 2. 滑块验证成功，短信登录. ")
+            return 0
 
         except Exception as e:
             print(e)
+            return -1
         finally:
             self.driver.close()
 
@@ -504,32 +561,130 @@ class Signup:
             if views[i].text == name:
                 return views[i]
 
-    def app_signup(self):
+    def my_find_elements_by_classname_instance(self, classname, instance):
+        # android.widget.TextView
+        views = self.driver.find_elements(By.CLASS_NAME, classname)
+        return views[instance]
 
-        element = self.my_find_elements_by_classname('android.widget.TextView', '我的')
-        element.click()
 
-        el1 = self.driver.find_element_by_id("com.coinstation.bixiang:id/btn_sign")
-        el1.click()
-        el2 = self.driver.find_element_by_id("com.coinstation.bixiang:id/signed_close")
-        el2.click()
-        el3 = self.driver.find_element_by_xpath(
-            "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.LinearLayout[3]/android.widget.LinearLayout/android.widget.TextView")
-        el3.click()
-        el4 = self.driver.find_element_by_id("com.coinstation.bixiang:id/tv_set")
-        el4.click()
-        el5 = self.driver.find_element_by_id("com.coinstation.bixiang:id/btn_bindphone")
-        el5.click()
-        el6 = self.driver.find_element_by_id("com.coinstation.bixiang:id/et_phone")
-        el6.send_keys("13601334563")
-        el7 = self.driver.find_element_by_id("com.coinstation.bixiang:id/btn_sendsms")
-        el7.click()
-        el8 = self.driver.find_element_by_id("com.coinstation.bixiang:id/et_sms")
-        el8.send_keys("4563")
-        el9 = self.driver.find_element_by_id("com.coinstation.bixiang:id/btn_save")
-        el9.click()
-        el10 = self.driver.find_element_by_id("com.coinstation.bixiang:id/btn_back")
-        el10.click()
+
+    def app_signup(self, suma_phone, suma):
+
+        try:
+            self.get_app_driver()
+            cons = self.driver.contexts
+            print(self.driver.current_context)
+            # print(self.driver.current_url)
+            # print(self.driver.current_window_handle)
+
+            # print(bool(type(self.driver == webdriver)))
+            # print(bool(type(self.driver == appium.webdriver)))
+
+            wait = WebDriverWait(self.driver, 10)
+
+            # 新用户签到
+            if self.isElementExist_by_id("com.coinstation.bixiang:id/btn_sign"):
+                self.driver.find_element(By.ID, 'com.coinstation.bixiang:id/btn_sign').click()
+
+            if self.isElementExist_by_id("com.coinstation.bixiang:id/signed_close"):
+                self.driver.find_element(By.ID, 'com.coinstation.bixiang:id/signed_close').click()
+            # el1 = self.driver.find_element_by_id("com.coinstation.bixiang:id/btn_sign")
+            # el1.click()
+            # el2 = self.driver.find_element_by_id("com.coinstation.bixiang:id/signed_close")
+            # el2.click()
+
+            # el3 = self.driver.find_element_by_xpath(
+            #     "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.LinearLayout[3]/android.widget.LinearLayout/android.widget.TextView")
+            # el3.click()
+
+            # 右下角“我的”
+            self.my_find_elements_by_classname('android.widget.TextView', '我的').click()
+
+            # 账号设置
+            self.driver.find_element(By.ID, "com.coinstation.bixiang:id/tv_set").click()
+
+            # 点击“去绑定”按钮 - 手机号
+            # self.driver.find_element(By.ID, "com.coinstation.bixiang:id/btn_bindphone").screenshot("phone.png")
+            self.driver.find_element(By.ID, "com.coinstation.bixiang:id/btn_bindphone").click()
+
+            # 输入手机号
+            phone = self.driver.find_element(By.ID, "com.coinstation.bixiang:id/et_phone")
+            phone.send_keys(suma_phone)
+
+            # 点击获取短信验证码
+            # 步骤一：先点击按钮，弹出没有缺口的图片
+            self.driver.find_element(By.ID, "com.coinstation.bixiang:id/btn_sendsms").click()
+
+            time.sleep(3)
+
+            # cons1 = self.driver.contexts
+            # webview = self.driver.contexts.last
+            # self.driver.switch_to_alert()
+            # self.driver.switch_to('WEBVIEW_com.coinstation.bixiang')
+            # self.driver.switch_to_window()
+
+            # print(self.driver.current_context)
+            # print(self.driver.current_url)
+            # print(self.driver.current_window_handle)
+
+            # views = self.driver.find_element(By.CLASS_NAME, 'android.view.View')
+            # for i in range(len(views)):
+            #     print(">>>>> " + views[i].id)
+            #     print(">>>>> " + views[i].text)
+
+            # 方法一：driver.switch_to.context("NATIVE_APP")   # 这个NATIVE_APP是固定的参数
+            # 方法二：driver.switch_to.context(contexts[0])      # 从contexts里取第一个参数
+
+            # 当没有通过滑块验证时，循环多次进行验证
+
+
+            # 步骤八：滑块验证通过，短信登录
+            time.sleep(5)
+            suma_code = suma.getVcodeAndHoldMobilenum(suma_phone)
+
+            # 输入短信验证码
+            sms = self.driver.find_element_by_id("com.coinstation.bixiang:id/et_sms")
+            sms.send_keys(suma_code)
+
+            # 点击“绑定”按钮
+            self.driver.find_element_by_id("com.coinstation.bixiang:id/btn_save").click()
+
+
+            # 关闭，返回
+            self.driver.find_element_by_id("com.coinstation.bixiang:id/btn_back").click()
+
+
+        except Exception as e:
+            print(e)
+        finally:
+            self.driver.close()
+
+
+    def app_quiz(self):
+        pass
+        # http://tui.yingshe.com/user/newtask?xxx=F3pHv1-IXGuea3pHt0u4e
+
+        self.get_app_driver()
+        cons = self.driver.contexts
+        print(self.driver.current_context)
+
+        # 右下角“我的”
+        self.my_find_elements_by_classname('android.widget.TextView', '我的').click()
+
+        print(self.driver.current_context)
+        cons = self.driver.contexts
+        # appium.webdriver.switch_to(cons[1])
+        self.driver.switch_to(cons[1])
+        print(self.driver.current_context)
+
+        views = self.driver.find_element(By.CLASS_NAME, 'android.widget.TextView')
+        for i in range(len(views)):
+            print(">>>>> " + views[i].id)
+            print(">>>>> " + views[i].text)
+
+
+
+
 
 # App_signup = Signup()
 # App_signup.registry()

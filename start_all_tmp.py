@@ -48,7 +48,8 @@ scheduler = BlockingScheduler()
 # HashWorldCheck.loop_hashworldcheck()
 # HashWorldLand.loop_hashworldland()
 # my_star163.loop_star163()
-my_diwuqu.save_token()
+# my_diwuqu.save_token()
+
 
 # scheduler.add_job(my_bixiang.loop_bixiang, "cron", minute="*/3", max_instances=1)
 # scheduler.add_job(OneChainCheck.loop_onechain, "cron", minute="*/3", max_instances=1)

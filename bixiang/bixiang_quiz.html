@@ -1,0 +1,615 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>答题任务</title>
+    <!--    <script src="/js/flexible.js"></script>-->
+    <script>
+        !function(){var a="@charset \"utf-8\";html{color:#000;background:#fff;overflow-y:scroll;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}html *{outline:0;-webkit-text-size-adjust:none;-webkit-tap-highlight-color:rgba(0,0,0,0)}html,body{font-family:sans-serif}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,hr,button,article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{margin:0;padding:0}input,select,textarea{font-size:100%}table{border-collapse:collapse;border-spacing:0}fieldset,img{border:0}abbr,acronym{border:0;font-variant:normal}del{text-decoration:line-through}address,caption,cite,code,dfn,em,th,var{font-style:normal;font-weight:500}ol,ul{list-style:none}caption,th{text-align:left}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:500}q:before,q:after{content:''}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-.5em}sub{bottom:-.25em}a:hover{text-decoration:underline}ins,a{text-decoration:none}",b=document.createElement("style");if(document.getElementsByTagName("head")[0].appendChild(b),b.styleSheet)b.styleSheet.disabled||(b.styleSheet.cssText=a);else try{b.innerHTML=a}catch(c){b.innerText=a}}();!function(a,b){function c(){var b=f.getBoundingClientRect().width;b/i>540&&(b=540*i);var c=b/10;f.style.fontSize=c+"px",k.rem=a.rem=c}var d,e=a.document,f=e.documentElement,g=e.querySelector('meta[name="viewport"]'),h=e.querySelector('meta[name="flexible"]'),i=0,j=0,k=b.flexible||(b.flexible={});if(g){console.warn("将根据已有的meta标签来设置缩放比例");var l=g.getAttribute("content").match(/initial\-scale=([\d\.]+)/);l&&(j=parseFloat(l[1]),i=parseInt(1/j))}else if(h){var m=h.getAttribute("content");if(m){var n=m.match(/initial\-dpr=([\d\.]+)/),o=m.match(/maximum\-dpr=([\d\.]+)/);n&&(i=parseFloat(n[1]),j=parseFloat((1/i).toFixed(2))),o&&(i=parseFloat(o[1]),j=parseFloat((1/i).toFixed(2)))}}if(!i&&!j){var p=(a.navigator.appVersion.match(/android/gi),a.navigator.appVersion.match(/iphone/gi)),q=a.devicePixelRatio;i=p?q>=3&&(!i||i>=3)?3:q>=2&&(!i||i>=2)?2:1:1,j=1/i}if(f.setAttribute("data-dpr",i),!g)if(g=e.createElement("meta"),g.setAttribute("name","viewport"),g.setAttribute("content","initial-scale="+j+", maximum-scale="+j+", minimum-scale="+j+", user-scalable=no"),f.firstElementChild)f.firstElementChild.appendChild(g);else{var r=e.createElement("div");r.appendChild(g),e.write(r.innerHTML)}a.addEventListener("resize",function(){clearTimeout(d),d=setTimeout(c,300)},!1),a.addEventListener("pageshow",function(a){a.persisted&&(clearTimeout(d),d=setTimeout(c,300))},!1),"complete"===e.readyState?e.body.style.fontSize=12*i+"px":e.addEventListener("DOMContentLoaded",function(){e.body.style.fontSize=12*i+"px"},!1),c(),k.dpr=a.dpr=i,k.refreshRem=c,k.rem2px=function(a){var b=parseFloat(a)*this.rem;return"string"==typeof a&&a.match(/rem$/)&&(b+="px"),b},k.px2rem=function(a){var b=parseFloat(a)/this.rem;return"string"==typeof a&&a.match(/px$/)&&(b+="rem"),b}}(window,window.lib||(window.lib={}));
+    </script>
+    <script src="/js/jquery-1.8.3.min.js"></script>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        html{
+            background-color: #343a44;
+        }
+        .taskBox{
+            padding: 0 0.533334rem 0.533334rem;
+        }
+        .taskBox .title>img{
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .taskBox .title>p{
+            font-size: 0.32rem;
+            color: #7f888f;
+            text-align: center;
+            line-height: 1;
+            margin: 0.266667rem 0 0.32rem;
+        }
+        .indent{
+            text-indent: 2em;
+        }
+        .info{
+            margin: 0 0 0.533333rem 0;
+            border-radius: 0.106667rem;
+            height: 2.0rem;
+            width: 100%;
+            background-color: #2e343d;
+            text-align: center;
+            color: #fff;
+            padding-top: 0.666667rem;
+        }
+        .info p{
+            line-height: 1;
+        }
+        .info .p1{
+            margin-bottom: 0.266667rem;
+        }
+        .info .p2{
+            font-size: 0.613333rem;
+        }
+        .info .p3 ,
+        .info .p4{
+            display: none;
+        }
+        .info .p3{
+            color: #7f888f;
+        }
+        .info .p4{
+            font-size: 0.613333rem;
+        }
+        .info .p4>span{
+            vertical-align: middle;
+        }
+        .info .p4 span.cff{
+            color: #ffa200;
+        }
+        .info .p4 img{
+            width: 0.586667rem;
+            height: 0.586667rem;
+            vertical-align: middle;
+        }
+        .delay{
+            margin-top: 0.266667rem;
+            display: block;
+        }
+        .question{
+            padding: 0.533333rem 0.3rem 0.8rem;
+            background-color: #fff;
+            border-radius: 0.106667rem;
+        }
+        .question ul li{
+            display: none;
+        }
+        .question ul li.cur{
+            display: block;
+        }
+        .question h2{
+            font-size: 0.533333rem;
+            color: #353c4c;
+            margin-bottom: 0.533333rem;
+            text-indent: -0.9em;
+            margin-left: 0.9em;
+        }
+        .question ul input{
+            width: 100%;
+            margin-top: 0.266667rem;
+            border-radius: 0.106667rem;
+            background-color: #4285d5;
+            text-indent: 0.2rem;
+            height: 1.066667rem;
+            line-height: 1.066667rem;
+            color: #fff;
+            font-size: 0.453333rem;
+            border: none;
+            text-align: left;
+        }
+        .eject{
+            display: none;
+            width: 7.466667rem;
+            padding-top: 0.8rem;
+            background-color: #fff;
+            border-radius: 0.106667rem;
+            text-align: center;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            -webkit-transform: translate(-50%,-50%);
+            -ms-transform: translate(-50%,-50%);
+            -o-transform: translate(-50%,-50%);
+            transform: translate(-50%,-50%);
+            z-index: 999;
+        }
+        .eject h2{
+            font-size: 0.453333rem;
+            color: #353c4c;
+            font-weight: bold;
+        }
+        .eject p{
+            color: #7f888f;
+            font-size: 0.373333rem;
+            line-height: 0.453333rem;
+            padding: 0.266667rem 0.8rem 0.666667rem;
+        }
+        .eject ul{
+            border-top: 1px solid #e7e7e7;
+        }
+        .eject ul li{
+            width: 48.9%;
+            height: 1.12rem;
+            line-height: 1.12rem;
+            font-size: 0.373333rem;
+            color: #353c4c;
+            overflow: hidden;
+            float: left;
+        }
+        .eject ul li.continue{
+            color: #ffa627;
+            font-weight: bold;
+            border-left: 1px solid #e7e7e7;
+        }
+        .mask{
+            display: none;
+            width: 100%;
+            height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: #000;
+            opacity: .6;
+        }
+        .complete{
+            display: none;
+            position: relative;
+        }
+        .complete>img{
+            width: 100%;
+            height: auto;
+            margin-top: -1.72rem;
+        }
+        .complete .p1{
+            font-size: 0.373333rem;
+            color: #fff;
+            margin: 0.8rem 0 0.266667rem;
+        }
+        .complete .p2{
+            width: 100%;
+            font-size: 0.693333rem;
+            font-weight: bold;
+            color: #ffa200;
+            position: absolute;
+            top: 4.053334rem;
+            left: 50%;
+            -webkit-transform: translate(-50%,0);
+            -ms-transform: translate(-50%,0);
+            -o-transform: translate(-50%,0);
+            transform: translate(-50%,0);
+            text-align: center;
+            line-height: 1;
+        }
+        .complete .p3{
+            margin: 0 auto;
+            font-size: 0.453333rem;
+            color: #fff;
+            background-color: #4285d5;
+            border-radius: 0.106667rem;
+            width: 7.2rem;
+            height: 1.2rem;
+            line-height: 1.2rem;
+            margin-top: 0.8rem;
+        }
+        .animation{
+            animation: shake 1s 1;
+            -webkit-animation: shake 1s 1;
+        }
+        @-webkit-keyframes shake{
+            from, to {
+                -webkit-transform: translate3d(0, 0, 0);
+                transform: translate3d(0, 0, 0);
+            }
+            10%, 30%, 50%, 70%, 90% {
+                -webkit-transform: translate3d(-10px, 0, 0);
+                transform: translate3d(-10px, 0, 0);
+            }
+            20%, 40%, 60%, 80% {
+                -webkit-transform: translate3d(10px, 0, 0);
+                transform: translate3d(10px, 0, 0);
+            }
+        }
+        #delayNum{
+            color: #fff;
+        }
+        input[type="button"],
+        input[type="submit"],
+        input[type="reset"] ,
+        botton,
+        bottom {
+            -webkit-appearance:none;
+        }
+        input:disabled,
+        input[disabled]
+        { -webkit-opacity:1; opacity: 1; }
+        .complete .myCourse{
+            width: 7.333334rem;
+            height: auto;
+            background-color: #fff;
+            border-radius: 0.426667rem;
+            padding: 0 0.533334rem 1.066667rem;
+            margin: 0 auto;
+            position: absolute;
+            top: 5.1rem;
+            left: 50%;
+            -webkit-transform: translate(-50%,0);
+            -ms-transform: translate(-50%,0);
+            -o-transform: translate(-50%,0);
+            transform: translate(-50%,0);
+        }
+        .complete .myCourse>img.img_title{
+            display: block;
+            width: 7.466667rem;
+            height: auto;
+            margin: 0 auto;
+        }
+        .complete .myCourse ul li h2::before{
+            content: "\02022";
+            color: #fff;
+            font-style: normal;
+            text-decoration: none;
+            margin-right: 0.213334rem;
+        }
+        .complete .myCourse ul li h2{
+            display: inline-block;
+            height: 0.426667rem;
+            line-height: 0.426667rem;
+            padding: 0 0.4rem 0 0.213334rem;
+            font-size: 0.32rem;
+            font-weight: bold;
+            color: #fff;
+            background-color: #4285d5;
+            border-radius: 300px;
+            margin-top: 0.266667rem;
+        }
+        .complete .myCourse ul li:first-child h2{
+            margin-top: 0;
+        }
+        .complete .myCourse ul li div{
+            margin-left: 0.266667rem;
+            margin: 0.266667rem 0 0 0.266667rem;
+            padding-left: 0.266667rem;
+            border-left: 1px solid #eaeaea;
+        }
+        .complete .myCourse ul li div h3{
+            font-size: 0.4rem;
+            color: #353c4c;
+            font-weight: bold;
+            margin-bottom: 0.186667rem;
+            line-height: 1;
+        }
+        .complete .myCourse ul li div p{
+            font-size: 0.32rem;
+            color: #353c4c;
+            line-height: 0.4rem;
+        }
+        .complete .myCourse ul li div p span{
+            font-size: 0.4rem;
+            color: #4285d5;
+            font-weight: bold;
+            margin: 0 0.16rem;
+        }
+        .complete .myCourse>img.img_button{
+            display: block;
+            width: 9.6rem;
+            height: auto;
+            margin: 0 auto;
+            position: absolute;
+            left: 50%;
+            -webkit-transform: translate(-50%,0);
+            -ms-transform: translate(-50%,0);
+            -o-transform: translate(-50%,0);
+            transform: translate(-50%,0);
+            padding-top: 0.38rem;
+        }
+    </style>
+</head>
+<body>
+<div class="taskBox">
+    <div class="title">
+        <img src="/images/question_title_bg.png">
+        <p>中途退出则需要重新答题才可获得奖励！</p>
+    </div>
+    <div class="info">
+        <p class="p1">共10题</p>
+        <p class="p2">正在回答第1题</p>
+        <p class="p4">
+            <span>获得</span>
+            <span class="cff">BX糖果+<span>20</span></span>
+            <img src="/images/small_coin.png">
+        </p>
+        <p class="p3 delay">
+            <span id="delayNum">3</span>
+            <span>S后进入下一题</span>
+        </p>
+    </div>
+    <div class="question">
+        <ul>
+            <li class="cur">
+                <h2 class="subject"><span>1</span>.在币响获得的BX糖果是什么？</h2>
+                <input type="button" data='A' value="A.币响的永久收益股份">
+                <input type="button" data='B' value="B.直接的钱">
+                <input type="button" data='C' value="C.直接的虚拟货币">
+                <input type="button" data='D' value="D.没有用途的平台积分">
+            </li>
+            <li>
+                <h2 class="subject"><span>2</span>.BX糖果可以用来做什么？</h2>
+                <input type="button" data='A' value="A.持有BX糖果可获得收益和空投及特权">
+                <input type="button" data='B' value="B.积攒起来未来可兑换可流通数字货币">
+                <input type="button" data='C' value="C.进入币圈高端俱乐部的门票">
+                <input type="button" data='D' value="D.以上都对">
+            </li>
+            <li>
+                <h2 class="subject"><span>3</span>.可以通过什么方法获得BX糖果？</h2>
+                <input type="button" data='A' value="A.邀请好友">
+                <input type="button" data='B' value="B.分享快讯">
+                <input type="button" data='C' value="C.每天签到">
+                <input type="button" data='D' value="D.以上都对">
+            </li>
+            <li>
+                <h2 class="subject"><span>4</span>.重新安装币响以后要立即做什么？</h2>
+                <input type="button" data='A' value="A.开始分享快讯">
+                <input type="button" data='B' value="B.开始邀请好友">
+                <input type="button" data='C' value="C.检查并核实绑定原来的手机号">
+            </li>
+            <li>
+                <h2 class="subject"><span>5</span>.邀请好友以后我怎么获得邀请他的奖励？</h2>
+                <input type="button" data='A' value="A.好友立即绑定手机号">
+                <input type="button" data='B' value="B.好友开始分享快讯">
+                <input type="button" data='C' value="C.好友再去邀请好友">
+            </li>
+            <li>
+                <h2 class="subject"><span>6</span>.在币响绑定自己手机号有什么用？</h2>
+                <input type="button" data='A' value="A.保护BX糖果账户">
+                <input type="button" data='B' value="B.找回币响账户">
+                <input type="button" data='C' value="C.下级绑手机号上级才能获得分成">
+                <input type="button" data='D' value="D.以上都对">
+            </li>
+            <li>
+                <h2 class="subject"><span>7</span>.使用币响遇到问题了怎么办？</h2>
+                <input type="button" data='A' value="A.打电话给币响">
+                <input type="button" data='B' value="B.截图并在设置里反馈给官方">
+                <input type="button" data='C' value="C.等官方来联系我">
+            </li>
+            <li>
+                <h2 class="subject"><span>8</span>.向币响反馈问题时必须提供什么？</h2>
+                <input type="button" data='A' value="A.币响号或者手机号">
+                <input type="button" data='B' value="B.糖果数量">
+                <input type="button" data='C' value="C.昵称">
+            </li>
+            <li>
+                <h2 class="subject"><span>9</span>.什么是价值互联网？</h2>
+                <input type="button" data='A' value="A.使用产品能获得该产品股份分红福利等">
+                <input type="button" data='B' value="B.传统的互联网产品">
+                <input type="button" data='C' value="C.值钱的互联网产品">
+            </li>
+            <li>
+                <h2 class="subject"><span>10</span>.币响的价值互联网有什么特点？</h2>
+                <input type="button" data='A' value="A.每人靠贡献积累获得币响股份">
+                <input type="button" data='B' value="B.持有BX糖果越多，分红越多">
+                <input type="button" data='C' value="C.结合区块链理念并落地实施">
+                <input type="button" data='D' value="D.以上都是">
+            </li>
+        </ul>
+    </div>
+    <div class="eject">
+        <h2>真的要放弃奖励？</h2>
+        <p>
+            您已经累计获得
+            <span class="addup">0BX</span>糖果奖励，全部回答完成后可发放到账户，现在中断将不能发放。</p>
+        <ul>
+            <li class="cancel">取消任务</li>
+            <li class="continue">继续做任务</li>
+        </ul>
+    </div>
+    <div class="mask"></div>
+</div>
+<div class="complete">
+    <img src="/images/endpage_bg.png">
+    <p class="p2">获得+200BX糖果</p>
+    <div class="myCourse">
+        <img class="img_title" src="/images/endpage_course_title.png">
+        <ul>
+            <li>
+                <h2>您当前有：<span>1893</span>糖果</h2>
+                <div>
+                    <h3>领取等级奖励</h3>
+                    <p>领取下一个等级奖励，大约还需要邀请<span>4</span>名好友，连续签到或邀请高质量好友，可以帮助你更快达成目标</p>
+                </div>
+            </li>
+            <li>
+                <h2>达到6666糖果</h2>
+                <div>
+                    <h3>听币响创始人聊币响</h3>
+                    <p>币响创始人会和你聊一聊币响，在我的页面点击"币响没有你想的那么神秘"即可听到</p>
+                </div>
+            </li>
+            <li>
+                <h2>达到12000糖果</h2>
+                <div>
+                    <h3>加入BX糖果俱乐部</h3>
+                    <p>认识更多币圈顶尖人脉，实时获取第一手消息，加入方式在我的页面点击"BX糖果俱乐部"可见</p>
+                </div>
+            </li>
+        </ul>
+        <img class="img_button done"  onclick="my_skip()" src="/images/endpage_button.png">
+    </div>
+</div>
+<audio id="audio" src="/images/coin.mp3" preload="preload"></audio>
+<p id="xxx" style="display:none">CAGFuJNapI17bEuKyC9Om</p>
+<div id="url_info" style="display:none">http://tui.yingshe.com/thumb/2018/06/03/73592bdb17a328d7fddbbe755c1230c3_thumb.png?t=1528029898</div>
+<input class="bxbnum" value="0" style="display: none;" type="text">
+<script>
+    var u = navigator.userAgent;
+    var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+    var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+
+    // 安卓 ios 跳转到首页
+    function my_skip() {
+        var url = $('#url_info').html();
+        // var url = url_info.toString();
+        try {
+            if(isiOS){
+                if (window.webkit.messageHandlers.main_func && typeof(window.webkit.messageHandlers.main_func) == "object") {
+                    window.webkit.messageHandlers.main_func.postMessage('{"action":"share", "data":{"url":"' + url + '","qq":"0","wechat":"0","weibo":"0","friends":"0"}}');
+                } else {
+                    location.href = "http://m.bixiang.com";
+                }
+            }else {
+                if (clienthandle.main_func && typeof(clienthandle.main_func) == "function") {
+                    clienthandle.main_func('{"action":"share", "data":{"url":"' + url + '","qq":"0","wechat":"0","weibo":"0","friends":"0"}}');
+                } else {
+                    location.href = "http://m.bixiang.com";
+                }
+            }
+        } catch (e) {
+            location.href = "http://m.bixiang.com";
+        }
+    }
+
+
+
+    var countdown = 3;
+    var num = 1;
+    var isover = 0;
+    var liIndex = 0;
+    var bxNum = 0;
+
+    // 完成任务跳转分享
+    $('.done').click(function(){
+        done();
+    });
+    $('.question ul li input').click(function(){
+        var index = $(this).index();
+        var length = $('.question ul li').length;
+        var $this = $(this);
+        var task_id = $(this).parent().index();
+        var answer = $(this).attr('data');
+        var xxx = $('#xxx').html();
+        var aw_index = $this.siblings('h2').find('span').html();
+        task_id = aw_index ;
+        if(task_id < 11) {
+            $.ajax({
+                url: '/user/taskCheck',
+                async: true,
+                type: "post",
+                dataType: 'json',
+                data: {
+                    "task_id": task_id,
+                    "answer": answer,
+                    "xxx": xxx
+                },
+                success: function (result) {
+                    $('.addup').html(result.record + 'BX');
+                    bxNum = $('.addup').html();
+                    if (result.status == 1) {
+                        $('#audio')[0].play();
+                        var nums = result.cishu_val +1;
+                        $('.info .p2').html('正在回答第' + nums +'题');
+                        console.log(nums);
+                        suc();
+                        $this.siblings('input').css('background-color', '#8e96a7');
+                    } else if (result.status == 2) {
+                        $('#audio')[0].play();
+                        var nums = result.cishu_val +1 ;
+                        $('.info .p2').html('正在回答第' + nums +'题');
+                        isover = 1;
+                        $('.taskBox').hide();
+                        $('.mask').show();
+                        $('.complete').show();
+                    } else if (result.status == 3) {
+                        isover = 1;
+                        $('.taskBox').hide();
+                        $('.mask').show();
+                        $('.complete').show();
+                    } else {
+                        err();
+                    }
+                }
+            });
+        }else{
+            isover = 1;
+            $('.taskBox').hide();
+            $('.mask').show();
+            $('.complete').show();
+        }
+    });
+    $('.question ul li input').dblclick(function () {
+        return;
+    });
+    function suc(){
+        num++;
+        $('.info .p1').html('恭喜回答正确！');
+        $('.info .p4').show();
+        $('.info .p3').show();
+        $('.info .p2').hide();
+        settime();
+        $(this).siblings().css('background-color','#8e96a7');
+        $('.info .delay').html('<span id="delayNum">3</span><span>S后进入下一题</span>');
+    };
+    function err(){
+        $('.info .p1').html('回答错误');
+        $('.info .delay').html('啊噢~别气馁，再回顾下文章呢？');
+        $('.info .p2').css('color','#ffa200');
+        $('.info .p4').hide();
+        $('.info .p2').show();
+        $('.info .p2').html('请重新选择');
+        $('.info .p2').addClass('animation');
+        setTimeout(function(){
+            $('.info .p2').removeClass('animation');
+        },600);
+        $('.info .p3').show();
+        $('.question ul li input').css('background-color','#4285d5');
+    };
+    function settime(){
+        if (countdown == 0){
+            $('.question ul input').removeAttr('disabled');
+            $('.delay').hide();
+            $('.info .p1').html('共10题');
+            $('.info .p2').css('color','#fff');
+            $('.info .p2').show();
+            $('.info .p4').hide();
+            $('#delayNum').html(3);
+            liIndex++;
+            $('.question ul li').eq(liIndex).addClass('cur').siblings().removeClass('cur');
+            countdown = 3;
+            return;
+        } else {
+            $('.question ul input').attr('disabled','true');
+            $('#delayNum').html(countdown);
+            countdown--;
+        };
+        setTimeout(function(){
+            settime();
+        },1000);
+    };
+    // 安卓  ios 调用
+    function isOver(){
+        if(isiOS){
+            // var isovers = isover.toString();
+            return '{"isOver":"'+isover+'","bx":"'+bxNum+'"}';
+        }else {
+            return {"is_over":isover,"bx":bxNum};
+        }
+    };
+
+
+
+</script>
+<div style="position:fixed;z-index:-99;opacity:0;bottom:0;">
+    <script src='https://w.cnzz.com/c.php?id=1272182233&l=3' language='JavaScript'></script>
+</div>
+</body>
+</html>

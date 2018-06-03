@@ -8,6 +8,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+from PIL import Image
+
+from PIL import Image
+from PIL import ImageChops
 
 def get_gap(image1, image2):
     """
@@ -126,8 +130,6 @@ def find_x(image):
     print("=================")
     print("\r\n")
 
-from PIL import Image
-from PIL import ImageChops
 
 def compare_images(path_one, path_two, diff_save_location):
     """
@@ -154,14 +156,23 @@ def compare_images(path_one, path_two, diff_save_location):
 #                    '/path/to/不同.jpg')
 
 
-image1 = Image.open("/Users/Jackie.Liu/DevTools/my_blockchain/test/fullimage.png")
-image2 = Image.open("/Users/Jackie.Liu/DevTools/my_blockchain/test/cutimage.png")
+image1 = Image.open("/Users/Jackie.Liu/DevTools/my_blockchain/logs/page_20180531183912.png")
+size = image1.size
+print(size)
+image2 = image1.crop((322, 62, 706, 296))
+# image2 = image1.crop((100, 100, 200, 200))
+image2.save('new.png')
+
+
+
+# image1 = Image.open("/Users/Jackie.Liu/DevTools/my_blockchain/test/fullimage.png")
+# image2 = Image.open("/Users/Jackie.Liu/DevTools/my_blockchain/test/cutimage.png")
 # image_info(image1)
 # image_info(image2)
 # compare_images("/Users/Jackie.Liu/DevTools/my_blockchain/test/fullimage.png", "/Users/Jackie.Liu/DevTools/my_blockchain/test/cutimage.png", "diff.png")
 
-gap = get_gap(image1, image2)
-print(">>>>> gap="+str(gap))
+# gap = get_gap(image1, image2)
+# print(">>>>> gap="+str(gap))
 
 # (x, y)=calc_cut_offset(image1, image2)
 # print(">>>>> x="+str(x)+", y="+str(y))

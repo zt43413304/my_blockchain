@@ -6,6 +6,8 @@ import subprocess
 import time
 
 from bixiang import Appium_bixiang
+from common import my_suma
+
 
 # 第一步，创建一个logger,并设置级别
 logger = logging.getLogger("bixiang_signup.py")
@@ -76,8 +78,27 @@ def signup_app():
 
 
 # startup_emulator()
-# HTML_signup = Appium_bixiang.Signup()
-# HTML_signup.html_signup()
 
-APP_signup = Appium_bixiang.Signup('4.4.4')
-APP_signup.app_signup()
+phone = input("********** Phone Number (enter for new): ")
+logger.warning('********** Your input is: ' + phone)
+suma = my_suma.suma()
+
+try:
+    if phone is '':
+        phone = suma.getMobilenum()
+    else:
+        phone = phone
+
+    signup = Appium_bixiang.Signup()
+
+    # result = signup.html_signup1(phone, suma)
+    result = 0
+    if result == 0:
+        signup.app_signup(phone, suma)
+
+
+    # signup.app_quiz()
+
+
+except Exception as e:
+    print(e)

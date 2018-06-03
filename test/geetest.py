@@ -251,7 +251,7 @@ class CrackGeetest():
         ActionChains(self.driver).click_and_hold(slider).perform()
 
 
-        # for x in track:
+        # for x in tracks:
         #     ActionChains(self.driver).move_by_offset(xoffset=(x-last), yoffset=0).perform()
         #     dist+=x
         #     last=x

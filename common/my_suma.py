@@ -79,46 +79,52 @@ class suma:
         try:
             response = requests.request("GET", url, headers=self.headers, params=querystring)
             result = response.text
+            logger.warning("********** response.text = " + result)
+            code = self.get_sms_code(result)
 
             count = 0
-            while result == 'not_receive':
-                if count > 30:
+            while code == -1:
+                if count > 12:
                     break
                 logger.warning(">>>>>>>>>> Waiting for sms......")
-                time.sleep(2)
+                time.sleep(5)
                 response = requests.request("GET", url, headers=self.headers, params=querystring)
                 result = response.text
+                logger.warning("********** response.text = " + result)
+                code = self.get_sms_code(result)
                 count += 1
 
-            if result == 'not_receive':
-                return ''
-            else:
-                phone = result.split('|')[0]
-                sms = result.split('|')[1]
-                logger.warning("********** SMS = " + sms)
-
-                nPos = sms.index('为')
-                code = sms[nPos:nPos + 4]
-                logger.warning("********** SMS code = " + code)
+            if code != -1:
                 return code
+            else:
+                return -1
         except Exception as e:
             print(e)
 
 
-def get_sms_code(sms):
-    # 【币响App】您的验证码为3088，请于3内正确输入，如非本人操作，请忽略此短信。
-    str1 = sms
-    str2 = '为'
-    print(str1.find(str2))
-    print(str1[13:17])
+    def get_sms_code(self, sms):
+        # 【币响App】您的验证码为3088，请于3内正确输入，如非本人操作，请忽略此短信。
+        str1 = sms
+        str2 = '为'
+        nPos = str1.find(str2)
+        # print(nPos)
+        if nPos > -1:
+            # print(str1[nPos+1:nPos+5])
+            return str1[nPos+1:nPos+5]
+        else:
+            return nPos
 
-    nPos = str1.index(str2)
-    print(nPos)
 
-    str_a = "重新发送(59)"
-    if '重新发送' in str_a:
-        print('Exist')
-    else:
-        print('Not exist')
+    # str_a = "重新发送(59)"
+    # if '重新发送' in str_a:
+    #     print('Exist')
+    # else:
+    #     print('Not exist')
 
 # get_sms_code('【币响App】您的验证码为3088，请于3内正确输入，如非本人操作，请忽略此短信。')
+
+# suma = suma()
+# suma.getMobilenum()
+# suma.getVcodeAndHoldMobilenum('15873864640')
+
+# print(get_sms_code('【币响App】您的验证码为3088，请于3内正确输入，如非本人操作，请忽略此短信'))

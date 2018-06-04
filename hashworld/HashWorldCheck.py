@@ -14,8 +14,8 @@ from common import daxiang_proxy
 from common import send_email
 
 # 第一步，创建一个logger,并设置级别
-logger1 = logging.getLogger("HashWorldCheck.py")
-logger1.setLevel(logging.INFO)  # Log等级总开关
+logger = logging.getLogger("HashWorldCheck.py")
+logger.setLevel(logging.INFO)  # Log等级总开关
 # 第二步，创建一个handler，用于写入日志文件
 fh = logging.FileHandler('./logs/HashWorldCheck.log', mode='w')
 fh.setLevel(logging.INFO)  # 输出到file的log等级的开关
@@ -26,8 +26,8 @@ formatter = logging.Formatter("%(asctime)s - %(filename)s[line:%(lineno)d] - %(l
 fh.setFormatter(formatter)
 ch.setFormatter(formatter)
 # 第四步，将logger添加到handler里面
-logger1.addHandler(fh)
-logger1.addHandler(ch)
+logger.addHandler(fh)
+logger.addHandler(ch)
 
 curpath = os.getcwd()
 
@@ -60,13 +60,13 @@ def open_FirstPage():
     }
 
     try:
-        logger1.warning("********** open_FirstPage(), proxies = " + str(proxies))
+        logger.warning("********** open_FirstPage(), proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
         response = requests.request("GET", url, headers=headers, verify=False, proxies=proxies, timeout=60)
         res = response.status_code
-        logger1.warning('********** open_FirstPage(), status_code=' + str(res))
+        logger.warning('********** open_FirstPage(), status_code=' + str(res))
 
         if res == 200:
             return res
@@ -94,7 +94,7 @@ def login_GetAccessToken(payload):
     }
 
     try:
-        logger1.warning("********** login_GetAccessToken(), proxies = " + str(proxies))
+        logger.warning("********** login_GetAccessToken(), proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
@@ -129,7 +129,7 @@ def get_strength_info(token):
     }
 
     try:
-        logger1.warning("********** get_strength_info(), proxies = " + str(proxies))
+        logger.warning("********** get_strength_info(), proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
@@ -138,7 +138,7 @@ def get_strength_info(token):
         res = response.json()["status"]
         if res == 'common_OK':
             strength = response.json()['data']['strength']
-            logger1.warning(">>>>>>>>>> strength = " + str(strength))
+            logger.warning(">>>>>>>>>> strength = " + str(strength))
             return strength
     except Exception as e:
         print(e)
@@ -163,7 +163,7 @@ def get_prize_wheel(token):
     }
 
     try:
-        logger1.warning("********** get_prize_wheel(), proxies = " + str(proxies))
+        logger.warning("********** get_prize_wheel(), proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
@@ -206,7 +206,7 @@ def click_Lottery(token, block_number):
         if res == 'common_OK':
             coin_name = response.json()["data"]["coin_name"]
             # amount = response.json()["data"]["amount"]
-            logger1.warning('********** lottery...... ' + coin_name)
+            logger.warning('********** lottery...... ' + coin_name)
             return 0
         else:
             return -1
@@ -235,7 +235,7 @@ def check_UserTotal(token):
     total = 0
 
     try:
-        logger1.warning("********** check_UserTotal(), proxies = " + str(proxies))
+        logger.warning("********** check_UserTotal(), proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
@@ -248,7 +248,7 @@ def check_UserTotal(token):
                 market_price_cny = totallist[i]['coin']['market_price_cny']
                 active_balance = totallist[i]['active_balance']
                 total = total + market_price_cny * active_balance
-            logger1.warning('********** Total: ' + str(total))
+            logger.warning('********** Total: ' + str(total))
             return total
         else:
             return -1
@@ -282,10 +282,10 @@ def click_hashworld_land(token, strength, wonder_list):
                 lottery = click_Lottery(token, j)
 
                 if lottery == -1:
-                    logger1.warning('********** Click Jackielg land failed.')
+                    logger.warning('********** Click Jackielg land failed.')
                     continue
                 else:
-                    logger1.warning('>>>>>>>>>> Click Jackielg land success.')
+                    logger.warning('>>>>>>>>>> Click Jackielg land success.')
                     strength = strength - 1
 
         # click others land
@@ -297,10 +297,10 @@ def click_hashworld_land(token, strength, wonder_list):
                 lottery = click_Lottery(token, k)
 
                 if lottery == -1:
-                    logger1.warning('********** Click Others land failed.')
+                    logger.warning('********** Click Others land failed.')
                     continue
                 else:
-                    logger1.warning('>>>>>>>>>> Click Others land success.')
+                    logger.warning('>>>>>>>>>> Click Others land success.')
                     strength = strength - 1
 
 
@@ -321,7 +321,7 @@ def get_Landlist(token):
     }
 
     try:
-        logger1.warning("********** get_Landlist(), proxies = " + str(proxies))
+        logger.warning("********** get_Landlist(), proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
@@ -356,7 +356,7 @@ def get_LandPrice(token, land_number):
     }
 
     try:
-        logger1.warning("********** get_LandPrice(), proxies = " + str(proxies))
+        # logger.warning("********** get_LandPrice(), proxies = " + str(proxies))
         payload = "{\n\t\"land\": {\n\t\t\"id\": [" + str(land_number) + "]\n\t}\n}"
 
         requests.packages.urllib3.disable_warnings()
@@ -394,15 +394,15 @@ def loop_Lottery():
         password = item.get('password', 'NA')
         data = dict(phone=phone, password=password)
 
-        logger1.warning('\n')
-        logger1.warning("========== Checking [" + phone + "] ==========")
+        logger.warning('\n')
+        logger.warning("========== Checking [" + phone + "] ==========")
 
         token = login_GetAccessToken(data)
         if token == -1:
-            logger1.warning('********** Login fail!')
+            logger.warning('********** Login fail!')
             continue
         else:
-            logger1.warning('********** Login success! token:' + token)
+            logger.warning('********** Login success! token:' + token)
 
             # 体力值
             strength = get_strength_info(token)
@@ -416,7 +416,7 @@ def loop_Lottery():
 
             value = check_UserTotal(token)
             all_total = all_total + value
-            logger1.warning("========== End[" + phone + "], Total[ " + str(all_total) + " ] ==========")
+            logger.warning("========== End[" + phone + "], Total[ " + str(all_total) + " ] ==========")
 
             # 构建Json数组，用于发送HTML邮件
             # Python 字典类型转换为 JSON 对象
@@ -430,8 +430,8 @@ def loop_Lottery():
 
     # sending email
     send_email.send_HashWorld_HtmlEmail('newseeing@163.com', content_list)
-    logger1.warning('********** Sending Email Complete!')
-    logger1.warning('\n')
+    logger.warning('********** Sending Email Complete!')
+    logger.warning('\n')
 
 
 def loop_Land():
@@ -441,16 +441,16 @@ def loop_Land():
 
     token = login_GetAccessToken(data)
     if token == -1:
-        logger1.warning('********** Login fail!')
+        logger.warning('********** Login fail!')
     else:
-        logger1.warning('********** Login success! token:' + token)
+        logger.warning('********** Login success! token:' + token)
 
         # find land list and price
         land_list = get_Landlist(token)
         for i in range(len(land_list)):
             land_Num = land_list[i][0]
             (land_name, price, tradable_status, gen_time, nickname) = get_LandPrice(token, land_Num)
-            logging.warning(
+            logger.warning(
                 '********** Land_Num:' + str(land_Num) + ", Land_Name:" + land_name + ", Price = " + str(price))
 
             # 构建Json数组，用于发送HTML邮件
@@ -471,12 +471,12 @@ def loop_Land():
         # content_land_list = sorted(content_land_list, key=lambda x: x["price"])
         content_land_list = sorted(content_land_list, key=lambda x: (x["tradable_status"], x["price"]))
         send_email.send_HashWorld_LandEmail('newseeing@163.com', content_land_list)
-        logger1.warning('********** Sending Land Email Complete!')
-        logger1.warning('\n')
+        logger.warning('********** Sending Land Email Complete!')
+        logger.warning('\n')
 
 def loop_hashworldcheck():
     # start
-    logger1.warning('********** Start from loop_hashworldcheck() ...')
+    logger.warning('********** Start from loop_hashworldcheck() ...')
 
     global proxies
     proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")

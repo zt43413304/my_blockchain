@@ -84,7 +84,7 @@ class suma:
 
             count = 0
             while code == -1:
-                if count > 12:
+                if count > 18:
                     break
                 # logger.warning("********** Waiting for sms......")
                 time.sleep(5)

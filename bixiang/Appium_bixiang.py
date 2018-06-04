@@ -401,9 +401,9 @@ class Signup:
         code2 = wait.until(EC.presence_of_element_located((By.ID, 'code2')))
         # phones.send_keys(self.phones)
         code2.send_keys(sms_code)
-        time.sleep(random.randint(1, 2))
         wait.until(EC.presence_of_element_located((By.ID, 'download'))).click()
         logger.warning(">>>>>>>>>> 2. 短信验证码: " + sms_code)
+        time.sleep(random.randint(8, 10))
 
     def my_find_elements_by_classname(self, classname, name):
         # android.widget.TextView
@@ -538,7 +538,7 @@ class Signup:
             # self.driver.set_window_size(600, 800)
             # self.driver.set_window_position(y=0, x=0)
 
-            self.driver.get('http://bixiang8.com/0e3Up2')
+            self.driver.get('http://bixiang8.com/KKjnn3')
             wait = WebDriverWait(self.driver, 10)
             phones = self.driver.find_element_by_id('phones')
             # code2 = driver.find_element_by_id('code2')
@@ -549,7 +549,7 @@ class Signup:
             button.click()
             logger.warning(">>>>>>>>>> 1. 开始进行滑块验证。")
 
-            time.sleep(8)
+            time.sleep(10)
             suma_code = suma.getVcodeAndHoldMobilenum(suma_phone)
 
             self.login_with_sms(suma_code)
@@ -639,7 +639,7 @@ class Signup:
             # 当没有通过滑块验证时，循环多次进行验证
 
             # 步骤八：滑块验证通过，短信登录
-            time.sleep(8)
+            time.sleep(10)
             sms_code = suma.getVcodeAndHoldMobilenum(suma_phone)
 
             # 输入短信验证码

@@ -510,8 +510,8 @@ def send_OneChain_HtmlEmail(to_list, content_list):
            '<table border="1px" cellspacing="0px" style="border-collapse:collapse" id="table-7">' + \
            '<thead>' + \
            '<th align="center">No.</th>' + \
-           '<th align="center">Account_Name</th>' + \
-           '<th align="center">Cal</th>' + \
+           '<th align="center">Account</th>' + \
+           '<th align="center">算力</th>' + \
            '<th align="center">ONE</th>' + \
            '<th align="center">ONELUCK</th>' + \
            '</thead>' + \
@@ -546,7 +546,7 @@ def send_OneChain_HtmlEmail(to_list, content_list):
           str(round(ONTLUCK_Total, 2)) + '</td></tr>'
     mail_msg = head + sum + end
 
-    subject = "Onechain, [ONE:" + str(round(ONE_Total, 2)) + ", ONELUCK:" + str(
+    subject = "[ONE:" + str(round(ONE_Total, 2)) + ", ONELUCK:" + str(
         round(ONTLUCK_Total, 2)) + "]"
 
 

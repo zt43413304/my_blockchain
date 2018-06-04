@@ -86,7 +86,7 @@ class suma:
             while code == -1:
                 if count > 12:
                     break
-                logger.warning(">>>>>>>>>> Waiting for sms......")
+                logger.warning("********** Waiting for sms......")
                 time.sleep(5)
                 response = requests.request("GET", url, headers=self.headers, params=querystring)
                 result = response.text

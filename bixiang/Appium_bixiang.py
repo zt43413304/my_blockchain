@@ -406,10 +406,10 @@ class Signup:
         code2.send_keys(sms_code)
 
         wait.until(EC.presence_of_element_located((By.ID, 'download'))).click()
-        print(">>>>> login with SMS=" + sms_code)
+        logger.warning(">>>>>>>>>> 2. 登录短信验证码: " + sms_code)
 
 
-    def html_signup(self, suma_phone, suma):
+    def html_signup1(self, suma_phone, suma):
         global rate
 
         try:
@@ -514,14 +514,14 @@ class Signup:
         finally:
             self.driver.close()
 
-    def html_signup1(self, suma_phone, suma):
+    def html_signup(self, suma_phone, suma):
         global rate
 
         try:
             self.get_html_driver()
             # suma = my_suma.suma()
 
-            logger.warning("********** suma_phone = " + suma_phone)
+            logger.warning("********** html_signup(), suma_phone = " + suma_phone)
 
             # /Users/Jackie.Liu/DevTools/Selenium/chromedriver
 
@@ -530,7 +530,7 @@ class Signup:
             # self.driver.set_window_size(600, 800)
             # self.driver.set_window_position(y=0, x=0)
 
-            self.driver.get('http://bixiang8.com/dz5vU')
+            self.driver.get('http://bixiang8.com/0e3Up2')
             wait = WebDriverWait(self.driver, 10)
             phones = self.driver.find_element_by_id('phones')
             # code2 = driver.find_element_by_id('code2')
@@ -539,13 +539,17 @@ class Signup:
             # 步骤一：先点击按钮，弹出没有缺口的图片
             button = wait.until(EC.presence_of_element_located((By.ID, 'getCode')))
             button.click()
+            logger.warning(">>>>>>>>>> 1. 开始进行滑块验证。")
+
 
             time.sleep(5)
             suma_code = suma.getVcodeAndHoldMobilenum(suma_phone)
 
             self.login_with_sms(suma_code)
-            time.sleep(5)
-            logger.warning(">>>>>>>>>> 2. 滑块验证成功，短信登录. ")
+            logger.warning(">>>>>>>>>> 3. 滑块验证成功，短信登录. ")
+            logger.warning("\n")
+            random.randint(3, 5)
+
             return 0
 
         except Exception as e:
@@ -571,9 +575,12 @@ class Signup:
     def app_signup(self, suma_phone, suma):
 
         try:
+            logger.warning("********** app_signup(), suma_phone = " + suma_phone)
             self.get_app_driver()
-            cons = self.driver.contexts
-            print(self.driver.current_context)
+            random.randint(3, 5)
+
+            # cons = self.driver.contexts
+            # print(self.driver.current_context)
             # print(self.driver.current_url)
             # print(self.driver.current_window_handle)
 
@@ -614,8 +621,7 @@ class Signup:
             # 点击获取短信验证码
             # 步骤一：先点击按钮，弹出没有缺口的图片
             self.driver.find_element(By.ID, "com.coinstation.bixiang:id/btn_sendsms").click()
-
-            time.sleep(3)
+            logger.warning(">>>>>>>>>> 1. 开始进行滑块验证。")
 
             # cons1 = self.driver.contexts
             # webview = self.driver.contexts.last
@@ -640,15 +646,17 @@ class Signup:
 
             # 步骤八：滑块验证通过，短信登录
             time.sleep(5)
-            suma_code = suma.getVcodeAndHoldMobilenum(suma_phone)
+            sms_code = suma.getVcodeAndHoldMobilenum(suma_phone)
 
             # 输入短信验证码
             sms = self.driver.find_element_by_id("com.coinstation.bixiang:id/et_sms")
-            sms.send_keys(suma_code)
+            sms.send_keys(sms_code)
+            logger.warning(">>>>>>>>>> 2. 登录短信验证码: " + sms_code)
 
             # 点击“绑定”按钮
             self.driver.find_element_by_id("com.coinstation.bixiang:id/btn_save").click()
-
+            logger.warning(">>>>>>>>>> 3. 滑块验证成功，短信登录. ")
+            random.randint(3,5)
 
             # 关闭，返回
             self.driver.find_element_by_id("com.coinstation.bixiang:id/btn_back").click()

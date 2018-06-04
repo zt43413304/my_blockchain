@@ -7,14 +7,10 @@ import os
 import random
 import re
 import time
-import urllib.parse
-from io import StringIO
 
 import requests
-from lxml import etree
 
 from common import daxiang_proxy
-from common import send_email
 
 # 第一步，创建一个logger,并设置级别
 logger = logging.getLogger("my_bixiang.py")
@@ -77,7 +73,6 @@ mail_subject = ''
 MIN_SEC = 2
 MAX_SEC = 5
 proxies = ''
-
 
 
 def bixiang_userInfo(unique, uid):
@@ -176,7 +171,6 @@ def bixiang_sign(unique, uid):
 
 
 def quiz_bixiang():
-
     # start
     logger.warning('********** Start from quiz_bixiang() ...')
 
@@ -199,7 +193,6 @@ def quiz_bixiang():
             continue
         else:
             signed = bixiang_sign(unique, uid)
-
 
     logger.warning('********** Quiz Complete!')
 

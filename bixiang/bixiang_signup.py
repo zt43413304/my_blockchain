@@ -6,10 +6,9 @@ import subprocess
 import time
 
 from bixiang import Appium_bixiang
+# 第一步，创建一个logger,并设置级别
 from common import my_suma
 
-
-# 第一步，创建一个logger,并设置级别
 logger = logging.getLogger("bixiang_signup.py")
 logger.setLevel(logging.INFO)  # Log等级总开关
 # 第二步，创建一个handler，用于写入日志文件
@@ -77,6 +76,12 @@ def signup_app():
     # logger.warning('********** Sending 136获取原力完成 Email Complete!')
 
 
+# Star from here......
+# bixiang_quiz1.quiz_html()
+
+# signup = Appium_bixiang.Signup()
+# signup.quiz_by_html()
+
 # startup_emulator()
 
 phone = input("********** Phone Number (enter for new): ")
@@ -93,12 +98,12 @@ try:
 
     result = signup.html_signup(phone, suma)
     # result = 0
+
     if result == 0:
-        signup.app_signup(phone, suma)
+        result = signup.app_signup(phone, suma)
 
-
-    # signup.app_quiz()
-
+    if result == 0:
+        signup.quiz_by_html()
 
 except Exception as e:
     print(e)

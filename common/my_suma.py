@@ -62,7 +62,7 @@ class suma:
             response = requests.request("GET", url, headers=self.headers, params=querystring)
             result = response.text
             phone = result.split('|')[0]
-            logger.warning("********** phone = " + phone)
+            logger.warning(">>>>>>>>>> phone = " + phone)
             return phone
         except Exception as e:
             print(e)
@@ -79,18 +79,18 @@ class suma:
         try:
             response = requests.request("GET", url, headers=self.headers, params=querystring)
             result = response.text
-            logger.warning("********** response.text = " + result)
+            logger.warning(">>>>>>>>>> response.text = " + result)
             code = self.get_sms_code(result)
 
             count = 0
             while code == -1:
                 if count > 12:
                     break
-                logger.warning("********** Waiting for sms......")
+                # logger.warning("********** Waiting for sms......")
                 time.sleep(5)
                 response = requests.request("GET", url, headers=self.headers, params=querystring)
                 result = response.text
-                logger.warning("********** response.text = " + result)
+                logger.warning(">>>>>>>>>> response.text = " + result)
                 code = self.get_sms_code(result)
                 count += 1
 

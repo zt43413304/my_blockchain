@@ -222,7 +222,7 @@ def slide_button(tracks):
     wait = WebDriverWait(driver, 10)
     slide = wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'geetest_slider_button')))
     logger.warning(">>>>>>>>>> 5. 滑动验证前，滑块位置：" + str(slide.location))
-    x1  = slide.location['x']
+    x1 = slide.location['x']
 
     ActionChains(driver).click_and_hold(slide).perform()
     for track in tracks:
@@ -233,9 +233,9 @@ def slide_button(tracks):
     time.sleep(0.5)
     ActionChains(driver).release().perform()
     logger.warning(">>>>>>>>>> 5. 滑动验证后，滑块位置：" + str(slide.location))
-    x2  = slide.location['x']
+    x2 = slide.location['x']
 
-    logger.warning(">>>>>>>>>> 5. 滑动距离 = " + str(x2-x1) +", Rendered 滑动距离 = " + str((x2-x1)*rate))
+    logger.warning(">>>>>>>>>> 5. 滑动距离 = " + str(x2 - x1) + ", Rendered 滑动距离 = " + str((x2 - x1) * rate))
 
     try:
         time.sleep(5)

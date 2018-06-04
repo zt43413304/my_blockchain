@@ -5,36 +5,94 @@
     <title>答题任务</title>
     <!--    <script src="/js/flexible.js"></script>-->
     <script>
-        !function(){var a="@charset \"utf-8\";html{color:#000;background:#fff;overflow-y:scroll;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}html *{outline:0;-webkit-text-size-adjust:none;-webkit-tap-highlight-color:rgba(0,0,0,0)}html,body{font-family:sans-serif}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,hr,button,article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{margin:0;padding:0}input,select,textarea{font-size:100%}table{border-collapse:collapse;border-spacing:0}fieldset,img{border:0}abbr,acronym{border:0;font-variant:normal}del{text-decoration:line-through}address,caption,cite,code,dfn,em,th,var{font-style:normal;font-weight:500}ol,ul{list-style:none}caption,th{text-align:left}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:500}q:before,q:after{content:''}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-.5em}sub{bottom:-.25em}a:hover{text-decoration:underline}ins,a{text-decoration:none}",b=document.createElement("style");if(document.getElementsByTagName("head")[0].appendChild(b),b.styleSheet)b.styleSheet.disabled||(b.styleSheet.cssText=a);else try{b.innerHTML=a}catch(c){b.innerText=a}}();!function(a,b){function c(){var b=f.getBoundingClientRect().width;b/i>540&&(b=540*i);var c=b/10;f.style.fontSize=c+"px",k.rem=a.rem=c}var d,e=a.document,f=e.documentElement,g=e.querySelector('meta[name="viewport"]'),h=e.querySelector('meta[name="flexible"]'),i=0,j=0,k=b.flexible||(b.flexible={});if(g){console.warn("将根据已有的meta标签来设置缩放比例");var l=g.getAttribute("content").match(/initial\-scale=([\d\.]+)/);l&&(j=parseFloat(l[1]),i=parseInt(1/j))}else if(h){var m=h.getAttribute("content");if(m){var n=m.match(/initial\-dpr=([\d\.]+)/),o=m.match(/maximum\-dpr=([\d\.]+)/);n&&(i=parseFloat(n[1]),j=parseFloat((1/i).toFixed(2))),o&&(i=parseFloat(o[1]),j=parseFloat((1/i).toFixed(2)))}}if(!i&&!j){var p=(a.navigator.appVersion.match(/android/gi),a.navigator.appVersion.match(/iphone/gi)),q=a.devicePixelRatio;i=p?q>=3&&(!i||i>=3)?3:q>=2&&(!i||i>=2)?2:1:1,j=1/i}if(f.setAttribute("data-dpr",i),!g)if(g=e.createElement("meta"),g.setAttribute("name","viewport"),g.setAttribute("content","initial-scale="+j+", maximum-scale="+j+", minimum-scale="+j+", user-scalable=no"),f.firstElementChild)f.firstElementChild.appendChild(g);else{var r=e.createElement("div");r.appendChild(g),e.write(r.innerHTML)}a.addEventListener("resize",function(){clearTimeout(d),d=setTimeout(c,300)},!1),a.addEventListener("pageshow",function(a){a.persisted&&(clearTimeout(d),d=setTimeout(c,300))},!1),"complete"===e.readyState?e.body.style.fontSize=12*i+"px":e.addEventListener("DOMContentLoaded",function(){e.body.style.fontSize=12*i+"px"},!1),c(),k.dpr=a.dpr=i,k.refreshRem=c,k.rem2px=function(a){var b=parseFloat(a)*this.rem;return"string"==typeof a&&a.match(/rem$/)&&(b+="px"),b},k.px2rem=function(a){var b=parseFloat(a)/this.rem;return"string"==typeof a&&a.match(/px$/)&&(b+="rem"),b}}(window,window.lib||(window.lib={}));
+        !function () {
+            var a = "@charset \"utf-8\";html{color:#000;background:#fff;overflow-y:scroll;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}html *{outline:0;-webkit-text-size-adjust:none;-webkit-tap-highlight-color:rgba(0,0,0,0)}html,body{font-family:sans-serif}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,hr,button,article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{margin:0;padding:0}input,select,textarea{font-size:100%}table{border-collapse:collapse;border-spacing:0}fieldset,img{border:0}abbr,acronym{border:0;font-variant:normal}del{text-decoration:line-through}address,caption,cite,code,dfn,em,th,var{font-style:normal;font-weight:500}ol,ul{list-style:none}caption,th{text-align:left}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:500}q:before,q:after{content:''}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-.5em}sub{bottom:-.25em}a:hover{text-decoration:underline}ins,a{text-decoration:none}",
+                b = document.createElement("style");
+            if (document.getElementsByTagName("head")[0].appendChild(b), b.styleSheet) b.styleSheet.disabled || (b.styleSheet.cssText = a); else try {
+                b.innerHTML = a
+            } catch (c) {
+                b.innerText = a
+            }
+        }();
+        !function (a, b) {
+            function c() {
+                var b = f.getBoundingClientRect().width;
+                b / i > 540 && (b = 540 * i);
+                var c = b / 10;
+                f.style.fontSize = c + "px", k.rem = a.rem = c
+            }
+
+            var d, e = a.document, f = e.documentElement, g = e.querySelector('meta[name="viewport"]'),
+                h = e.querySelector('meta[name="flexible"]'), i = 0, j = 0, k = b.flexible || (b.flexible = {});
+            if (g) {
+                console.warn("将根据已有的meta标签来设置缩放比例");
+                var l = g.getAttribute("content").match(/initial\-scale=([\d\.]+)/);
+                l && (j = parseFloat(l[1]), i = parseInt(1 / j))
+            } else if (h) {
+                var m = h.getAttribute("content");
+                if (m) {
+                    var n = m.match(/initial\-dpr=([\d\.]+)/), o = m.match(/maximum\-dpr=([\d\.]+)/);
+                    n && (i = parseFloat(n[1]), j = parseFloat((1 / i).toFixed(2))), o && (i = parseFloat(o[1]), j = parseFloat((1 / i).toFixed(2)))
+                }
+            }
+            if (!i && !j) {
+                var p = (a.navigator.appVersion.match(/android/gi), a.navigator.appVersion.match(/iphone/gi)),
+                    q = a.devicePixelRatio;
+                i = p ? q >= 3 && (!i || i >= 3) ? 3 : q >= 2 && (!i || i >= 2) ? 2 : 1 : 1, j = 1 / i
+            }
+            if (f.setAttribute("data-dpr", i), !g) if (g = e.createElement("meta"), g.setAttribute("name", "viewport"), g.setAttribute("content", "initial-scale=" + j + ", maximum-scale=" + j + ", minimum-scale=" + j + ", user-scalable=no"), f.firstElementChild) f.firstElementChild.appendChild(g); else {
+                var r = e.createElement("div");
+                r.appendChild(g), e.write(r.innerHTML)
+            }
+            a.addEventListener("resize", function () {
+                clearTimeout(d), d = setTimeout(c, 300)
+            }, !1), a.addEventListener("pageshow", function (a) {
+                a.persisted && (clearTimeout(d), d = setTimeout(c, 300))
+            }, !1), "complete" === e.readyState ? e.body.style.fontSize = 12 * i + "px" : e.addEventListener("DOMContentLoaded", function () {
+                e.body.style.fontSize = 12 * i + "px"
+            }, !1), c(), k.dpr = a.dpr = i, k.refreshRem = c, k.rem2px = function (a) {
+                var b = parseFloat(a) * this.rem;
+                return "string" == typeof a && a.match(/rem$/) && (b += "px"), b
+            }, k.px2rem = function (a) {
+                var b = parseFloat(a) / this.rem;
+                return "string" == typeof a && a.match(/px$/) && (b += "rem"), b
+            }
+        }(window, window.lib || (window.lib = {}));
     </script>
     <script src="/js/jquery-1.8.3.min.js"></script>
     <style>
-        *{
+        * {
             margin: 0;
             padding: 0;
         }
-        html{
+
+        html {
             background-color: #343a44;
         }
-        .taskBox{
+
+        .taskBox {
             padding: 0 0.533334rem 0.533334rem;
         }
-        .taskBox .title>img{
+
+        .taskBox .title > img {
             width: 100%;
             height: auto;
             display: block;
         }
-        .taskBox .title>p{
+
+        .taskBox .title > p {
             font-size: 0.32rem;
             color: #7f888f;
             text-align: center;
             line-height: 1;
             margin: 0.266667rem 0 0.32rem;
         }
-        .indent{
+
+        .indent {
             text-indent: 2em;
         }
-        .info{
+
+        .info {
             margin: 0 0 0.533333rem 0;
             border-radius: 0.106667rem;
             height: 2.0rem;
@@ -44,59 +102,74 @@
             color: #fff;
             padding-top: 0.666667rem;
         }
-        .info p{
+
+        .info p {
             line-height: 1;
         }
-        .info .p1{
+
+        .info .p1 {
             margin-bottom: 0.266667rem;
         }
-        .info .p2{
+
+        .info .p2 {
             font-size: 0.613333rem;
         }
-        .info .p3 ,
-        .info .p4{
+
+        .info .p3,
+        .info .p4 {
             display: none;
         }
-        .info .p3{
+
+        .info .p3 {
             color: #7f888f;
         }
-        .info .p4{
+
+        .info .p4 {
             font-size: 0.613333rem;
         }
-        .info .p4>span{
+
+        .info .p4 > span {
             vertical-align: middle;
         }
-        .info .p4 span.cff{
+
+        .info .p4 span.cff {
             color: #ffa200;
         }
-        .info .p4 img{
+
+        .info .p4 img {
             width: 0.586667rem;
             height: 0.586667rem;
             vertical-align: middle;
         }
-        .delay{
+
+        .delay {
             margin-top: 0.266667rem;
             display: block;
         }
-        .question{
+
+        .question {
             padding: 0.533333rem 0.3rem 0.8rem;
             background-color: #fff;
             border-radius: 0.106667rem;
         }
-        .question ul li{
+
+        .question ul li {
             display: none;
         }
-        .question ul li.cur{
+
+        .question ul li.cur {
             display: block;
         }
-        .question h2{
+
+        .question h2 {
             font-size: 0.533333rem;
             color: #353c4c;
             margin-bottom: 0.533333rem;
             text-indent: -0.9em;
             margin-left: 0.9em;
         }
-        .question ul input{
+
+        .question ul input {
             width: 100%;
             margin-top: 0.266667rem;
             border-radius: 0.106667rem;
@@ -109,7 +182,8 @@
             border: none;
             text-align: left;
         }
-        .eject{
+
+        .eject {
             display: none;
             width: 7.466667rem;
             padding-top: 0.8rem;
@@ -119,27 +193,31 @@
             position: fixed;
             top: 50%;
             left: 50%;
-            -webkit-transform: translate(-50%,-50%);
-            -ms-transform: translate(-50%,-50%);
-            -o-transform: translate(-50%,-50%);
-            transform: translate(-50%,-50%);
+            -webkit-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            -o-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
             z-index: 999;
         }
-        .eject h2{
+
+        .eject h2 {
             font-size: 0.453333rem;
             color: #353c4c;
             font-weight: bold;
         }
-        .eject p{
+
+        .eject p {
             color: #7f888f;
             font-size: 0.373333rem;
             line-height: 0.453333rem;
             padding: 0.266667rem 0.8rem 0.666667rem;
         }
-        .eject ul{
+
+        .eject ul {
             border-top: 1px solid #e7e7e7;
         }
-        .eject ul li{
+
+        .eject ul li {
             width: 48.9%;
             height: 1.12rem;
             line-height: 1.12rem;
@@ -148,12 +226,14 @@
             overflow: hidden;
             float: left;
         }
-        .eject ul li.continue{
+
+        .eject ul li.continue {
             color: #ffa627;
             font-weight: bold;
             border-left: 1px solid #e7e7e7;
         }
-        .mask{
+
+        .mask {
             display: none;
             width: 100%;
             height: 100vh;
@@ -163,21 +243,25 @@
             background-color: #000;
             opacity: .6;
         }
-        .complete{
+
+        .complete {
             display: none;
             position: relative;
         }
-        .complete>img{
+
+        .complete > img {
             width: 100%;
             height: auto;
             margin-top: -1.72rem;
         }
-        .complete .p1{
+
+        .complete .p1 {
             font-size: 0.373333rem;
             color: #fff;
             margin: 0.8rem 0 0.266667rem;
         }
-        .complete .p2{
+
+        .complete .p2 {
             width: 100%;
             font-size: 0.693333rem;
             font-weight: bold;
@@ -185,14 +269,15 @@
             position: absolute;
             top: 4.053334rem;
             left: 50%;
-            -webkit-transform: translate(-50%,0);
-            -ms-transform: translate(-50%,0);
-            -o-transform: translate(-50%,0);
-            transform: translate(-50%,0);
+            -webkit-transform: translate(-50%, 0);
+            -ms-transform: translate(-50%, 0);
+            -o-transform: translate(-50%, 0);
+            transform: translate(-50%, 0);
             text-align: center;
             line-height: 1;
         }
-        .complete .p3{
+
+        .complete .p3 {
             margin: 0 auto;
             font-size: 0.453333rem;
             color: #fff;
@@ -203,11 +288,13 @@
             line-height: 1.2rem;
             margin-top: 0.8rem;
         }
-        .animation{
+
+        .animation {
             animation: shake 1s 1;
             -webkit-animation: shake 1s 1;
         }
-        @-webkit-keyframes shake{
+
+        @-webkit-keyframes shake {
             from, to {
                 -webkit-transform: translate3d(0, 0, 0);
                 transform: translate3d(0, 0, 0);
@@ -221,20 +308,26 @@
                 transform: translate3d(10px, 0, 0);
             }
         }
-        #delayNum{
+
+        #delayNum {
             color: #fff;
         }
+
         input[type="button"],
         input[type="submit"],
-        input[type="reset"] ,
+        input[type="reset"],
         botton,
         bottom {
-            -webkit-appearance:none;
+            -webkit-appearance: none;
         }
+
         input:disabled,
-        input[disabled]
-        { -webkit-opacity:1; opacity: 1; }
-        .complete .myCourse{
+        input[disabled] {
+            -webkit-opacity: 1;
+            opacity: 1;
+        }
+
+        .complete .myCourse {
             width: 7.333334rem;
             height: auto;
             background-color: #fff;
@@ -244,25 +337,28 @@
             position: absolute;
             top: 5.1rem;
             left: 50%;
-            -webkit-transform: translate(-50%,0);
-            -ms-transform: translate(-50%,0);
-            -o-transform: translate(-50%,0);
-            transform: translate(-50%,0);
+            -webkit-transform: translate(-50%, 0);
+            -ms-transform: translate(-50%, 0);
+            -o-transform: translate(-50%, 0);
+            transform: translate(-50%, 0);
         }
-        .complete .myCourse>img.img_title{
+
+        .complete .myCourse > img.img_title {
             display: block;
             width: 7.466667rem;
             height: auto;
             margin: 0 auto;
         }
-        .complete .myCourse ul li h2::before{
+
+        .complete .myCourse ul li h2::before {
             content: "\02022";
             color: #fff;
             font-style: normal;
             text-decoration: none;
             margin-right: 0.213334rem;
         }
-        .complete .myCourse ul li h2{
+
+        .complete .myCourse ul li h2 {
             display: inline-block;
             height: 0.426667rem;
             line-height: 0.426667rem;
@@ -274,44 +370,50 @@
             border-radius: 300px;
             margin-top: 0.266667rem;
         }
-        .complete .myCourse ul li:first-child h2{
+
+        .complete .myCourse ul li:first-child h2 {
             margin-top: 0;
         }
-        .complete .myCourse ul li div{
+
+        .complete .myCourse ul li div {
             margin-left: 0.266667rem;
             margin: 0.266667rem 0 0 0.266667rem;
             padding-left: 0.266667rem;
             border-left: 1px solid #eaeaea;
         }
-        .complete .myCourse ul li div h3{
+
+        .complete .myCourse ul li div h3 {
             font-size: 0.4rem;
             color: #353c4c;
             font-weight: bold;
             margin-bottom: 0.186667rem;
             line-height: 1;
         }
-        .complete .myCourse ul li div p{
+
+        .complete .myCourse ul li div p {
             font-size: 0.32rem;
             color: #353c4c;
             line-height: 0.4rem;
         }
-        .complete .myCourse ul li div p span{
+
+        .complete .myCourse ul li div p span {
             font-size: 0.4rem;
             color: #4285d5;
             font-weight: bold;
             margin: 0 0.16rem;
         }
-        .complete .myCourse>img.img_button{
+
+        .complete .myCourse > img.img_button {
             display: block;
             width: 9.6rem;
             height: auto;
             margin: 0 auto;
             position: absolute;
             left: 50%;
-            -webkit-transform: translate(-50%,0);
-            -ms-transform: translate(-50%,0);
-            -o-transform: translate(-50%,0);
-            transform: translate(-50%,0);
+            -webkit-transform: translate(-50%, 0);
+            -ms-transform: translate(-50%, 0);
+            -o-transform: translate(-50%, 0);
+            transform: translate(-50%, 0);
             padding-top: 0.38rem;
         }
     </style>
@@ -444,12 +546,14 @@
                 </div>
             </li>
         </ul>
-        <img class="img_button done"  onclick="my_skip()" src="/images/endpage_button.png">
+        <img class="img_button done" onclick="my_skip()" src="/images/endpage_button.png">
     </div>
 </div>
 <audio id="audio" src="/images/coin.mp3" preload="preload"></audio>
 <p id="xxx" style="display:none">CAGFuJNapI17bEuKyC9Om</p>
-<div id="url_info" style="display:none">http://tui.yingshe.com/thumb/2018/06/03/73592bdb17a328d7fddbbe755c1230c3_thumb.png?t=1528029898</div>
+<div id="url_info" style="display:none">
+    http://tui.yingshe.com/thumb/2018/06/03/73592bdb17a328d7fddbbe755c1230c3_thumb.png?t=1528029898
+</div>
 <input class="bxbnum" value="0" style="display: none;" type="text">
 <script>
     var u = navigator.userAgent;
@@ -461,13 +565,13 @@
         var url = $('#url_info').html();
         // var url = url_info.toString();
         try {
-            if(isiOS){
+            if (isiOS) {
                 if (window.webkit.messageHandlers.main_func && typeof(window.webkit.messageHandlers.main_func) == "object") {
                     window.webkit.messageHandlers.main_func.postMessage('{"action":"share", "data":{"url":"' + url + '","qq":"0","wechat":"0","weibo":"0","friends":"0"}}');
                 } else {
                     location.href = "http://m.bixiang.com";
                 }
-            }else {
+            } else {
                 if (clienthandle.main_func && typeof(clienthandle.main_func) == "function") {
                     clienthandle.main_func('{"action":"share", "data":{"url":"' + url + '","qq":"0","wechat":"0","weibo":"0","friends":"0"}}');
                 } else {
@@ -480,7 +584,6 @@
     }
 
 
-
     var countdown = 3;
     var num = 1;
     var isover = 0;
@@ -488,10 +591,10 @@
     var bxNum = 0;
 
     // 完成任务跳转分享
-    $('.done').click(function(){
+    $('.done').click(function () {
         done();
     });
-    $('.question ul li input').click(function(){
+    $('.question ul li input').click(function () {
         var index = $(this).index();
         var length = $('.question ul li').length;
         var $this = $(this);
@@ -499,8 +602,8 @@
         var answer = $(this).attr('data');
         var xxx = $('#xxx').html();
         var aw_index = $this.siblings('h2').find('span').html();
-        task_id = aw_index ;
-        if(task_id < 11) {
+        task_id = aw_index;
+        if (task_id < 11) {
             $.ajax({
                 url: '/user/taskCheck',
                 async: true,
@@ -516,15 +619,15 @@
                     bxNum = $('.addup').html();
                     if (result.status == 1) {
                         $('#audio')[0].play();
-                        var nums = result.cishu_val +1;
-                        $('.info .p2').html('正在回答第' + nums +'题');
+                        var nums = result.cishu_val + 1;
+                        $('.info .p2').html('正在回答第' + nums + '题');
                         console.log(nums);
                         suc();
                         $this.siblings('input').css('background-color', '#8e96a7');
                     } else if (result.status == 2) {
                         $('#audio')[0].play();
-                        var nums = result.cishu_val +1 ;
-                        $('.info .p2').html('正在回答第' + nums +'题');
+                        var nums = result.cishu_val + 1;
+                        $('.info .p2').html('正在回答第' + nums + '题');
                         isover = 1;
                         $('.taskBox').hide();
                         $('.mask').show();
@@ -539,7 +642,7 @@
                     }
                 }
             });
-        }else{
+        } else {
             isover = 1;
             $('.taskBox').hide();
             $('.mask').show();
@@ -549,36 +652,39 @@
     $('.question ul li input').dblclick(function () {
         return;
     });
-    function suc(){
+
+    function suc() {
         num++;
         $('.info .p1').html('恭喜回答正确！');
         $('.info .p4').show();
         $('.info .p3').show();
         $('.info .p2').hide();
         settime();
-        $(this).siblings().css('background-color','#8e96a7');
+        $(this).siblings().css('background-color', '#8e96a7');
         $('.info .delay').html('<span id="delayNum">3</span><span>S后进入下一题</span>');
     };
-    function err(){
+
+    function err() {
         $('.info .p1').html('回答错误');
         $('.info .delay').html('啊噢~别气馁，再回顾下文章呢？');
-        $('.info .p2').css('color','#ffa200');
+        $('.info .p2').css('color', '#ffa200');
         $('.info .p4').hide();
         $('.info .p2').show();
         $('.info .p2').html('请重新选择');
         $('.info .p2').addClass('animation');
-        setTimeout(function(){
+        setTimeout(function () {
             $('.info .p2').removeClass('animation');
-        },600);
+        }, 600);
         $('.info .p3').show();
-        $('.question ul li input').css('background-color','#4285d5');
+        $('.question ul li input').css('background-color', '#4285d5');
     };
-    function settime(){
-        if (countdown == 0){
+
+    function settime() {
+        if (countdown == 0) {
             $('.question ul input').removeAttr('disabled');
             $('.delay').hide();
             $('.info .p1').html('共10题');
-            $('.info .p2').css('color','#fff');
+            $('.info .p2').css('color', '#fff');
             $('.info .p2').show();
             $('.info .p4').hide();
             $('#delayNum').html(3);
@@ -587,24 +693,25 @@
             countdown = 3;
             return;
         } else {
-            $('.question ul input').attr('disabled','true');
+            $('.question ul input').attr('disabled', 'true');
             $('#delayNum').html(countdown);
             countdown--;
-        };
-        setTimeout(function(){
-            settime();
-        },1000);
-    };
-    // 安卓  ios 调用
-    function isOver(){
-        if(isiOS){
-            // var isovers = isover.toString();
-            return '{"isOver":"'+isover+'","bx":"'+bxNum+'"}';
-        }else {
-            return {"is_over":isover,"bx":bxNum};
         }
+        ;
+        setTimeout(function () {
+            settime();
+        }, 1000);
     };
 
+    // 安卓  ios 调用
+    function isOver() {
+        if (isiOS) {
+            // var isovers = isover.toString();
+            return '{"isOver":"' + isover + '","bx":"' + bxNum + '"}';
+        } else {
+            return {"is_over": isover, "bx": bxNum};
+        }
+    };
 
 
 </script>

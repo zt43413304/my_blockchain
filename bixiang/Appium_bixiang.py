@@ -5,15 +5,12 @@ import os
 import random
 import time
 
-import appium
 from PIL import Image
 from appium import webdriver
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
-
-from common import my_suma
 
 # 第一步，创建一个logger,并设置级别
 logger = logging.getLogger("Appium_bixiang.py")
@@ -41,10 +38,8 @@ class Signup:
     MAX_SEC = 20
     rate = 1
 
-
     def __init__(self):
         logger.warning("********** start __init()__...")
-
 
     def get_html_driver(self):
         desired_caps = {}
@@ -63,6 +58,8 @@ class Signup:
         desired_caps['deviceName'] = 'emulator-5554'
         desired_caps['noReset'] = 'True'
         desired_caps['newCommandTimeout'] = '600'
+        desired_caps['clearSystemFiles'] = 'True'
+        # desired_caps['automationName'] = 'Appium'
         # desired_caps['autoWebview'] = 'True'
         desired_caps['app'] = PATH(
             '/Users/Jackie.Liu/Documents/MuMu共享文件夹/bixiang-229-1.4.1-Y1032_1BA281650150FE92ADA35DB3DF335D28.apk'
@@ -81,7 +78,7 @@ class Signup:
 
     def isElementExist_by_id(self, id):
         try:
-            self.driver.find_element(By.ID, id)
+            self.driver.find_element_by_id(id)
             return True
         except Exception as e:
             print(e)
@@ -404,10 +401,21 @@ class Signup:
         code2 = wait.until(EC.presence_of_element_located((By.ID, 'code2')))
         # phones.send_keys(self.phones)
         code2.send_keys(sms_code)
-
+        time.sleep(random.randint(1, 2))
         wait.until(EC.presence_of_element_located((By.ID, 'download'))).click()
-        logger.warning(">>>>>>>>>> 2. 登录短信验证码: " + sms_code)
+        logger.warning(">>>>>>>>>> 2. 短信验证码: " + sms_code)
 
+    def my_find_elements_by_classname(self, classname, name):
+        # android.widget.TextView
+        views = self.driver.find_elements(By.CLASS_NAME, classname)
+        for i in range(len(views)):
+            if views[i].text == name:
+                return views[i]
+
+    def my_find_elements_by_classname_instance(self, classname, instance):
+        # android.widget.TextView
+        views = self.driver.find_elements(By.CLASS_NAME, classname)
+        return views[instance]
 
     def html_signup1(self, suma_phone, suma):
         global rate
@@ -541,14 +549,12 @@ class Signup:
             button.click()
             logger.warning(">>>>>>>>>> 1. 开始进行滑块验证。")
 
-
-            time.sleep(5)
+            time.sleep(8)
             suma_code = suma.getVcodeAndHoldMobilenum(suma_phone)
 
             self.login_with_sms(suma_code)
-            logger.warning(">>>>>>>>>> 3. 滑块验证成功，短信登录. ")
+            logger.warning(">>>>>>>>>> 3. 收到短信，完成登录。 ")
             logger.warning("\n")
-            random.randint(3, 5)
 
             return 0
 
@@ -558,26 +564,12 @@ class Signup:
         finally:
             self.driver.close()
 
-    def my_find_elements_by_classname(self, classname, name):
-        # android.widget.TextView
-        views = self.driver.find_elements(By.CLASS_NAME, classname)
-        for i in range(len(views)):
-            if views[i].text == name:
-                return views[i]
-
-    def my_find_elements_by_classname_instance(self, classname, instance):
-        # android.widget.TextView
-        views = self.driver.find_elements(By.CLASS_NAME, classname)
-        return views[instance]
-
-
-
     def app_signup(self, suma_phone, suma):
 
         try:
             logger.warning("********** app_signup(), suma_phone = " + suma_phone)
             self.get_app_driver()
-            random.randint(3, 5)
+            time.sleep(random.randint(5, 7))
 
             # cons = self.driver.contexts
             # print(self.driver.current_context)
@@ -591,10 +583,13 @@ class Signup:
 
             # 新用户签到
             if self.isElementExist_by_id("com.coinstation.bixiang:id/btn_sign"):
-                self.driver.find_element(By.ID, 'com.coinstation.bixiang:id/btn_sign').click()
+                self.driver.find_element_by_id("com.coinstation.bixiang:id/btn_sign").click()
+            time.sleep(random.randint(1, 2))
 
             if self.isElementExist_by_id("com.coinstation.bixiang:id/signed_close"):
-                self.driver.find_element(By.ID, 'com.coinstation.bixiang:id/signed_close').click()
+                self.driver.find_element_by_id("com.coinstation.bixiang:id/signed_close").click()
+            time.sleep(random.randint(1, 2))
+
             # el1 = self.driver.find_element_by_id("com.coinstation.bixiang:id/btn_sign")
             # el1.click()
             # el2 = self.driver.find_element_by_id("com.coinstation.bixiang:id/signed_close")
@@ -643,32 +638,33 @@ class Signup:
 
             # 当没有通过滑块验证时，循环多次进行验证
 
-
             # 步骤八：滑块验证通过，短信登录
-            time.sleep(5)
+            time.sleep(8)
             sms_code = suma.getVcodeAndHoldMobilenum(suma_phone)
 
             # 输入短信验证码
             sms = self.driver.find_element_by_id("com.coinstation.bixiang:id/et_sms")
             sms.send_keys(sms_code)
-            logger.warning(">>>>>>>>>> 2. 登录短信验证码: " + sms_code)
+            logger.warning(">>>>>>>>>> 2. 短信验证码: " + sms_code)
 
             # 点击“绑定”按钮
             self.driver.find_element_by_id("com.coinstation.bixiang:id/btn_save").click()
-            logger.warning(">>>>>>>>>> 3. 滑块验证成功，短信登录. ")
-            random.randint(3,5)
+            logger.warning(">>>>>>>>>> 3. 收到短信，完成登录。 ")
+            time.sleep(random.randint(3, 5))
 
             # 关闭，返回
             self.driver.find_element_by_id("com.coinstation.bixiang:id/btn_back").click()
 
+            return 0
+
 
         except Exception as e:
             print(e)
-        finally:
-            self.driver.close()
+            return -1
+        # finally:
+        #     self.driver.close()
 
-
-    def app_quiz(self):
+    def quiz_app(self):
         pass
         # http://tui.yingshe.com/user/newtask?xxx=F3pHv1-IXGuea3pHt0u4e
 
@@ -680,19 +676,130 @@ class Signup:
         self.my_find_elements_by_classname('android.widget.TextView', '我的').click()
 
         print(self.driver.current_context)
-        cons = self.driver.contexts
+        # cons = self.driver.contexts
         # appium.webdriver.switch_to(cons[1])
-        self.driver.switch_to(cons[1])
-        print(self.driver.current_context)
+        # self.driver.switch_to(cons[1])
+
+        handles = self.driver.window_handles
+        for i in range(len(handles)):
+            print(">>>>> " + handles[i].id)
+            print(">>>>> " + handles[i].text)
+
+        # print(self.driver.current_window_handle)
 
         views = self.driver.find_element(By.CLASS_NAME, 'android.widget.TextView')
         for i in range(len(views)):
             print(">>>>> " + views[i].id)
             print(">>>>> " + views[i].text)
 
+    def quiz_by_html(self):
 
+        time.sleep(random.randint(2, 3))
+        quiz_url = input("********** Quiz url is: ")
+        logger.warning('********** Your input is: ' + quiz_url)
 
+        # quiz_url = "http://tui.yingshe.com/user/newtask?xxx=hfIf7fJt8gYv9ep15f4z4"
 
+        try:
+            self.get_html_driver()
+
+            logger.warning("********** quiz_by_html() ......")
+
+            # /Users/Jackie.Liu/DevTools/Selenium/chromedriver
+
+            # driver = webdriver.Chrome()
+            # driver.maximize_window()
+            # self.driver.set_window_size(600, 800)
+            # self.driver.set_window_position(y=0, x=0)
+
+            self.driver.get(quiz_url)
+            wait = WebDriverWait(self.driver, 10)
+
+            # 第1题
+            time.sleep(random.randint(5, 7))
+            button = wait.until(
+                EC.presence_of_element_located((By.XPATH, '/html/body/div[1]/div[3]/ul/li[1]/input[1]')))
+            button.click()
+            logger.warning(">>>>>>>>>> 1. 完成第1题 ......")
+
+            # 第2题
+            time.sleep(random.randint(5, 7))
+            button = wait.until(
+                EC.presence_of_element_located((By.XPATH, '/html/body/div[1]/div[3]/ul/li[2]/input[4]')))
+            button.click()
+            logger.warning(">>>>>>>>>> 2. 完成第2题 ......")
+
+            # 第3题
+            time.sleep(random.randint(5, 7))
+            button = wait.until(
+                EC.presence_of_element_located((By.XPATH, '/html/body/div[1]/div[3]/ul/li[3]/input[4]')))
+            button.click()
+            logger.warning(">>>>>>>>>> 3. 完成第3题 ......")
+
+            # 第4题
+            time.sleep(random.randint(5, 7))
+            button = wait.until(
+                EC.presence_of_element_located((By.XPATH, '/html/body/div[1]/div[3]/ul/li[4]/input[3]')))
+            button.click()
+            logger.warning(">>>>>>>>>> 4. 完成第4题 ......")
+
+            # 第5题
+            time.sleep(random.randint(5, 7))
+            button = wait.until(
+                EC.presence_of_element_located((By.XPATH, '/html/body/div[1]/div[3]/ul/li[5]/input[1]')))
+            button.click()
+            logger.warning(">>>>>>>>>> 5. 完成第5题 ......")
+
+            # 第6题
+            time.sleep(random.randint(5, 7))
+            button = wait.until(
+                EC.presence_of_element_located((By.XPATH, '/html/body/div[1]/div[3]/ul/li[6]/input[4]')))
+            button.click()
+            logger.warning(">>>>>>>>>> 6. 完成第6题 ......")
+
+            # 第7题
+            time.sleep(random.randint(5, 7))
+            button = wait.until(
+                EC.presence_of_element_located((By.XPATH, '/html/body/div[1]/div[3]/ul/li[7]/input[2]')))
+            button.click()
+            logger.warning(">>>>>>>>>> 7. 完成第7题 ......")
+
+            # 第8题
+            time.sleep(random.randint(5, 7))
+            button = wait.until(
+                EC.presence_of_element_located((By.XPATH, '/html/body/div[1]/div[3]/ul/li[8]/input[1]')))
+            button.click()
+            logger.warning(">>>>>>>>>> 8. 完成第8题 ......")
+
+            # 第9题
+            time.sleep(random.randint(5, 7))
+            button = wait.until(
+                EC.presence_of_element_located((By.XPATH, '/html/body/div[1]/div[3]/ul/li[9]/input[1]')))
+            button.click()
+            logger.warning(">>>>>>>>>> 9. 完成第9题 ......")
+
+            # 第10题
+            time.sleep(random.randint(5, 7))
+            button = wait.until(
+                EC.presence_of_element_located((By.XPATH, '/html/body/div[1]/div[3]/ul/li[10]/input[4]')))
+            button.click()
+            logger.warning(">>>>>>>>>> 10. 完成第10题 ......")
+
+            time.sleep(random.randint(1, 2))
+            logger.warning("********** quiz complete ......")
+
+            # if self.isElementExist_by_id("com.coinstation.bixiang:id/btn_back"):
+            #     self.driver.find_element_by_id("com.coinstation.bixiang:id/btn_back").click()
+            #
+            # time.sleep(random.randint(1, 2))
+
+            return 0
+
+        except Exception as e:
+            print(e)
+            return -1
+        finally:
+            self.driver.close()
 
 # App_signup = Signup()
 # App_signup.registry()

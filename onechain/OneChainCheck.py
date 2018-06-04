@@ -317,7 +317,7 @@ def loop_onechain():
             time.sleep(random.randint(MIN_SEC, MAX_SEC))
 
     # sending email
-    send_email.send_OneChain_HtmlEmail('newseeing@163.com', content_list)
+    send_email.send_OneChain_HtmlEmail('765789878@qq.com', content_list)
     logger.warning('********** Sending Email Complete!')
 
 # Start from here...

@@ -96,8 +96,8 @@ try:
 
     signup = Appium_bixiang.Signup()
 
-    result = signup.html_signup(phone, suma)
     # result = 0
+    result = signup.html_signup(phone, suma)
 
     if result == 0:
         result = signup.app_signup(phone, suma)

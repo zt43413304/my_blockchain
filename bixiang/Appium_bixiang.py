@@ -538,7 +538,7 @@ class Signup:
             # self.driver.set_window_size(600, 800)
             # self.driver.set_window_position(y=0, x=0)
 
-            self.driver.get('http://bixiang8.com/KKjnn3')
+            self.driver.get('http://bixiang8.com/0e3Up2')
             wait = WebDriverWait(self.driver, 10)
             phones = self.driver.find_element_by_id('phones')
             # code2 = driver.find_element_by_id('code2')
@@ -555,7 +555,7 @@ class Signup:
             self.login_with_sms(suma_code)
             logger.warning(">>>>>>>>>> 3. 收到短信，完成登录。 ")
             logger.warning("\n")
-            time.sleep(random.randint(5, 7))
+            time.sleep(random.randint(8, 10))
 
             # print(self.driver.current_context)
             # cons = self.driver.contexts

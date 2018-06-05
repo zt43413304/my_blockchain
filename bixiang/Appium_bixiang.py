@@ -404,7 +404,6 @@ class Signup:
         wait.until(EC.presence_of_element_located((By.ID, 'download'))).click()
         logger.warning(">>>>>>>>>> 2. 短信验证码: " + sms_code)
 
-
     def my_find_elements_by_classname(self, classname, name):
         # android.widget.TextView
         views = self.driver.find_elements(By.CLASS_NAME, classname)
@@ -538,7 +537,7 @@ class Signup:
             # self.driver.set_window_size(600, 800)
             # self.driver.set_window_position(y=0, x=0)
 
-            self.driver.get('http://bixiang8.com/0e3Up2')
+            self.driver.get('http://bixiang8.com/dz5vU')
             wait = WebDriverWait(self.driver, 10)
             phones = self.driver.find_element_by_id('phones')
             # code2 = driver.find_element_by_id('code2')

@@ -84,7 +84,7 @@ def signup_app():
 
 # startup_emulator()
 
-invite_url = 'http://bixiang8.com/0e3Up2'
+invite_url = 'http://bixiang8.com/dz5vU'
 phone = input("********** Phone Number (enter for new): ")
 logger.warning('********** Your input is: ' + phone)
 suma = my_suma.suma()
@@ -97,8 +97,8 @@ try:
 
     signup = Appium_bixiang.Signup()
 
-    result = 0
-    # result = signup.html_signup(phone, suma, invite_url)
+    # result = 0
+    result = signup.html_signup(phone, suma, invite_url)
 
     if result == 0:
         result = signup.app_signup(phone, suma)

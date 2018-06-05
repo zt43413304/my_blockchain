@@ -41,7 +41,7 @@ class suma:
         querystring = {"action": "loginIn", "uid": "newseeing", "pwd": "Liuxb0504$"}
 
         try:
-            response = requests.request("GET", url, headers=self.headers, params=querystring)
+            response = requests.request("GET", url, headers=self.headers, params=querystring, timeout=60)
             result = response.text
             token = result.split('|')[1]
             logger.warning("********** token = " + token)
@@ -59,7 +59,7 @@ class suma:
                        "size": "1"}
 
         try:
-            response = requests.request("GET", url, headers=self.headers, params=querystring)
+            response = requests.request("GET", url, headers=self.headers, params=querystring, timeout=60)
             result = response.text
             phone = result.split('|')[0]
             logger.warning(">>>>>>>>>> phone = " + phone)

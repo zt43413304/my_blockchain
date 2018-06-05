@@ -403,7 +403,7 @@ class Signup:
         code2.send_keys(sms_code)
         wait.until(EC.presence_of_element_located((By.ID, 'download'))).click()
         logger.warning(">>>>>>>>>> 2. 短信验证码: " + sms_code)
-        time.sleep(random.randint(8, 10))
+
 
     def my_find_elements_by_classname(self, classname, name):
         # android.widget.TextView
@@ -555,6 +555,28 @@ class Signup:
             self.login_with_sms(suma_code)
             logger.warning(">>>>>>>>>> 3. 收到短信，完成登录。 ")
             logger.warning("\n")
+            time.sleep(random.randint(5, 7))
+
+            # print(self.driver.current_context)
+            # cons = self.driver.contexts
+            # for i in range(len(cons)):
+            #     # print(">>>>> " + cons[i].id)
+            #     print(">>>>> " + cons[i].text)
+
+
+            # 新用户签到
+            # if self.isElementExist_by_id("com.coinstation.bixiang:id/btn_sign"):
+            #     self.driver.find_element_by_id("com.coinstation.bixiang:id/btn_sign").click()
+            # time.sleep(random.randint(1, 2))
+            #
+            # if self.isElementExist_by_id("com.coinstation.bixiang:id/signed_close"):
+            #     self.driver.find_element_by_id("com.coinstation.bixiang:id/signed_close").click()
+            # time.sleep(random.randint(1, 2))
+
+            # el1 = self.driver.find_element_by_id("com.coinstation.bixiang:id/btn_sign")
+            # el1.click()
+            # el2 = self.driver.find_element_by_id("com.coinstation.bixiang:id/signed_close")
+            # el2.click()
 
             return 0
 

@@ -28,6 +28,7 @@ logger.addHandler(ch)
 MIN_SEC = 1
 MAX_SEC = 3
 
+
 def execute_command(cmd):
     print('***** start executing cmd...')
     p = subprocess.Popen(str(cmd), stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
@@ -40,6 +41,7 @@ def execute_command(cmd):
     print('stderrinfo is -------> %s' % stderrinfo)
     print('finish executing cmd....')
     return p.returncode
+
 
 def startup_emulator():
     output = os.system("/Applications/NemuPlayer.app")
@@ -57,12 +59,14 @@ def startup_emulator():
     print('result:------>' + str(output))
     time.sleep(5)
 
+
 def signup_html():
     pass
     # App_signup = Appium_bixiang.Signup('4.4.4', '127.0.0.1:7555', 4723)
     # App_signup.html_signup()
     # send_email.send_star163_HtmlEmail('newseeing@163.com', '136获取原力完成.', '')
     # logger.warning('********** Sending 136获取原力完成 Email Complete!')
+
 
 def signup_app():
     pass
@@ -80,6 +84,7 @@ def signup_app():
 
 # startup_emulator()
 
+invite_url = 'http://bixiang8.com/0e3Up2'
 phone = input("********** Phone Number (enter for new): ")
 logger.warning('********** Your input is: ' + phone)
 suma = my_suma.suma()
@@ -92,8 +97,8 @@ try:
 
     signup = Appium_bixiang.Signup()
 
-    # result = 0
-    result = signup.html_signup(phone, suma)
+    result = 0
+    # result = signup.html_signup(phone, suma, invite_url)
 
     if result == 0:
         result = signup.app_signup(phone, suma)

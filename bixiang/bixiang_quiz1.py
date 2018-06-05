@@ -7,12 +7,9 @@ import time
 from io import StringIO
 
 import requests
-
-from lxml import etree
 from appium import webdriver
-
+from lxml import etree
 from selenium.webdriver.support import expected_conditions as EC
-
 # 第一步，创建一个logger,并设置级别
 from selenium.webdriver.support.wait import WebDriverWait
 
@@ -123,6 +120,7 @@ def quiz():
     except Exception as e:
         print(e)
 
+
 def isElementExist_by_id(driver, id):
     try:
         driver.find_element_by_id(id)
@@ -130,6 +128,7 @@ def isElementExist_by_id(driver, id):
     except Exception as e:
         print(e)
         return False
+
 
 def get_html_driver():
     desired_caps = {}
@@ -143,8 +142,8 @@ def get_html_driver():
 
     return driver
 
-def quiz_html():
 
+def quiz_html():
     quiz_url = input("********** Quiz url is: ")
     logger.warning('********** Your input is: ' + quiz_url)
 
@@ -252,7 +251,6 @@ def quiz_html():
 
 # print(get_xxx())
 # quiz()
-
 
 
 # el1 = driver.find_element_by_accessibility_id("C.检查并核实绑定原来的手机号")

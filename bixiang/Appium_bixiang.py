@@ -521,7 +521,7 @@ class Signup:
         finally:
             self.driver.close()
 
-    def html_signup(self, suma_phone, suma):
+    def html_signup(self, suma_phone, suma, invite_url):
         global rate
 
         try:
@@ -537,7 +537,7 @@ class Signup:
             # self.driver.set_window_size(600, 800)
             # self.driver.set_window_position(y=0, x=0)
 
-            self.driver.get('http://bixiang8.com/dz5vU')
+            self.driver.get(invite_url)
             wait = WebDriverWait(self.driver, 10)
             phones = self.driver.find_element_by_id('phones')
             # code2 = driver.find_element_by_id('code2')
@@ -561,7 +561,6 @@ class Signup:
             # for i in range(len(cons)):
             #     # print(">>>>> " + cons[i].id)
             #     print(">>>>> " + cons[i].text)
-
 
             # 新用户签到
             # if self.isElementExist_by_id("com.coinstation.bixiang:id/btn_sign"):

@@ -93,7 +93,7 @@ def bixiang_login_test():
     #     'Postman-Token': "bfda041f-affb-4e05-b867-021e7b7e14f9"
     # }
 
-    response = requests.request("POST", url, data=payload, headers=headers)
+    response = requests.request("POST", url, data=payload, headers=headers, timeout=120)
 
     print(response.text)
 
@@ -107,7 +107,7 @@ def bixiang_userInfo(unique, uid):
 
     try:
         logger.warning("********** bixiang_userInfo(), proxies = " + str(proxies))
-        response = requests.request("POST", url, data=payload_userInfo, headers=headers, proxies=proxies)
+        response = requests.request("POST", url, data=payload_userInfo, headers=headers, timeout=120, proxies=proxies)
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
 
         res = response.json()["status"]
@@ -137,7 +137,7 @@ def bixiang_login(unique, uid):
 
     try:
         logger.warning("********** bixiang_login(), proxies = " + str(proxies))
-        response = requests.request("POST", url, data=payload_login, headers=headers, proxies=proxies)
+        response = requests.request("POST", url, data=payload_login, headers=headers, timeout=120, proxies=proxies)
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
 
         res = response.json()["status"]
@@ -162,7 +162,7 @@ def bixiang_infoList(unique, uid):
 
     try:
         logger.warning("********** bixiang_infoList(), proxies = " + str(proxies))
-        response = requests.request("POST", url, data=payload_infoList, headers=headers, proxies=proxies)
+        response = requests.request("POST", url, data=payload_infoList, headers=headers, timeout=120, proxies=proxies)
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
 
         res = response.json()["status"]
@@ -185,7 +185,7 @@ def bixiang_sharing(unique, uid, id):
 
     try:
         # logger.warning("********** bixiang_sharing(), proxies = " + str(proxies))
-        response = requests.request("POST", url, data=payload_id, headers=headers, proxies=proxies)
+        response = requests.request("POST", url, data=payload_id, headers=headers, timeout=120, proxies=proxies)
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
 
         res = response.json()["status"]
@@ -209,7 +209,7 @@ def bixiang_shared(unique, uid, id):
     try:
         # logger.warning("********** bixiang_shared(), proxies = " + str(proxies))
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
-        response = requests.request("POST", url, data=payload_id, headers=headers, proxies=proxies)
+        response = requests.request("POST", url, data=payload_id, headers=headers, timeout=120, proxies=proxies)
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
 
         res = response.json()["status"]
@@ -234,7 +234,7 @@ def bixiang_sign(unique, uid):
 
     try:
         logger.warning("********** bixiang_sign(), proxies = " + str(proxies))
-        response = requests.request("POST", url_check, data=payload_sign, headers=headers, proxies=proxies)
+        response = requests.request("POST", url_check, data=payload_sign, headers=headers, timeout=120, proxies=proxies)
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
 
         res = response.json()["status"]
@@ -273,7 +273,7 @@ def bixiang_upgrade(unique, uid):
 
     try:
         logger.warning("********** bixiang_upgrade(), proxies = " + str(proxies))
-        response = requests.request("POST", url, data=payload_upgrade, headers=headers, proxies=proxies)
+        response = requests.request("POST", url, data=payload_upgrade, headers=headers, timeout=120, proxies=proxies)
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
 
         res = response.json()["status"]
@@ -308,7 +308,7 @@ def bixiang_property_url(unique, uid):
 
     try:
         logger.warning("********** bixiang_property_url(), proxies = " + str(proxies))
-        response = requests.request("POST", url, data=payload_property, headers=headers, proxies=proxies)
+        response = requests.request("POST", url, data=payload_property, headers=headers, timeout=120, proxies=proxies)
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
 
         res = response.json()["status"]
@@ -341,7 +341,7 @@ def get_allTotal(unique, uid):
 
     try:
         logger.warning("********** get_allTotal(), proxies = " + str(proxies))
-        response = requests.request("GET", url, headers=headers, proxies=proxies)
+        response = requests.request("GET", url, headers=headers, timeout=120, proxies=proxies)
 
         html = response.text
 
@@ -381,7 +381,7 @@ def get_turntableFree(unique, uid):
     try:
         logger.warning("********** get_turntableFree(), proxies = " + str(proxies))
         lottery_enter = 'http://tui.yingshe.com/lottery/enters?' + parsed_query
-        response = requests.request("GET", lottery_enter, headers=headers, proxies=proxies)
+        response = requests.request("GET", lottery_enter, headers=headers, timeout=120, proxies=proxies)
         print(response.text)
 
         # <p id="xxx" style="display:none">WXObEc%3DRCHwyyTxnxbBUpb6MN</p>

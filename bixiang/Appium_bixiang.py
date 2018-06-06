@@ -604,11 +604,10 @@ class Signup:
             # 新用户签到
             if self.isElementExist_by_id("com.coinstation.bixiang:id/btn_sign"):
                 self.driver.find_element_by_id("com.coinstation.bixiang:id/btn_sign").click()
-            time.sleep(random.randint(1, 2))
 
             if self.isElementExist_by_id("com.coinstation.bixiang:id/signed_close"):
                 self.driver.find_element_by_id("com.coinstation.bixiang:id/signed_close").click()
-            time.sleep(random.randint(1, 2))
+            time.sleep(random.randint(1, 3))
 
             # el1 = self.driver.find_element_by_id("com.coinstation.bixiang:id/btn_sign")
             # el1.click()
@@ -621,17 +620,21 @@ class Signup:
 
             # 右下角“我的”
             self.my_find_elements_by_classname('android.widget.TextView', '我的').click()
+            time.sleep(random.randint(1, 3))
 
             # 账号设置
             self.driver.find_element(By.ID, "com.coinstation.bixiang:id/tv_set").click()
+            time.sleep(random.randint(1, 3))
 
             # 点击“去绑定”按钮 - 手机号
             # self.driver.find_element(By.ID, "com.coinstation.bixiang:id/btn_bindphone").screenshot("phone.png")
             self.driver.find_element(By.ID, "com.coinstation.bixiang:id/btn_bindphone").click()
+            time.sleep(random.randint(1, 3))
 
             # 输入手机号
             phone = self.driver.find_element(By.ID, "com.coinstation.bixiang:id/et_phone")
             phone.send_keys(suma_phone)
+            time.sleep(random.randint(1, 3))
 
             # 点击获取短信验证码
             # 步骤一：先点击按钮，弹出没有缺口的图片

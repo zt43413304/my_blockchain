@@ -283,7 +283,7 @@ def loop_onechain():
         data = dict(account_id=account_id, account_name=account_name, signed_message=signed_message)
 
         logger.warning('\n')
-        logger.warning("========== Checking [" + account_name + "] ==========")
+        logger.warning("========== Checking " + str(i) + ". [" + account_name + "] ==========")
 
         token = loginGetAccessToken(user_agent, device_id, l, version)
         if token == -1:

@@ -79,8 +79,8 @@ def signup_app():
 # Star from here......
 # bixiang_quiz1.quiz_html()
 
-signup = Appium_bixiang.Signup()
-signup.quiz_by_html()
+# signup = Appium_bixiang.Signup()
+# signup.quiz_by_html()
 
 # startup_emulator()
 url01 = 'http://bixiang8.com/9Ss8V'

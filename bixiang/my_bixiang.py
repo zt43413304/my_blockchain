@@ -411,14 +411,16 @@ def loop_bixiang():
     data_dict = json.load(file)
     content_list = []
 
+    count = 0
     for item in data_dict['data']:
+        count += 1
         # content_list = []
         unique = item.get('unique', 'NA')
         uid = item.get('uid', 'NA')
         phone = item.get('phone', 'NA')
 
         logger.warning('\n')
-        logger.warning("========== Checking [" + phone + "] ==========")
+        logger.warning("========== Checking " + str(count) + ". [" + phone + "] ==========")
 
         status = bixiang_login(unique, uid)
         if status == -1:

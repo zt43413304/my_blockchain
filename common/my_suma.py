@@ -77,7 +77,7 @@ class suma:
                        "next_pid": "43795", "mobile": phone, "author_uid": "newseeing"}
 
         try:
-            response = requests.request("GET", url, headers=self.headers, params=querystring)
+            response = requests.request("GET", url, headers=self.headers, params=querystring, timeout=120)
             result = response.text
             logger.warning(">>>>>>>>>> response.text = " + result)
             code = self.get_sms_code(result)
@@ -88,7 +88,7 @@ class suma:
                     break
                 # logger.warning("********** Waiting for sms......")
                 time.sleep(5)
-                response = requests.request("GET", url, headers=self.headers, params=querystring)
+                response = requests.request("GET", url, headers=self.headers, params=querystring, timeout=120)
                 result = response.text
                 logger.warning(">>>>>>>>>> response.text = " + result)
                 code = self.get_sms_code(result)

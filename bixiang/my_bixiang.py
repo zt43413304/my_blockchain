@@ -434,6 +434,11 @@ def loop_bixiang():
 
             # 分享列表
             infoList = bixiang_infoList(unique, uid)
+            if infoList is None:
+                continue
+            if len(infoList) == 0:
+                continue
+
             count = 0
             for i in range(len(infoList)):
                 if count > 5:

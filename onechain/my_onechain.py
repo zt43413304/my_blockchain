@@ -14,7 +14,7 @@ from common import daxiang_proxy
 from common import send_email
 
 # 第一步，创建一个logger,并设置级别
-logger = logging.getLogger("OneChainCheck.py")
+logger = logging.getLogger("my_onechain.py")
 logger.setLevel(logging.INFO)  # Log等级总开关
 # 第二步，创建一个handler，用于写入日志文件
 fh = logging.FileHandler('./logs/OneChainCheck.log', mode='w')

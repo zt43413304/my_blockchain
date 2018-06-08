@@ -14,7 +14,7 @@ from common import daxiang_proxy
 from common import send_email
 
 # 第一步，创建一个logger,并设置级别
-logger = logging.getLogger("HashWorldCheck.py")
+logger = logging.getLogger("my_hashworld.py")
 logger.setLevel(logging.INFO)  # Log等级总开关
 # 第二步，创建一个handler，用于写入日志文件
 fh = logging.FileHandler('./logs/HashWorldCheck.log', mode='w')
@@ -380,11 +380,11 @@ def get_LandPrice(token, land_number):
         return "error", 0, "untradable", 0, ""
 
 
-def loop_Lottery():
+def loop_Lottery(filename):
     all_total = 0
     content_list = []
 
-    file = open(curpath + '/hashworld/hash_world_data.json', 'r', encoding='utf-8')
+    file = open(curpath + '/hashworld/'+filename, 'r', encoding='utf-8')
     data_dict = json.load(file)
     # print(data_dict)
     # print(type(data_dict))
@@ -476,9 +476,9 @@ def loop_Land():
         logger.warning('********** Sending Land Email Complete!')
         logger.warning('\n')
 
-def loop_hashworldcheck():
+def loop_hashworld(filename):
     # start
-    logger.warning('********** Start from loop_hashworldcheck() ...')
+    logger.warning('********** Start from loop_hashworld() ...')
 
     global proxies
     proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
@@ -487,17 +487,17 @@ def loop_hashworldcheck():
     while status_code != 200:
         time.sleep(300)
         status_code = open_FirstPage()
-    loop_Lottery()
+    loop_Lottery(filename)
     loop_Land()
 
 # Start from here...
-# loop_hashworldcheck()
+# loop_hashworld()
 
-# schedule.every(120).minutes.do(loop_hashworldcheck)
-# schedule.every(8).hours.do(loop_hashworldcheck)
-# schedule.every().day.at("18:30").do(loop_hashworldcheck)
-# schedule.every().monday.do(loop_hashworldcheck)
-# schedule.every().wednesday.at("13:15").do(loop_hashworldcheck)
+# schedule.every(120).minutes.do(loop_hashworld)
+# schedule.every(8).hours.do(loop_hashworld)
+# schedule.every().day.at("18:30").do(loop_hashworld)
+# schedule.every().monday.do(loop_hashworld)
+# schedule.every().wednesday.at("13:15").do(loop_hashworld)
 
 # while True:
 #     schedule.run_pending()

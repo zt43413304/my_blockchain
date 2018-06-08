@@ -394,7 +394,7 @@ def get_turntableFree(unique, uid):
         return -1
 
 
-def loop_bixiang():
+def loop_bixiang(filename):
     global mail_subject
     total_bx_all = 0
     today_bx_all = 0
@@ -407,7 +407,7 @@ def loop_bixiang():
     global proxies
     proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
 
-    file = open(curpath + '/bixiang/data_bixiang.json', 'r', encoding='utf-8')
+    file = open(curpath + '/bixiang/'+filename, 'r', encoding='utf-8')
     data_dict = json.load(file)
     content_list = []
 

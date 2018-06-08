@@ -6,16 +6,19 @@ import time
 
 from apscheduler.schedulers.blocking import BlockingScheduler
 
-from star163 import my_star163
+from bixiang import my_bixiang
+from diwuqu import my_diwuqu
+from onechain import my_onechain
+from hashworld import my_hashworld
 
 # 第一步，创建一个logger
-logger = logging.getLogger("start_star163.py")
+logger = logging.getLogger("start_aws_Seoul.py")
 logger.setLevel(logging.INFO)  # Log等级总开关
 # 第二步，创建一个handler，用于写入日志文件
 rq = time.strftime('%Y%m%d%H%M', time.localtime(time.time()))
 # log_path = os.path.dirname(os.getcwd()) + '/logs/'
 log_path = os.getcwd() + '/logs/'
-log_name = log_path + 'start_star163_' + rq + '.log'
+log_name = log_path + 'start_aws_Seoul_' + rq + '.log'
 logfile = log_name
 
 fh = logging.FileHandler(logfile, mode='w', encoding='UTF-8')
@@ -34,18 +37,18 @@ logger.addHandler(fh)
 logger.addHandler(ch)
 
 # start
-logger.warning('********** Start from start_star163.py ...')
+logger.warning('********** Start from start_aws_Seoul.py ...')
 scheduler = BlockingScheduler()
 
 # Tokyo Sever
-# scheduler.add_job(OneChainCheck.loop_onechain, "cron", hour="3,11,19", max_instances=1)
-# scheduler.add_job(my_diwuqu.loop_diwuqu, "cron", hour="5,13,21", max_instances=1)
-# scheduler.add_job(my_bixiang.loop_bixiang, "cron", hour="7,15,23", max_instances=1)
+scheduler.add_job(my_bixiang.loop_bixiang, "cron", hour="7,15,23",args=["data_bixiang_Seoul.json"], max_instances=4)
+scheduler.add_job(my_diwuqu.loop_diwuqu, "cron", hour="2,10,18", max_instances=4)
+scheduler.add_job(my_hashworld.loop_hashworld, "cron", hour="2:30,10:30,18:30", args=["data_hashworld_Seoul.json"], max_instances=4)
+scheduler.add_job(my_onechain.loop_onechain, "cron", hour="5:30,13:30,21:30", max_instances=4)
 
-# Lenovo Sever
-# scheduler.add_job(HashWorldCheck.loop_hashworldcheck, "cron", hour="1,9,17", max_instances=1)
-scheduler.add_job(my_star163.loop_star163, "cron", hour="6-23/2", max_instances=1)
 
+# scheduler.add_job(my_bixiang.loop_bixiang, "cron", minute="*/3", args=["data_bixiang_Seoul.json"], max_instances=1)
+# scheduler.add_job(my_hashworld.loop_hashworld, "cron", minute="*/3", args=["data_hashworld_Seoul.json"], max_instances=1)
 try:
     scheduler.start()
 except (KeyboardInterrupt, SystemExit):

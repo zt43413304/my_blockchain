@@ -47,10 +47,10 @@ scheduler = BlockingScheduler()
 # scheduler.add_job(testing2.test138, "cron", second="30")
 
 
-my_bixiang.loop_bixiang()
+# my_bixiang.loop_bixiang()
 # OneChainCheck.loop_onechain()
 # my_diwuqu.loop_diwuqu()
-# HashWorldCheck.loop_hashworldcheck()
+HashWorldCheck.loop_hashworldcheck()
 # my_star163.loop_star163()
 # my_diwuqu.save_token()
 

@@ -47,7 +47,7 @@ class AppiumStar:
         desired_caps['newCommandTimeout'] = '600'
         desired_caps['clearSystemFiles'] = 'True'
         desired_caps['app'] = PATH(
-            'C:/DevTools/Star163/protect_163-e01170001_120.apk'
+            'C:/DevTools/Star163/protect_163-e01170001_121-4.apk'
         )
         # desired_caps['appPackage'] = 'com.example.android.contactmanager'
         # desired_caps['appActivity'] = '.ContactManager'

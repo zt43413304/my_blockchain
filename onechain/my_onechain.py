@@ -73,7 +73,7 @@ def loginGetAccessToken(user_agent, device_id, l, version):
     try:
         logger.warning("********** loginGetAccessToken(), proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
-        r = requests.post(url_login, data=data, headers=headers, proxies=proxies)
+        r = requests.post(url_login, data=data, headers=headers, proxies=proxies, timeout=60)
 
         # if bProxy == 0:
         #     r = requests.post(url_login, headers=headers, verify=False) #headers=headers,
@@ -100,7 +100,7 @@ def open_mining(user_agent, device_id, l, token, version):
     try:
         logger.warning("********** open_mining(), proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
-        r = requests.post(url_check, data=data, headers=headers, proxies=proxies)
+        r = requests.post(url_check, data=data, headers=headers, proxies=proxies, timeout=60)
 
         res = r.json()["msg"]
         if res == 'Success':
@@ -123,7 +123,7 @@ def get_calculated(user_agent, device_id, l, token, version):
     try:
         logger.warning("********** get_calculated(), proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
-        r = requests.post(url_check, data=data, headers=headers, proxies=proxies)
+        r = requests.post(url_check, data=data, headers=headers, proxies=proxies, timeout=60)
 
         res = r.json()["msg"]
         if res == 'Success':
@@ -150,7 +150,7 @@ def mining_click(user_agent, device_id, l, token, version, mining_detail_uuid):
     try:
         # logger.warning("********** mining_click(), proxies =  " + str(proxies))
         requests.packages.urllib3.disable_warnings()
-        r = requests.post(url_check, data=data, headers=headers, proxies=proxies)
+        r = requests.post(url_check, data=data, headers=headers, proxies=proxies, timeout=60)
 
         res = r.json()["msg"]
         if res == 'Success':
@@ -172,7 +172,7 @@ def mining_check(user_agent, device_id, l, token, version):
     try:
         logger.warning("********** mining_check(), proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
-        r = requests.post(url_check, data=data, headers=headers, proxies=proxies)
+        r = requests.post(url_check, data=data, headers=headers, proxies=proxies, timeout=60)
 
         res = r.json()["msg"]
         if res == 'Success':
@@ -219,7 +219,7 @@ def check_allTotal(user_agent, device_id, l, token, version):
     try:
         logger.warning("********** check_allTotal(), proxies = " + str(proxies))
         requests.packages.urllib3.disable_warnings()
-        r = requests.post(url_check, data=data, headers=headers, proxies=proxies)
+        r = requests.post(url_check, data=data, headers=headers, proxies=proxies, timeout=60)
 
         res = r.json()["msg"]
         if res == 'Success':

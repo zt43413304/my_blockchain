@@ -158,7 +158,7 @@ def send_diwuqu_HtmlEmail(to_list, account_list):
         return False
 
 
-def send_Bixiang_HtmlEmail(to_list, content_list):
+def send_Bixiang_HtmlEmail(to_list, content_list, server):
     datetime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
     head = '<!DOCTYPE HTML>' + \
            '<html id="pageLoading">' + \
@@ -230,7 +230,7 @@ def send_Bixiang_HtmlEmail(to_list, content_list):
           str(round(today_bx_all, 2)) + '</td></tr>'
     mail_msg = head + sum + end
 
-    subject = "Bixiang, [BX总数:" + str(round(total_bx_all, 2)) + ", BX今日:" + str(
+    subject = "Bixiang, "+server+" [BX总数:" + str(round(total_bx_all, 2)) + ", BX今日:" + str(
         round(today_bx_all, 2)) + "]"
 
     msg = MIMEText(mail_msg, 'html', 'utf-8')
@@ -382,7 +382,7 @@ def send_HashWorld_LandEmail(to_list, content_list):
         return False
 
 
-def send_HashWorld_HtmlEmail(to_list, content_list):
+def send_HashWorld_HtmlEmail(to_list, content_list, server):
     datetime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
     head = '<!DOCTYPE HTML>' + \
@@ -448,7 +448,7 @@ def send_HashWorld_HtmlEmail(to_list, content_list):
           str(round(value_total, 2)) + '</td></tr>'
     mail_msg = head + sum + end
 
-    subject = "HashWorld, [Value:" + str(round(value_total, 2)) + "]"
+    subject = "HashWorld, "+server+" [Value:" + str(round(value_total, 2)) + "]"
 
     msg = MIMEText(mail_msg, 'html', 'utf-8')
     me = "newseeing@163.com"

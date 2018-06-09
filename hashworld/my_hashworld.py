@@ -325,7 +325,7 @@ def get_Landlist(token):
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
-        response = requests.request("GET", url, headers=headers)
+        response = requests.request("GET", url, headers=headers, proxies=proxies, timeout=60)
 
         res = response.json()["status"]
         if res == 'common_OK':
@@ -362,7 +362,7 @@ def get_LandPrice(token, land_number):
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
-        response = requests.request("POST", url, data=payload, headers=headers)
+        response = requests.request("POST", url, data=payload, headers=headers, proxies=proxies, timeout=60)
 
         res = response.json()["status"]
         if res == 'common_OK':
@@ -431,7 +431,8 @@ def loop_Lottery(filename):
             # break
 
     # sending email
-    send_email.send_HashWorld_HtmlEmail('newseeing@163.com', content_list)
+    server = filename.split('.')[0][-5:]
+    send_email.send_HashWorld_HtmlEmail('newseeing@163.com', content_list, server)
     logger.warning('********** Sending Email Complete!')
     logger.warning('\n')
 
@@ -489,6 +490,21 @@ def loop_hashworld(filename):
         status_code = open_FirstPage()
     loop_Lottery(filename)
     loop_Land()
+
+def loop_hashworld_no_land(filename):
+    # start
+    logger.warning('********** Start from loop_hashworld() ...')
+
+    global proxies
+    proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
+
+    status_code = open_FirstPage()
+    while status_code != 200:
+        time.sleep(300)
+        status_code = open_FirstPage()
+    loop_Lottery(filename)
+
+
 
 # Start from here...
 # loop_hashworld()

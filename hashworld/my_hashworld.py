@@ -389,15 +389,15 @@ def loop_Lottery(filename):
     # print(data_dict)
     # print(type(data_dict))
 
-    count = 0
+    number = 0
     for item in data_dict['data']:
-        count += 1
+        number += 1
         phone = item.get('phone', 'NA')
         password = item.get('password', 'NA')
         data = dict(phone=phone, password=password)
 
         logger.warning('\n')
-        logger.warning("========== Checking " + str(count) + ". [" + phone + "] ==========")
+        logger.warning("========== Checking " + str(number) + ". [" + phone + "] ==========")
 
         token = login_GetAccessToken(data)
         if token == -1:

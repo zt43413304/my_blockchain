@@ -434,10 +434,12 @@ def loop_bixiang(filename):
 
             # 分享列表
             infoList = bixiang_infoList(unique, uid)
-            if infoList is None:
+            if infoList == -1:
                 continue
-            if len(infoList) == 0:
-                continue
+            # if infoList is None:
+            #     continue
+            # if len(infoList) == 0:
+            #     continue
 
             count = 0
             for i in range(len(infoList)):

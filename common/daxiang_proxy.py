@@ -80,7 +80,7 @@ def get_proxy(url):
     proxies = ''
     count = 0
     while proxies == '':
-        if count > 5:
+        if count > 2:
             break
         proxy_ip = get_proxyIP()
         proxies = test_ip(url, proxy_ip)

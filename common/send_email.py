@@ -446,10 +446,10 @@ def send_HashWorld_HtmlEmail(to_list, content_list, server):
                '</td><td align="right">' + str(round(value, 2)) + '</td></tr>'
     sum = body + '<tr><td colspan="2" align="center">Sum:</td><td align="right">' + \
           str(round(value_total, 2)) + '</td></tr>'
-    # mail_msg = head + sum + end
-    mail_msg = "hello, hashworld"
+    mail_msg = head + sum + end
+    # mail_msg = "hello, hashworld"
 
-    subject = "HashWorld, "+server+" [Value:" + str(round(value_total, 2)) + "]"
+    subject = "哈希世界, "+server+" [Value:" + str(round(value_total, 2)) + "]"
 
     msg = MIMEText(mail_msg, 'html', 'utf-8')
     me = "newseeing@163.com"

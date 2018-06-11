@@ -49,14 +49,14 @@ scheduler = BlockingScheduler()
 # my_bixiang.loop_bixiang()
 # OneChainCheck.loop_onechain()
 # my_diwuqu.loop_diwuqu()
-# HashWorldCheck.loop_hashworld()
+# HashWorldCheck.loop_hashworld_land()
 # HashWorldLand.loop_hashworldland()
 # my_star163.loop_star163()
 
 # scheduler.add_job(my_bixiang.loop_bixiang, "cron", minute="*/3", max_instances=1)
 # scheduler.add_job(OneChainCheck.loop_onechain, "cron", minute="*/3", max_instances=1)
 # scheduler.add_job(my_diwuqu.loop_diwuqu, "cron", minute="*/3", max_instances=1)
-# scheduler.add_job(HashWorldCheck.loop_hashworld, "cron", minute="*/3", max_instances=1)
+# scheduler.add_job(HashWorldCheck.loop_hashworld_land, "cron", minute="*/3", max_instances=1)
 # scheduler.add_job(HashWorldLand.loop_hashworldland, "cron", minute="*/3", max_instances=1)
 
 # Tokyo Sever
@@ -65,7 +65,7 @@ scheduler.add_job(my_diwuqu.loop_diwuqu, "cron", hour="5,13,21", max_instances=1
 scheduler.add_job(my_bixiang.loop_bixiang, "cron", hour="7,15,23", max_instances=1)
 
 # Lenovo Sever
-scheduler.add_job(my_hashworld.loop_hashworld, "cron", hour="1,9,17", max_instances=1)
+scheduler.add_job(my_hashworld.loop_hashworld_land, "cron", hour="1,9,17", max_instances=1)
 scheduler.add_job(my_star163.loop_star163, "cron", hour="6-23/2", max_instances=1)
 
 # scheduler.add_job(my_star163.loop_star163_136, "cron", hour="0-10/2", max_instances=1)

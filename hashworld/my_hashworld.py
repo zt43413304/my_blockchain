@@ -477,43 +477,42 @@ def loop_Land():
         logger.warning('********** Sending Land Email Complete!')
         logger.warning('\n')
 
-def loop_hashworld(filename):
+def loop_hashworld_land():
     # start
-    logger.warning('********** Start from loop_hashworld() ...')
+    logger.warning('********** Start from loop_hashworld_land() ...')
 
     global proxies
     proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
 
     status_code = open_FirstPage()
     while status_code != 200:
-        time.sleep(300)
+        time.sleep(120)
         status_code = open_FirstPage()
-    loop_Lottery(filename)
     loop_Land()
 
 def loop_hashworld_no_land(filename):
     # start
-    logger.warning('********** Start from loop_hashworld() ...')
+    logger.warning('********** Start from loop_hashworld_no_land() ...')
 
     global proxies
     proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
 
     status_code = open_FirstPage()
     while status_code != 200:
-        time.sleep(300)
+        time.sleep(120)
         status_code = open_FirstPage()
     loop_Lottery(filename)
 
 
 
 # Start from here...
-# loop_hashworld()
+# loop_hashworld_land()
 
-# schedule.every(120).minutes.do(loop_hashworld)
-# schedule.every(8).hours.do(loop_hashworld)
-# schedule.every().day.at("18:30").do(loop_hashworld)
-# schedule.every().monday.do(loop_hashworld)
-# schedule.every().wednesday.at("13:15").do(loop_hashworld)
+# schedule.every(120).minutes.do(loop_hashworld_land)
+# schedule.every(8).hours.do(loop_hashworld_land)
+# schedule.every().day.at("18:30").do(loop_hashworld_land)
+# schedule.every().monday.do(loop_hashworld_land)
+# schedule.every().wednesday.at("13:15").do(loop_hashworld_land)
 
 # while True:
 #     schedule.run_pending()

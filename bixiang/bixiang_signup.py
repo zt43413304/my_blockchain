@@ -115,8 +115,8 @@ try:
     if result == 0:
         result = signup.app_signup(phone, suma)
 
-    if result == 0:
-        signup.quiz_by_html()
+    # if result == 0:
+    #     signup.quiz_by_html()
 
 except Exception as e:
     print(e)

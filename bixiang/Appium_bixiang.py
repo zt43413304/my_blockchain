@@ -405,8 +405,10 @@ class Signup:
         logger.warning(">>>>>>>>>> 2. 短信验证码: " + sms_code)
 
     def my_find_elements_by_classname(self, classname, name):
+        wait = WebDriverWait(self.driver, 60)
         # android.widget.TextView
         views = self.driver.find_elements(By.CLASS_NAME, classname)
+        # views = wait.until(EC.presence_of_element_located((By.CLASS_NAME, classname)))
         for i in range(len(views)):
             if views[i].text == name:
                 return views[i]
@@ -599,7 +601,7 @@ class Signup:
             # print(bool(type(self.driver == webdriver)))
             # print(bool(type(self.driver == appium.webdriver)))
 
-            wait = WebDriverWait(self.driver, 10)
+            wait = WebDriverWait(self.driver, 30)
 
             # 新用户签到
             if self.isElementExist_by_id("com.coinstation.bixiang:id/btn_sign"):
@@ -607,7 +609,7 @@ class Signup:
 
             if self.isElementExist_by_id("com.coinstation.bixiang:id/signed_close"):
                 self.driver.find_element_by_id("com.coinstation.bixiang:id/signed_close").click()
-            time.sleep(random.randint(1, 3))
+            time.sleep(random.randint(3, 5))
 
             # el1 = self.driver.find_element_by_id("com.coinstation.bixiang:id/btn_sign")
             # el1.click()
@@ -623,22 +625,29 @@ class Signup:
             time.sleep(random.randint(1, 3))
 
             # 账号设置
-            self.driver.find_element(By.ID, "com.coinstation.bixiang:id/tv_set").click()
+            # self.driver.find_element(By.ID, "com.coinstation.bixiang:id/tv_set").click()
+            button = wait.until(EC.presence_of_element_located((By.ID, 'com.coinstation.bixiang:id/tv_set')))
+            button.click()
             time.sleep(random.randint(1, 3))
 
             # 点击“去绑定”按钮 - 手机号
             # self.driver.find_element(By.ID, "com.coinstation.bixiang:id/btn_bindphone").screenshot("phone.png")
-            self.driver.find_element(By.ID, "com.coinstation.bixiang:id/btn_bindphone").click()
+            # self.driver.find_element(By.ID, "com.coinstation.bixiang:id/btn_bindphone").click()
+            button = wait.until(EC.presence_of_element_located((By.ID, 'com.coinstation.bixiang:id/btn_bindphone')))
+            button.click()
             time.sleep(random.randint(1, 3))
 
             # 输入手机号
-            phone = self.driver.find_element(By.ID, "com.coinstation.bixiang:id/et_phone")
+            # phone = self.driver.find_element(By.ID, "com.coinstation.bixiang:id/et_phone")
+            phone = wait.until(EC.presence_of_element_located((By.ID, 'com.coinstation.bixiang:id/et_phone')))
             phone.send_keys(suma_phone)
             time.sleep(random.randint(1, 3))
 
             # 点击获取短信验证码
             # 步骤一：先点击按钮，弹出没有缺口的图片
-            self.driver.find_element(By.ID, "com.coinstation.bixiang:id/btn_sendsms").click()
+            # self.driver.find_element(By.ID, "com.coinstation.bixiang:id/btn_sendsms").click()
+            button = wait.until(EC.presence_of_element_located((By.ID, 'com.coinstation.bixiang:id/btn_sendsms')))
+            button.click()
             logger.warning(">>>>>>>>>> 1. 开始进行滑块验证。")
 
             # cons1 = self.driver.contexts
@@ -666,17 +675,22 @@ class Signup:
             sms_code = suma.getVcodeAndHoldMobilenum(suma_phone)
 
             # 输入短信验证码
-            sms = self.driver.find_element_by_id("com.coinstation.bixiang:id/et_sms")
+            # sms = self.driver.find_element_by_id("com.coinstation.bixiang:id/et_sms")
+            sms = wait.until(EC.presence_of_element_located((By.ID, 'com.coinstation.bixiang:id/et_sms')))
             sms.send_keys(sms_code)
             logger.warning(">>>>>>>>>> 2. 短信验证码: " + sms_code)
 
             # 点击“绑定”按钮
-            self.driver.find_element_by_id("com.coinstation.bixiang:id/btn_save").click()
+            # self.driver.find_element_by_id("com.coinstation.bixiang:id/btn_save").click()
+            button = wait.until(EC.presence_of_element_located((By.ID, 'com.coinstation.bixiang:id/btn_save')))
+            button.click()
             logger.warning(">>>>>>>>>> 3. 收到短信，完成登录。 ")
             time.sleep(random.randint(3, 5))
 
             # 关闭，返回
-            self.driver.find_element_by_id("com.coinstation.bixiang:id/btn_back").click()
+            # self.driver.find_element_by_id("com.coinstation.bixiang:id/btn_back").click()
+            button = wait.until(EC.presence_of_element_located((By.ID, 'com.coinstation.bixiang:id/btn_back')))
+            button.click()
 
             return 0
 

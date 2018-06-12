@@ -556,7 +556,7 @@ class Signup:
             self.login_with_sms(suma_code)
             logger.warning(">>>>>>>>>> 3. 收到短信，完成登录。 ")
             logger.warning("\n")
-            time.sleep(random.randint(8, 10))
+            time.sleep(random.randint(5, 8))
 
             # print(self.driver.current_context)
             # cons = self.driver.contexts
@@ -567,11 +567,9 @@ class Signup:
             # 新用户签到
             # if self.isElementExist_by_id("com.coinstation.bixiang:id/btn_sign"):
             #     self.driver.find_element_by_id("com.coinstation.bixiang:id/btn_sign").click()
-            # time.sleep(random.randint(1, 2))
             #
             # if self.isElementExist_by_id("com.coinstation.bixiang:id/signed_close"):
             #     self.driver.find_element_by_id("com.coinstation.bixiang:id/signed_close").click()
-            # time.sleep(random.randint(1, 2))
 
             # el1 = self.driver.find_element_by_id("com.coinstation.bixiang:id/btn_sign")
             # el1.click()

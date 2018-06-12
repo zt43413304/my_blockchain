@@ -367,26 +367,71 @@ def get_allTotal(unique, uid):
         print(e)
         return -1, -1
 
-
-def get_turntableFree(unique, uid):
+def get_lottery_url(unique, uid):
     global proxies
-    url = bixiang_property_url(unique, uid)
-    logger.warning("********** Property URL = " + url)
+    url = "http://tui.yingshe.com/member/miningBxc"
 
-    parsed = urllib.parse.urlparse(url)
-    parsed_query = parsed.query
-    # 'xxx=vzlsIdmCYyW2Ji1CbiWsc'
-    print(parsed_query)
+    payload_property = payload + "&unique=" + unique + "&uid=" + uid
 
     try:
-        logger.warning("********** get_turntableFree(), proxies = " + str(proxies))
-        lottery_enter = 'http://tui.yingshe.com/lottery/enters?' + parsed_query
-        response = requests.request("GET", lottery_enter, headers=headers, timeout=60, proxies=proxies)
-        print(response.text)
+        response = requests.request("POST", url, data=payload_property, headers=headers, timeout=60, proxies=proxies)
+        image_url_list = response.json()["info"]["image_url"]
 
-        # <p id="xxx" style="display:none">WXObEc%3DRCHwyyTxnxbBUpb6MN</p>
+        for i in range(len(image_url_list)):
+            url = image_url_list[i]
+            nPos = url.find('lottery')
 
-        return response.content
+            if nPos > -1:
+                return url
+        return -1
+    except Exception as e:
+        print(e)
+        proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
+        return -1
+
+def get_lottery_chance(url):
+    global proxies
+
+    try:
+
+        response = requests.request("GET", url, headers=headers, timeout=60, proxies=proxies)
+
+        html = response.text
+
+        parser = etree.HTMLParser()
+        tree = etree.parse(StringIO(html), parser)
+
+        chance = tree.xpath('//*[@id="free_number_remaining"]')
+        # logger.warning(">>>>> chance = " + chance[0].text)
+
+        xxx = tree.xpath('//*[@id="xxx"]')
+        # logger.warning(">>>>> xxx = " + xxx[0].text)
+
+        return chance[0].text, xxx[0].text
+
+    except Exception as e:
+        print(e)
+        proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
+        return -1, -1
+
+
+def bixiang_lottery(unique, uid):
+    global proxies
+
+    try:
+        logger.warning("********** bixiang_lottery(), proxies = " + str(proxies))
+
+        url = get_lottery_url(unique, uid)
+        (chance, xxx) = get_lottery_chance(url)
+
+        for i in range(int(chance)):
+            lottery_enter = 'http://tui.yingshe.com/lottery/turntableFree?psid='+uid+'&xxx='+xxx
+            response = requests.request("GET", lottery_enter, headers=headers, timeout=60, proxies=proxies)
+            # print(response.text.encode('utf-8').decode('unicode_escape'))
+            if response.json()["status"] == 1:
+                logger.warning(">>>>>>>>>> " + response.json()["message"] + ", bxc_add = " + str(response.json()["bxc_add"]))
+            time.sleep(random.randint(1, 3))
+        return 0
 
     except Exception as e:
         print(e)
@@ -431,6 +476,9 @@ def loop_bixiang(filename):
             signed = bixiang_sign(unique, uid)
             # if signed == 2:
             #     continue
+
+            # 幸运大转盘
+            bixiang_lottery(unique, uid)
 
             # 分享列表
             infoList = bixiang_infoList(unique, uid)
@@ -478,16 +526,27 @@ def loop_bixiang(filename):
     send_email.send_Bixiang_HtmlEmail('newseeing@163.com', content_list, server)
     logger.warning('********** Sending Email Complete!')
 
+def loop_bixiang_test():
+
+    # start
+    logger.warning('********** Start from loop_bixiang_test() ...')
+
+    unique = '682927952795063'
+    uid = '10027134'
+    phone = '17132656549'
+
+    logger.warning('\n')
+    logger.warning("========== Checking [" + phone + "] ==========")
+
+    status = bixiang_login(unique, uid)
+    if status != -1:
+
+        bixiang_lottery(unique, uid)
+
+
+
+
+
 # Start from here...
-# loop_bixiang()
-
-# ssl._create_default_https_context = ssl._create_unverified_context
-# schedule.every(120).minutes.do(loop_bixiang)
-# schedule.every(6).hours.do(loop_bixiang)
-# schedule.every().day.at("01:05").do(loop_bixiang)
-# schedule.every().monday.do(loop_bixiang)
-# schedule.every().wednesday.at("13:15").do(loop_bixiang)
-
-# while True:
-#     schedule.run_pending()
-#     time.sleep(1)
+# loop_bixiang_test()
+# loop_bixiang('/data_bixiang_Tokyo.json')

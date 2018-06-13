@@ -541,9 +541,9 @@ def loop_bixiang_test():
     logger.warning("========== Checking [" + phone + "] ==========")
 
     status = bixiang_login(unique, uid)
-    if status != -1:
+    # if status != -1:
         # bixiang_lottery(unique, uid)
-        bixiang_quiz(unique, uid)
+        # bixiang_quiz(unique, uid)
 
 # Start from here...
 # loop_bixiang_test()

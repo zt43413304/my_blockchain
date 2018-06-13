@@ -1,7 +1,6 @@
 # coding=utf-8
 
 import configparser
-import json
 import logging
 import os
 import random
@@ -106,31 +105,6 @@ def bixiang_userInfo(unique, uid):
         return -1
 
 
-def bixiang_login(unique, uid):
-    global proxies
-    url = "http://tui.yingshe.com/check/index"
-
-    payload_login = payload + "&unique=" + unique + "&uid=" + uid
-
-    try:
-        logger.warning("********** bixiang_login(), proxies = " + str(proxies))
-        response = requests.request("POST", url, data=payload_login, headers=headers, proxies=proxies)
-        time.sleep(random.randint(MIN_SEC, MAX_SEC))
-
-        res = response.json()["status"]
-        if res == 1:
-            logger.warning('********** Login success.')
-            bixiang_userInfo(unique, uid)
-            return 1
-        else:
-            logger.warning('********** Login fail. uid:' + uid)
-            return -1
-    except Exception as e:
-        print(e)
-        proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
-        return -1
-
-
 # 返回值：出错-1，第一次签到成功1，第二次检查2
 def bixiang_sign(unique, uid):
     global proxies
@@ -168,33 +142,6 @@ def bixiang_sign(unique, uid):
         print(e)
         proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
         return -1
-
-
-def quiz_bixiang():
-    # start
-    logger.warning('********** Start from quiz_bixiang() ...')
-
-    global proxies
-    proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
-
-    file = open(curpath + '/bixiang/quiz_bixiang.json', 'r', encoding='utf-8')
-    data_dict = json.load(file)
-    content_list = []
-
-    for item in data_dict['data']:
-        unique = item.get('unique', 'NA')
-        uid = item.get('uid', 'NA')
-        phone = item.get('phone', 'NA')
-
-        logger.warning("========== Checking [" + phone + "] ==========")
-
-        status = bixiang_login(unique, uid)
-        if status == -1:
-            continue
-        else:
-            signed = bixiang_sign(unique, uid)
-
-    logger.warning('********** Quiz Complete!')
 
 # Start from here...
 # loop_bixiang()

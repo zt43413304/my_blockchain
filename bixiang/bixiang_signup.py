@@ -77,13 +77,21 @@ def signup_app():
 
 
 # Star from here......
-# bixiang_quiz1.quiz_html()
 
+# 自动“币响知识小课堂”
+signup = Appium_bixiang.Signup()
+signup.quiz_bixiang()
+os._exit()
+
+# 手工“币响知识小课堂”
+# quiz_url = input("********** Quiz url is: ")
 # signup = Appium_bixiang.Signup()
-# signup.quiz_by_html()
+# signup.quiz_by_html(quiz_url)
+# os._exit()
 
 # startup_emulator()
 url01 = 'http://bixiang8.com/9Ss8V'
+
 url02 = 'http://bixiang8.com/dz5vU'
 url03 = 'http://bixiang8.com/0e3Up2'
 url04 = 'http://bixiang8.com/KKjnn3'
@@ -95,8 +103,7 @@ url08 = 'http://bixiang8.com/PgU0a2'
 url09 = 'http://bixiang8.com/4HbUg4'
 url10 = 'http://bixiang8.com/vXoPR1'
 
-
-invite_url = url02
+invite_url = url01
 phone = input("********** Phone Number (enter for new): ")
 logger.warning('********** Your input is: ' + phone)
 suma = my_suma.suma()

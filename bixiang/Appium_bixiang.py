@@ -1,10 +1,14 @@
 # coding=utf-8
 
+import configparser
+import json
 import logging
 import os
 import random
+import re
 import time
 
+import requests
 from PIL import Image
 from appium import webdriver
 from selenium.webdriver import ActionChains
@@ -31,6 +35,43 @@ logger.addHandler(ch)
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
+
+# get config information
+curpath = os.getcwd()
+content = open(curpath + '/bixiang/config_bixiang.ini').read()
+content = re.sub(r"\xfe\xff", "", content)
+content = re.sub(r"\xff\xfe", "", content)
+content = re.sub(r"\xef\xbb\xbf", "", content)
+open(curpath + '/bixiang/config_bixiang.ini', 'w').write(content)
+
+cf = configparser.ConfigParser()
+cf.read(curpath + '/bixiang/config_bixiang.ini')
+# unique = cf.get('info', 'unique').strip()
+# uid = cf.get('info', 'uid').strip()
+is_ad_ios = cf.get('info', 'is_ad_ios').strip()
+versioncode = cf.get('info', 'versioncode').strip()
+devicetype = cf.get('info', 'devicetype').strip()
+channel = cf.get('info', 'channel').strip()
+token = cf.get('info', 'token').strip()
+ps = cf.get('info', 'ps').strip()
+key = cf.get('info', 'key').strip()
+
+headers = {
+    'Host': "tui.yingshe.com",
+    'Connection': "Keep-Alive",
+    'Accept-Encoding': "gzip",
+    'User-Agent': "okhttp/3.4.1",
+    'Content-Type': "application/x-www-form-urlencoded",
+    'Cache-Control': "no-cache"
+}
+
+payload = "is_ad_ios=" + is_ad_ios + \
+          "&versioncode=" + versioncode + \
+          "&devicetype=" + devicetype + \
+          "&channel=" + channel + \
+          "&token=" + token + \
+          "&ps=" + ps + \
+          "&key=" + key
 
 
 class Signup:
@@ -727,18 +768,12 @@ class Signup:
             print(">>>>> " + views[i].id)
             print(">>>>> " + views[i].text)
 
-    def quiz_by_html(self):
-
-        time.sleep(random.randint(2, 3))
-        quiz_url = input("********** Quiz url is: ")
-        logger.warning('********** Your input is: ' + quiz_url)
-
-        # quiz_url = "http://tui.yingshe.com/user/newtask?xxx=hfIf7fJt8gYv9ep15f4z4"
-
+    def quiz_by_html(self, quiz_url):
         try:
             self.get_html_driver()
 
-            logger.warning("********** quiz_by_html() ......")
+            # logger.warning("********** quiz_by_html() ......")
+            logger.warning('********** quiz_url = ' + quiz_url)
 
             # /Users/Jackie.Liu/DevTools/Selenium/chromedriver
 
@@ -822,6 +857,7 @@ class Signup:
 
             time.sleep(random.randint(1, 2))
             logger.warning("********** quiz complete ......")
+            logger.warning('\n')
 
             # if self.isElementExist_by_id("com.coinstation.bixiang:id/btn_back"):
             #     self.driver.find_element_by_id("com.coinstation.bixiang:id/btn_back").click()
@@ -835,6 +871,76 @@ class Signup:
             return -1
         finally:
             self.driver.close()
+
+    def get_quiz_url(self, unique, uid):
+
+        url = "http://tui.yingshe.com/member/miningBxc"
+
+        payload_property = payload + "&unique=" + unique + "&uid=" + uid
+
+        try:
+            response = requests.request("POST", url, data=payload_property, headers=headers, timeout=60)
+            activity_list = response.json()["info"]["activity"]
+
+            for i in range(len(activity_list)):
+                head = activity_list[i]["head"]
+                status = activity_list[i]["status"]
+                url = activity_list[i]["url"]
+
+                if head == "币响知识小课堂":
+                    return status, url
+            return -1, -1
+        except Exception as e:
+            print(e)
+
+            return -1, -1
+
+    def bixiang_login(self, unique, uid):
+        url = "http://tui.yingshe.com/check/index"
+
+        payload_login = payload + "&unique=" + unique + "&uid=" + uid
+
+        try:
+            logger.warning("********** bixiang_login()......")
+            response = requests.request("POST", url, data=payload_login, headers=headers)
+
+            res = response.json()["status"]
+            if res == 1:
+                logger.warning('********** Login success.')
+                return 1
+            else:
+                logger.warning('********** Login fail. uid:' + uid)
+                return -1
+        except Exception as e:
+            print(e)
+            return -1
+
+    def quiz_bixiang(self):
+        # start
+        logger.warning('********** Start from quiz_bixiang() ...')
+
+        file = open(curpath + '/bixiang/data_bixiang_Seoul.json', 'r', encoding='utf-8')
+        data_dict = json.load(file)
+
+        for item in data_dict['data']:
+            unique = item.get('unique', 'NA')
+            uid = item.get('uid', 'NA')
+            phone = item.get('phone', 'NA')
+
+            logger.warning("========== Quizing [" + phone + "] ==========")
+
+            # status = self.bixiang_login(unique, uid)
+            # if status != -1:
+            #     (status, url) = self.get_quiz_url(unique, uid)
+            #     if status == 1:
+            #         self.quiz_by_html_auto(url)
+
+            (status, url) = self.get_quiz_url(unique, uid)
+            if status == 1:
+                self.quiz_by_html(url)
+            else:
+                logger.warning('********** 已做过，币响知识小课堂。')
+        logger.warning('********** All Quiz Complete!')
 
 # App_signup = Signup()
 # App_signup.registry()

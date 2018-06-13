@@ -7,7 +7,6 @@ import os
 import random
 import re
 import time
-import urllib.parse
 from io import StringIO
 
 import requests
@@ -367,6 +366,7 @@ def get_allTotal(unique, uid):
         print(e)
         return -1, -1
 
+
 def get_lottery_url(unique, uid):
     global proxies
     url = "http://tui.yingshe.com/member/miningBxc"
@@ -388,6 +388,7 @@ def get_lottery_url(unique, uid):
         print(e)
         proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
         return -1
+
 
 def get_lottery_chance(url):
     global proxies
@@ -425,11 +426,12 @@ def bixiang_lottery(unique, uid):
         (chance, xxx) = get_lottery_chance(url)
 
         for i in range(int(chance)):
-            lottery_enter = 'http://tui.yingshe.com/lottery/turntableFree?psid='+uid+'&xxx='+xxx
+            lottery_enter = 'http://tui.yingshe.com/lottery/turntableFree?psid=' + uid + '&xxx=' + xxx
             response = requests.request("GET", lottery_enter, headers=headers, timeout=60, proxies=proxies)
             # print(response.text.encode('utf-8').decode('unicode_escape'))
             if response.json()["status"] == 1:
-                logger.warning(">>>>>>>>>> " + response.json()["message"] + ", bxc_add = " + str(response.json()["bxc_add"]))
+                logger.warning(
+                    ">>>>>>>>>> " + response.json()["message"] + ", bxc_add = " + str(response.json()["bxc_add"]))
             time.sleep(random.randint(1, 3))
         return 0
 
@@ -452,7 +454,7 @@ def loop_bixiang(filename):
     global proxies
     proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
 
-    file = open(curpath + '/bixiang/'+filename, 'r', encoding='utf-8')
+    file = open(curpath + '/bixiang/' + filename, 'r', encoding='utf-8')
     data_dict = json.load(file)
     content_list = []
 
@@ -526,8 +528,8 @@ def loop_bixiang(filename):
     send_email.send_Bixiang_HtmlEmail('newseeing@163.com', content_list, server)
     logger.warning('********** Sending Email Complete!')
 
-def loop_bixiang_test():
 
+def loop_bixiang_test():
     # start
     logger.warning('********** Start from loop_bixiang_test() ...')
 
@@ -540,12 +542,8 @@ def loop_bixiang_test():
 
     status = bixiang_login(unique, uid)
     if status != -1:
-
-        bixiang_lottery(unique, uid)
-
-
-
-
+        # bixiang_lottery(unique, uid)
+        bixiang_quiz(unique, uid)
 
 # Start from here...
 # loop_bixiang_test()

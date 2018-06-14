@@ -33,6 +33,7 @@ def get_proxyIP():
             logger.warning(">>>>>>>>>> Get proxy ip = " + proxy_ip)
             proxy_ip = ''
             logger.warning(">>>>>>>>>> Return proxy_ip = " + proxy_ip)
+            return proxy_ip
         else:
             return proxy_ip
     except Exception as e:

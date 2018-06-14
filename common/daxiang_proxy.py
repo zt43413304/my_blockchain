@@ -26,8 +26,15 @@ def get_proxyIP():
     try:
         response = requests.get(url)
         proxy_ip = response.text
-        logger.warning(">>>>>>>>>> Get proxy ip = " + proxy_ip)
-        return proxy_ip
+
+        # ERROR|没有找到符合条件的IP
+        nPos = proxy_ip.find('ERROR')
+        if nPos > -1:
+            logger.warning(">>>>>>>>>> Get proxy ip = " + proxy_ip)
+            proxy_ip = ''
+            logger.warning(">>>>>>>>>> Return proxy_ip = " + proxy_ip)
+        else:
+            return proxy_ip
     except Exception as e:
         print(e)
         logger.warning(">>>>>>>>>> Get proxy ip error, sleep 5 seconds...")

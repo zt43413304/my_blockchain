@@ -201,6 +201,8 @@ def click_Lottery(token, block_number):
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
         response = requests.request("PUT", url, data=payload, headers=headers, proxies=proxies, timeout=60, verify=False)
+        time.sleep(random.randint(1,3))
+        response = requests.request("PUT", url, data=payload, headers=headers, proxies=proxies, timeout=60, verify=False)
 
         res = response.json()["status"]
         if res == 'common_OK':

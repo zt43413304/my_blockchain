@@ -74,7 +74,7 @@ def open_FirstPage():
             return -1
     except Exception as e:
         print(e)
-        proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
+        # proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
         return -1
 
 
@@ -108,7 +108,7 @@ def login_GetAccessToken(payload):
             return -1
     except Exception as e:
         print(e)
-        proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
+        # proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
         return -1
 
 
@@ -142,7 +142,7 @@ def get_strength_info(token):
             return strength
     except Exception as e:
         print(e)
-        proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
+        # proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
         return -1
 
 
@@ -175,7 +175,7 @@ def get_prize_wheel(token):
             return wonder_list
     except Exception as e:
         print(e)
-        proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
+        # proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
         return -1
 
 
@@ -214,7 +214,7 @@ def click_Lottery(token, block_number):
             return -1
     except Exception as e:
         print(e)
-        proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
+        # proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
         return -1
 
 
@@ -256,7 +256,7 @@ def check_UserTotal(token):
             return -1
     except Exception as e:
         print(e)
-        proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
+        # proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
         return -1
     finally:
         requests.session().close()
@@ -335,7 +335,7 @@ def get_Landlist(token):
             return land_list
     except Exception as e:
         print(e)
-        proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
+        # proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
         return -1
 
 
@@ -378,7 +378,7 @@ def get_LandPrice(token, land_number):
             return "error", 0, "untradable", 0, ""
     except Exception as e:
         print(e)
-        proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
+        # proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
         return "error", 0, "untradable", 0, ""
 
 
@@ -484,7 +484,8 @@ def loop_hashworld_land():
     logger.warning('********** Start from loop_hashworld_land() ...')
 
     global proxies
-    proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
+    # proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
+    proxies = ''
 
     status_code = open_FirstPage()
     while status_code != 200:
@@ -497,8 +498,8 @@ def loop_hashworld_no_land(filename):
     logger.warning('********** Start from loop_hashworld_no_land() ...')
 
     global proxies
-    proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
-    # proxies = ''
+    # proxies = daxiang_proxy.get_proxy("https://game.hashworld.top/")
+    proxies = ''
 
     status_code = open_FirstPage()
     while status_code != 200:

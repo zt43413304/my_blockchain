@@ -48,6 +48,8 @@ class AppiumStar:
         desired_caps['clearSystemFiles'] = 'True'
         desired_caps['app'] = PATH(
             'C:/DevTools/Star163/protect_163-e01170001_121-4.apk'
+        # desired_caps['app'] = PATH(
+        # '/Users/Jackie.Liu/Documents/MuMu共享文件夹/protect_163-e01170001_121-4.apk'
         )
         # desired_caps['appPackage'] = 'com.example.android.contactmanager'
         # desired_caps['appActivity'] = '.ContactManager'
@@ -80,7 +82,7 @@ class AppiumStar:
         time.sleep(30)
 
         self.appium_zixun()
-
+        self.appium_yuedu()
         # self.appium_music()
 
         # level 1 main page
@@ -179,3 +181,86 @@ class AppiumStar:
         logger.warning("========== Back to Level 2, 获取原力")
         time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
         return
+
+    def appium_yuedu(self):
+        # level 2 main page
+        self.driver.find_element_by_accessibility_id("阅读").click()
+        logger.warning("========== 阅读")
+        time.sleep(30)
+        if self.isElementExist("去读书"):
+            self.driver.find_element_by_accessibility_id("去读书").click()
+            time.sleep(15)
+
+        # reading
+        TouchAction(self.driver).tap(x=113, y=533).perform()
+        logger.warning("========== Reading......")
+
+        time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
+
+        if self.isElementExist("显示/隐藏操作栏"):
+            self.driver.find_element_by_accessibility_id("显示/隐藏操作栏").click()
+        time.sleep(85)
+
+        count = 0
+        while True:
+            if count > 9:
+                break
+            self.swipeUp(1000)
+            time.sleep(60)
+            count += 1
+            logger.warning("========== Reading count: " + str(count))
+
+
+        self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
+        time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
+
+        # level 2 main page
+        self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
+        logger.warning("========== Back to Level 2, 获取原力")
+        time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
+        return
+
+
+    def getSize(self):
+        x = self.driver.get_window_size()['width']
+        y = self.driver.get_window_size()['height']
+        return (x, y)
+
+    #屏幕向上滑动
+    def swipeUp(self, t):
+        l = self.getSize()
+        x1 = int(l[0] * 0.5)  #x坐标
+        y1 = int(l[1] * 0.75)   #起始y坐标
+        y2 = int(l[1] * 0.25)   #终点y坐标
+        self.driver.swipe(x1, y1, x1, y2,t)
+    #屏幕向下滑动
+    def swipeDown(self, t):
+        l = self.getSize()
+        x1 = int(l[0] * 0.5)  #x坐标
+        y1 = int(l[1] * 0.25)   #起始y坐标
+        y2 = int(l[1] * 0.75)   #终点y坐标
+        self.driver.swipe(x1, y1, x1, y2,t)
+    #屏幕向左滑动
+    def swipLeft(self, t):
+        l=self.getSize()
+        x1=int(l[0]*0.75)
+        y1=int(l[1]*0.5)
+        x2=int(l[0]*0.05)
+        self.driver.swipe(x1,y1,x2,y1,t)
+    #屏幕向右滑动
+    def swipRight(self, t):
+        l=self.getSize()
+        x1=int(l[0]*0.05)
+        y1=int(l[1]*0.5)
+        x2=int(l[0]*0.75)
+        self.driver.swipe(x1,y1,x2,y1,t)
+
+    # #调用向左滑动
+    # swipLeft(1000)
+    # sleep(3)
+    # #调用向右滑动
+    # swipRight(1000)
+    # 调用向上滑动
+    # swipeUp(1000)
+    # 调用向下滑动
+    # swipeDown(1000)

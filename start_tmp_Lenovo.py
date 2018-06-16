@@ -5,19 +5,22 @@ import os
 import time
 
 from apscheduler.schedulers.blocking import BlockingScheduler
-
 from hashworld import my_hashworld
+from onechain import my_onechain
+from star163 import my_star163
+from bixiang import my_bixiang
+from diwuqu import my_diwuqu
 
 # 第一步，创建一个logger
-from star163 import my_star163
 
-logger = logging.getLogger("start_lenovo.py")
+
+logger = logging.getLogger("start_tmp_Lenovo.py")
 logger.setLevel(logging.INFO)  # Log等级总开关
 # 第二步，创建一个handler，用于写入日志文件
 rq = time.strftime('%Y%m%d%H%M', time.localtime(time.time()))
 # log_path = os.path.dirname(os.getcwd()) + '/logs/'
 log_path = os.getcwd() + '/logs/'
-log_name = log_path + 'start_lenovo_' + rq + '.log'
+log_name = log_path + 'start_tmp_Lenovo' + rq + '.log'
 logfile = log_name
 
 fh = logging.FileHandler(logfile, mode='w', encoding='UTF-8')
@@ -36,14 +39,16 @@ logger.addHandler(fh)
 logger.addHandler(ch)
 
 # start
-logger.warning('********** Start from start_lenovo.py ...')
-scheduler = BlockingScheduler()
+logger.warning('********** Start from start_tmp_Lenovo.py ...')
 
-# Lenovo Sever
-scheduler.add_job(my_star163.loop_star163, "cron", hour="6-23/3", max_instances=2)
-scheduler.add_job(my_hashworld.loop_hashworld_no_land, "cron", hour="2,10,18", minute="30", args=["data_hashworld_Tokyo.json"], max_instances=2)
 
-try:
-    scheduler.start()
-except (KeyboardInterrupt, SystemExit):
-    scheduler.shutdown()
+
+# my_bixiang.loop_bixiang("data_bixiang_Tokyo.json")
+# my_bixiang.loop_bixiang("data_bixiang_Seoul.json")
+
+my_hashworld.loop_hashworld_no_land("data_hashworld_Tokyo.json")
+# my_hashworld.loop_hashworld_no_land("data_hashworld_Seoul.json")
+
+
+
+

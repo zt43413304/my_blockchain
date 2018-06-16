@@ -901,7 +901,7 @@ class Signup:
         payload_login = payload + "&unique=" + unique + "&uid=" + uid
 
         try:
-            logger.warning("********** bixiang_login()......")
+            logger.warning("********** selenium_login()......")
             response = requests.request("POST", url, data=payload_login, headers=headers)
 
             res = response.json()["status"]
@@ -929,7 +929,7 @@ class Signup:
 
             logger.warning("========== Quizing [" + phone + "] ==========")
 
-            # status = self.bixiang_login(unique, uid)
+            # status = self.selenium_login(unique, uid)
             # if status != -1:
             #     (status, url) = self.get_quiz_url(unique, uid)
             #     if status == 1:

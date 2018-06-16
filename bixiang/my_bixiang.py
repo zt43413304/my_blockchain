@@ -135,7 +135,7 @@ def bixiang_login(unique, uid):
     payload_login = payload + "&unique=" + unique + "&uid=" + uid
 
     try:
-        logger.warning("********** bixiang_login(), proxies = " + str(proxies))
+        logger.warning("********** selenium_login(), proxies = " + str(proxies))
         response = requests.request("POST", url, data=payload_login, headers=headers, timeout=60, proxies=proxies)
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
 

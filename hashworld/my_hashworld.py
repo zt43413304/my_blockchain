@@ -10,10 +10,10 @@ import time
 
 import requests
 
-from common import daxiang_proxy
 from common import send_email
-
 # 第一步，创建一个logger,并设置级别
+from hashworld import Appium_hashworld
+
 logger = logging.getLogger("my_hashworld.py")
 logger.setLevel(logging.INFO)  # Log等级总开关
 # 第二步，创建一个handler，用于写入日志文件
@@ -98,7 +98,8 @@ def login_GetAccessToken(payload):
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
-        response = requests.request("POST", url, data=payload, headers=headers, proxies=proxies, timeout=60, verify=False)
+        response = requests.request("POST", url, data=payload, headers=headers, proxies=proxies, timeout=60,
+                                    verify=False)
 
         res = response.json()["status"]
         if res == 'common_OK':
@@ -183,6 +184,8 @@ def click_Lottery(token, block_number):
     global proxies
     url = "https://game.hashworld.top/apis/game/lottery/"
 
+    captcha_token = "https://game.hashworld.top/apis/accounts/captcha/?captcha_token=%257B%2522a%2522%253A%2522FFFF0N00000000005F93%2522%252C%2522c%2522%253A%25221528966794097%253A0.5570543240755796%2522%252C%2522d%2522%253A%2522nvc_message_h5%2522%252C%2522j%2522%253A%257B%2522test%2522%253A1%257D%252C%2522b%2522%253A%2522109%25236zPa7RfVapz%252FAjnQpCFbCzS%252BznvERMZGCqNiewbXGMXoQTvSesjXuaHpwtrGYulcrF5DYBWG%252FANxXXoCzGp2arK%252FlaRDNlTY7KDWV08C%252F2qqJiFK0zaVXQUdsPtNhU23vG418D4mYK2RjzAs2jC07xtwgjzWNu2M9i1bSiRrlX8FGux2iqzPWXBH504vyVvuzl31ksth79BpcnDSrODDJLBODjQCimaYgyUaDDEXliY3beCI4bDeKOguzUjB4DMxguOaaWYTliYmfCCaJ%252BfVEU%252BSaktR4e31gT2apNcElnblSjaR377exU9NGacE4VrbgjN6apJmli9Sgjchz%252FDeEz8hl7iB4suYEizaF3vBlL2JLaCa4bbaEuwHGGrE4TW6guOJG%252FYE4ixugHba9lYBNOgdac5E%252FtBbgzlja5tBli9SjePaiN2VEAZ90eiE%252FdObgUMaa75Rlm%252BpgFVPz27eEzwaG7iESM6YgrnPpNcElnb6ICGcdb1LWzgdaacEXmIYqQ6aaHLMli9Sgjavz%252F1BEboSa5jlztaYgzlcpWDGBiYJTgCI4bDeKUguuMYE4rzfguOaaWbhliDplj7F1%252BXjEz%252BS%252BaiR4sjbgrp4pNcElnYt96CaRkeerDwKpaiE4sd4guRoGWYH%252BcepgCaa%252B27VETZxGac70SI1gzla125Efnbd7mOPz27eEzwBG7iELn7ngTdopNcElnbQpCcOzu9e425hpaiIucCYDYIMaXSBo41SCgCaaR2eidXgacbEumSGnUzaaWYE2n6ugB7X4r0jEul5jCGc0tI1iljHad4mli1gUsWaM%252B3VEjPFaSA6ztG37Ozan%252BwRlMXdiaaaF2%252BVEevkaC7PrSI1zx7GaXvMliYk4ula4TDCEuQpaachztpG7oPoadIJli9SgjaHz%252FDybugutriRzSuYgsjMaSmgtt9S4u%252FM41yDEz8vZ7iB24uFg9UjpWYpl%252BXSgDOMz%252FbrOU8ny7iEon71gDyMpNcElnYBzgCaUgGEwO8HugiB4suYsDrMaHEg2i0SPvaM4bDeETVPpacE4sS6BOIaaWYECi%252Bugaaa40QzEulsqC7ssmIYgzlaE2ERlgE4bC7Yb2XjEz%252BScBiR44Lj7CL0ZN5BlnDSVjCM4rIjYu%252BS40iRzSuYgjIMacSnlwgknBCa4bb1Eu%252BgNavEneWbgUMaaE5RlKxs%252BT9jz27eEzlzpacjKSaY29OMGWYElnfugIX84b17gugdaacEwsabgTbGuWDPMiepgCaaBDXeZOMZa7sSzSI1gzlaCN5E5Tzp7ZzfzN3jEz%252BSqccBq8JVajaO8NXZlcVxh7i1zNHREURpp76ezmH1gOLUGN5Bln9SgjMr4bDe9zkkaaGl4saDgzlBGlYElBDn1ZZuzWDjDjrZq%252FC7KYiXVpNivuKd1khN%252B1WyQPMwMJQmtYEkryCisBdqcw%252F53OUkaIfyi3A%252B4FMHzsZSk6rGRmMHo4ApOD%252Ffb0vI7EXHpkb62QL6%252FZ4c6VLVPDLlI%252F8dfJMSsfUmKoxv%252FnddOwEbFqA%252Fj%252Ffm4ElqOK%252BuUoZykar%252F9wTg7dmC4YdKeFFOCCdkO0brIeROj5z7iwVhoFgXOOl2B8XDi2qaJSgMIyRUP%252FioX3jRPJEyx8DRkSJtgp3Q%252B400mu3bI0PRGuh5d7EmPJiSH6r%253D%2522%252C%2522e%2522%253A%25222aOt8P9F_ykXL0VHwa_YN0XFI1xtNCPMqF2PrQn456xhRldlz_zD9moXjfwq3TzrykhFIH3xpkH6nLiBFhQCOOXOcOG8JIhPz4gvKWwRmtg5WoNJI38-25zLhNmAke1HJLy-hrjr3Bctpe8I39gRvNtexwRKTE190IQA-RdyyRNHKzTa8h306sUUOTQ5BNHs7k1vLK1JVTM5uuLyO_vJRKqoL4EO5t4YPFVXkLT-o58%2522%257D"
+
     headers = {
         'user-agent': "application/x-www-form-urlencoded",
         'referer': "https://game.hashworld.top/",
@@ -200,9 +203,12 @@ def click_Lottery(token, block_number):
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
-        response = requests.request("PUT", url, data=payload, headers=headers, proxies=proxies, timeout=60, verify=False)
-        time.sleep(random.randint(1,3))
-        response = requests.request("PUT", url, data=payload, headers=headers, proxies=proxies, timeout=60, verify=False)
+        response = requests.request("PUT", url, data=payload, headers=headers, proxies=proxies, timeout=60,
+                                    verify=False)
+        response = requests.request("GET", captcha_token, headers=headers, proxies=proxies, timeout=60, verify=False)
+        time.sleep(random.randint(8, 10))
+        response = requests.request("PUT", url, data=payload, headers=headers, proxies=proxies, timeout=60,
+                                    verify=False)
 
         res = response.json()["status"]
         if res == 'common_OK':
@@ -262,7 +268,7 @@ def check_UserTotal(token):
         requests.session().close()
 
 
-def click_hashworld_land(token, strength, wonder_list):
+def click_hashworld_land(token, strength, wonder_list, lands):
     # 根据体力值判断循环次数
     while strength > 0:
 
@@ -281,7 +287,8 @@ def click_hashworld_land(token, strength, wonder_list):
             if not bool(has_reveal):
                 if wonder_list[j]['land']['user']['nickname'] != "Jackielg":
                     continue
-                lottery = click_Lottery(token, j)
+                # lottery = click_Lottery(token, j)
+                lottery = lands.selenium_clickland(j + 1)
 
                 if lottery == -1:
                     logger.warning('********** Click Jackielg land failed.')
@@ -296,7 +303,8 @@ def click_hashworld_land(token, strength, wonder_list):
                 break
             has_reveal = wonder_list[k]['has_reveal']
             if not bool(has_reveal):
-                lottery = click_Lottery(token, k)
+                # lottery = click_Lottery(token, k)
+                lottery = lands.selenium_clickland(k + 1)
 
                 if lottery == -1:
                     logger.warning('********** Click Others land failed.')
@@ -364,7 +372,8 @@ def get_LandPrice(token, land_number):
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
-        response = requests.request("POST", url, data=payload, headers=headers, proxies=proxies, timeout=60, verify=False)
+        response = requests.request("POST", url, data=payload, headers=headers, proxies=proxies, timeout=60,
+                                    verify=False)
 
         res = response.json()["status"]
         if res == 'common_OK':
@@ -386,11 +395,12 @@ def loop_Lottery(filename):
     all_total = 0
     content_list = []
 
-    file = open(curpath + '/hashworld/'+filename, 'r', encoding='utf-8')
+    file = open(curpath + '/hashworld/' + filename, 'r', encoding='utf-8')
     data_dict = json.load(file)
     # print(data_dict)
     # print(type(data_dict))
 
+    lands = Appium_hashworld.lands()
     number = 0
     for item in data_dict['data']:
         number += 1
@@ -401,8 +411,12 @@ def loop_Lottery(filename):
         logger.warning('\n')
         logger.warning("========== Checking " + str(number) + ". [" + phone + "] ==========")
 
+        # selenium login
+        result = lands.selenium_login(phone, password)
+
+        # normal login
         token = login_GetAccessToken(data)
-        if token == -1:
+        if token == -1 or result == -1:
             logger.warning('********** Login fail!')
             continue
         else:
@@ -416,7 +430,8 @@ def loop_Lottery(filename):
             if wonder_list == -1 or strength == -1:
                 continue
 
-            click_hashworld_land(token, strength, wonder_list)
+            click_hashworld_land(token, strength, wonder_list, lands)
+            # break
 
             value = check_UserTotal(token)
             all_total = all_total + value
@@ -431,6 +446,8 @@ def loop_Lottery(filename):
             content_list.append(content_data)
             time.sleep(random.randint(MIN_SEC, MAX_SEC))
             # break
+            lands.selenium_close()
+    lands.selenium_quit()
 
     # sending email
     server = filename.split('.')[0][-5:]
@@ -479,6 +496,7 @@ def loop_Land():
         logger.warning('********** Sending Land Email Complete!')
         logger.warning('\n')
 
+
 def loop_hashworld_land():
     # start
     logger.warning('********** Start from loop_hashworld_land() ...')
@@ -492,6 +510,7 @@ def loop_hashworld_land():
         time.sleep(120)
         status_code = open_FirstPage()
     loop_Land()
+
 
 def loop_hashworld_no_land(filename):
     # start
@@ -508,9 +527,8 @@ def loop_hashworld_no_land(filename):
     loop_Lottery(filename)
 
 
-
 # Start from here...
-# loop_hashworld_land()
+# loop_hashworld_no_land('data_hashworld_Tokyo.json')
 
 # schedule.every(120).minutes.do(loop_hashworld_land)
 # schedule.every(8).hours.do(loop_hashworld_land)

@@ -77,7 +77,7 @@ class lands:
         从网页的网站截图中，截取验证码图片
         :return: 验证码图片
         '''
-        wait = WebDriverWait(self.driver, 10)
+        wait = WebDriverWait(self.driver, 180)
         time.sleep(2)  # 保证图片刷新出来
         # print(self.driver.page_source)
         # img = wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'geetest_canvas_img')))
@@ -136,7 +136,7 @@ class lands:
             return False
 
     def my_find_elements_by_classname(self, classname, name):
-        wait = WebDriverWait(self.driver, 60)
+        wait = WebDriverWait(self.driver, 180)
         # android.widget.TextView
         views = self.driver.find_elements(By.CLASS_NAME, classname)
         # views = wait.until(EC.presence_of_element_located((By.CLASS_NAME, classname)))
@@ -212,7 +212,7 @@ class lands:
             self.driver.set_window_size(480, 750)
             self.driver.set_window_position(y=0, x=0)
             self.driver.get('https://game.hashworld.top/#!/login')
-            wait = WebDriverWait(self.driver, 10)
+            wait = WebDriverWait(self.driver, 180)
 
             xpath_phone = '/html/body/ui-view/hw-login/hw-container/div/div[2]/hw-container-main/div[1]/hw-input/div/input'
             input_phone = wait.until(EC.presence_of_element_located((By.XPATH, xpath_phone)))
@@ -243,7 +243,7 @@ class lands:
         try:
             self.driver.refresh()
             time.sleep(random.randint(2, 3))
-            wait = WebDriverWait(self.driver, 10)
+            wait = WebDriverWait(self.driver, 180)
 
             xpath_strength = '/html/body/ui-view/hw-index/hw-tabbar/ui-view/hw-treasure/div/hw-treasure-list/div/div[2]/span[2]/span'
             web_strength = wait.until(EC.presence_of_element_located((By.XPATH, xpath_strength)))

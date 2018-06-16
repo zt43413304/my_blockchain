@@ -40,7 +40,7 @@ logger.warning('********** Start from start_lenovo.py ...')
 scheduler = BlockingScheduler()
 
 # Lenovo Sever
-scheduler.add_job(my_star163.loop_star163, "cron", hour="6-23/2", max_instances=1)
+scheduler.add_job(my_star163.loop_star163, "cron", hour="6-23/3", max_instances=2)
 
 try:
     scheduler.start()

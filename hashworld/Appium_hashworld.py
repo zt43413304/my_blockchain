@@ -36,10 +36,6 @@ class lands:
     def __init__(self):
         logger.warning("********** start __init()__...")
 
-        # option = webdriver.ChromeOptions()
-        # option.add_argument('headless')
-        # driver = webdriver.Chrome(chrome_options=option)
-
         # driver = webdriver.Chrome()
         # # driver = webdriver.PhantomJS()
         # driver.get('https://www.baidu.com/')
@@ -60,7 +56,7 @@ class lands:
         # firefox_options.set_preference("mobileEmulation", mobile_emulation)
         # self.driver = webdriver.Firefox(firefox_options=firefox_options)
 
-        # self.driver = webdriver.Chrome()
+
 
     def get_snap(self):
         '''
@@ -213,7 +209,15 @@ class lands:
             options = webdriver.FirefoxOptions()
             options.add_argument('-headless')
             self.driver = webdriver.Firefox(firefox_options=options)
+
+            # option = webdriver.ChromeOptions()
+            # option.add_argument('headless')
+            # driver = webdriver.Chrome(chrome_options=option)
+
             # self.driver = webdriver.Firefox()
+
+            # self.driver = webdriver.Chrome()
+
             self.driver.set_window_size(480, 750)
             self.driver.set_window_position(y=0, x=0)
             self.driver.get('https://game.hashworld.top/#!/login')

@@ -203,7 +203,7 @@ class AppiumStar:
 
         count = 0
         while True:
-            if count > 9:
+            if count > 12:
                 break
             self.swipeUp(1000)
             time.sleep(60)

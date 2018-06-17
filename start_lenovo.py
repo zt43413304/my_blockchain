@@ -41,7 +41,7 @@ scheduler = BlockingScheduler()
 
 # Lenovo Sever
 scheduler.add_job(my_star163.loop_star163, "cron", hour="6-23/3", max_instances=2)
-scheduler.add_job(my_hashworld.loop_hashworld_no_land, "cron", hour="2,10,18", minute="30", args=["data_hashworld_Tokyo.json"], max_instances=2)
+# scheduler.add_job(my_hashworld.loop_hashworld_no_land, "cron", hour="2,10,18", minute="30", args=["data_hashworld_Tokyo.json"], max_instances=2)
 
 try:
     scheduler.start()

@@ -35,6 +35,7 @@ class lands:
 
     def __init__(self):
         logger.warning("********** start __init()__...")
+
         # option = webdriver.ChromeOptions()
         # option.add_argument('headless')
         # driver = webdriver.Chrome(chrome_options=option)
@@ -208,10 +209,15 @@ class lands:
 
     def selenium_login(self, phone, password):
         try:
-            self.driver = webdriver.Firefox()
+
+            options = webdriver.FirefoxOptions()
+            options.add_argument('-headless')
+            self.driver = webdriver.Firefox(firefox_options=options)
+            # self.driver = webdriver.Firefox()
             self.driver.set_window_size(480, 750)
             self.driver.set_window_position(y=0, x=0)
             self.driver.get('https://game.hashworld.top/#!/login')
+
             wait = WebDriverWait(self.driver, 180)
 
             xpath_phone = '/html/body/ui-view/hw-login/hw-container/div/div[2]/hw-container-main/div[1]/hw-input/div/input'

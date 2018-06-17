@@ -40,7 +40,7 @@ logger.warning('********** Start from start_hp.py ...')
 scheduler = BlockingScheduler()
 
 # HP Sever
-scheduler.add_job(my_hashworld.loop_hashworld_no_land, "cron", hour="5,13,21", minute="30", args=["data_hashworld_Seoul.json"], max_instances=2)
+# scheduler.add_job(my_hashworld.loop_hashworld_no_land, "cron", hour="5,13,21", minute="30", args=["data_hashworld_Seoul.json"], max_instances=2)
 
 try:
     scheduler.start()

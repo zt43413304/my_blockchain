@@ -46,9 +46,9 @@ class lands:
         # driver.quit()
         # print('测试完成')
 
-        mobile_emulation = {"deviceName": "iPhone 6/7/8 Plus"}
 
         # chrome_options = webdriver.ChromeOptions()
+        # mobile_emulation = {"deviceName": "iPhone 6/7/8 Plus"}
         # chrome_options.add_experimental_option("mobileEmulation", mobile_emulation)
         # self.driver = webdriver.Chrome(chrome_options = chrome_options)
 

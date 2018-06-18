@@ -269,6 +269,7 @@ def check_UserTotal(token):
 
 
 def click_hashworld_land(token, strength, wonder_list, lands):
+    strength_ori = strength
     # 根据体力值判断循环次数
     while strength > 0:
 
@@ -313,6 +314,10 @@ def click_hashworld_land(token, strength, wonder_list, lands):
                     logger.warning('>>>>>>>>>> Click Others land success.')
                     strength = strength - 1
 
+        # 值相等，即有体力，但没土地可挖，跳过
+        if strength == strength_ori:
+            logger.warning('>>>>>>>>>> Have strength, but no land to mine, break......')
+            break
 
 def get_Landlist(token):
     global proxies

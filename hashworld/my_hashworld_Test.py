@@ -319,8 +319,6 @@ def click_hashworld_land(token, strength, wonder_list, lands):
             logger.warning('>>>>>>>>>> Have strength, but no land to mine, break......')
             break
 
-
-
 def get_Landlist(token):
     global proxies
     url = "https://game.hashworld.top/apis/land/lbsland/"

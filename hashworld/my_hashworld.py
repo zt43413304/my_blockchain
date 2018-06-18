@@ -289,42 +289,49 @@ def click_hashworld_land(token, strength, wonder_list, lands):
 
             has_reveal = wonder_list[j]['has_reveal']
 
-            if bool(has_reveal):
-                land_count += 1
-
             if not bool(has_reveal):
                 if wonder_list[j]['land']['user']['nickname'] != "Jackielg":
                     continue
                 # lottery = click_Lottery(token, j)
                 lottery = lands.selenium_clickland(j + 1)
+                strength -= 1
 
                 if lottery == -1:
                     logger.warning('********** Click Jackielg land failed.')
                     continue
                 else:
                     logger.warning('>>>>>>>>>> Click Jackielg land success.')
-                    strength = strength - 1
-
-        # 9块土地全开，没土地可挖，退出本次循环
-        if land_count == 9:
-            break
 
 
         # click others land
         for k in range(len(wonder_list)):
             if strength < 1:
                 break
+
             has_reveal = wonder_list[k]['has_reveal']
+
+            if bool(has_reveal):
+                land_count += 1
+
             if not bool(has_reveal):
+                if wonder_list[k]['land']['user']['nickname'] == "Jackielg":
+                    continue
+
                 # lottery = click_Lottery(token, k)
                 lottery = lands.selenium_clickland(k + 1)
+                strength -= 1
 
                 if lottery == -1:
                     logger.warning('********** Click Others land failed.')
                     continue
                 else:
                     logger.warning('>>>>>>>>>> Click Others land success.')
-                    strength = strength - 1
+
+
+        # 9块土地全开，没土地可挖，退出本次循环
+        if land_count == 9:
+            logger.warning(">>>>>>>>>> Have strength, but no land to mine, break......")
+            break
 
 def get_Landlist(token):
     global proxies

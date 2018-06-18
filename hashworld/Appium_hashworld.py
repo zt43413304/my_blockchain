@@ -313,7 +313,7 @@ class lands:
             return 0
         except Exception as e:
             print(e)
-            sys.exit(0)
+            # sys.exit(0)
             return -1
 
 # App_signup = Signup()

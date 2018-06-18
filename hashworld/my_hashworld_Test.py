@@ -269,7 +269,7 @@ def check_UserTotal(token):
 
 
 def click_hashworld_land(token, strength, wonder_list, lands):
-    strength_ori = strength
+
     # 根据体力值判断循环次数
     while strength > 0:
 
@@ -280,11 +280,18 @@ def click_hashworld_land(token, strength, wonder_list, lands):
         #         reveal = reveal + 1
         # logger.warning('********** Has revealed: ' + str(reveal))
 
+        # 判断土地是否全开
+        land_count = 0
         # click Jackielg's land
         for j in range(len(wonder_list)):
             if strength < 1:
                 break
+
             has_reveal = wonder_list[j]['has_reveal']
+
+            if bool(has_reveal):
+                land_count += 1
+
             if not bool(has_reveal):
                 if wonder_list[j]['land']['user']['nickname'] != "Jackielg":
                     continue
@@ -297,6 +304,11 @@ def click_hashworld_land(token, strength, wonder_list, lands):
                 else:
                     logger.warning('>>>>>>>>>> Click Jackielg land success.')
                     strength = strength - 1
+
+        # 9块土地全开，没土地可挖，退出本次循环
+        if land_count == 9:
+            break
+
 
         # click others land
         for k in range(len(wonder_list)):
@@ -313,11 +325,6 @@ def click_hashworld_land(token, strength, wonder_list, lands):
                 else:
                     logger.warning('>>>>>>>>>> Click Others land success.')
                     strength = strength - 1
-
-        # 值相等，即有体力，但没土地可挖，跳过
-        if strength == strength_ori:
-            logger.warning('>>>>>>>>>> Have strength, but no land to mine, break......')
-            break
 
 def get_Landlist(token):
     global proxies

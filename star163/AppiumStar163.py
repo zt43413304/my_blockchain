@@ -92,6 +92,7 @@ class AppiumStar:
         return
 
     def appium_music(self):
+        time.sleep(10)
         # Music
         self.driver.find_element_by_accessibility_id("网易云音乐").click()
         logger.warning("========== 网易云音乐")
@@ -123,6 +124,7 @@ class AppiumStar:
         return
 
     def appium_zixun(self):
+        time.sleep(10)
         # level 2 main page
         self.driver.find_element_by_accessibility_id("资讯").click()
         logger.warning("========== 资讯")
@@ -183,6 +185,7 @@ class AppiumStar:
         return
 
     def appium_yuedu(self):
+        time.sleep(10)
         # level 2 main page
         self.driver.find_element_by_accessibility_id("阅读").click()
         logger.warning("========== 阅读")

@@ -15,10 +15,10 @@ from common import send_email
 from star163 import AppiumStar163
 
 # 第一步，创建一个logger,并设置级别
-logger = logging.getLogger("my_star163.py")
+logger = logging.getLogger("my_star163_once.py")
 logger.setLevel(logging.INFO)  # Log等级总开关
 # 第二步，创建一个handler，用于写入日志文件
-fh = logging.FileHandler('./logs/my_star163.log', mode='w')
+fh = logging.FileHandler('./logs/my_star163_once.log', mode='w')
 fh.setLevel(logging.WARNING)  # 输出到file的log等级的开关
 ch = logging.StreamHandler()
 ch.setLevel(logging.INFO)  # 输出到console的log等级的开关
@@ -524,7 +524,7 @@ def loop_star163_138():
 # Start from here...
 # logger.warning('***** Start ...')
 
-# loop_star163()
+loop_star163()
 
 # scheduler = BlockingScheduler()
 

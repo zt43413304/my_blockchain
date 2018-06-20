@@ -46,7 +46,7 @@ scheduler.add_job(my_hashworld.loop_hashworld_land, "cron", hour="4", minute="30
 
 # scheduler.add_job(my_diwuqu.loop_diwuqu, "cron", hour="2,10,18", max_instances=4)
 # scheduler.add_job(my_hashworld.loop_hashworld_no_land, "cron", hour="2,10,18", minute="30", args=["data_hashworld_Seoul.json"], max_instances=4)
-# scheduler.add_job(my_onechain.loop_onechain, "cron", hour="5,13,21", minute="30", max_instances=4)
+# scheduler.add_job(my_onechain.onechain_trade, "cron", hour="5,13,21", minute="30", max_instances=4)
 
 
 # scheduler.add_job(my_bixiang.loop_bixiang, "cron", minute="*/3", args=["data_bixiang_Seoul.json"], max_instances=1)

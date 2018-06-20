@@ -312,11 +312,11 @@ def loop_diwuqu():
 # loop_diwuqu()
 
 # ssl._create_default_https_context = ssl._create_unverified_context
-# schedule.every(120).minutes.do(loop_onechain)
+# schedule.every(120).minutes.do(onechain_trade)
 # schedule.every(8).hours.do(loop_diwuqu)
-# schedule.every().day.at("01:05").do(loop_onechain)
-# schedule.every().monday.do(loop_onechain)
-# schedule.every().wednesday.at("13:15").do(loop_onechain)
+# schedule.every().day.at("01:05").do(onechain_trade)
+# schedule.every().monday.do(onechain_trade)
+# schedule.every().wednesday.at("13:15").do(onechain_trade)
 
 # while True:
 #     schedule.run_pending()

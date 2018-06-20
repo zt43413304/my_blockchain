@@ -47,14 +47,14 @@ scheduler = BlockingScheduler()
 
 
 # my_bixiang.loop_bixiang()
-# OneChainCheck.loop_onechain()
+# OneChainCheck.onechain_trade()
 # my_diwuqu.loop_diwuqu()
 # HashWorldCheck.loop_hashworld_land()
 # HashWorldLand.loop_hashworldland()
 # my_star163.loop_star163()
 
 # scheduler.add_job(my_bixiang.loop_bixiang, "cron", minute="*/3", max_instances=1)
-# scheduler.add_job(OneChainCheck.loop_onechain, "cron", minute="*/3", max_instances=1)
+# scheduler.add_job(OneChainCheck.onechain_trade, "cron", minute="*/3", max_instances=1)
 # scheduler.add_job(my_diwuqu.loop_diwuqu, "cron", minute="*/3", max_instances=1)
 # scheduler.add_job(HashWorldCheck.loop_hashworld_land, "cron", minute="*/3", max_instances=1)
 # scheduler.add_job(HashWorldLand.loop_hashworldland, "cron", minute="*/3", max_instances=1)

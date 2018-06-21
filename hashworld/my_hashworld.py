@@ -17,7 +17,7 @@ from hashworld import Appium_hashworld
 logger = logging.getLogger("my_hashworld.py")
 logger.setLevel(logging.INFO)  # Log等级总开关
 # 第二步，创建一个handler，用于写入日志文件
-fh = logging.FileHandler('./logs/HashWorldCheck.log', mode='w')
+fh = logging.FileHandler('./logs/my_hashworld.log', mode='w')
 fh.setLevel(logging.INFO)  # 输出到file的log等级的开关
 ch = logging.StreamHandler()
 ch.setLevel(logging.INFO)  # 输出到console的log等级的开关
@@ -549,12 +549,4 @@ def loop_hashworld_no_land(filename):
 # Start from here...
 # loop_hashworld_no_land('data_hashworld_Tokyo.json')
 
-# schedule.every(120).minutes.do(loop_hashworld_land)
-# schedule.every(8).hours.do(loop_hashworld_land)
-# schedule.every().day.at("18:30").do(loop_hashworld_land)
-# schedule.every().monday.do(loop_hashworld_land)
-# schedule.every().wednesday.at("13:15").do(loop_hashworld_land)
 
-# while True:
-#     schedule.run_pending()
-#     time.sleep(1)

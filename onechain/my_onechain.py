@@ -17,7 +17,7 @@ from common import send_email
 logger = logging.getLogger("my_onechain.py")
 logger.setLevel(logging.INFO)  # Log等级总开关
 # 第二步，创建一个handler，用于写入日志文件
-fh = logging.FileHandler('./logs/OneChainCheck.log', mode='w')
+fh = logging.FileHandler('./logs/my_onechain.log', mode='w')
 fh.setLevel(logging.WARNING)  # 输出到file的log等级的开关
 ch = logging.StreamHandler()
 ch.setLevel(logging.INFO)  # 输出到console的log等级的开关
@@ -252,7 +252,7 @@ def loop_onechain():
     content = "\t\n"
 
     # start
-    logger.warning('********** Start from onechain_trade() ...')
+    logger.warning('********** Start from loop_onechain() ...')
 
     global proxies
     proxies = daxiang_proxy.get_proxy("http://hkopenservice1.yuyin365.com:8000/one-chain/login")
@@ -321,15 +321,6 @@ def loop_onechain():
     logger.warning('********** Sending Email Complete!')
 
 # Start from here...
-# onechain_trade()
+# loop_onechain()
 
-# ssl._create_default_https_context = ssl._create_unverified_context
-# schedule.every(120).minutes.do(onechain_trade)
-# schedule.every(8).hours.do(onechain_trade)
-# schedule.every().day.at("01:05").do(onechain_trade)
-# schedule.every().monday.do(onechain_trade)
-# schedule.every().wednesday.at("13:15").do(onechain_trade)
 
-# while True:
-#     schedule.run_pending()
-#     time.sleep(1)

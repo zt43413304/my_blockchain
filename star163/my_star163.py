@@ -15,10 +15,10 @@ from common import send_email
 from star163 import AppiumStar163
 
 # 第一步，创建一个logger,并设置级别
-logger = logging.getLogger("my_star163_once.py")
+logger = logging.getLogger("my_star163.py")
 logger.setLevel(logging.INFO)  # Log等级总开关
 # 第二步，创建一个handler，用于写入日志文件
-fh = logging.FileHandler('./logs/my_star163_once.log', mode='w')
+fh = logging.FileHandler('./logs/my_star163.log', mode='w')
 fh.setLevel(logging.WARNING)  # 输出到file的log等级的开关
 ch = logging.StreamHandler()
 ch.setLevel(logging.INFO)  # 输出到console的log等级的开关
@@ -33,43 +33,6 @@ logger.addHandler(ch)
 # Random seconds
 MIN_SEC = 1
 MAX_SEC = 3
-
-
-def start163_api_starUser_login():
-    url = "https://star.8.163.com/api/starUser/login"
-
-    payload = "{\n\t\"k\": \"Hc8JxvLd0acZjgDzBMEHOrMdBfXlgfsFuXKw2EVT3ZRvrHlrE+IpE7bqwm4kRt/xjlXZ0P2JY0xvDtmCvG6oSBpqyYJWk+BbQRofvR7bNaDMD2/hSm1WyR7UuqYuqxIBem5FuvGW3cod22H9K1BhFGiq963LnyxYXpzu8R1FBcQ=\",\n\t\"p\": \"tyHo+vXjBdqHzL/OTy0PUcgNeL+WnlKXMvo7vTqPShb60LyqJubewOGr+E/8B7lZLCyFCqUY0Rm1F05kZnV32Dz5ymP4gJAMiYnZkuqHi9Lu1qssmfAsuK9oSzAusWbU77JFmAHDqxbspx5mtPmFz7C+RGl8udIMb92sVTLi0mf12IEYDvw/MmL7TKdkxblHK13KSk93ty4PzTVvVEp38YzwIi2wNzs7P1WWi3PZraiIwXeIhOv2UODGZohppkzQylKpuzkn2RvggkM3O4gK3R6AJxZ4heN+MMmfvOADSZf/VIlRWmA4vkVK4kS99z0aSkn+Ta5hBCY6FDxxDoAcU36n/MKe00iNluMpI1opO567mW37xbtsK0tsNKJmK/NE\"\n}"
-    headers = {
-        'appMeta': "eyJhcHBOYW1lIjoi5pif55CDIiwibW9kZWwiOiJNdU11IiwicGFja2FnZU5hbWUiOiJjb20ubmV0ZWFzZS5ibG9ja2NoYWluIiwiYXBwVmVyc2lvbiI6IjEuMC4xIiwiYXBwVmVyc2lvbkNvZGUiOiI2OSIsIk9TIjoiQW5kcm9pZF8xOSIsImNoYW5uZWwiOiJlMDExNzAwMjMiLCJkZXZpY2VJZCI6IntcImRhdGF0eXBlXCI6XCJhaW10X2RhdGFzXCIsXCJpZF92ZXJcIjpcIkFuZHJvaWRfMS4wLjFcIixcInJkYXRhXCI6XCJ0ZkNpcC9ETDJoL1p2dVlqQmo4clZJcFh5aGt2bHNIQzZhUzJnbkppUnNvbzNpdHU4VjNQRnloMkVlYy84a0h6XCIsXCJya1wiOlwiSUdpUUQ4eXNkRksvalVPN2FiSTdYSWhSd05sb3RXS0lRMjFMbCsrVW9wendGOElJVjFEaEZOZEVOM2srZ0w2Q2NFYXF6YVlWV3QweUJjUGU2WTZRanZCS0RtS214T1dweXc5Y0Ztb3p4SlQ4VHRBNm9CY2pub0NsQ3pBcUFlRXJudUxmSDBPM3hTeWdGK0xMTzFPaW1lZ0d5a1B0NU1iZ2FBamQ4YXZtcTRNXHUwMDNkXCJ9XG4ifQ==",
-        'Content-Type': "application/json",
-        'Connection': "Keep-Alive",
-        'Accept-Encoding': "application/gzip",
-        'User-Agent': "okhttp/3.9.1",
-        'Cache-Control': "no-cache"
-    }
-
-    response = requests.request("POST", url, data=payload, headers=headers)
-
-    print(response.text)
-
-
-def start163_api_starUser_checkIn():
-    url = "https://star.8.163.com/api/starUser/checkIn"
-
-    payload = "{\n\t\"k\": \"hbfj5QpcTAEf9A7FtLtLLqVZp4XY1k3DrGo7T7oJlRZi/vtGgIQWWcI+AzviTK9xnISAfrL/Tpl5lrmBO6aLgBhOLv0zydWN8C6VnRkhDODBPLXnQwJuDo/nIk4Yd7F7EaLlYbnKm3csAHsJzYPgco6qThcLlWSEwSTOAsle1HU=\",\n\t\"p\": \"uRFGFjtIXFpK0LmJ/lXJylYt03XRhn0DMER/ydDFTRbmueczwS2ljRHEeOzgSvsZ7u7S8+Euhl9D7X2X1E8iFFkh3TV3j3jMOPeLhUpYh6Te7VjL8qyG0LwcGImhAc3InF83GQEHlEieAR84nWGXuw==\"\n}"
-    headers = {
-        'appMeta': "eyJhcHBOYW1lIjoi5pif55CDIiwibW9kZWwiOiJNdU11IiwicGFja2FnZU5hbWUiOiJjb20ubmV0ZWFzZS5ibG9ja2NoYWluIiwiYXBwVmVyc2lvbiI6IjEuMC4xIiwiYXBwVmVyc2lvbkNvZGUiOiI2OSIsIk9TIjoiQW5kcm9pZF8xOSIsImNoYW5uZWwiOiJlMDExNzAwMjMiLCJkZXZpY2VJZCI6IntcImRhdGF0eXBlXCI6XCJhaW10X2RhdGFzXCIsXCJpZF92ZXJcIjpcIkFuZHJvaWRfMS4wLjFcIixcInJkYXRhXCI6XCJ0ZkNpcC9ETDJoL1p2dVlqQmo4clZJcFh5aGt2bHNIQzZhUzJnbkppUnNvbzNpdHU4VjNQRnloMkVlYy84a0h6XCIsXCJya1wiOlwiSUdpUUQ4eXNkRksvalVPN2FiSTdYSWhSd05sb3RXS0lRMjFMbCsrVW9wendGOElJVjFEaEZOZEVOM2srZ0w2Q2NFYXF6YVlWV3QweUJjUGU2WTZRanZCS0RtS214T1dweXc5Y0Ztb3p4SlQ4VHRBNm9CY2pub0NsQ3pBcUFlRXJudUxmSDBPM3hTeWdGK0xMTzFPaW1lZ0d5a1B0NU1iZ2FBamQ4YXZtcTRNXHUwMDNkXCJ9XG4ifQ==",
-        'Content-Type': "application/json",
-        'Connection': "Keep-Alive",
-        'Accept-Encoding': "application/gzip",
-        'User-Agent': "okhttp/3.9.1",
-        'Cache-Control': "no-cache"
-    }
-
-    response = requests.request("POST", url, data=payload, headers=headers)
-
-    print(response.text)
-
 
 def start163_api_starUser_getCookie(k, p):
     url = "https://star.8.163.com/api/starUser/getCookie"
@@ -451,87 +414,9 @@ def loop_star163():
     appium_calculate136()
     appium_calculate138()
 
-
-def loop_star163_136():
-    file = open('data_star163.json', 'r', encoding='utf-8')
-    data_dict = json.load(file)
-
-    # collect black diamond
-    for item in data_dict['data']:
-        # content_list = []
-        phone = item.get('phone', 'NA')
-        k = item.get('k', 'NA')
-        p = item.get('p', 'NA')
-
-        if phone != "13601223469":
-            continue
-
-        # logger.warning("========== Checking [" + k + "] ==========")
-
-        cookie = start163_api_starUser_getCookie(k, p)
-        if cookie == -1:
-            continue
-        else:
-            collectCoins = start163_api_home_index(cookie)
-
-            for i in range(len(collectCoins)):
-                star_id = collectCoins[i]["id"]
-                star163_api_collectUserCoin(cookie, star_id)
-        logger.warning('>>>>>>>>>> Collect black diamond complete!')
-
-        # calculate value
-        coin, origin = get_allTotal(cookie)
-        content = ">>>>>>>>>> Calculate=" + str(origin) + ", Black diamond=" + str(coin)
-        send_email.send_star163_HtmlEmail('newseeing@163.com', str(phone) + '的原力及黑钻', content)
-        logger.warning('********** Sending Collect Email Complete!')
-    appium_calculate136()
-
-
-def loop_star163_138():
-    file = open('data_star163.json', 'r', encoding='utf-8')
-    data_dict = json.load(file)
-
-    # collect black diamond
-    for item in data_dict['data']:
-        # content_list = []
-        phone = item.get('phone', 'NA')
-        k = item.get('k', 'NA')
-        p = item.get('p', 'NA')
-
-        if phone != "13826090504":
-            continue
-
-        # logger.warning("========== Checking [" + k + "] ==========")
-
-        cookie = start163_api_starUser_getCookie(k, p)
-        if cookie == -1:
-            continue
-        else:
-            collectCoins = start163_api_home_index(cookie)
-
-            for i in range(len(collectCoins)):
-                star_id = collectCoins[i]["id"]
-                star163_api_collectUserCoin(cookie, star_id)
-        logger.warning('>>>>>>>>>> Collect black diamond complete!')
-
-        # calculate value
-        coin, origin = get_allTotal(cookie)
-        content = ">>>>>>>>>> Calculate=" + str(origin) + ", Black diamond=" + str(coin)
-        send_email.send_star163_HtmlEmail('newseeing@163.com', str(phone) + '的原力及黑钻', content)
-        logger.warning('********** Sending Collect Email Complete!')
-    appium_calculate138()
-
 # Start from here...
 # logger.warning('***** Start ...')
 
-loop_star163()
+# loop_star163()
 
-# scheduler = BlockingScheduler()
 
-# scheduler.add_job(loop_star163, "cron", hour="0-9/2", max_instances=2)
-# scheduler.add_job(loop_star163, "cron", hour="0-9/2", max_instances=2)
-
-# try:
-#     scheduler.start()
-# except (KeyboardInterrupt, SystemExit):
-#     scheduler.shutdown()

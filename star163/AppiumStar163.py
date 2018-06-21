@@ -81,8 +81,8 @@ class AppiumStar:
         logger.warning("========== Level 2, 获取原力")
         time.sleep(30)
 
-        self.appium_zixun()
         self.appium_yuedu()
+        self.appium_zixun()
         # self.appium_music()
 
         # level 1 main page
@@ -214,11 +214,11 @@ class AppiumStar:
             logger.warning("========== Reading count: " + str(count))
 
 
-        self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
-        time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
+        # self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
+        # time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
 
         # level 2 main page
-        self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
+        self.driver.find_element_by_id("com.netease.blockchain:id/iv_close").click()
         logger.warning("========== Back to Level 2, 获取原力")
         time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
         return

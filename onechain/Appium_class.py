@@ -48,7 +48,7 @@ class trader_class:
         # desired_caps['autoWebview'] = 'True'
         desired_caps['app'] = PATH(
             # '/Users/Jackie.Liu/DevTools/Android_apk/one212.apk'
-            'C:\DevTools\Android_apk\one212.apk'
+            'C:\DevTools\Android_apk\one213.apk'
         )
         desired_caps['appPackage'] = 'oneapp.onechain.androidapp'
         desired_caps['appActivity'] = 'oneapp.onechain.androidapp.onemessage.view.activity.UnlockActivity'

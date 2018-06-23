@@ -47,18 +47,55 @@ class trader_class:
         # desired_caps['automationName'] = 'Appium'
         # desired_caps['autoWebview'] = 'True'
         desired_caps['app'] = PATH(
-            '/Users/Jackie.Liu/Documents/Blockchain/Android APK/one208.apk'
+            '/Users/Jackie.Liu/DevTools/Android_apk/one212.apk'
         )
         desired_caps['appPackage'] = 'oneapp.onechain.androidapp'
         desired_caps['appActivity'] = 'oneapp.onechain.androidapp.onemessage.view.activity.UnlockActivity'
         self.driver = webdriver.Remote('http://localhost:4723/wd/hub', desired_caps)
+
+    def getSize(self):
+        x = self.driver.get_window_size()['width']
+        y = self.driver.get_window_size()['height']
+        return (x, y)
+
+    # 屏幕向上滑动
+    def swipeUp(self, t):
+        l = self.getSize()
+        x1 = int(l[0] * 0.5)  # x坐标
+        y1 = int(l[1] * 0.75)  # 起始y坐标
+        y2 = int(l[1] * 0.25)  # 终点y坐标
+        self.driver.swipe(x1, y1, x1, y2, t)
+
+    # 屏幕向下滑动
+    def swipeDown(self, t):
+        l = self.getSize()
+        x1 = int(l[0] * 0.5)  # x坐标
+        y1 = int(l[1] * 0.25)  # 起始y坐标
+        y2 = int(l[1] * 0.75)  # 终点y坐标
+        self.driver.swipe(x1, y1, x1, y2, t)
+
+    # 屏幕向左滑动
+    def swipLeft(self, t):
+        l = self.getSize()
+        x1 = int(l[0] * 0.75)
+        y1 = int(l[1] * 0.5)
+        x2 = int(l[0] * 0.05)
+        self.driver.swipe(x1, y1, x2, y1, t)
+
+    # 屏幕向右滑动
+    def swipRight(self, t):
+        l = self.getSize()
+        x1 = int(l[0] * 0.05)
+        y1 = int(l[1] * 0.5)
+        x2 = int(l[0] * 0.75)
+        self.driver.swipe(x1, y1, x2, y1, t)
 
     def isElementExist_by_id(self, id):
         try:
             self.driver.find_element_by_id(id)
             return True
         except Exception as e:
-            print(e)
+            # print(e)
             return False
 
     def my_find_elements_by_classname(self, classname, name):
@@ -74,7 +111,7 @@ class trader_class:
         value = self.driver.find_element_by_id("oneapp.onechain.androidapp:id/tv_available_fund_value")
         return value.text
 
-    def get_price(self):
+    def one_login(self):
         time.sleep(random.randint(1, 3))
         wait = WebDriverWait(self.driver, 10)
         try:
@@ -98,57 +135,153 @@ class trader_class:
             trade.click()
 
             # 点击“USDA”
-            self.my_find_elements_by_classname("android.widget.TextView", "USDA").click()
+            self.my_find_elements_by_classname("android.widget.TextView", "ETH").click()
             time.sleep(random.randint(1, 3))
 
             # 点击“ETH/USDA”
-            self.my_find_elements_by_classname("android.widget.TextView", "ETH/USDA").click()
+            self.my_find_elements_by_classname("android.widget.TextView", "ONE/ETH").click()
             time.sleep(random.randint(1, 3))
+            logger.warning("********** Login success!")
+            return 0
 
-            # 获取交易价格
-            views = self.driver.find_elements(By.ID, "oneapp.onechain.androidapp:id/tv_bid_price")
-            # views = wait.until(EC.presence_of_element_located((By.CLASS_NAME, classname)))
-            for i in range(len(views)):
-                # if views[i].text == name:
-                #     return views[i]
-                print(views[i].text)
+        except Exception as e:
+            print(e)
+            return -1
+
+    def get_price(self):
+        ETH = 3365
+        # time.sleep(random.randint(1, 3))
+        wait = WebDriverWait(self.driver, 10)
+        try:
+
+            self.swipeDown(1000)
+
+            logger.warning("\n")
+            logger.warning("========== Refreshing price ......")
 
             # 点击“卖出”
             self.my_find_elements_by_classname("android.widget.TextView", "卖出").click()
-            print("可用ETH = " + str(self.get_value()))
+            sell_balance = self.get_value()
+
+            # 点击“买入”
+            self.my_find_elements_by_classname("android.widget.TextView", "买入").click()
+            buy_balance = self.get_value()
 
             avg_price = wait.until(
                 EC.presence_of_element_located((By.ID, "oneapp.onechain.androidapp:id/tv_price_new")))
-            print("卖出均价 = " + str(avg_price.text))
+            avg_price_value = avg_price.text.split(' ')[0]
+            logger.warning("========== 当前均价: " + str(avg_price.text) + " (~"+str(round(ETH*float(avg_price_value),4))+" RMB)")
 
-            price = wait.until(EC.presence_of_element_located((By.ID, "oneapp.onechain.androidapp:id/et_input_price")))
-            price.clear()
-            price.send_keys("900.09")
+            # # 获取交易价格
+            # views = self.driver.find_elements(By.ID, "oneapp.onechain.androidapp:id/tv_bid_price")
+            # # views = wait.until(EC.presence_of_element_located((By.CLASS_NAME, classname)))
+            # # for i in range(len(views)):
+            # #     # if views[i].text == name:
+            # #     #     return views[i]
+            # #     print(views[i].text)
+            # sell01 = views[4].text
+            # buy01 = views[5].text
+            # logger.warning("========== 卖一价: " + str(sell01) + ", 买一价: " + str(buy01))
+            logger.warning("========== 卖余额: " + str(sell_balance) + ", 买余额: " + str(buy_balance))
 
-            amount = wait.until(
+            # back = wait.until(
+            #     EC.presence_of_element_located((By.ID, "oneapp.onechain.androidapp:id/img_back")))
+            # back.click()
+
+            return avg_price_value, sell_balance, buy_balance
+
+        except Exception as e:
+            print(e)
+            return -1, -1, -1, -1
+
+    def buy(self, amount):
+        # time.sleep(random.randint(1, 3))
+        wait = WebDriverWait(self.driver, 10)
+        # price = str('{:.8f}'.format(round(float(price) * (1+0.0001),8)))
+        try:
+            # 点击“买入”
+            self.my_find_elements_by_classname("android.widget.TextView", "买入").click()
+
+            # 获取价格
+            views = self.driver.find_elements(By.ID, "oneapp.onechain.androidapp:id/tv_bid_price")
+            sell01 = views[4].text
+            # buy01 = views[5].text
+
+            # 输入价格
+            input_price = wait.until(
+                EC.presence_of_element_located((By.ID, "oneapp.onechain.androidapp:id/et_input_price")))
+            input_price.clear()
+            input_price.send_keys(sell01)
+
+            # 输入数量
+            input_amount = wait.until(
                 EC.presence_of_element_located((By.ID, "oneapp.onechain.androidapp:id/et_input_amount")))
-            amount.clear()
-            amount.send_keys("0.00001")
+            input_amount.clear()
+            input_amount.send_keys(amount)
 
-            # trade_button = self.driver.find_element_by_id("oneapp.onechain.androidapp:id/btn_user_trade_confirm")
+            # 交易按钮
             trade_button = wait.until(
                 EC.presence_of_element_located((By.ID, "oneapp.onechain.androidapp:id/btn_user_trade_confirm")))
-            # trade_button.click()
-            time.sleep(random.randint(5, 8))
+            self.driver.implicitly_wait(10)
+            trade_button.click()
+
+            logger.warning("<<<<<<<<<< buy ONE, price=" + str(sell01) + ", amount=" + str(amount))
 
             # 是否存在交易确认，输入密码界面
             if self.isElementExist_by_id("oneapp.onechain.androidapp:id/dialog_edit_et"):
                 password = self.driver.find_element_by_id("oneapp.onechain.androidapp:id/dialog_edit_et")
                 password.clear()
                 password.send_keys("Liuxb0504$")
+                self.driver.implicitly_wait(10)
                 self.driver.find_element_by_id("oneapp.onechain.androidapp:id/btn_commit").click()
 
-            # 点击“买入”
-            self.my_find_elements_by_classname("android.widget.TextView", "买入").click()
-            print("可用USDA = " + str(self.get_value()))
-
-            avg_price = wait.until(
-                EC.presence_of_element_located((By.ID, "oneapp.onechain.androidapp:id/tv_price_new")))
-            print("买入均价 = " + str(avg_price.text))
+            return 0
         except Exception as e:
             print(e)
+            return -1
+
+    def sell(self, amount):
+        # time.sleep(random.randint(1, 3))
+        wait = WebDriverWait(self.driver, 10)
+        # price = str('{:.8f}'.format(round(float(price) * (1-0.0001),8)))
+        try:
+            # 点击“卖出”
+            self.my_find_elements_by_classname("android.widget.TextView", "卖出").click()
+
+            # 获取价格
+            views = self.driver.find_elements(By.ID, "oneapp.onechain.androidapp:id/tv_bid_price")
+            sell01 = views[4].text
+            buy01 = views[5].text
+
+            # 输入价格
+            input_price = wait.until(
+                EC.presence_of_element_located((By.ID, "oneapp.onechain.androidapp:id/et_input_price")))
+            input_price.clear()
+            input_price.send_keys(sell01)
+
+            # 输入数量
+            input_amount = wait.until(
+                EC.presence_of_element_located((By.ID, "oneapp.onechain.androidapp:id/et_input_amount")))
+            input_amount.clear()
+            input_amount.send_keys(amount)
+
+            # 交易按钮
+            trade_button = wait.until(
+                EC.presence_of_element_located((By.ID, "oneapp.onechain.androidapp:id/btn_user_trade_confirm")))
+            self.driver.implicitly_wait(10)
+            trade_button.click()
+
+            logger.warning(">>>>>>>>>> sell ONE, price=" + str(sell01) + ", amount=" + str(amount))
+
+            # 是否存在交易确认，输入密码界面
+            if self.isElementExist_by_id("oneapp.onechain.androidapp:id/dialog_edit_et"):
+                password = self.driver.find_element_by_id("oneapp.onechain.androidapp:id/dialog_edit_et")
+                password.clear()
+                password.send_keys("Liuxb0504$")
+                self.driver.implicitly_wait(10)
+                self.driver.find_element_by_id("oneapp.onechain.androidapp:id/btn_commit").click()
+
+            return 0
+        except Exception as e:
+            print(e)
+            return -1

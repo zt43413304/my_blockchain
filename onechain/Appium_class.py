@@ -47,7 +47,7 @@ class trader_class:
         # desired_caps['automationName'] = 'Appium'
         # desired_caps['autoWebview'] = 'True'
         desired_caps['app'] = PATH(
-            # '/Users/Jackie.Liu/DevTools/Android_apk/one212.apk'
+            # '/Users/Jackie.Liu/DevTools/Android_apk/one213.apk'
             'C:\DevTools\Android_apk\one213.apk'
         )
         desired_caps['appPackage'] = 'oneapp.onechain.androidapp'
@@ -150,7 +150,7 @@ class trader_class:
             return -1
 
     def get_price(self):
-        ETH = 3365
+        ETH = 3200
         # time.sleep(random.randint(1, 3))
         wait = WebDriverWait(self.driver, 10)
         try:
@@ -205,14 +205,17 @@ class trader_class:
 
             # 获取价格
             views = self.driver.find_elements(By.ID, "oneapp.onechain.androidapp:id/tv_bid_price")
-            sell01 = views[4].text
-            # buy01 = views[5].text
+            price = views[4].text
+            # price = views[5].text
+
+            price = str('{:.8f}'.format(float(price) + 0.00000001))
+
 
             # 输入价格
             input_price = wait.until(
                 EC.presence_of_element_located((By.ID, "oneapp.onechain.androidapp:id/et_input_price")))
             input_price.clear()
-            input_price.send_keys(sell01)
+            input_price.send_keys(price)
 
             # 输入数量
             input_amount = wait.until(
@@ -226,7 +229,7 @@ class trader_class:
             self.driver.implicitly_wait(10)
             trade_button.click()
 
-            logger.warning("<<<<<<<<<< buy ONE, price=" + str(sell01) + ", amount=" + str(amount))
+            logger.warning("<<<<<<<<<< buy ONE, price=" + str(price) + ", amount=" + str(amount))
 
             # 是否存在交易确认，输入密码界面
             if self.isElementExist_by_id("oneapp.onechain.androidapp:id/dialog_edit_et"):
@@ -251,14 +254,16 @@ class trader_class:
 
             # 获取价格
             views = self.driver.find_elements(By.ID, "oneapp.onechain.androidapp:id/tv_bid_price")
-            sell01 = views[4].text
-            buy01 = views[5].text
+            price = views[4].text
+            # price = views[5].text
+
+            price = str('{:.8f}'.format(float(price) - 0.00000001))
 
             # 输入价格
             input_price = wait.until(
                 EC.presence_of_element_located((By.ID, "oneapp.onechain.androidapp:id/et_input_price")))
             input_price.clear()
-            input_price.send_keys(sell01)
+            input_price.send_keys(price)
 
             # 输入数量
             input_amount = wait.until(
@@ -272,7 +277,7 @@ class trader_class:
             self.driver.implicitly_wait(10)
             trade_button.click()
 
-            logger.warning(">>>>>>>>>> sell ONE, price=" + str(sell01) + ", amount=" + str(amount))
+            logger.warning(">>>>>>>>>> sell ONE, price=" + str(price) + ", amount=" + str(amount))
 
             # 是否存在交易确认，输入密码界面
             if self.isElementExist_by_id("oneapp.onechain.androidapp:id/dialog_edit_et"):

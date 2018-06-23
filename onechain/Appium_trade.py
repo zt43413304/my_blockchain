@@ -50,8 +50,8 @@ def trade_with_condition(trader):
         print(e)
 
 def trade_buy_first(trader):
-    ETH = 3365
-    trans_quota = 500/ETH
+    ETH = 3200
+    trans_quota = random.randint(200,300)/ETH
     try:
         (avg_price_value, sell_balance, buy_balance) = trader.get_price()
         # 买入价(buy01) < 卖出价(sell01) x (1 + 0.04%)
@@ -86,6 +86,7 @@ def trade_sell_first(trader):
         sell_amount = round(trans_quota/float(avg_price_value), 4)
         logger.warning("========== sell_amount: " + str(sell_amount) + ", buy_amount: " + str(buy_amount))
         if sell_amount<float(sell_balance) and buy_amount<(float(buy_balance)/float(avg_price_value)):
+        # if sell_amount<float(sell_balance) and buy_amount<(float(2)/float(avg_price_value)):
             code = trader.sell(str(sell_amount))
             if code == 0:
                 logger.warning(">>>>>>>>>> 卖出成功！")

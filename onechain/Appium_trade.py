@@ -76,8 +76,8 @@ def trade_buy_first(trader):
         print(e)
 
 def trade_sell_first(trader):
-    ETH = 3300
-    trans_quota = random.randint(450,550)/ETH
+    ETH = 3200
+    trans_quota = random.randint(200,300)/ETH
     try:
         (avg_price_value, sell_balance, buy_balance) = trader.get_price()
         # 买入价(buy01) < 卖出价(sell01) x (1 + 0.04%)

@@ -1,9 +1,11 @@
 # coding=utf-8
-
-
+import configparser
 import logging
 import random
+import re
 from datetime import datetime, timedelta
+
+import os
 
 from onechain import Appium_class
 
@@ -23,6 +25,21 @@ ch.setFormatter(formatter)
 logger.addHandler(fh)
 logger.addHandler(ch)
 
+
+def load_quota():
+    # get config information
+    curpath = os.getcwd()
+    content = open(curpath + '/onechain/quota.ini').read()
+    content = re.sub(r"\xfe\xff", "", content)
+    content = re.sub(r"\xff\xfe", "", content)
+    content = re.sub(r"\xef\xbb\xbf", "", content)
+    open(curpath + '/onechain/quota.ini', 'w').write(content)
+
+    cf = configparser.ConfigParser()
+    cf.read(curpath + '/onechain/quota.ini')
+    ETH_Price = cf.get('info', 'ETH_Price').strip()
+    Deal_Quota = cf.get('info', 'Deal_Quota').strip()
+    return ETH_Price, Deal_Quota
 
 def trade_with_condition(trader):
     trans_quota = 1000/6.49
@@ -50,8 +67,8 @@ def trade_with_condition(trader):
         print(e)
 
 def trade_buy_first(trader):
-    ETH = 3200
-    trans_quota = random.randint(200,300)/ETH
+    (ETH_Price, Deal_Quota) = load_quota()
+    trans_quota = random.randint(int(Deal_Quota)-25,int(Deal_Quota)+25)/int(ETH_Price)
     try:
         (avg_price_value, sell_balance, buy_balance) = trader.get_price()
         # 买入价(buy01) < 卖出价(sell01) x (1 + 0.04%)
@@ -76,8 +93,8 @@ def trade_buy_first(trader):
         print(e)
 
 def trade_sell_first(trader):
-    ETH = 3200
-    trans_quota = random.randint(200,300)/ETH
+    (ETH_Price, Deal_Quota) = load_quota()
+    trans_quota = random.randint(int(Deal_Quota)-25,int(Deal_Quota)+25)/int(ETH_Price)
     try:
         (avg_price_value, sell_balance, buy_balance) = trader.get_price()
         # 买入价(buy01) < 卖出价(sell01) x (1 + 0.04%)
@@ -117,7 +134,9 @@ hour = 0
 min = 1
 second = 45
 
+
 trader = Appium_class.trader_class()
+trade_buy_first(trader)
 res = trader.one_login()
 # trade_sell_first(trader)
 
@@ -138,7 +157,7 @@ if res == 0:
             # Get every start work time
             # logger.warning("start trade: " +iter_now_time)
             # Call task func
-            trade_sell_first(trader)
+            trade_buy_first(trader)
             # logger.warning("trade done.")
             # Get next iteration time
             iter_time = iter_now + period

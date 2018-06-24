@@ -205,8 +205,8 @@ class trader_class:
 
             # 获取价格
             views = self.driver.find_elements(By.ID, "oneapp.onechain.androidapp:id/tv_bid_price")
-            price = views[4].text
-            # price = views[5].text
+            # price = views[4].text
+            price = views[5].text
 
             price = str('{:.8f}'.format(float(price) + 0.00000001))
 
@@ -254,8 +254,8 @@ class trader_class:
 
             # 获取价格
             views = self.driver.find_elements(By.ID, "oneapp.onechain.androidapp:id/tv_bid_price")
-            price = views[4].text
-            # price = views[5].text
+            # price = views[4].text
+            price = views[5].text
 
             price = str('{:.8f}'.format(float(price) - 0.00000001))
 

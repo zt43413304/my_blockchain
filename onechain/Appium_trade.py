@@ -152,7 +152,7 @@ second = 45
 
 trader = Appium_class.trader_class()
 res = trader.one_login()
-trade_buy_first(trader)
+# trade_buy_first(trader)
 
 if res == 0:
     now = datetime.now()

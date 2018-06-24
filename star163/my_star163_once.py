@@ -411,8 +411,8 @@ def loop_star163():
         send_email.send_star163_HtmlEmail('newseeing@163.com', str(phone) + '的原力及黑钻', content)
         logger.warning('********** Sending Collect Email Complete!')
 
-    appium_calculate136()
     appium_calculate138()
+    appium_calculate136()
 
 # Start from here...
 # logger.warning('***** Start ...')

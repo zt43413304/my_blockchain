@@ -75,6 +75,7 @@ def trade_buy_first(trader):
         # if float(buy01) <= float(sell01) * (1 + 0.0004):
         buy_amount = round(trans_quota/float(avg_price_value), 4)
         sell_amount = round(trans_quota/float(avg_price_value), 4)
+        # sell_amount = 10000000000
         logger.warning("========== sell_amount: " + str(sell_amount) + ", buy_amount: " + str(buy_amount))
         if sell_amount<float(sell_balance) and buy_amount<(float(buy_balance)/float(avg_price_value)):
             code = trader.buy(str(buy_amount))
@@ -89,6 +90,20 @@ def trade_buy_first(trader):
                 logger.warning(">>>>>>>>>> 卖出成功！")
             else:
                 logger.warning(">>>>>>>>>> 卖出失败！")
+        else:
+            res = trader.cancel_order()
+            if res == 0:
+                logger.warning("<<<<<<<<<< 撤销买入订单成功！")
+            else:
+                logger.warning("<<<<<<<<<< 撤销买入订单失败！")
+            (avg_price_value, sell_balance, buy_balance) = trader.get_price()
+            if float(buy_balance) < 0.2:
+                code = trader.sell(str(80000))
+                if code == 0:
+                    logger.warning(">>>>>>>>>> 二次卖出成功！")
+                else:
+                    logger.warning(">>>>>>>>>> 二次卖出失败！")
+
     except Exception as e:
         print(e)
 
@@ -136,9 +151,8 @@ second = 45
 
 
 trader = Appium_class.trader_class()
-# trade_buy_first(trader)
 res = trader.one_login()
-# trade_sell_first(trader)
+trade_buy_first(trader)
 
 if res == 0:
     now = datetime.now()

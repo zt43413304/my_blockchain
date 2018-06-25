@@ -47,7 +47,7 @@ class AppiumStar:
         desired_caps['newCommandTimeout'] = '600'
         desired_caps['clearSystemFiles'] = 'True'
         desired_caps['app'] = PATH(
-            'C:/DevTools/Star163/protect_163-e01170001_121-4.apk'
+            'C:\DevTools\Android_apk\protect_163-e01170001_121-4.apk'
         # desired_caps['app'] = PATH(
         # '/Users/Jackie.Liu/Documents/MuMu共享文件夹/protect_163-e01170001_121-4.apk'
         )

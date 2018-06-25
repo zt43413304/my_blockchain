@@ -268,7 +268,10 @@ def check_UserTotal(token):
         requests.session().close()
 
 
-def click_hashworld_land(token, strength, wonder_list, lands):
+def click_hashworld_land(phone, password, strength, wonder_list):
+
+    # selenium login
+    lands = Appium_hashworld_Test.lands(phone, password)
 
     # 根据体力值判断循环次数
     while strength > 0:
@@ -325,6 +328,9 @@ def click_hashworld_land(token, strength, wonder_list, lands):
                 else:
                     logger.warning('>>>>>>>>>> Click Others land success.')
                     strength = strength - 1
+
+    lands.selenium_quit()
+
 
 def get_Landlist(token):
     global proxies
@@ -412,7 +418,7 @@ def loop_Lottery(filename):
     # print(data_dict)
     # print(type(data_dict))
 
-    lands = Appium_hashworld_Test.lands()
+
     number = 0
     for item in data_dict['data']:
         number += 1
@@ -423,12 +429,9 @@ def loop_Lottery(filename):
         logger.warning('\n')
         logger.warning("========== Checking " + str(number) + ". [" + phone + "] ==========")
 
-        # selenium login
-        result = lands.selenium_login(phone, password)
-
         # normal login
         token = login_GetAccessToken(data)
-        if token == -1 or result == -1:
+        if token == -1:
             logger.warning('********** Login fail!')
             continue
         else:
@@ -442,8 +445,9 @@ def loop_Lottery(filename):
             if wonder_list == -1 or strength == -1:
                 continue
 
-            click_hashworld_land(token, strength, wonder_list, lands)
-            # break
+            result = click_hashworld_land(phone, password, strength, wonder_list)
+            if result == -1:
+                continue
 
             value = check_UserTotal(token)
             all_total = all_total + value
@@ -457,9 +461,9 @@ def loop_Lottery(filename):
             }
             content_list.append(content_data)
             time.sleep(random.randint(MIN_SEC, MAX_SEC))
-            # break
-            lands.selenium_close()
-    lands.selenium_quit()
+
+        # lands.selenium_close()
+    # lands.selenium_quit()
 
     # sending email
     server = filename.split('.')[0][-5:]

@@ -13,10 +13,10 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
 # 第一步，创建一个logger,并设置级别
-logger = logging.getLogger("Appium_hashworld.py")
+logger = logging.getLogger("Appium_hashworld_Test.py")
 logger.setLevel(logging.INFO)  # Log等级总开关
 # 第二步，创建一个handler，用于写入日志文件
-fh = logging.FileHandler('./logs/Appium_hashworld.log', mode='w')
+fh = logging.FileHandler('./logs/Appium_hashworld_Test.log', mode='w')
 fh.setLevel(logging.WARNING)  # 输出到file的log等级的开关
 ch = logging.StreamHandler()
 ch.setLevel(logging.INFO)  # 输出到console的log等级的开关
@@ -32,9 +32,55 @@ logger.addHandler(ch)
 class lands:
     MIN_SEC = 15
     MAX_SEC = 20
+    driver = None
 
-    def __init__(self):
+    def __init__(self, phone, password):
         logger.warning("********** start __init()__...")
+
+
+        # options = webdriver.FirefoxOptions()
+        # options.add_argument('-headless')
+        # self.driver = webdriver.Firefox(firefox_options=options)
+
+        # option = webdriver.ChromeOptions()
+        # option.add_argument('headless')
+        # driver = webdriver.Chrome(chrome_options=option)
+
+        # self.driver = webdriver.Firefox()
+
+        # self.driver = webdriver.Chrome()
+
+        self.driver = webdriver.Ie()
+
+        self.driver.set_window_size(480, 750)
+        self.driver.set_window_position(y=0, x=0)
+        self.driver.get('https://game.hashworld.top/#!/login')
+
+        wait = WebDriverWait(self.driver, 180)
+
+        xpath_phone = '/html/body/ui-view/hw-login/hw-container/div/div[2]/hw-container-main/div[1]/hw-input/div/input'
+        input_phone = wait.until(EC.presence_of_element_located((By.XPATH, xpath_phone)))
+        input_phone.clear()
+        input_phone.send_keys(phone[-11:])
+        time.sleep(random.random())
+
+        xpath_password = '/html/body/ui-view/hw-login/hw-container/div/div[2]/hw-container-main/div[2]/hw-input/div/input'
+        input_password = wait.until(EC.presence_of_element_located((By.XPATH, xpath_password)))
+        input_password.clear()
+        input_password.send_keys(password)
+        time.sleep(random.random())
+
+        xpath_login = '/html/body/ui-view/hw-login/hw-container/div/div[2]/hw-container-main/button'
+        button_login = wait.until(EC.presence_of_element_located((By.XPATH, xpath_login)))
+        button_login.click()
+        time.sleep(random.randint(1, 2))
+
+        logger.warning(">>>>>>>>>> login success!")
+
+
+
+
+
 
         # driver = webdriver.Chrome()
         # # driver = webdriver.PhantomJS()
@@ -162,6 +208,7 @@ class lands:
 
     # 此方法是关闭当前窗口，或最后打开的窗口
     def selenium_close(self):
+        # handles = self.driver.window_handles
         self.driver.close()
 
     # 执行这个方法后，driver会关闭所有关联窗口
@@ -203,60 +250,30 @@ class lands:
         print("get_element_pic >>>>>>>")
         print(left, top, right, bottom)
 
-    def selenium_login(self, phone, password):
-        try:
-
-            # options = webdriver.FirefoxOptions()
-            # options.add_argument('-headless')
-            # self.driver = webdriver.Firefox(firefox_options=options)
-
-            # option = webdriver.ChromeOptions()
-            # option.add_argument('headless')
-            # driver = webdriver.Chrome(chrome_options=option)
-
-            # self.driver = webdriver.Firefox()
-
-            self.driver = webdriver.Chrome()
-
-            self.driver.set_window_size(480, 750)
-            self.driver.set_window_position(y=0, x=0)
-            self.driver.get('https://game.hashworld.top/#!/login')
-
-            wait = WebDriverWait(self.driver, 180)
-
-            xpath_phone = '/html/body/ui-view/hw-login/hw-container/div/div[2]/hw-container-main/div[1]/hw-input/div/input'
-            input_phone = wait.until(EC.presence_of_element_located((By.XPATH, xpath_phone)))
-            input_phone.clear()
-            input_phone.send_keys(phone[-11:])
-            time.sleep(random.random())
-
-            xpath_password = '/html/body/ui-view/hw-login/hw-container/div/div[2]/hw-container-main/div[2]/hw-input/div/input'
-            input_password = wait.until(EC.presence_of_element_located((By.XPATH, xpath_password)))
-            input_password.clear()
-            input_password.send_keys(password)
-            time.sleep(random.random())
-
-            xpath_login = '/html/body/ui-view/hw-login/hw-container/div/div[2]/hw-container-main/button'
-            button_login = wait.until(EC.presence_of_element_located((By.XPATH, xpath_login)))
-            button_login.click()
-            time.sleep(random.randint(1, 2))
-
-            logger.warning(">>>>>>>>>> login success!")
-            return 0
-
-        except Exception as e:
-            print(e)
-            return -1
 
     def selenium_clickland(self, block_number):
-
+        # global driver
         try:
-            self.driver.refresh()
-            time.sleep(random.randint(2, 3))
             wait = WebDriverWait(self.driver, 180)
+            # self.driver.refresh()
+
+            # self.driver.find_element_by_xpath('/html/body/ui-view/hw-index/hw-tabbar/div/div[4]/div[1]/img[2]').click()
+            # self.driver.find_element_by_xpath('/html/body/ui-view/hw-index/hw-tabbar/div/div[1]/div[1]/img[1]').click()
+            # #我
+            xpath_mine = '/html/body/ui-view/hw-index/hw-tabbar/div/div[4]/div[1]/img[2]'
+            mine = wait.until(EC.presence_of_element_located((By.XPATH, xpath_mine)))
+            mine.click()
+            # # 挖矿
+            # xpath_mining = '/html/body/ui-view/hw-index/hw-tabbar/div/div[1]/div[2]'
+            # mining = wait.until(EC.presence_of_element_located((By.XPATH, xpath_mining)))
+            # mining.click()
+
+            time.sleep(random.randint(2, 3))
+
 
             xpath_strength = '/html/body/ui-view/hw-index/hw-tabbar/ui-view/hw-treasure/div/hw-treasure-list/div/div[2]/span[2]/span'
             web_strength = wait.until(EC.presence_of_element_located((By.XPATH, xpath_strength)))
+            # web_strength = self.driver.find_element(By.XPATH, xpath_strength)
             strength1 = web_strength.text.split('/')[0]
             logger.warning(">>>>>>>>>> selenium strength = " + str(strength1))
 

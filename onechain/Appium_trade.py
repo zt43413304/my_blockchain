@@ -98,7 +98,7 @@ def trade_buy_first(trader):
                 logger.warning("<<<<<<<<<< 撤销买入订单失败！")
             (avg_price_value, sell_balance, buy_balance) = trader.get_price()
             if float(buy_balance) < 0.2:
-                code = trader.sell(str(80000))
+                code = trader.sell(str(10000))
                 if code == 0:
                     logger.warning(">>>>>>>>>> 二次卖出成功！")
                 else:

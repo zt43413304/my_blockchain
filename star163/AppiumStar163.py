@@ -9,8 +9,9 @@ import random
 import time
 
 from appium import webdriver
-# Returns abs path relative to this file and not cwd
 from appium.webdriver.common.touch_action import TouchAction
+from selenium.webdriver.common.by import By
+
 
 # 第一步，创建一个logger,并设置级别
 logger = logging.getLogger("AppiumStar163.py")
@@ -63,14 +64,27 @@ class AppiumStar:
             print(e)
             return False
 
+    def isElementExist_by_xpath(self, xpath):
+        try:
+            self.driver.find_element(By.XPATH, xpath)
+            return True
+        except Exception as e:
+            print(e)
+            return False
+
     def appium_calculate(self):
         # close "0.01黑钻换..."       
 
         time.sleep(5)
 
-        if self.isElementExist("Link"):
-            TouchAction(self.driver).tap(x=332, y=104).perform()
-        #    self.driver.find_element_by_accessibility_id("Link").click()
+        pop_xpath = '//android.view.View[@content-desc="Link"]'
+        if self.isElementExist_by_xpath(pop_xpath):
+            self.driver.find_element(By.XPATH, pop_xpath).click()
+
+        # if self.isElementExist("Link"):
+        # "el1 = driver.find_element_by_accessibility_id("Link")"
+		    # TouchAction(self.driver).tap(x=332, y=104).perform()
+            # self.driver.find_element_by_accessibility_id("Link").click()
 
         time.sleep(5)
 

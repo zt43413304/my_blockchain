@@ -327,10 +327,10 @@ def appium_calculate136():
     result2 = execute_command(cmd_adb1)
     print('result:------>', result2)
 
-    output3 = os.system(
-        "start node C:/Users/jackie.liu/AppData/Local/Programs/Appium/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4723")
     # output3 = os.system(
-    #     "start /b node C:/Users/jacki/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4723")
+    #     "start node C:/Users/jackie.liu/AppData/Local/Programs/Appium/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4723")
+    output3 = os.system(
+        "start /b node C:/Users/jacki/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4723")
     # output3 = os.system(
     #     "node /Applications/Appium.app/Contents/Resources/app/node_modules/appium/lib/main.js -a 127.0.0.1 -p 4723")
     print('result:------>' + str(output3))
@@ -362,10 +362,10 @@ def appium_calculate138():
     result2 = execute_command(cmd_adb1)
     print('result:------>', result2)
 
-    output3 = os.system(
-        "start node C:/Users/jackie.liu/AppData/Local/Programs/Appium/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4725")
     # output3 = os.system(
-    #     "start /b node C:/Users/jacki/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4725")
+    #     "start node C:/Users/jackie.liu/AppData/Local/Programs/Appium/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4725")
+    output3 = os.system(
+        "start /b node C:/Users/jacki/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4725")
     # output3 = os.system(
     # "node /Applications/Appium.app/Contents/Resources/app/node_modules/appium/lib/main.js -a 127.0.0.1 -p 4725")
     print('result:------>' + str(output3))

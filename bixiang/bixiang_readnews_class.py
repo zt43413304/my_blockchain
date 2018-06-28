@@ -202,6 +202,7 @@ class readnews(threading.Thread):
                                         + str(len(JRTT_list)))
                     return JRTT_list
                 else:
+                    self.logger.warning("********** [" + self.phone + "]. get_JRTT_list Error.")
                     return -1
             else:
                 self.logger.warning("********** [" + self.phone + "]. get_JRTT_list Error.")
@@ -229,14 +230,14 @@ class readnews(threading.Thread):
                              "&new_id=" + news_id
 
         try:
-            # logger.warning("********** post_newsRecord(), proxies = " + str(proxies))
-            self.logger.warning(">>>>>>>>>> [" + self.phone + "]. post_newsRecord. news_id=" + news_id)
+
+            # self.logger.warning(">>>>>>>>>> [" + self.phone + "]. post_newsRecord. news_id=" + news_id)
 
             response = requests.request("POST", url, data=payload_newsRecord, headers=headers,
                                         timeout=60, proxies=proxies, allow_redirects=False)
 
             while response.status_code != 200:
-                self.logger.warning(">>>>>>>>>> [" + self.phone + "]. post_newsRecord Error. try again ...")
+                self.logger.warning("<<<<<<<<<< [" + self.phone + "]. post_newsRecord Error. try again ...")
                 time.sleep(random.randint(MIN_SEC, MAX_SEC))
                 response = requests.request("POST", url, data=payload_newsRecord, headers=headers,
                                             timeout=60, proxies=proxies, allow_redirects=False)
@@ -248,9 +249,10 @@ class readnews(threading.Thread):
                     self.logger.warning(">>>>>>>>>> [" + self.phone + "]. post_newsRecord success, bxc = " + str(bxc))
                     return 0
                 else:
+                    self.logger.warning("<<<<<<<<<< [" + self.phone + "]. post_newsRecord Error.")
                     return -1
             else:
-                self.logger.warning(">>>>>>>>>> [" + self.phone + "]. post_newsRecord Error.")
+                self.logger.warning("<<<<<<<<<< [" + self.phone + "]. post_newsRecord Error.")
                 return -1
         except Exception as e:
             print(e)

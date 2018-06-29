@@ -46,7 +46,7 @@ def start_reading_news(filename):
         thread_readnews.start()
         time.sleep(random.randint(30, 60))
         logger.warning('********** Start thread [' + str(number) + ']: ' + phone)
-        break
+        # break
 
 
 start_reading_news("data_bixiang_readnews.json")

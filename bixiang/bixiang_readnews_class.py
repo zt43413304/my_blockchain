@@ -10,6 +10,7 @@ import time
 
 import requests
 
+from common import c2567
 from common import daxiang_proxy
 
 # get config information
@@ -54,7 +55,6 @@ payload = "is_ad_ios=" + is_ad_ios + \
 # Random seconds
 MIN_SEC = 2
 MAX_SEC = 5
-proxies = ''
 
 
 class readnews(threading.Thread):
@@ -62,10 +62,11 @@ class readnews(threading.Thread):
     uid = None
     phone = None
     logger = None
+    proxies = ''
 
     def __init__(self, unique, uid, phone):
         threading.Thread.__init__(self)
-        global proxies
+        # global proxies
         self.unique = unique
         self.uid = uid
         self.phone = phone
@@ -87,14 +88,14 @@ class readnews(threading.Thread):
         self.logger.addHandler(fh)
         self.logger.addHandler(ch)
 
-        proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
+        # proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
 
         self.logger.warning("========== __init()__, Checking. [" + phone + "] ==========")
 
     def bixiang_login(self):
         global proxies
 
-        self.proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
+        proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
 
         url = "http://tui.yingshe.com/check/index"
 
@@ -138,7 +139,7 @@ class readnews(threading.Thread):
 
             for j in range(len(JRTT_list)):
                 news_id = JRTT_list[j]["id"]
-                time.sleep(random.randint(90, 120))
+                time.sleep(random.randint(70, 90))
                 return_code = self.post_newsRecord(news_id)
                 if return_code == -1:
                     continue
@@ -217,14 +218,6 @@ class readnews(threading.Thread):
 
         url = "http://tui.yingshe.com/mumayi/newsRecord"
 
-        payload = "is_ad_ios=" + is_ad_ios + \
-                  "&versioncode=" + versioncode + \
-                  "&devicetype=" + devicetype + \
-                  "&channel=" + channel + \
-                  "&token=" + token + \
-                  "&ps=" + ps + \
-                  "&key=" + key
-
         payload_newsRecord = payload + "&unique=" + self.unique + \
                              "&uid=" + self.uid + \
                              "&new_id=" + news_id
@@ -232,7 +225,7 @@ class readnews(threading.Thread):
         try:
 
             # self.logger.warning(">>>>>>>>>> [" + self.phone + "]. post_newsRecord. news_id=" + news_id)
-
+            self.logger.warning("********** [" + self.phone + "], post_newsRecord(), proxies = " + str(proxies))
             response = requests.request("POST", url, data=payload_newsRecord, headers=headers,
                                         timeout=60, proxies=proxies, allow_redirects=False)
 
@@ -249,8 +242,23 @@ class readnews(threading.Thread):
                     self.logger.warning(">>>>>>>>>> [" + self.phone + "]. post_newsRecord success, bxc = " + str(bxc))
                     return 0
                 else:
-                    self.logger.warning("<<<<<<<<<< [" + self.phone + "]. post_newsRecord Error.")
-                    return -1
+                    # response status==0, captcha needed
+                    self.logger.warning("<<<<<<<<<< [" + self.phone + "]. post_newsRecord Error. call captcha ...")
+                    (gt, challenge) = self.getverify()
+                    if gt is not None and len(gt.strip()) != 0 and challenge is not None and len(
+                            challenge.strip()) != 0:
+                        # call captcha hack
+                        (challenge, validate) = c2567.get_captcha(gt, challenge)
+
+                        self.post_newsRecord_with_captcha(news_id, challenge, validate)
+
+                        # response = requests.request("POST", url, data=payload_newsRecord, headers=headers,
+                        #                         timeout=60, proxies=proxies, allow_redirects=False)
+                        # if response.json()["status"] == 1:
+                        #     self.logger.warning("@@@@@@@@@@ [" + self.phone + "]. after retry, success")
+                        # else:
+                        #     self.logger.warning("@@@@@@@@@@ [" + self.phone + "]. after retry, error")
+                        # return -1
             else:
                 self.logger.warning("<<<<<<<<<< [" + self.phone + "]. post_newsRecord Error.")
                 return -1
@@ -258,3 +266,66 @@ class readnews(threading.Thread):
             print(e)
             proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
             return -1
+
+    def post_newsRecord_with_captcha(self, news_id, challenge, validate):
+        global proxies
+
+        url = "http://tui.yingshe.com/mumayi/newsRecord"
+
+        payload_newsRecord = payload + "&unique=" + self.unique + \
+                             "&uid=" + self.uid + \
+                             "&new_id=" + news_id + \
+                             "&geetest_challenge=" + challenge + \
+                             "&geetest_validate=" + validate + \
+                             "&geetest_seccode=" + validate + "|jordan"
+
+        try:
+
+            self.logger.warning(
+                "********** [" + self.phone + "], post_newsRecord_with_captcha(), proxies = " + str(proxies))
+            response = requests.request("POST", url, data=payload_newsRecord, headers=headers,
+                                        timeout=60, proxies=proxies, allow_redirects=False)
+
+            while response.status_code != 200:
+                self.logger.warning("<<<<<<<<<< [" + self.phone + "]. post_newsRecord Error. try again ...")
+                time.sleep(random.randint(MIN_SEC, MAX_SEC))
+                response = requests.request("POST", url, data=payload_newsRecord, headers=headers,
+                                            timeout=60, proxies=proxies, allow_redirects=False)
+
+            if response.status_code == 200:
+                res = response.json()["status"]
+                if res == 1:
+                    msg = response.json()["msg"]
+                    self.logger.warning(
+                        ">>>>>>>>>> [" + self.phone + "]. post_newsRecord_with_captcha success, msg = " + msg)
+                    return 0
+                else:
+                    self.logger.warning("<<<<<<<<<< [" + self.phone + "]. post_newsRecord_with_captcha Error.")
+                    return -1
+            else:
+                self.logger.warning("<<<<<<<<<< [" + self.phone + "]. post_newsRecord_with_captcha Error.")
+                return -1
+        except Exception as e:
+            print(e)
+            proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
+            return -1
+
+    def getverify(self):
+        url = "http://tui.yingshe.com/veritys/getverify"
+
+        payload_verify = payload + "&unique=" + self.unique + "&uid=" + self.uid
+
+        try:
+            self.logger.warning("^^^^^^^^^^ [" + self.phone + "], getverify()")
+            response = requests.request("GET", url, data=payload_verify, headers=headers,
+                                        timeout=60, allow_redirects=False)
+
+            res = response.json()["success"]
+            if res == 1:
+                gt = response.json()["gt"]
+                challenge = response.json()["challenge"]
+                return gt, challenge
+            else:
+                return -1, -1
+        except Exception as e:
+            print(e)

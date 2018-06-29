@@ -23,12 +23,6 @@ ch.setFormatter(formatter)
 logger.addHandler(fh)
 logger.addHandler(ch)
 
-# Random seconds
-mail_subject = ''
-MIN_SEC = 2
-MAX_SEC = 5
-proxies = ''
-
 
 def start_reading_news(filename):
     # bixiang_login_test()
@@ -39,20 +33,20 @@ def start_reading_news(filename):
     curpath = os.getcwd()
     file = open(curpath + '/bixiang/' + filename, 'r', encoding='utf-8')
     data_dict = json.load(file)
-    content_list = []
 
     number = 0
     for item in data_dict['data']:
         number += 1
-        # content_list = []
+
         unique = item.get('unique', 'NA')
         uid = item.get('uid', 'NA')
         phone = item.get('phone', 'NA')
 
         thread_readnews = bixiang_readnews_class.readnews(unique, uid, phone)
         thread_readnews.start()
-        time.sleep(random.randint(10, 15))
-        logger.warning('********** Start thread ...' + phone)
+        time.sleep(random.randint(30, 60))
+        logger.warning('********** Start thread [' + str(number) + ']: ' + phone)
+        break
 
 
 start_reading_news("data_bixiang_readnews.json")

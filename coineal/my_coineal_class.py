@@ -9,9 +9,6 @@ import time
 
 import requests
 from appium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.wait import WebDriverWait
 
 # 第一步，创建一个logger,并设置级别
 logger = logging.getLogger("my_coineal_class.py")
@@ -36,7 +33,7 @@ PATH = lambda p: os.path.abspath(
 # Random seconds
 MIN_SEC = 2
 MAX_SEC = 5
-proxies = ''
+
 
 class trader_class:
     def __init__(self):
@@ -91,7 +88,6 @@ class trader_class:
 
     def login01():
 
-        
         url = 'http://tvp.daxiangdaili.com/ip/?tid=559810758325225&num=1&delay=1&category=2&protocol=https&filter=on&sortby=speed'
 
         try:

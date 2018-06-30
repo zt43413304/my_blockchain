@@ -1,11 +1,9 @@
 # coding=utf-8
 import configparser
 import logging
-import random
+import os
 import re
 from datetime import datetime, timedelta
-
-import os
 
 from coineal import my_coineal_class
 
@@ -48,7 +46,6 @@ hour = 0
 min = 1
 second = 45
 
-
 trader = my_coineal_class.trader_class()
 # trade_buy_first(trader)
 res = trader.one_login()
@@ -71,7 +68,7 @@ if res == 0:
             # Get every start work time
             # logger.warning("start trade: " +iter_now_time)
             # Call task func
-            trade_buy_first(trader)
+            # trade_buy_first(trader)
             # logger.warning("trade done.")
             # Get next iteration time
             iter_time = iter_now + period

@@ -185,7 +185,7 @@ class readnews(threading.Thread):
 
         try:
 
-            self.logger.warning("********** get_JRTT_list(), proxies = " + str(proxies))
+            self.logger.warning("********** get_JRTT_list(), proxies = " + str(self.proxies))
 
             response = requests.request("POST", url, data=payload_JRTT, headers=headers, timeout=60,
                                         proxies=self.proxies, allow_redirects=False)
@@ -226,7 +226,7 @@ class readnews(threading.Thread):
         try:
 
             # self.logger.warning(">>>>>>>>>> [" + self.phone + "]. post_newsRecord. news_id=" + news_id)
-            self.logger.warning("********** [" + self.phone + "], post_newsRecord(), proxies = " + str(proxies))
+            self.logger.warning("********** [" + self.phone + "], post_newsRecord(), proxies = " + str(self.proxies))
             response = requests.request("POST", url, data=payload_newsRecord, headers=headers,
                                         timeout=60, proxies=self.proxies, allow_redirects=False)
 
@@ -283,7 +283,7 @@ class readnews(threading.Thread):
         try:
 
             self.logger.warning(
-                "********** [" + self.phone + "], post_newsRecord_with_captcha(), proxies = " + str(proxies))
+                "********** [" + self.phone + "], post_newsRecord_with_captcha(), proxies = " + str(self.proxies))
             response = requests.request("POST", url, data=payload_newsRecord, headers=headers,
                                         timeout=60, proxies=self.proxies, allow_redirects=False)
 

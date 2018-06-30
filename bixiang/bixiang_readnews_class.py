@@ -95,7 +95,8 @@ class readnews(threading.Thread):
     def bixiang_login(self):
         global proxies
 
-        proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
+        if proxies is None or proxies is '':
+            proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
 
         url = "http://tui.yingshe.com/check/index"
 

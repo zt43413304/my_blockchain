@@ -88,15 +88,15 @@ class readnews(threading.Thread):
         self.logger.addHandler(fh)
         self.logger.addHandler(ch)
 
-        # proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
+        self.proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
 
         self.logger.warning("========== __init()__, Checking. [" + phone + "] ==========")
 
     def bixiang_login(self):
-        global proxies
+        # global proxies
 
-        if proxies is None or proxies is '':
-            proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
+        # if self.proxies is None or proxies is '':
+        # proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
 
         url = "http://tui.yingshe.com/check/index"
 
@@ -105,7 +105,7 @@ class readnews(threading.Thread):
         try:
             # self.logger.warning("********** selenium_login(), proxies = " + str(proxies))
             response = requests.request("POST", url, data=payload_login, headers=headers, timeout=60,
-                                        proxies=proxies, allow_redirects=False)
+                                        proxies=self.proxies, allow_redirects=False)
             time.sleep(random.randint(MIN_SEC, MAX_SEC))
 
             res = response.json()["status"]
@@ -118,7 +118,7 @@ class readnews(threading.Thread):
                 return -1
         except Exception as e:
             print(e)
-            proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
+            self.proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
             return -1
 
     def run(self):
@@ -149,7 +149,7 @@ class readnews(threading.Thread):
                 self.bixiang_loop_reading_news()
 
     def get_JRTT_list(self, channel):
-        global proxies
+        # global proxies
 
         url = "http://lockscreen.mobile7.cn/newsfeed/jrtt_news"
 
@@ -188,13 +188,13 @@ class readnews(threading.Thread):
             self.logger.warning("********** get_JRTT_list(), proxies = " + str(proxies))
 
             response = requests.request("POST", url, data=payload_JRTT, headers=headers, timeout=60,
-                                        proxies=proxies, allow_redirects=False)
+                                        proxies=self.proxies, allow_redirects=False)
 
             while response.status_code != 200:
                 self.logger.warning("********** [" + self.phone + "]. get_JRTT_list Error. try again ...")
                 time.sleep(random.randint(MIN_SEC, MAX_SEC))
                 response = requests.request("POST", url, data=payload_JRTT, headers=headers, timeout=60,
-                                            proxies=proxies, allow_redirects=False)
+                                            proxies=self.proxies, allow_redirects=False)
 
             if response.status_code == 200:
                 res = response.json()["status"]
@@ -211,11 +211,11 @@ class readnews(threading.Thread):
                 return -1
         except Exception as e:
             print(e)
-            proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
+            self.proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
             return -1
 
     def post_newsRecord(self, news_id):
-        global proxies
+        # global proxies
 
         url = "http://tui.yingshe.com/mumayi/newsRecord"
 
@@ -228,13 +228,13 @@ class readnews(threading.Thread):
             # self.logger.warning(">>>>>>>>>> [" + self.phone + "]. post_newsRecord. news_id=" + news_id)
             self.logger.warning("********** [" + self.phone + "], post_newsRecord(), proxies = " + str(proxies))
             response = requests.request("POST", url, data=payload_newsRecord, headers=headers,
-                                        timeout=60, proxies=proxies, allow_redirects=False)
+                                        timeout=60, proxies=self.proxies, allow_redirects=False)
 
             while response.status_code != 200:
                 self.logger.warning("<<<<<<<<<< [" + self.phone + "]. post_newsRecord Error. try again ...")
                 time.sleep(random.randint(MIN_SEC, MAX_SEC))
                 response = requests.request("POST", url, data=payload_newsRecord, headers=headers,
-                                            timeout=60, proxies=proxies, allow_redirects=False)
+                                            timeout=60, proxies=self.proxies, allow_redirects=False)
 
             if response.status_code == 200:
                 res = response.json()["status"]
@@ -265,11 +265,11 @@ class readnews(threading.Thread):
                 return -1
         except Exception as e:
             print(e)
-            proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
+            self.proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
             return -1
 
     def post_newsRecord_with_captcha(self, news_id, challenge, validate):
-        global proxies
+        # global proxies
 
         url = "http://tui.yingshe.com/mumayi/newsRecord"
 
@@ -285,13 +285,13 @@ class readnews(threading.Thread):
             self.logger.warning(
                 "********** [" + self.phone + "], post_newsRecord_with_captcha(), proxies = " + str(proxies))
             response = requests.request("POST", url, data=payload_newsRecord, headers=headers,
-                                        timeout=60, proxies=proxies, allow_redirects=False)
+                                        timeout=60, proxies=self.proxies, allow_redirects=False)
 
             while response.status_code != 200:
                 self.logger.warning("<<<<<<<<<< [" + self.phone + "]. post_newsRecord Error. try again ...")
                 time.sleep(random.randint(MIN_SEC, MAX_SEC))
                 response = requests.request("POST", url, data=payload_newsRecord, headers=headers,
-                                            timeout=60, proxies=proxies, allow_redirects=False)
+                                            timeout=60, proxies=self.proxies, allow_redirects=False)
 
             if response.status_code == 200:
                 res = response.json()["status"]
@@ -308,7 +308,7 @@ class readnews(threading.Thread):
                 return -1
         except Exception as e:
             print(e)
-            proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
+            self.proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
             return -1
 
     def getverify(self):

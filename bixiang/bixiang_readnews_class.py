@@ -89,6 +89,7 @@ class readnews(threading.Thread):
         self.logger.addHandler(ch)
 
         self.proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
+        # self.proxies = ''
 
         self.logger.warning("========== __init()__, Checking. [" + phone + "] ==========")
 
@@ -246,20 +247,13 @@ class readnews(threading.Thread):
                     # response status==0, captcha needed
                     self.logger.warning("<<<<<<<<<< [" + self.phone + "]. post_newsRecord Error. call captcha ...")
                     (gt, challenge) = self.getverify()
-                    if gt is not None and len(gt.strip()) != 0 and challenge is not None and len(
-                            challenge.strip()) != 0:
+                    if gt != -1 and gt is not None and len(gt.strip()) != 0 \
+                            and challenge != -1 and challenge is not None and len(challenge.strip()) != 0:
                         # call captcha hack
                         (challenge, validate) = c2567.get_captcha(gt, challenge)
 
-                        self.post_newsRecord_with_captcha(news_id, challenge, validate)
-
-                        # response = requests.request("POST", url, data=payload_newsRecord, headers=headers,
-                        #                         timeout=60, proxies=proxies, allow_redirects=False)
-                        # if response.json()["status"] == 1:
-                        #     self.logger.warning("@@@@@@@@@@ [" + self.phone + "]. after retry, success")
-                        # else:
-                        #     self.logger.warning("@@@@@@@@@@ [" + self.phone + "]. after retry, error")
-                        # return -1
+                        if challenge != -1 and validate != -1:
+                            self.post_newsRecord_with_captcha(news_id, challenge, validate)
             else:
                 self.logger.warning("<<<<<<<<<< [" + self.phone + "]. post_newsRecord Error.")
                 return -1
@@ -319,7 +313,7 @@ class readnews(threading.Thread):
         try:
             self.logger.warning("^^^^^^^^^^ [" + self.phone + "], getverify()")
             response = requests.request("GET", url, data=payload_verify, headers=headers,
-                                        timeout=60, allow_redirects=False)
+                                        timeout=60, proxies=self.proxies, allow_redirects=False)
 
             res = response.json()["success"]
             if res == 1:
@@ -330,3 +324,5 @@ class readnews(threading.Thread):
                 return -1, -1
         except Exception as e:
             print(e)
+            self.proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
+            return -1, -1

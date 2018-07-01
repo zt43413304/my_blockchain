@@ -47,8 +47,7 @@ def trade_buy_first_with_quota(trader):
     trans_quota = float(Deal_Quota) / float(ETH_Price)
     try:
         (avg_price_value, sell_balance, buy_balance, sell01, buy01) = trader.get_price()
-        buy_amount = int(trans_quota / float(avg_price_value))
-        sell_amount = int(trans_quota/float(avg_price_value))
+        amount = int(trans_quota / float(avg_price_value))
 
         sell_balance = 10
         # buy_balance = 10
@@ -56,51 +55,16 @@ def trade_buy_first_with_quota(trader):
         # buy_amount = 1.12
 
         # logger.warning("========== sell_amount: " + str(sell_amount) + ", buy_amount: " + str(buy_amount))
-        if sell_amount < float(sell_balance) \
-                and buy_amount < (float(buy_balance) / float(avg_price_value)) \
+        if amount < float(sell_balance) \
+                and amount < (float(buy_balance) / float(avg_price_value)) \
                 and (sell01 - buy01 > 0.00000005):
-            code = trader.buy('with_quota', buy_amount)
+            code = trader.buy(amount)
             if code == 0:
                 logger.warning("<<<<<<<<<< 买入成功！")
             else:
                 logger.warning("<<<<<<<<<< 买入失败！")
 
-            code = trader.sell('with_quota', sell_amount)
-            if code == 0:
-                logger.warning(">>>>>>>>>> 卖出成功！")
-            else:
-                logger.warning(">>>>>>>>>> 卖出失败！")
-        # else:
-        #     res = trader.cancel_order()
-        #     if res == 0:
-        #         logger.warning("<<<<<<<<<< 撤销买入订单成功！")
-        #     else:
-        #         logger.warning("<<<<<<<<<< 撤销买入订单失败！")
-        #     (avg_price_value, sell_balance, buy_balance) = trader.get_price()
-        #     if float(buy_balance) < 0.2:
-        #         code = trader.sell(str(10000))
-        #         if code == 0:
-        #             logger.warning(">>>>>>>>>> 二次卖出成功！")
-        #         else:
-        #             logger.warning(">>>>>>>>>> 二次卖出失败！")
-
-    except Exception as e:
-        print(e)
-
-
-def trade_buy_first_full_quota(trader):
-
-    try:
-        (avg_price_value, sell_balance, buy_balance, sell01, buy01) = trader.get_price()
-
-        if float(sell_balance) < 100 and (sell01 - buy01 > 0.00000005):
-            code = trader.buy('full_quota', 0)
-            if code == 0:
-                logger.warning("<<<<<<<<<< 买入成功！")
-            else:
-                logger.warning("<<<<<<<<<< 买入失败！")
-
-            code = trader.sell('full_quota', 0)
+            code = trader.sell(amount)
             if code == 0:
                 logger.warning(">>>>>>>>>> 卖出成功！")
             else:
@@ -132,7 +96,7 @@ second = 20
 trader = web_coineal_class.trader_class()
 res = trader.login(phone, password)
 trader.load_coin()
-# trade_buy_first_full_quota(trader)
+
 trade_buy_first_with_quota(trader)
 
 if res == 0:
@@ -152,7 +116,7 @@ if res == 0:
             # Get every start work time
             # logger.warning("start trade: " +iter_now_time)
             # Call task func
-            trade_buy_first_full_quota(trader)
+            trade_buy_first_with_quota(trader)
             # logger.warning("trade done.")
             # Get next iteration time
             iter_time = iter_now + period

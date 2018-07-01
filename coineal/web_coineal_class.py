@@ -164,7 +164,7 @@ class trader_class:
             print(e)
             return -1, -1, -1, -1, -1
 
-    def buy(self, sign, deal_amount):
+    def buy(self, amount):
 
         wait = WebDriverWait(self.driver, 60)
 
@@ -173,12 +173,6 @@ class trader_class:
             xpath_buy01 = '//*[@id="depTrade"]/div[2]/div[3]/div/div[1]/div[2]/s[1]'
             buy01 = wait.until(EC.presence_of_element_located((By.XPATH, xpath_buy01))).text
             price = str('{:.8f}'.format(float(buy01) + 0.00000003))
-
-            # 买余额
-            xpath_buy_balance = '//*[@id="price_bottom"]/div[1]/div[1]/span[2]/s'
-            buy_balance = wait.until(EC.presence_of_element_located((By.XPATH, xpath_buy_balance))).text
-            buy_balance = buy_balance.split(' ')[0].strip()
-
 
             # 输入价格
             input_price = wait.until(
@@ -190,10 +184,6 @@ class trader_class:
             input_amount = wait.until(
                 EC.presence_of_element_located((By.XPATH, '//*[@id="getCountCoin"]')))
             input_amount.clear()
-            if sign == 'full_quota':
-                amount = str(int((float(buy_balance)/float(price))))
-            else:
-                amount = deal_amount
             input_amount.send_keys(amount)
 
             # 交易按钮
@@ -210,7 +200,7 @@ class trader_class:
             print(e)
             return -1
 
-    def sell(self, sign, deal_amount):
+    def sell(self, amount):
 
         wait = WebDriverWait(self.driver, 60)
 
@@ -225,11 +215,6 @@ class trader_class:
             buy01 = wait.until(EC.presence_of_element_located((By.XPATH, xpath_buy01))).text
             price = str('{:.8f}'.format(float(buy01) + 0.00000002))
 
-            # 卖余额
-            xpath_sell_balance = '//*[@id="price_bottom"]/div[2]/div[1]/span[2]/s'
-            sell_balance = wait.until(EC.presence_of_element_located((By.XPATH, xpath_sell_balance))).text
-            sell_balance = sell_balance.split(' ')[0].strip()
-
             # 输入价格
             input_price = wait.until(
                 EC.presence_of_element_located((By.XPATH, '//*[@id="getBasePrice"]')))
@@ -240,10 +225,6 @@ class trader_class:
             input_amount = wait.until(
                 EC.presence_of_element_located((By.XPATH, '//*[@id="getBaseCoin"]')))
             input_amount.clear()
-            if sign == 'full_quota':
-                amount = str(int((float(sell_balance)/float(price))))
-            else:
-                amount = deal_amount
             input_amount.send_keys(amount)
 
             # 交易按钮

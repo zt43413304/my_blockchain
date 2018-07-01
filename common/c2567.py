@@ -44,7 +44,7 @@ def get_captcha(gt, challenge):
             logger.warning(">>>>>>>>>> get captcha success.")
             return challenge, validate
         else:
-            logger.warning(">>>>>>>>>> get captcha error. retry ...")
+            logger.warning(">>>>>>>>>> get captcha error.")
             return -1, -1
 
     except Exception as e:

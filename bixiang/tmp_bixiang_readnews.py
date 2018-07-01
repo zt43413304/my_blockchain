@@ -8,10 +8,10 @@ import time
 from bixiang import bixiang_readnews_class
 
 # 第一步，创建一个logger,并设置级别
-logger = logging.getLogger("bixiang_readnews.py")
+logger = logging.getLogger("tmp_bixiang_readnews.py")
 logger.setLevel(logging.INFO)  # Log等级总开关
 # 第二步，创建一个handler，用于写入日志文件
-fh = logging.FileHandler('./logs/bixiang_readnews.log', mode='w')
+fh = logging.FileHandler('./logs/tmp_bixiang_readnews.log', mode='w')
 fh.setLevel(logging.WARNING)  # 输出到file的log等级的开关
 ch = logging.StreamHandler()
 ch.setLevel(logging.INFO)  # 输出到console的log等级的开关
@@ -63,4 +63,4 @@ def start_reading_news(filename):
         # break
 
 
-start_reading_news("data_bixiang_readnews.json")
+start_reading_news("tmp_data_bixiang_readnews.json")

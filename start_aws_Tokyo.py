@@ -9,6 +9,7 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 from bixiang import my_bixiang
 from diwuqu import my_diwuqu
 from onechain import my_onechain
+from bixiang import bixiang_readnews
 from hashworld import my_hashworld
 
 # 第一步，创建一个logger
@@ -42,6 +43,7 @@ scheduler = BlockingScheduler()
 
 # Tokyo Sever
 scheduler.add_job(my_bixiang.loop_bixiang, "cron", hour="7,15,23",args=["data_bixiang_Tokyo.json"], max_instances=4)
+scheduler.add_job(bixiang_readnews.start_reading_news, "cron", hour="7,15,23",args=["data_bixiang_readnews.json"], max_instances=4)
 scheduler.add_job(my_diwuqu.loop_diwuqu, "cron", hour="2,10,18", max_instances=4)
 scheduler.add_job(my_onechain.loop_onechain, "cron", hour="5,13,21", minute="30", max_instances=4)
 

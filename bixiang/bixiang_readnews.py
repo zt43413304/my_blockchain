@@ -124,4 +124,4 @@ def start_reading_news(filename):
 
         now = datetime.datetime.now()
 
-start_reading_news("data_bixiang_readnews.json")
+# start_reading_news("data_bixiang_readnews.json")

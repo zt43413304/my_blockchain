@@ -5,8 +5,9 @@ import os
 import time
 
 from apscheduler.schedulers.blocking import BlockingScheduler
-
 from hashworld import my_hashworld
+from bixiang import bixiang_readnews
+
 
 # 第一步，创建一个logger
 from star163 import my_star163
@@ -41,6 +42,7 @@ scheduler = BlockingScheduler()
 
 # Lenovo Sever
 scheduler.add_job(my_star163.loop_star163, "cron", hour="6-23/3", max_instances=2)
+scheduler.add_job(bixiang_readnews.start_reading_news, "cron", hour="7,15,23", minute="5",args=["data_bixiang_readnews_Lenovo.json"], max_instances=4)
 # scheduler.add_job(my_hashworld.loop_hashworld_no_land, "cron", hour="2,10,18", minute="30", args=["data_hashworld_Tokyo.json"], max_instances=2)
 
 try:

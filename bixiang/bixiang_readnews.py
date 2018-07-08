@@ -91,6 +91,7 @@ def start_reading_news(filename):
 
         thread_readnews = bixiang_readnews_class.readnews(unique, uid, phone)
         thread_readnews.setName(phone)
+        thread_readnews.setDaemon(True)
         thread_readnews.start()
         time.sleep(random.randint(30, 60))
         logger.warning('********** Start thread [' + str(number) + ']: ' + phone)
@@ -104,23 +105,24 @@ def start_reading_news(filename):
     # 用来检测是否有线程down并重启down线程
     check = threading.Thread(target=checkThread, args=(filename, 600, initThreadsName))
     check.setName('Thread:check')
+    check.setDaemon(True)
     check.start()
     logger.warning('********** Start thread [' + check.getName() + ']')
 
     # 定时退出
     now = datetime.datetime.now()
     while True:
-        if now.hour== 6 and now.minute==55 and now.second == 0:
+        if now.hour== 6 and now.minute==55 and (now.second == 0 or now.second == 1):
             logger.warning('********** sys.exit(0)')
-            sys.exit(0)
+            return
 
-        if now.hour== 14 and now.minute==55 and now.second == 0:
+        if now.hour== 14 and now.minute==55 and (now.second == 0 or now.second == 1):
             logger.warning('********** sys.exit(0)')
-            sys.exit(0)
+            return
 
-        if now.hour== 22 and now.minute==55 and now.second == 0:
+        if now.hour== 22 and now.minute==55 and (now.second == 0 or now.second == 1):
             logger.warning('********** sys.exit(0)')
-            sys.exit(0)
+            return
 
         now = datetime.datetime.now()
 

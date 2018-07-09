@@ -88,8 +88,8 @@ class readnews(threading.Thread):
         self.logger.addHandler(fh)
         self.logger.addHandler(ch)
 
-        self.proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
-        # self.proxies = ''
+        # self.proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
+        self.proxies = ''
 
         self.logger.warning("========== __init()__, Checking. [" + phone + "] ==========")
 

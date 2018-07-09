@@ -112,16 +112,19 @@ def start_reading_news(filename):
     # 定时退出
     now = datetime.datetime.now()
     while True:
-        if now.hour== 6 and now.minute==55 and (now.second == 0 or now.second == 1):
-            logger.warning('********** sys.exit(0)')
-            return
-
-        if now.hour== 14 and now.minute==55 and (now.second == 0 or now.second == 1):
-            logger.warning('********** sys.exit(0)')
-            return
-
-        if now.hour== 22 and now.minute==55 and (now.second == 0 or now.second == 1):
-            logger.warning('********** sys.exit(0)')
+        # if now.hour== 6 and now.minute==55 and (now.second == 0 or now.second == 1):
+        #     logger.warning('********** sys.exit(0)')
+        #     return
+        #
+        # if now.hour== 14 and now.minute==55 and (now.second == 0 or now.second == 1):
+        #     logger.warning('********** sys.exit(0)')
+        #     return
+        #
+        # if now.hour== 22 and now.minute==55 and (now.second == 0 or now.second == 1):
+        #     logger.warning('********** sys.exit(0)')
+        #     return
+        if now.minute == 8:
+            logger.warning('********** return')
             return
 
         now = datetime.datetime.now()

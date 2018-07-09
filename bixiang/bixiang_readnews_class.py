@@ -131,6 +131,7 @@ class readnews(threading.Thread):
             sys.exit(0)
 
         while not self.stopevt.isSet():
+            self.logger.warning("^^^^^^^^^^^^^^self.stopevt.isSet():"+str(self.stopevt.isSet()))
             # channels = ["news_hot", "news_entertainment", "news_tech", "news_travel", "news_sports", "news_fashion",
             #             "news_finance", "news_edu", "news_house", "news_photography", "news_comic", "news_story",
             #             "news_health", "news_food", "news_car", "news_game", "news_culture", "news_discovery"]
@@ -148,7 +149,7 @@ class readnews(threading.Thread):
                     return_code = self.post_newsRecord(news_id)
                     if return_code == -1:
                         continue
-
+        self.logger.warning("]]]]]]]]]]]]]] self.stopevt.isSet():"+str(self.stopevt.isSet()))
         self.logger.warning('********** exit thread. ' + self.phone)
 
     def bixiang_loop_reading_news(self):
@@ -251,7 +252,7 @@ class readnews(threading.Thread):
         try:
 
             # self.logger.warning(">>>>>>>>>> [" + self.phone + "]. post_newsRecord. news_id=" + news_id)
-            self.logger.warning("********** [" + self.phone + "], post_newsRecord(), proxies = " + str(self.proxies))
+            # self.logger.warning("********** [" + self.phone + "], post_newsRecord(), proxies = " + str(self.proxies))
             response = requests.request("POST", url, data=payload_newsRecord, headers=headers,
                                         timeout=60, proxies=self.proxies, allow_redirects=False)
 

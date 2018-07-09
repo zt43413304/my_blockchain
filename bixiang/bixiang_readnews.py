@@ -57,18 +57,18 @@ def start_reading_news(filename):
         logger.warning('********** Start thread [' + str(number) + ']: ' + t.getName())
         # break
 
-    init = threading.enumerate()  # 获取初始化的线程对象
-    for i in init:
-        initThreadsName.append(i.getName())  # 保存初始化线程组名字
-        logger.warning('********** Store thread [' + str(i.getName()) + '] ')
+    # init = threading.enumerate()  # 获取初始化的线程对象
+    # for i in init:
+    #     initThreadsName.append(i.getName())  # 保存初始化线程组名字
+    #     logger.warning('********** Store thread [' + str(i.getName()) + '] ')
 
     # 用来检测是否有线程down并重启down线程
-    check_tread = bixiang_readnews_class.checkThread(filename, 60, initThreadsName, stopevt)
-    check_tread.setName('Thread:check')
-    check_tread.setDaemon(True)
-    check_tread.start()
-    check_tread.join(3)
-    logger.warning('********** Start thread [' + check_tread.getName() + ']')
+    # check_tread = bixiang_readnews_class.checkThread(filename, 60, initThreadsName, stopevt)
+    # check_tread.setName('Thread:check')
+    # check_tread.setDaemon(True)
+    # check_tread.start()
+    # check_tread.join(3)
+    # logger.warning('********** Start thread [' + check_tread.getName() + ']')
 
     while True:
         # 定时退出
@@ -78,9 +78,10 @@ def start_reading_news(filename):
             # 退出线程组
             stopevt = threading.Event()
             stopevt.set()
+            logger.warning('~~~~~~~~~~ hour='+str(now.hour)+', minute='+str(now.minute))
             return
 
-        # logger.warning('~~~~~~~~~~ hour='+str(now.hour)+', minute='+str(now.minute))
+
 
         # if now.hour== 6 and now.minute==55 and (now.second == 0 or now.second == 1):
         #     logger.warning('********** sys.exit(0)')

@@ -137,14 +137,14 @@ class readnews(threading.Thread):
             #             "news_health", "news_food", "news_car", "news_game", "news_culture", "news_discovery"]
             channels = ["news_hot"]
             for i in range(len(channels)):
-                self.logger.warning("********** [" + self.phone + "]. channel = " + channels[i])
+                # self.logger.warning("********** [" + self.phone + "]. channel = " + channels[i])
 
                 JRTT_list = self.get_JRTT_list(channels[i])
                 if JRTT_list == -1:
                     continue
 
                 # for j in range(len(JRTT_list)):
-                for j in range(2):
+                for j in range(1):
                     news_id = JRTT_list[j]["id"]
                     time.sleep(random.randint(70, 90))
                     return_code = self.post_newsRecord(news_id)
@@ -152,6 +152,7 @@ class readnews(threading.Thread):
                         continue
         self.logger.warning("]]]]]]]]]]]]]] self.stopevt.isSet():"+str(self.stopevt.isSet()))
         self.logger.warning('********** exit thread. ' + self.phone)
+        return
 
     def bixiang_loop_reading_news(self):
 

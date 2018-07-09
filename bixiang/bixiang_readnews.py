@@ -1,5 +1,7 @@
 # coding=utf-8
+import ctypes
 import datetime
+import inspect
 import json
 import logging
 import os
@@ -69,6 +71,23 @@ def checkThread(filename, sleeptimes=600, initThreadsName=[]):
         # 隔一段时间重新运行，检测有没有线程down
         time.sleep(sleeptimes)
 
+def _async_raise(tid, exctype):
+    """raises the exception, performs cleanup if needed"""
+    tid = ctypes.c_long(tid)
+    if not inspect.isclass(exctype):
+        exctype = type(exctype)
+    res = ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, ctypes.py_object(exctype))
+    if res == 0:
+        raise ValueError("invalid thread id")
+    elif res != 1:
+        # """if it returns a number greater than one, you're in trouble,
+        # and you should call it again with exc=NULL to revert the effect"""
+        ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, None)
+        raise SystemError("PyThreadState_SetAsyncExc failed")
+
+def stop_thread(thread):
+    _async_raise(thread.ident, SystemExit)
+
 
 def start_reading_news(filename):
     # 保存初始化线程组名字
@@ -81,10 +100,8 @@ def start_reading_news(filename):
     file = open(curpath + '/bixiang/' + filename, 'r', encoding='utf-8')
     data_dict = json.load(file)
 
-    number = 0
+    thread_readnews_list = []
     for item in data_dict['data']:
-        number += 1
-
         unique = item.get('unique', 'NA')
         uid = item.get('uid', 'NA')
         phone = item.get('phone', 'NA')
@@ -92,10 +109,14 @@ def start_reading_news(filename):
         thread_readnews = bixiang_readnews_class.readnews(unique, uid, phone)
         thread_readnews.setName(phone)
         thread_readnews.setDaemon(True)
-        thread_readnews.start()
-        thread_readnews.join(3)
+        thread_readnews_list.append(thread_readnews)
+
+    number = 0
+    for t in thread_readnews_list:
+        number += 1
+        t.start()
         time.sleep(random.randint(30, 60))
-        logger.warning('********** Start thread [' + str(number) + ']: ' + phone)
+        logger.warning('********** Start thread [' + str(number) + ']: ' + t.getName())
         # break
 
     init = threading.enumerate()  # 获取初始化的线程对象
@@ -104,7 +125,7 @@ def start_reading_news(filename):
         logger.warning('********** Store thread [' + str(i.getName()) + '] ')
 
     # 用来检测是否有线程down并重启down线程
-    check = threading.Thread(target=checkThread, args=(filename, 600, initThreadsName))
+    check = threading.Thread(target=checkThread, args=(filename, 60, initThreadsName))
     check.setName('Thread:check')
     check.setDaemon(True)
     check.start()
@@ -128,7 +149,15 @@ def start_reading_news(filename):
         #     logger.warning('********** sys.exit(0)')
         #     return
         if now.minute in exit_time:
-            logger.warning('********** return')
-            return
+            logger.warning('********** stop thread')
+            # 退出线程组
+            threads = threading.enumerate()  # 获取线程对象
+            for i in threads:
+                stop_thread(i)
+
+            # 退出检查线程
+            stop_thread(check)
+
+
 
 # start_reading_news("data_bixiang_readnews.json")

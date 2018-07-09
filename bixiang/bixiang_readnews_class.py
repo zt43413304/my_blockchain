@@ -152,7 +152,7 @@ class readnews(threading.Thread):
                         continue
         self.logger.warning("]]]]]]]]]]]]]] self.stopevt.isSet():"+str(self.stopevt.isSet()))
         self.logger.warning('********** exit thread. ' + self.phone)
-        return
+        sys.exit(0)
 
     def bixiang_loop_reading_news(self):
 

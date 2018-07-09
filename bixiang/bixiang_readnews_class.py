@@ -124,10 +124,14 @@ class readnews(threading.Thread):
 
     def run(self):
 
-        if self.bixiang_login() == -1:
-            sys.exit(0)
+        while True:
+            self.logger.warning("---------- this is " + self.phone)
+            time.sleep(1)
 
-        self.bixiang_loop_reading_news()
+        # if self.bixiang_login() == -1:
+        #     sys.exit(0)
+        #
+        # self.bixiang_loop_reading_news()
 
     def bixiang_loop_reading_news(self):
 

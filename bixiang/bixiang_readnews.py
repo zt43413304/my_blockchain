@@ -54,7 +54,7 @@ def start_reading_news(filename):
     for t in thread_readnews_list:
         number += 1
         t.start()
-        time.sleep(random.randint(30, 60))
+        time.sleep(random.randint(5, 10))
         logger.warning('********** Start thread [' + str(number) + ']: ' + t.getName())
         # break
 
@@ -74,12 +74,12 @@ def start_reading_news(filename):
     while True:
         # 定时退出
         now = datetime.datetime.now()
-        exit_time = [8, 18, 28, 38, 48, 58]
+        exit_time = [6, 16, 26, 36, 46, 56]
         if now.minute in exit_time:
             # 退出线程组
             # stopevt = threading.Event()
             stopevt.set()
-            logger.warning('~~~~~~~~~~ hour='+str(now.hour)+', minute='+str(now.minute))
+            # logger.warning('~~~~~~~~~~ hour='+str(now.hour)+', minute='+str(now.minute))
             # sys.exit(0)
 
 

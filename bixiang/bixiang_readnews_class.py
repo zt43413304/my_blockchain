@@ -74,12 +74,14 @@ class readnews(threading.Thread):
         self.phone = phone
         self.stopevt = stopevt
 
+        rq = time.strftime('%Y%m%d-%H%M%S', time.localtime(time.time()))
+
         # 第一步，创建一个logger,并设置级别
         # self.logger = logging.getLogger("bixiang_readnews_class.py")
-        self.logger = logging.getLogger("Thread_" + self.phone)
+        self.logger = logging.getLogger("readnews_%s" % rq)
         self.logger.setLevel(logging.INFO)  # Log等级总开关
         # 第二步，创建一个handler，用于写入日志文件
-        fh = logging.FileHandler('./logs/bixiang_readnews_' + self.phone + '.log', mode='w')
+        fh = logging.FileHandler('./logs/bixiang_readnews_%s.log' % rq, mode='w')
         fh.setLevel(logging.WARNING)  # 输出到file的log等级的开关
         ch = logging.StreamHandler()
         ch.setLevel(logging.INFO)  # 输出到console的log等级的开关
@@ -125,34 +127,46 @@ class readnews(threading.Thread):
             self.proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
             return -1
 
+    def get_news_list(self):
+        pass
+
     def run(self):
 
         if self.bixiang_login() == -1:
             sys.exit(0)
 
+        news_id_list = self.get_news_id_list()
+
+        count = 0
         while not self.stopevt.isSet():
             self.logger.warning("^^^^^^^^^^^^^^self.stopevt.isSet():"+str(self.stopevt.isSet()))
-            # channels = ["news_hot", "news_entertainment", "news_tech", "news_travel", "news_sports", "news_fashion",
-            #             "news_finance", "news_edu", "news_house", "news_photography", "news_comic", "news_story",
-            #             "news_health", "news_food", "news_car", "news_game", "news_culture", "news_discovery"]
-            channels = ["news_hot"]
-            for i in range(len(channels)):
-                # self.logger.warning("********** [" + self.phone + "]. channel = " + channels[i])
+            return_code = self.post_newsRecord(news_id_list[count])
+            if return_code == -1:
+                continue
+            time.sleep(random.randint(70, 90))
 
-                JRTT_list = self.get_JRTT_list(channels[i])
-                if JRTT_list == -1:
-                    continue
+            count += 1
+            if count == len(news_id_list):
+                news_id_list = self.get_news_id_list()
 
-                # for j in range(len(JRTT_list)):
-                for j in range(1):
-                    news_id = JRTT_list[j]["id"]
-                    time.sleep(random.randint(70, 90))
-                    return_code = self.post_newsRecord(news_id)
-                    if return_code == -1:
-                        continue
-        self.logger.warning("]]]]]]]]]]]]]] self.stopevt.isSet():"+str(self.stopevt.isSet()))
-        self.logger.warning('********** exit thread. ' + self.phone)
-        sys.exit(0)
+        # self.logger.warning("]]]]]]]]]]]]]] self.stopevt.isSet():"+str(self.stopevt.isSet()))
+        # self.logger.warning('********** exit thread. ' + self.phone)
+        # sys.exit(0)
+
+    def get_news_id_list(self):
+        news_id_list = []
+        channels = ["news_hot", "news_entertainment", "news_tech", "news_travel", "news_sports", "news_fashion",
+                    "news_finance", "news_edu", "news_house", "news_photography", "news_comic", "news_story",
+                    "news_health", "news_food", "news_car", "news_game", "news_culture", "news_discovery"]
+        for i in range(len(channels)):
+            list = self.get_JRTT_list(channels[i])
+            if list == -1:
+                continue
+            else:
+                for j in range(len(list)):
+                    news_id = list[j]["id"]
+                    news_id_list.append(news_id)
+        return news_id_list
 
     def bixiang_loop_reading_news(self):
 

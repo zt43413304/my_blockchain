@@ -143,7 +143,8 @@ class readnews(threading.Thread):
                 if JRTT_list == -1:
                     continue
 
-                for j in range(len(JRTT_list)):
+                # for j in range(len(JRTT_list)):
+                for j in 2:
                     news_id = JRTT_list[j]["id"]
                     time.sleep(random.randint(70, 90))
                     return_code = self.post_newsRecord(news_id)

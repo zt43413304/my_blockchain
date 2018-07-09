@@ -76,7 +76,7 @@ def start_reading_news(filename):
         exit_time = [8, 18, 28, 38, 48, 58]
         if now.minute in exit_time:
             # 退出线程组
-            stopevt = threading.Event()
+            # stopevt = threading.Event()
             stopevt.set()
             logger.warning('~~~~~~~~~~ hour='+str(now.hour)+', minute='+str(now.minute))
             return

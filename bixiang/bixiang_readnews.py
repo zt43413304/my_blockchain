@@ -80,7 +80,7 @@ def start_reading_news(filename):
             # stopevt = threading.Event()
             stopevt.set()
             logger.warning('~~~~~~~~~~ hour='+str(now.hour)+', minute='+str(now.minute))
-            sys.exit(0)
+            # sys.exit(0)
 
 
 

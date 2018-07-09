@@ -68,7 +68,6 @@ class readnews(threading.Thread):
 
     def __init__(self, unique, uid, phone, stopevt=None):
         threading.Thread.__init__(self)
-        # global proxies
         self.unique = unique
         self.uid = uid
         self.phone = phone
@@ -93,8 +92,8 @@ class readnews(threading.Thread):
         self.logger.addHandler(fh)
         self.logger.addHandler(ch)
 
-        # self.proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
-        self.proxies = ''
+        self.proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
+        # self.proxies = ''
 
         self.logger.warning("========== __init()__, Checking. [" + phone + "] ==========")
 
@@ -127,9 +126,6 @@ class readnews(threading.Thread):
             self.proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
             return -1
 
-    def get_news_list(self):
-        pass
-
     def run(self):
 
         if self.bixiang_login() == -1:
@@ -139,7 +135,6 @@ class readnews(threading.Thread):
 
         count = 0
         while not self.stopevt.isSet():
-            self.logger.warning("^^^^^^^^^^^^^^self.stopevt.isSet():"+str(self.stopevt.isSet()))
             return_code = self.post_newsRecord(news_id_list[count])
             if return_code == -1:
                 continue
@@ -149,9 +144,8 @@ class readnews(threading.Thread):
             if count == len(news_id_list):
                 news_id_list = self.get_news_id_list()
 
-        # self.logger.warning("]]]]]]]]]]]]]] self.stopevt.isSet():"+str(self.stopevt.isSet()))
-        # self.logger.warning('********** exit thread. ' + self.phone)
-        # sys.exit(0)
+        self.logger.warning("********** self.stopevt.isSet():" + str(self.stopevt.isSet()))
+        self.logger.warning('********** exit thread. ' + self.phone)
 
     def get_news_id_list(self):
         news_id_list = []
@@ -242,8 +236,8 @@ class readnews(threading.Thread):
                 res = response.json()["status"]
                 if res == 1:
                     JRTT_list = response.json()["data"]
-                    self.logger.warning("********** [" + self.phone + "]. get_JRTT_list success, len(JRTT_list) = "
-                                        + str(len(JRTT_list)))
+                    # self.logger.warning("********** [" + self.phone + "]. get_JRTT_list success, len(JRTT_list) = "
+                    #                     + str(len(JRTT_list)))
                     return JRTT_list
                 else:
                     self.logger.warning("********** [" + self.phone + "]. get_JRTT_list Error.")
@@ -268,7 +262,7 @@ class readnews(threading.Thread):
         try:
 
             # self.logger.warning(">>>>>>>>>> [" + self.phone + "]. post_newsRecord. news_id=" + news_id)
-            # self.logger.warning("********** [" + self.phone + "], post_newsRecord(), proxies = " + str(self.proxies))
+            self.logger.warning("********** [" + self.phone + "], post_newsRecord(), proxies = " + str(self.proxies))
             response = requests.request("POST", url, data=payload_newsRecord, headers=headers,
                                         timeout=60, proxies=self.proxies, allow_redirects=False)
 

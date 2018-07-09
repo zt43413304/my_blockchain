@@ -4,7 +4,6 @@ import json
 import logging
 import os
 import random
-import sys
 import threading
 import time
 
@@ -39,7 +38,7 @@ def start_reading_news(filename):
     file = open(curpath + '/bixiang/' + filename, 'r', encoding='utf-8')
     data_dict = json.load(file)
 
-    # thread_readnews_list = []
+    thread_readnews_list = []
     number = 0
     for item in data_dict['data']:
         number += 1
@@ -61,7 +60,7 @@ def start_reading_news(filename):
     #     t.start()
     #     time.sleep(random.randint(5, 10))
     #     logger.warning('********** Start thread [' + str(number) + ']: ' + t.getName())
-        # break
+    # break
 
     # init = threading.enumerate()  # 获取初始化的线程对象
     # for i in init:
@@ -79,28 +78,9 @@ def start_reading_news(filename):
     while True:
         # 定时退出
         now = datetime.datetime.now()
-        exit_time = [6, 16, 26, 36, 46, 56]
-        if now.minute in exit_time:
-            # 退出线程组
-            # stopevt = threading.Event()
+        exit_time = [6, 14, 22]
+        if now.hour in exit_time:
+            # 退出线程
             stopevt.set()
-            # logger.warning('~~~~~~~~~~ hour='+str(now.hour)+', minute='+str(now.minute))
-            # sys.exit(0)
-
-
-
-
-
-        # if now.hour== 6 and now.minute==55 and (now.second == 0 or now.second == 1):
-        #     logger.warning('********** sys.exit(0)')
-        #     return
-        #
-        # if now.hour== 14 and now.minute==55 and (now.second == 0 or now.second == 1):
-        #     logger.warning('********** sys.exit(0)')
-        #     return
-        #
-        # if now.hour== 22 and now.minute==55 and (now.second == 0 or now.second == 1):
-        #     logger.warning('********** sys.exit(0)')
-        #     return
 
 # start_reading_news("data_bixiang_readnews.json")

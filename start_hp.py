@@ -41,8 +41,8 @@ logger.warning('********** Start from start_hp.py ...')
 scheduler = BlockingScheduler()
 
 # HP Sever
-# scheduler.add_job(bixiang_readnews.start_reading_news, "cron", hour="7,15,23", minute="5",args=["data_bixiang_readnews_HP.json"], max_instances=4)
-scheduler.add_job(bixiang_readnews.start_reading_news, "cron", minute="0, 10, 20, 30, 40, 50",args=["data_bixiang_readnews_HP.json"], max_instances=4)
+scheduler.add_job(bixiang_readnews.start_reading_news, "cron", hour="7,15,23", minute="5",args=["data_bixiang_readnews_HP.json"], max_instances=4)
+# scheduler.add_job(bixiang_readnews.start_reading_news, "cron", minute="0, 10, 20, 30, 40, 50",args=["data_bixiang_readnews_HP.json"], max_instances=4)
 
 # scheduler.add_job(my_hashworld.loop_hashworld_no_land, "cron", hour="5,13,21", minute="30", args=["data_hashworld_Seoul.json"], max_instances=2)
 

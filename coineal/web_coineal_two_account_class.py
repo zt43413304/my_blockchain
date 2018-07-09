@@ -15,10 +15,10 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
 # 第一步，创建一个logger,并设置级别
-logger = logging.getLogger("web_coineal_class.py")
+logger = logging.getLogger("web_coineal_two_account_class.py")
 logger.setLevel(logging.INFO)  # Log等级总开关
 # 第二步，创建一个handler，用于写入日志文件
-fh = logging.FileHandler('./logs/web_coineal_class.log', mode='w')
+fh = logging.FileHandler('./logs/web_coineal_two_account_class.log', mode='w')
 fh.setLevel(logging.WARNING)  # 输出到file的log等级的开关
 ch = logging.StreamHandler()
 ch.setLevel(logging.INFO)  # 输出到console的log等级的开关
@@ -36,41 +36,36 @@ PATH = lambda p: os.path.abspath(
 
 
 class trader_class:
-    def __init__(self, pair):
-        logger.warning("start __init__..." + pair)
-        (ETH_Price, Deal_Quota, phone, password, cancel_order_flag, cancel_order_timeout) = self.load_quota(pair)
-        self.login(phone, password)
+    config_data = None
+    price_data = None
 
-    def load_quota(self, pair):
+    def __init__(self, account):
+        logger.warning("start __init__...")
+        self.load_config_data(account)
+        self.login(self.config_data['phone'], self.config_data['password'])
+
+    def load_config_data(self, account):
         # get config information
         curpath = os.getcwd()
-        content = open(curpath + '/coineal/web_config.ini').read()
+        content = open(curpath + '/coineal/web_config_two_account.ini').read()
         content = re.sub(r"\xfe\xff", "", content)
         content = re.sub(r"\xff\xfe", "", content)
         content = re.sub(r"\xef\xbb\xbf", "", content)
-        open(curpath + '/coineal/web_config.ini', 'w').write(content)
+        open(curpath + '/coineal/web_config_two_account.ini', 'w').write(content)
 
-        if pair == "ethusdt":
-            cf = configparser.ConfigParser()
-            cf.read(curpath + '/coineal/web_config.ini')
-            ETH_Price = cf.get('ethusdt', 'ETH_Price').strip()
-            Deal_Quota = cf.get('ethusdt', 'Deal_Quota').strip()
-            phone = cf.get('ethusdt', 'phone').strip()
-            password = cf.get('ethusdt', 'password').strip()
-            cancel_order_flag = cf.get('ethusdt', 'cancel_order_flag').strip()
-            cancel_order_timeout = cf.get('ethusdt', 'cancel_order_timeout').strip()
-            return ETH_Price, Deal_Quota, phone, password, cancel_order_flag, cancel_order_timeout
+        cf = configparser.ConfigParser()
+        cf.read(curpath + '/coineal/web_config_two_account.ini')
+        ETH_Price = cf.get(account, 'ETH_Price').strip()
+        Deal_Quota = cf.get(account, 'Deal_Quota').strip()
+        phone = cf.get(account, 'phone').strip()
+        password = cf.get(account, 'password').strip()
+        cancel_order_flag = cf.get(account, 'cancel_order_flag').strip()
+        cancel_order_timeout = cf.get(account, 'cancel_order_timeout').strip()
+        delta = cf.get(account, 'delta').strip()
 
-        if pair == "nealeth":
-            cf = configparser.ConfigParser()
-            cf.read(curpath + '/coineal/web_config.ini')
-            ETH_Price = cf.get('nealeth', 'ETH_Price').strip()
-            Deal_Quota = cf.get('nealeth', 'Deal_Quota').strip()
-            phone = cf.get('nealeth', 'phone').strip()
-            password = cf.get('nealeth', 'password').strip()
-            cancel_order_flag = cf.get('nealeth', 'cancel_order_flag').strip()
-            cancel_order_timeout = cf.get('nealeth', 'cancel_order_timeout').strip()
-            return ETH_Price, Deal_Quota, phone, password, cancel_order_flag, cancel_order_timeout
+        self.config_data = {'ETH_Price': ETH_Price, 'Deal_Quota': Deal_Quota, 'phone': phone, 'password': password,
+                            'cancel_order_flag': cancel_order_flag, 'cancel_order_timeout': cancel_order_timeout,
+                            'delta': delta}
 
     def isElementExist_by_xpath(self, xpath):
         try:
@@ -98,15 +93,22 @@ class trader_class:
             # self.driver = webdriver.Chrome(chrome_options=chrome_options)
             # self.driver.manage().window().Fullscreen()
 
-
             # self.driver = webdriver.Chrome()
 
             # self.driver = webdriver.Firefox()
 
-            options = webdriver.FirefoxOptions()
-            options.add_argument('-headless')
-            self.driver = webdriver.Firefox(firefox_options=options)
 
+            profile = webdriver.FirefoxProfile()
+            profile.set_preference("browser.startup.homepage", "about:blank")
+            profile.set_preference("startup.homepage_welcome_url", "about:blank")
+            profile.set_preference("startup.homepage_welcome_url.additional", "about:blank")
+
+            # options = webdriver.FirefoxOptions()
+            # options.add_argument('-headless')
+            # options.add_argument(profile)
+            # options.add_argument("extensions.logging.enabled", False)
+            # self.driver = webdriver.Firefox(firefox_options=options)
+            self.driver = webdriver.Firefox(profile)
 
             self.driver.set_window_size(1600, 2560)
             self.driver.set_window_position(y=0, x=0)
@@ -175,7 +177,7 @@ class trader_class:
             print(e)
             return -1
 
-    def load_coin(self, pair):
+    def load_coin(self):
 
         wait = WebDriverWait(self.driver, 60)
 
@@ -184,31 +186,30 @@ class trader_class:
             logger.warning("********** Loading coin ......")
 
             # 点击“交易中心”
-            xpath_trade = '//*[@id="headerTab"]/li[2]/a'
-            trade_center = wait.until(EC.presence_of_element_located((By.XPATH, xpath_trade)))
-            trade_center.click()
-            time.sleep(10)
+            # xpath_trade = '//*[@id="headerTab"]/li[2]/a'
+            # trade_center = wait.until(EC.presence_of_element_located((By.XPATH, xpath_trade)))
+            # trade_center.click()
+            # time.sleep(5)
+            # trade_center.click()
+            # time.sleep(5)
+            self.driver.find_element(By.LINK_TEXT, "交易中心").click()
             self.waitForPageLoad()
 
-            # 点击"USDT",“ETH”
-            if pair == "ethusdt":
-                id_eth = 'market-usdt'
-            else:
-                id_eth = 'market-eth'
+            # 点击“ETH”
+            id_eth = 'market-eth'
             myMarket = wait.until(EC.presence_of_element_located((By.ID, id_eth)))
+            myMarket.click()
+            time.sleep(5)
             myMarket.click()
             time.sleep(5)
             self.waitForPageLoad()
 
-            # "ETH/USDT","NEAL/ETH"
-            if pair == "ethusdt":
-                id_mteth = 'symbots-ethusdt'
-            else:
-                id_mteth = 'symbots-nealeth'
+            # "NEAL/ETH"
+            id_mteth = 'symbots-nealeth'
             mteth = wait.until(EC.presence_of_element_located((By.ID, id_mteth)))
             mteth.click()
             time.sleep(5)
-            self.driver.refresh()
+            mteth.click()
             time.sleep(15)
             self.waitForPageLoad()
 
@@ -217,11 +218,12 @@ class trader_class:
             self.waitForPageLoad()
             print(e)
 
-    def get_price(self, pair):
+    def get_price(self):
+        # 0 无挂单， -1有挂单
+        flag = 0
 
         wait = WebDriverWait(self.driver, 60)
-        # time.sleep(8)
-        (countCoinBalance, baseCoinBalance) = self.get_balance(pair)
+        (countCoinBalance, baseCoinBalance) = self.get_balance()
 
         try:
 
@@ -229,16 +231,18 @@ class trader_class:
             logger.warning("========== Refreshing price ......")
 
             # 撤单
-            (ETH_Price, Deal_Quota, phone, password, cancel_order_flag, cancel_order_timeout) = self.load_quota(pair)
+            # (ETH_Price, Deal_Quota, phone, password, cancel_order_flag, cancel_order_timeout)
             xpath_order = '//*[@id="my_entrty_bottom"]/div[2]/div[1]'
             if self.isElementExist_by_xpath(xpath_order):
+                # 有挂单
+                flag = -1
 
                 buy_or_sell = self.driver.find_element(By.XPATH, '//*[@id="my_entrty_bottom"]/div[2]/div[2]').text
                 deal_price = self.driver.find_element(By.XPATH, '//*[@id="my_entrty_bottom"]/div[2]/div[3]').text
                 amount = self.driver.find_element(By.XPATH, '//*[@id="my_entrty_bottom"]/div[2]/div[4]').text
                 has_dealed = self.driver.find_element(By.XPATH, '//*[@id="my_entrty_bottom"]/div[2]/div[5]').text
-                logger.warning("========== 挂  单: [" + str(buy_or_sell) + "] [价:" + str(deal_price)+"] [数量:"
-                               + str(amount)+"] [已成:" + str(has_dealed)+"]")
+                logger.warning("========== 挂  单: [" + str(buy_or_sell) + "] [价:" + str(deal_price) + "] [数量:"
+                               + str(amount) + "] [已成:" + str(has_dealed) + "]")
 
                 order_time = self.driver.find_element(By.XPATH, xpath_order).text
                 order_date = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()).split(' ')[0]
@@ -248,9 +252,11 @@ class trader_class:
                 st = datetime.datetime.strptime(order_datetime, "%Y-%m-%d %H:%M:%S")
                 dt = datetime.datetime.now()
 
-                if str(cancel_order_flag) == 'True':
-                    if (int((dt - st).seconds) > int(cancel_order_timeout)):
+                if str(self.config_data['cancel_order_flag']) == 'True':
+                    if (int((dt - st).seconds) > int(self.config_data['cancel_order_timeout'])):
                         self.driver.find_element(By.LINK_TEXT, "撤单").click()
+                        # 撤销挂单
+                        flag = 0
                         logger.warning("========== order_datetime = " + str(order_datetime) + ", 已撤单。")
 
             # 买余额
@@ -283,38 +289,81 @@ class trader_class:
             # buy_balance = buy_balance.split(' ')[0].strip()
             # sell_balance = sell_balance.split(' ')[0].strip()
 
-            return avg_price_value, sell_balance, buy_balance, sell01, buy01
+            self.price_data = {'avg_price_value': avg_price_value, 'sell_balance': sell_balance,
+                               'buy_balance': buy_balance,
+                               'sell01': sell01, 'buy01': buy01}
+
+            return flag
 
         except Exception as e:
             print(e)
             self.driver.refresh()
             self.waitForPageLoad()
-            return -1, -1, -1, -1, -1
+            return -1
 
-    def buy(self, buy_balance, pair):
+    def account_balance(self, sign):
+        # sign = buy or sell
+
+        wait = WebDriverWait(self.driver, 60)
+
+        if sign == 'buy':
+
+            if self.price_data['buy_balance'] > self.config_data['Deal_Quota']:
+                pass
+            else:
+                # ETH不够，需要卖出NEAL
+                self.driver.find_element(By.LINK_TEXT, "市价交易").click()
+
+                # 输入数量
+                input_amount = wait.until(
+                    EC.presence_of_element_located((By.XPATH, '//*[@id="getBaseCoin"]')))
+                input_amount.clear()
+                # input_amount.send_keys(str(amount))
+
+                # 交易按钮
+                trade_button = wait.until(
+                    EC.presence_of_element_located(
+                        (By.XPATH, '//*[@id="maket_deal"]/div[2]/button')))
+                # trade_button.click()
+        else:
+            if self.price_data['sell_balance'] > self.config_data['Deal_Quota'] / self.price_data['avg_price_value']:
+                pass
+            else:
+                # NEAL不够卖，需要买入NEAL
+                self.driver.find_element(By.LINK_TEXT, "市价交易").click()
+
+                # 输入数量
+                input_amount = wait.until(
+                    EC.presence_of_element_located((By.XPATH, '//*[@id="getCountCoin"]')))
+                input_amount.clear()
+                # input_amount.send_keys(str(amount))
+
+                # 交易按钮
+                trade_button = wait.until(
+                    EC.presence_of_element_located(
+                        (By.XPATH, '//*[@id="maket_deal"]/div[1]/button/span')))
+                # trade_button.click()
+
+    def buy(self, price, amount):
 
         wait = WebDriverWait(self.driver, 60)
 
         try:
+
+            self.driver.find_element(By.LINK_TEXT, "限价交易").click()
+
             # 卖一
-            xpath_sell01 = '//*[@id="depTrade"]/div[2]/div[1]/div/div[150]/div[2]/s[1]'
-            sell01 = wait.until(EC.presence_of_element_located((By.XPATH, xpath_sell01))).text
+            # xpath_sell01 = '//*[@id="depTrade"]/div[2]/div[1]/div/div[150]/div[2]/s[1]'
+            # sell01 = wait.until(EC.presence_of_element_located((By.XPATH, xpath_sell01))).text
 
             # 买一
-            xpath_buy01 = '//*[@id="depTrade"]/div[2]/div[3]/div/div[1]/div[2]/s[1]'
-            buy01 = wait.until(EC.presence_of_element_located((By.XPATH, xpath_buy01))).text
+            # xpath_buy01 = '//*[@id="depTrade"]/div[2]/div[3]/div/div[1]/div[2]/s[1]'
+            # buy01 = wait.until(EC.presence_of_element_located((By.XPATH, xpath_buy01))).text
 
-            if pair == "ethusdt":
-                if (float(sell01) - float(buy01) >= 0.02):
-                    price = str('{:.2f}'.format(float(buy01) + 0.01))
-                else:
-                    price = str('{:.2f}'.format(float(buy01)))
-            else:
-                if (float(sell01) - float(buy01) >= 0.00000002):
-                    price = str('{:.8f}'.format(float(buy01) + 0.00000002))
-                else:
-                    price = str('{:.8f}'.format(float(buy01)))
-
+            # if (float(sell01) - float(buy01) >= 0.00000002):
+            #     price = str('{:.8f}'.format(float(buy01) + 0.00000002))
+            # else:
+            #     price = str('{:.8f}'.format(float(buy01)))
 
             # 输入价格
             input_price = wait.until(
@@ -328,12 +377,7 @@ class trader_class:
             # buy_balance = buy_balance.split(' ')[0].strip()
             # amount = round(float(buy_balance)/float(buy01), 4)
 
-            if pair == "ethusdt":
-                amount = str('{:.4f}'.format(float(buy_balance) / float(price) - 0.01))
-            else:
-                amount = str(int(float(buy_balance) / float(price)))
-
-
+            # amount = str(int(float(buy_balance) / float(price)))
 
             # 输入数量
             input_amount = wait.until(
@@ -345,8 +389,8 @@ class trader_class:
             trade_button = wait.until(
                 EC.presence_of_element_located(
                     (By.XPATH, '//*[@id="price_bottom"]/div[1]/button')))
-            trade_button.click()
-            self.driver.implicitly_wait(5)
+            # trade_button.click()
+            # self.driver.implicitly_wait(5)
 
             logger.warning("<<<<<<<<<< buy, price=" + str(price) + ", amount=" + str(amount))
 
@@ -355,31 +399,26 @@ class trader_class:
             print(e)
             return -1
 
-    def sell(self, sell_balance, pair):
+    def sell(self, price, amount):
 
         wait = WebDriverWait(self.driver, 60)
 
         try:
+
+            self.driver.find_element(By.LINK_TEXT, "限价交易").click()
+
             # 卖一
-            xpath_sell01 = '//*[@id="depTrade"]/div[2]/div[1]/div/div[150]/div[2]/s[1]'
-            sell01 = wait.until(EC.presence_of_element_located((By.XPATH, xpath_sell01))).text
+            # xpath_sell01 = '//*[@id="depTrade"]/div[2]/div[1]/div/div[150]/div[2]/s[1]'
+            # sell01 = wait.until(EC.presence_of_element_located((By.XPATH, xpath_sell01))).text
 
             # 买一
-            xpath_buy01 = '//*[@id="depTrade"]/div[2]/div[3]/div/div[1]/div[2]/s[1]'
-            buy01 = wait.until(EC.presence_of_element_located((By.XPATH, xpath_buy01))).text
+            # xpath_buy01 = '//*[@id="depTrade"]/div[2]/div[3]/div/div[1]/div[2]/s[1]'
+            # buy01 = wait.until(EC.presence_of_element_located((By.XPATH, xpath_buy01))).text
 
-
-
-            if pair == "ethusdt":
-                if (float(sell01) - float(buy01) >= 0.02):
-                    price = str('{:.2f}'.format(float(sell01) - 0.01))
-                else:
-                    price = str('{:.2f}'.format(float(sell01)))
-            else:
-                if (float(sell01) - float(buy01) >= 0.00000002):
-                    price = str('{:.8f}'.format(float(sell01) - 0.00000002))
-                else:
-                    price = str('{:.8f}'.format(float(sell01)))
+            # if (float(sell01) - float(buy01) >= 0.00000002):
+            #     price = str('{:.8f}'.format(float(sell01) - 0.00000002))
+            # else:
+            #     price = str('{:.8f}'.format(float(sell01)))
 
             # 输入价格
             input_price = wait.until(
@@ -393,14 +432,6 @@ class trader_class:
             # sell_balance = sell_balance.split(' ')[0].strip()
             # amount = round(float(sell_balance), 4)
 
-            if pair == "ethusdt":
-                amount = str('{:.4f}'.format(float(sell_balance) - 0.01))
-            else:
-                amount = str(int(float(sell_balance)))
-
-
-
-
             # 输入数量
             input_amount = wait.until(
                 EC.presence_of_element_located((By.XPATH, '//*[@id="getBaseCoin"]')))
@@ -411,8 +442,8 @@ class trader_class:
             trade_button = wait.until(
                 EC.presence_of_element_located(
                     (By.XPATH, '//*[@id="price_bottom"]/div[2]/button')))
-            trade_button.click()
-            self.driver.implicitly_wait(5)
+            # trade_button.click()
+            # self.driver.implicitly_wait(5)
 
             logger.warning(">>>>>>>>>> sell, price=" + str(price) + ", amount=" + str(amount))
 
@@ -421,13 +452,9 @@ class trader_class:
             print(e)
             return -1
 
-    def get_balance(self, pair):
+    def get_balance(self):
 
-        if pair == "ethusdt":
-            url = "https://www.coineal.com/web/account/symbol/balance?symbol=ethusdt"
-        else:
-            url = "https://www.coineal.com/web/account/symbol/balance?symbol=nealeth"
-
+        url = "https://www.coineal.com/web/account/symbol/balance?symbol=nealeth"
 
         try:
 

@@ -39,8 +39,10 @@ def start_reading_news(filename):
     file = open(curpath + '/bixiang/' + filename, 'r', encoding='utf-8')
     data_dict = json.load(file)
 
-    thread_readnews_list = []
+    # thread_readnews_list = []
+    number = 0
     for item in data_dict['data']:
+        number += 1
         unique = item.get('unique', 'NA')
         uid = item.get('uid', 'NA')
         phone = item.get('phone', 'NA')
@@ -48,14 +50,17 @@ def start_reading_news(filename):
         thread_readnews = bixiang_readnews_class.readnews(unique, uid, phone, stopevt)
         thread_readnews.setName(phone)
         thread_readnews.setDaemon(True)
-        thread_readnews_list.append(thread_readnews)
-
-    number = 0
-    for t in thread_readnews_list:
-        number += 1
-        t.start()
+        thread_readnews.start()
         time.sleep(random.randint(5, 10))
-        logger.warning('********** Start thread [' + str(number) + ']: ' + t.getName())
+        logger.warning('********** Start thread [' + str(number) + ']: ' + thread_readnews.getName())
+        # thread_readnews_list.append(thread_readnews)
+
+    # number = 0
+    # for t in thread_readnews_list:
+    #     number += 1
+    #     t.start()
+    #     time.sleep(random.randint(5, 10))
+    #     logger.warning('********** Start thread [' + str(number) + ']: ' + t.getName())
         # break
 
     # init = threading.enumerate()  # 获取初始化的线程对象

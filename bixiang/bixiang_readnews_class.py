@@ -227,7 +227,7 @@ class readnews(threading.Thread):
 
         try:
 
-            self.logger.warning("********** get_JRTT_list(), proxies = " + str(self.proxies))
+            # self.logger.warning("********** get_JRTT_list(), proxies = " + str(self.proxies))
 
             response = requests.request("POST", url, data=payload_JRTT, headers=headers, timeout=60,
                                         proxies=self.proxies, allow_redirects=False)

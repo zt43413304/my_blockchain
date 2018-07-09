@@ -1,6 +1,6 @@
 # coding=utf-8
 import configparser
-import datetime
+import json
 import logging
 import os
 import random
@@ -63,9 +63,10 @@ class readnews(threading.Thread):
     uid = None
     phone = None
     logger = None
+    stopevt = None
     proxies = ''
 
-    def __init__(self, unique, uid, phone, stopevt = None):
+    def __init__(self, unique, uid, phone, stopevt=None):
         threading.Thread.__init__(self)
         # global proxies
         self.unique = unique
@@ -349,3 +350,85 @@ class readnews(threading.Thread):
             print(e)
             self.proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
             return -1, -1
+
+
+class checkThread(threading.Thread):
+    unique = None
+    uid = None
+    phone = None
+    logger = None
+    stopevt = None
+    proxies = ''
+
+    def __init__(self, filename, sleeptimes=600, initThreadsName=[], stopevt=None):
+        threading.Thread.__init__(self)
+        # global proxies
+
+        self.filename = filename
+        self.sleeptimes = sleeptimes
+        self.initThreadsName = initThreadsName
+        self.stopevt = stopevt
+
+        # 第一步，创建一个logger,并设置级别
+        # self.logger = logging.getLogger("bixiang_readnews_class.py")
+        self.logger = logging.getLogger("Thread_Checking")
+        self.logger.setLevel(logging.INFO)  # Log等级总开关
+        # 第二步，创建一个handler，用于写入日志文件
+        fh = logging.FileHandler('./logs/bixiang_readnews_Thread_Checking.log', mode='w')
+        fh.setLevel(logging.WARNING)  # 输出到file的log等级的开关
+        ch = logging.StreamHandler()
+        ch.setLevel(logging.INFO)  # 输出到console的log等级的开关
+        # 第三步，定义handler的输出格式
+        formatter = logging.Formatter("%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(message)s")
+        fh.setFormatter(formatter)
+        ch.setFormatter(formatter)
+        # 第四步，将logger添加到handler里面
+        self.logger.addHandler(fh)
+        self.logger.addHandler(ch)
+
+        # self.proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
+        self.proxies = ''
+
+        # self.logger.warning("========== __init()__, Checking. [" + phone + "] ==========")
+
+    # 每180s获取当前线程名，并跟初始线程组比较，某一线程停止后自动运行
+    def run(self):
+        # 循环运行
+        while not self.stopevt.isSet():
+            # 用来保存当前线程名称
+            nowThreadsName = []
+            # 获取当前线程名
+            now = threading.enumerate()
+            for i in now:
+                # 保存当前线程名称
+                nowThreadsName.append(i.getName())
+
+            for thread_news in self.initThreadsName:
+                if thread_news in nowThreadsName:
+                    # 当前某线程名包含在初始化线程组中，可以认为线程仍在运行
+                    self.logger.warning('********** Thread is running, [' + thread_news + ']')
+                else:
+                    # 重启线程
+                    (unique, uid) = self.get_id_by_phone(self.filename, thread_news)
+                    thread_readnews = self.bixiang_readnews_class.readnews(unique, uid, thread_news, self.stopevt)
+                    # 重设name
+                    thread_readnews.setName(thread_news)
+                    thread_readnews.setDaemon(True)
+                    thread_readnews.start()
+                    self.logger.warning('********** Thread was stopped, restart [' + thread_news + ']')
+            # 隔一段时间重新运行，检测有没有线程down
+            time.sleep(self.sleeptimes)
+
+    def get_id_by_phone(self, filename, phone_no):
+        curpath = os.getcwd()
+        file = open(curpath + '/bixiang/' + filename, 'r', encoding='utf-8')
+        data_dict = json.load(file)
+
+        for item in data_dict['data']:
+            unique = item.get('unique', 'NA')
+            uid = item.get('uid', 'NA')
+            phone = item.get('phone', 'NA')
+            if phone == phone_no:
+                return unique, uid
+            else:
+                continue

@@ -93,6 +93,7 @@ def start_reading_news(filename):
         thread_readnews.setName(phone)
         thread_readnews.setDaemon(True)
         thread_readnews.start()
+        thread_readnews.join(3)
         time.sleep(random.randint(30, 60))
         logger.warning('********** Start thread [' + str(number) + ']: ' + phone)
         # break
@@ -107,6 +108,7 @@ def start_reading_news(filename):
     check.setName('Thread:check')
     check.setDaemon(True)
     check.start()
+    check.join(3)
     logger.warning('********** Start thread [' + check.getName() + ']')
 
     # 定时退出

@@ -50,6 +50,7 @@ def start_reading_news(filename):
         thread_readnews.setName(phone)
         thread_readnews.setDaemon(True)
         thread_readnews.start()
+        thread_readnews.join(10)
         time.sleep(random.randint(5, 10))
         logger.warning('********** Start thread [' + str(number) + ']: ' + thread_readnews.getName())
         # thread_readnews_list.append(thread_readnews)
@@ -82,5 +83,6 @@ def start_reading_news(filename):
         if now.hour in exit_time:
             # 退出线程
             stopevt.set()
+            break
 
 # start_reading_news("data_bixiang_readnews.json")

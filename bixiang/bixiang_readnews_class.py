@@ -65,12 +65,13 @@ class readnews(threading.Thread):
     logger = None
     proxies = ''
 
-    def __init__(self, unique, uid, phone):
+    def __init__(self, unique, uid, phone, stopevt = None):
         threading.Thread.__init__(self)
         # global proxies
         self.unique = unique
         self.uid = uid
         self.phone = phone
+        self.stopevt = stopevt
 
         # 第一步，创建一个logger,并设置级别
         # self.logger = logging.getLogger("bixiang_readnews_class.py")
@@ -125,18 +126,35 @@ class readnews(threading.Thread):
 
     def run(self):
 
-        # while True:
-        #     self.logger.warning("---------- this is " + self.phone)
-        #     time.sleep(1)
-
         if self.bixiang_login() == -1:
             sys.exit(0)
 
-        self.bixiang_loop_reading_news()
+        while not self.stopevt.isSet():
+            # channels = ["news_hot", "news_entertainment", "news_tech", "news_travel", "news_sports", "news_fashion",
+            #             "news_finance", "news_edu", "news_house", "news_photography", "news_comic", "news_story",
+            #             "news_health", "news_food", "news_car", "news_game", "news_culture", "news_discovery"]
+            channels = ["news_hot"]
+            for i in range(len(channels)):
+                self.logger.warning("********** [" + self.phone + "]. channel = " + channels[i])
+
+                JRTT_list = self.get_JRTT_list(channels[i])
+                if JRTT_list == -1:
+                    continue
+
+                for j in range(len(JRTT_list)):
+                    news_id = JRTT_list[j]["id"]
+                    time.sleep(random.randint(70, 90))
+                    return_code = self.post_newsRecord(news_id)
+                    if return_code == -1:
+                        continue
+
+        self.logger.warning('********** exit thread. ' + self.phone)
 
     def bixiang_loop_reading_news(self):
 
-        channels = ["__all__", "news_hot", "news_entertainment", "news_tech", "news_travel", "news_sports"]
+        channels = ["news_hot", "news_entertainment", "news_tech", "news_travel", "news_sports", "news_fashion",
+                    "news_finance", "news_edu", "news_house", "news_photography", "news_comic", "news_story",
+                    "news_health", "news_food", "news_car", "news_game", "news_culture", "news_discovery"]
         for i in range(len(channels)):
             self.logger.warning("********** [" + self.phone + "]. channel = " + channels[i])
 
@@ -145,14 +163,6 @@ class readnews(threading.Thread):
                 continue
 
             for j in range(len(JRTT_list)):
-                # 定时退出
-                now = datetime.datetime.now()
-                exit_time = [8, 18, 28, 38, 48, 58]
-                if now.minute in exit_time:
-                    # 退出线程组
-                    self.logger.warning('********** exit thread. ' + self.phone)
-                    return
-
                 news_id = JRTT_list[j]["id"]
                 time.sleep(random.randint(70, 90))
                 return_code = self.post_newsRecord(news_id)

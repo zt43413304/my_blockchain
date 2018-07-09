@@ -1,5 +1,6 @@
 # coding=utf-8
 import configparser
+import datetime
 import logging
 import os
 import random
@@ -124,14 +125,14 @@ class readnews(threading.Thread):
 
     def run(self):
 
-        while True:
-            self.logger.warning("---------- this is " + self.phone)
-            time.sleep(1)
+        # while True:
+        #     self.logger.warning("---------- this is " + self.phone)
+        #     time.sleep(1)
 
-        # if self.bixiang_login() == -1:
-        #     sys.exit(0)
-        #
-        # self.bixiang_loop_reading_news()
+        if self.bixiang_login() == -1:
+            sys.exit(0)
+
+        self.bixiang_loop_reading_news()
 
     def bixiang_loop_reading_news(self):
 
@@ -144,6 +145,14 @@ class readnews(threading.Thread):
                 continue
 
             for j in range(len(JRTT_list)):
+                # 定时退出
+                now = datetime.datetime.now()
+                exit_time = [8, 18, 28, 38, 48, 58]
+                if now.minute in exit_time:
+                    # 退出线程组
+                    self.logger.warning('********** exit thread. ' + self.phone)
+                    return
+
                 news_id = JRTT_list[j]["id"]
                 time.sleep(random.randint(70, 90))
                 return_code = self.post_newsRecord(news_id)

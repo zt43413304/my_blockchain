@@ -132,31 +132,27 @@ def start_reading_news(filename):
     check.join(3)
     logger.warning('********** Start thread [' + check.getName() + ']')
 
-    # 定时退出
-    exit_time = [8, 18, 28, 38, 48, 58]
-    while True:
-        now = datetime.datetime.now()
-        logger.warning('~~~~~~~~~~ hour='+str(now.hour)+', minute='+str(now.minute))
-        # if now.hour== 6 and now.minute==55 and (now.second == 0 or now.second == 1):
-        #     logger.warning('********** sys.exit(0)')
-        #     return
-        #
-        # if now.hour== 14 and now.minute==55 and (now.second == 0 or now.second == 1):
-        #     logger.warning('********** sys.exit(0)')
-        #     return
-        #
-        # if now.hour== 22 and now.minute==55 and (now.second == 0 or now.second == 1):
-        #     logger.warning('********** sys.exit(0)')
-        #     return
-        if now.minute in exit_time:
-            logger.warning('********** stop thread')
-            # 退出线程组
-            threads = threading.enumerate()  # 获取线程对象
-            for i in threads:
-                stop_thread(i)
 
-            # 退出检查线程
-            stop_thread(check)
+    # while True:
+    #
+    #     logger.warning('~~~~~~~~~~ hour='+str(now.hour)+', minute='+str(now.minute))
+    #     # if now.hour== 6 and now.minute==55 and (now.second == 0 or now.second == 1):
+    #     #     logger.warning('********** sys.exit(0)')
+    #     #     return
+    #     #
+    #     # if now.hour== 14 and now.minute==55 and (now.second == 0 or now.second == 1):
+    #     #     logger.warning('********** sys.exit(0)')
+    #     #     return
+    #     #
+    #     # if now.hour== 22 and now.minute==55 and (now.second == 0 or now.second == 1):
+    #     #     logger.warning('********** sys.exit(0)')
+    #     #     return
+    #         threads = threading.enumerate()  # 获取线程对象
+    #         for i in threads:
+    #             stop_thread(i)
+    #
+    #         # 退出检查线程
+    #         stop_thread(check)
 
 
 

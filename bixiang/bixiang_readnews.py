@@ -110,9 +110,10 @@ def start_reading_news(filename):
     logger.warning('********** Start thread [' + check.getName() + ']')
 
     # 定时退出
+    exit_time = [8, 18, 28, 38, 48, 58]
     while True:
         now = datetime.datetime.now()
-        logger.warning('~~~~~~~~~~ hour='+str(now.hour)+', minute='+str(now.minute)+', second='+str(now.second))
+        logger.warning('~~~~~~~~~~ hour='+str(now.hour)+', minute='+str(now.minute))
         # if now.hour== 6 and now.minute==55 and (now.second == 0 or now.second == 1):
         #     logger.warning('********** sys.exit(0)')
         #     return
@@ -124,7 +125,7 @@ def start_reading_news(filename):
         # if now.hour== 22 and now.minute==55 and (now.second == 0 or now.second == 1):
         #     logger.warning('********** sys.exit(0)')
         #     return
-        if now.minute == 8:
+        if now.minute in exit_time:
             logger.warning('********** return')
             return
 

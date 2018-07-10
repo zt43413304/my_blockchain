@@ -312,7 +312,8 @@ class AppiumStar(threading.Thread):
         print('stdoutinfo is -------> %s' % stdoutinfo)
         print('stderrinfo is -------> %s' % stderrinfo)
         print('finish executing cmd....')
-        return p.returncode
+        # return p.returncode
+        return 0
 
     def starup_136(self):
 
@@ -322,7 +323,7 @@ class AppiumStar(threading.Thread):
 
         output = os.system("C:/DevTools/MuMu/emulator/nemu/EmulatorShell/NemuPlayer.exe")
         self.logger.warning(">>>>>>>>>> Start NemuPlayer.exe, output = " + str(output))
-        time.sleep(90)
+        time.sleep(120)
         cmd_adb = r'adb connect 127.0.0.1:7555'
         result1 = self.execute_command(cmd_adb)
         print('result:------>', result1)
@@ -331,7 +332,7 @@ class AppiumStar(threading.Thread):
         print('result:------>', result2)
 
         output3 = os.system(
-            "start /b node C:/Users/jacki/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4723")
+            "start /b node C:/Users/jackie.liu/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4723")
 
         print('result:------>' + str(output3))
         time.sleep(30)
@@ -369,7 +370,7 @@ class AppiumStar(threading.Thread):
         # output = os.system("C:/Program Files (x86)/Nox/bin/Nox.exe")
         output = os.system("C:/DevTools/Nox/Nox/bin/Nox.exe")
         self.logger.warning("========== Start Nox.exe, output = " + str(output))
-        time.sleep(30)
+        time.sleep(120)
 
         cmd_adb = r'adb connect 127.0.0.1:62001'
         result1 = self.execute_command(cmd_adb)
@@ -379,7 +380,7 @@ class AppiumStar(threading.Thread):
         print('result:------>', result2)
 
         output3 = os.system(
-            "start /b node C:/Users/jacki/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4725")
+            "start /b node C:/Users/jackie.liu/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4725")
 
         print('result:------>' + str(output3))
         time.sleep(30)

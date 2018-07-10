@@ -135,11 +135,11 @@ class readnews(threading.Thread):
 
         count = 0
         while not self.stopevt.isSet():
-            count += 1
             return_code = self.post_newsRecord(news_id_list[count])
             if return_code == -1:
                 continue
             time.sleep(random.randint(70, 90))
+            count += 1
 
             if count == len(news_id_list):
                 news_id_list = self.get_news_id_list()

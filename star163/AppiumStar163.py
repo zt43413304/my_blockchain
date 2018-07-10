@@ -28,23 +28,6 @@ class AppiumStar(threading.Thread):
     def __init__(self, version, deviceName, port, phone):
         self.phone = phone
 
-        print("start __init__...")
-        desired_caps = {}
-        desired_caps['platformName'] = 'Android'
-        desired_caps['platformVersion'] = version
-        desired_caps['deviceName'] = deviceName
-        desired_caps['noReset'] = 'True'
-        desired_caps['newCommandTimeout'] = '600'
-        desired_caps['clearSystemFiles'] = 'True'
-        desired_caps['app'] = PATH(
-            'C:\DevTools\Android_apk\protect_163-e01170001_121-4.apk'
-            # desired_caps['app'] = PATH(
-            # '/Users/Jackie.Liu/Documents/MuMu共享文件夹/protect_163-e01170001_121-4.apk'
-        )
-        # desired_caps['appPackage'] = 'com.example.android.contactmanager'
-        # desired_caps['appActivity'] = '.ContactManager'
-        self.driver = webdriver.Remote('http://localhost:' + str(port) + '/wd/hub', desired_caps)
-
         rq = time.strftime('%Y%m%d-%H%M%S', time.localtime(time.time()))
 
         # 第一步，创建一个logger,并设置级别
@@ -65,6 +48,34 @@ class AppiumStar(threading.Thread):
         self.logger.addHandler(ch)
 
         self.logger.warning("========== __init()__, Checking. [" + phone + "] ==========")
+
+        if phone == '13601223469':
+            output3 = os.system(
+                "start /b node C:/Users/jacki/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4723")
+        else:
+            output3 = os.system(
+                "start /b node C:/Users/jacki/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4725")
+
+        print('result:------>' + str(output3))
+        time.sleep(30)
+
+        print("start __init__...")
+        desired_caps = {}
+        desired_caps['platformName'] = 'Android'
+        desired_caps['platformVersion'] = version
+        desired_caps['deviceName'] = deviceName
+        desired_caps['noReset'] = 'True'
+        desired_caps['newCommandTimeout'] = '600'
+        desired_caps['clearSystemFiles'] = 'True'
+        desired_caps['app'] = PATH(
+            'C:\DevTools\Android_apk\protect_163-e01170001_121-4.apk'
+            # desired_caps['app'] = PATH(
+            # '/Users/Jackie.Liu/Documents/MuMu共享文件夹/protect_163-e01170001_121-4.apk'
+        )
+        # desired_caps['appPackage'] = 'com.example.android.contactmanager'
+        # desired_caps['appActivity'] = '.ContactManager'
+        self.driver = webdriver.Remote('http://localhost:' + str(port) + '/wd/hub', desired_caps)
+
 
     def isElementExist(self, id):
         try:
@@ -333,14 +344,6 @@ class AppiumStar(threading.Thread):
         result2 = self.execute_command(cmd_adb1)
         print('result:------>', result2)
 
-        # output3 = os.system(
-        #     "start node C:/Users/jackie.liu/AppData/Local/Programs/Appium/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4725")
-        output3 = os.system(
-            "start /b node C:/Users/jacki/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4725")
-        # output3 = os.system(
-        #     "node /Applications/Appium.app/Contents/Resources/app/node_modules/appium/lib/main.js -a 127.0.0.1 -p 4723")
-        print('result:------>' + str(output3))
-        time.sleep(30)
 
         # python执行直接用【os.system(要执行的命令)】即可，如果是windows下\n和\a需要转义，所以用下面的内容
         # cmd_app_desktop = r'start /b node C:\Users\Jackie.Liu\AppData\Local\appium-desktop\app-1.6.0\resources\app\node_modules\appium\build\lib\main.js'
@@ -368,12 +371,12 @@ class AppiumStar(threading.Thread):
 
         # output3 = os.system(
         #     "start node C:/Users/jackie.liu/AppData/Local/Programs/Appium/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4725")
-        output3 = os.system(
-            "start /b node C:/Users/jacki/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4725")
+        # output3 = os.system(
+        #     "start /b node C:/Users/jacki/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4725")
         # output3 = os.system(
         # "node /Applications/Appium.app/Contents/Resources/app/node_modules/appium/lib/main.js -a 127.0.0.1 -p 4725")
-        print('result:------>' + str(output3))
-        time.sleep(30)
+        # print('result:------>' + str(output3))
+        # time.sleep(30)
 
         self.appium_calculate()
         send_email.send_star163_HtmlEmail('newseeing@163.com', '138获取原力完成.', '')

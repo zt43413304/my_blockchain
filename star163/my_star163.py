@@ -299,21 +299,19 @@ def get_allTotal(cookie):
 
 
 def loop_star163():
+    thread136 = AppiumStar163.AppiumStar('4.4.4', '127.0.0.1:7555', 4723, '13601223469')
+    # thread136.setName('13601223469')
+    # thread136.setDaemon(True)
+    thread136.start()
+    # thread136.join(10)
+    time.sleep(random.randint(5, 10))
+
     thread138 = AppiumStar163.AppiumStar('4.4.2', '127.0.0.1:62001', 4725, '13826090504')
     # thread138.setName('13826090504')
     # thread136.setDaemon(True)
     thread138.start()
     # thread136.join(10)
     time.sleep(random.randint(5, 10))
-
-    # thread136.setDaemon(True)
-    thread136 = AppiumStar163.AppiumStar('4.4.4', '127.0.0.1:7555', 4723, '13601223469')
-    # thread136.setName('13601223469')
-    thread136.start()
-    # thread136.join(10)
-    time.sleep(random.randint(5, 10))
-
-
 
     curpath = os.getcwd()
     file = open(curpath + '/star163/data_star163.json', 'r', encoding='utf-8')
@@ -352,4 +350,4 @@ def loop_star163():
 
 # Start from here...
 # logger.warning('***** Start ...')
-# loop_star163()
+loop_star163()

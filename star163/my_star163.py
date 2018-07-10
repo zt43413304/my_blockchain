@@ -4,7 +4,6 @@ import json
 import logging
 import os
 import random
-import subprocess
 import time
 import urllib
 from urllib.parse import urlparse
@@ -33,6 +32,7 @@ logger.addHandler(ch)
 # Random seconds
 MIN_SEC = 1
 MAX_SEC = 3
+
 
 def start163_api_starUser_getCookie(k, p):
     url = "https://star.8.163.com/api/starUser/getCookie"
@@ -298,85 +298,6 @@ def get_allTotal(cookie):
         return -1, -1
 
 
-def execute_command(cmd):
-    print('***** start executing cmd...')
-    p = subprocess.Popen(str(cmd), stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
-    stderrinfo, stdoutinfo = p.communicate()
-    for line in stdoutinfo.splitlines():
-        print(line)
-
-        # print('stderrinfo is -------> %s and stdoutinfo is -------> %s' % (stderrinfo, stdoutinfo))
-    print('stdoutinfo is -------> %s' % stdoutinfo)
-    print('stderrinfo is -------> %s' % stderrinfo)
-    print('finish executing cmd....')
-    return p.returncode
-
-
-def appium_calculate136():
-    # cmd_clean = r'cmd.exe C:/DevTools/my_blockchain/star163/clean.bat'
-    # result1 = execute_command(cmd_clean)
-    # print('result:------>', result1)
-
-    output = os.system("C:/DevTools/MuMu/emulator/nemu/EmulatorShell/NemuPlayer.exe")
-    logger.warning(">>>>>>>>>> Start NemuPlayer.exe, output = " + str(output))
-    time.sleep(30)
-    cmd_adb = r'adb connect 127.0.0.1:7555'
-    result1 = execute_command(cmd_adb)
-    print('result:------>', result1)
-    cmd_adb1 = r'adb devices -l'
-    result2 = execute_command(cmd_adb1)
-    print('result:------>', result2)
-
-    # output3 = os.system(
-    #     "start node C:/Users/jackie.liu/AppData/Local/Programs/Appium/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4725")
-    output3 = os.system(
-        "start /b node C:/Users/jacki/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4725")
-    # output3 = os.system(
-    #     "node /Applications/Appium.app/Contents/Resources/app/node_modules/appium/lib/main.js -a 127.0.0.1 -p 4723")
-    print('result:------>' + str(output3))
-    time.sleep(30)
-
-    # python执行直接用【os.system(要执行的命令)】即可，如果是windows下\n和\a需要转义，所以用下面的内容
-    # cmd_app_desktop = r'start /b node C:\Users\Jackie.Liu\AppData\Local\appium-desktop\app-1.6.0\resources\app\node_modules\appium\build\lib\main.js'
-    # cmd_appium = r'start /b node C:\DevTools\Appium\node_modules\appium\lib\server\main.js --address 127.0.0.1 --port 4723'
-    # result3 = execute_command(cmd_app_desktop)
-    # 需要手动确定启动Server
-    # output3 = os.system("C:/Users/Jackie.Liu/AppData/Local/appium-desktop/Appium.exe -a 127.0.0.1 -p 4723")
-
-    appium136 = AppiumStar163.AppiumStar('4.4.4', '127.0.0.1:7555', 4723)
-    appium136.appium_calculate()
-    send_email.send_star163_HtmlEmail('newseeing@163.com', '136获取原力完成.', '')
-    logger.warning('********** Sending 136获取原力完成 Email Complete!')
-
-
-def appium_calculate138():
-    # output = os.system("C:/Program Files (x86)/Nox/bin/Nox.exe")
-    output = os.system("C:/DevTools/Nox/Nox/bin/Nox.exe")
-    logger.warning("========== Start Nox.exe, output = " + str(output))
-    time.sleep(30)
-
-    cmd_adb = r'adb connect 127.0.0.1:62001'
-    result1 = execute_command(cmd_adb)
-    print('result:------>', result1)
-    cmd_adb1 = r'adb devices -l'
-    result2 = execute_command(cmd_adb1)
-    print('result:------>', result2)
-
-    # output3 = os.system(
-    #     "start node C:/Users/jackie.liu/AppData/Local/Programs/Appium/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4725")
-    output3 = os.system(
-        "start /b node C:/Users/jacki/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4725")
-    # output3 = os.system(
-        # "node /Applications/Appium.app/Contents/Resources/app/node_modules/appium/lib/main.js -a 127.0.0.1 -p 4725")
-    print('result:------>' + str(output3))
-    time.sleep(30)
-
-    appium138 = AppiumStar163.AppiumStar('4.4.2', '127.0.0.1:62001', 4725)
-    appium138.appium_calculate()
-    send_email.send_star163_HtmlEmail('newseeing@163.com', '138获取原力完成.', '')
-    logger.warning('********** Sending 138获取原力完成 Email Complete!')
-
-
 def loop_star163():
     curpath = os.getcwd()
     file = open(curpath + '/star163/data_star163.json', 'r', encoding='utf-8')
@@ -411,12 +332,22 @@ def loop_star163():
         send_email.send_star163_HtmlEmail('newseeing@163.com', str(phone) + '的原力及黑钻', content)
         logger.warning('********** Sending Collect Email Complete!')
 
-    appium_calculate138()
-    appium_calculate136()
+    thread136 = AppiumStar163.AppiumStar('4.4.4', '127.0.0.1:7555', 4723, '13601223469')
+    thread136.setName('13601223469')
+    # thread136.setDaemon(True)
+    thread136.start()
+    # thread136.join(10)
+    time.sleep(random.randint(5, 10))
+
+    thread138 = AppiumStar163.AppiumStar('4.4.2', '127.0.0.1:62001', 4725, '13826090504')
+    thread138.setName('13826090504')
+    # thread136.setDaemon(True)
+    thread138.start()
+    # thread136.join(10)
+    time.sleep(random.randint(5, 10))
+
 
 # Start from here...
 # logger.warning('***** Start ...')
 
-# loop_star163()
-
-
+loop_star163()

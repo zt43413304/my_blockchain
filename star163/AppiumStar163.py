@@ -27,6 +27,9 @@ class AppiumStar(threading.Thread):
 
     def __init__(self, version, deviceName, port, phone):
         self.phone = phone
+        self.version = version
+        self.deviceName = deviceName
+        self.port = port
 
         rq = time.strftime('%Y%m%d-%H%M%S', time.localtime(time.time()))
 
@@ -47,35 +50,10 @@ class AppiumStar(threading.Thread):
         self.logger.addHandler(fh)
         self.logger.addHandler(ch)
 
-        self.logger.warning("========== __init()__, Checking. [" + phone + "] ==========")
-
-        if phone == '13601223469':
-            output3 = os.system(
-                "start /b node C:/Users/jacki/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4723")
+        if self.phone == '13601223469':
+            self.starup_136()
         else:
-            output3 = os.system(
-                "start /b node C:/Users/jacki/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4725")
-
-        print('result:------>' + str(output3))
-        time.sleep(30)
-
-        print("start __init__...")
-        desired_caps = {}
-        desired_caps['platformName'] = 'Android'
-        desired_caps['platformVersion'] = version
-        desired_caps['deviceName'] = deviceName
-        desired_caps['noReset'] = 'True'
-        desired_caps['newCommandTimeout'] = '600'
-        desired_caps['clearSystemFiles'] = 'True'
-        desired_caps['app'] = PATH(
-            'C:\DevTools\Android_apk\protect_163-e01170001_121-4.apk'
-            # desired_caps['app'] = PATH(
-            # '/Users/Jackie.Liu/Documents/MuMu共享文件夹/protect_163-e01170001_121-4.apk'
-        )
-        # desired_caps['appPackage'] = 'com.example.android.contactmanager'
-        # desired_caps['appActivity'] = '.ContactManager'
-        self.driver = webdriver.Remote('http://localhost:' + str(port) + '/wd/hub', desired_caps)
-
+            self.starup_138()
 
     def isElementExist(self, id):
         try:
@@ -124,6 +102,22 @@ class AppiumStar(threading.Thread):
         # self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
         # logger.warning(">>>>>>>>>> Back to level 1 ...")
         # time.sleep(15)
+
+        if self.phone == '13601223469':
+            cmd_clean = r'cmd.exe C:/DevTools/my_blockchain/star163/clean136.bat'
+            result1 = self.execute_command(cmd_clean)
+            print('result:------>', result1)
+
+            send_email.send_star163_HtmlEmail('newseeing@163.com', '136获取原力完成.', '')
+            self.logger.warning('********** Sending 136获取原力完成 Email Complete!')
+        else:
+            cmd_clean = r'cmd.exe C:/DevTools/my_blockchain/star163/clean138.bat'
+            result1 = self.execute_command(cmd_clean)
+            print('result:------>', result1)
+
+            send_email.send_star163_HtmlEmail('newseeing@163.com', '138获取原力完成.', '')
+            self.logger.warning('********** Sending 138获取原力完成 Email Complete!')
+
         return
 
     def appium_music(self):
@@ -305,19 +299,7 @@ class AppiumStar(threading.Thread):
     # swipeDown(1000)
 
     def run(self):
-
-        cmd_clean = r'cmd.exe C:/DevTools/my_blockchain/star163/clean.bat'
-        result1 = self.execute_command(cmd_clean)
-        print('result:------>', result1)
-
-        if self.phone == '13601223469':
-            self.appium_calculate136()
-        else:
-            self.appium_calculate138()
-
-        cmd_clean = r'cmd.exe C:/DevTools/my_blockchain/star163/clean.bat'
-        result1 = self.execute_command(cmd_clean)
-        print('result:------>', result1)
+        self.appium_calculate()
 
     def execute_command(self, cmd):
         print('***** start executing cmd...')
@@ -332,11 +314,15 @@ class AppiumStar(threading.Thread):
         print('finish executing cmd....')
         return p.returncode
 
-    def appium_calculate136(self):
+    def starup_136(self):
+
+        cmd_clean = r'cmd.exe C:/DevTools/my_blockchain/star163/clean136.bat'
+        result1 = self.execute_command(cmd_clean)
+        print('result:------>', result1)
 
         output = os.system("C:/DevTools/MuMu/emulator/nemu/EmulatorShell/NemuPlayer.exe")
         self.logger.warning(">>>>>>>>>> Start NemuPlayer.exe, output = " + str(output))
-        time.sleep(30)
+        time.sleep(90)
         cmd_adb = r'adb connect 127.0.0.1:7555'
         result1 = self.execute_command(cmd_adb)
         print('result:------>', result1)
@@ -344,6 +330,11 @@ class AppiumStar(threading.Thread):
         result2 = self.execute_command(cmd_adb1)
         print('result:------>', result2)
 
+        output3 = os.system(
+            "start /b node C:/Users/jacki/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4723")
+
+        print('result:------>' + str(output3))
+        time.sleep(30)
 
         # python执行直接用【os.system(要执行的命令)】即可，如果是windows下\n和\a需要转义，所以用下面的内容
         # cmd_app_desktop = r'start /b node C:\Users\Jackie.Liu\AppData\Local\appium-desktop\app-1.6.0\resources\app\node_modules\appium\build\lib\main.js'
@@ -352,11 +343,29 @@ class AppiumStar(threading.Thread):
         # 需要手动确定启动Server
         # output3 = os.system("C:/Users/Jackie.Liu/AppData/Local/appium-desktop/Appium.exe -a 127.0.0.1 -p 4723")
 
-        self.appium_calculate()
-        send_email.send_star163_HtmlEmail('newseeing@163.com', '136获取原力完成.', '')
-        self.logger.warning('********** Sending 136获取原力完成 Email Complete!')
+        print("start __init__...")
+        desired_caps = {}
+        desired_caps['platformName'] = 'Android'
+        desired_caps['platformVersion'] = self.version
+        desired_caps['deviceName'] = self.deviceName
+        desired_caps['noReset'] = 'True'
+        desired_caps['newCommandTimeout'] = '600'
+        desired_caps['clearSystemFiles'] = 'True'
+        desired_caps['app'] = PATH(
+            'C:\DevTools\Android_apk\protect_163-e01170001_121-4.apk'
+            # desired_caps['app'] = PATH(
+            # '/Users/Jackie.Liu/Documents/MuMu共享文件夹/protect_163-e01170001_121-4.apk'
+        )
+        # desired_caps['appPackage'] = 'com.example.android.contactmanager'
+        # desired_caps['appActivity'] = '.ContactManager'
+        self.driver = webdriver.Remote('http://localhost:' + str(self.port) + '/wd/hub', desired_caps)
 
-    def appium_calculate138(self):
+    def starup_138(self):
+
+        cmd_clean = r'cmd.exe C:/DevTools/my_blockchain/star163/clean138.bat'
+        result1 = self.execute_command(cmd_clean)
+        print('result:------>', result1)
+
         # output = os.system("C:/Program Files (x86)/Nox/bin/Nox.exe")
         output = os.system("C:/DevTools/Nox/Nox/bin/Nox.exe")
         self.logger.warning("========== Start Nox.exe, output = " + str(output))
@@ -369,15 +378,25 @@ class AppiumStar(threading.Thread):
         result2 = self.execute_command(cmd_adb1)
         print('result:------>', result2)
 
-        # output3 = os.system(
-        #     "start node C:/Users/jackie.liu/AppData/Local/Programs/Appium/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4725")
-        # output3 = os.system(
-        #     "start /b node C:/Users/jacki/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4725")
-        # output3 = os.system(
-        # "node /Applications/Appium.app/Contents/Resources/app/node_modules/appium/lib/main.js -a 127.0.0.1 -p 4725")
-        # print('result:------>' + str(output3))
-        # time.sleep(30)
+        output3 = os.system(
+            "start /b node C:/Users/jacki/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4725")
 
-        self.appium_calculate()
-        send_email.send_star163_HtmlEmail('newseeing@163.com', '138获取原力完成.', '')
-        self.logger.warning('********** Sending 138获取原力完成 Email Complete!')
+        print('result:------>' + str(output3))
+        time.sleep(30)
+
+        print("start __init__...")
+        desired_caps = {}
+        desired_caps['platformName'] = 'Android'
+        desired_caps['platformVersion'] = self.version
+        desired_caps['deviceName'] = self.deviceName
+        desired_caps['noReset'] = 'True'
+        desired_caps['newCommandTimeout'] = '600'
+        desired_caps['clearSystemFiles'] = 'True'
+        desired_caps['app'] = PATH(
+            'C:\DevTools\Android_apk\protect_163-e01170001_121-4.apk'
+            # desired_caps['app'] = PATH(
+            # '/Users/Jackie.Liu/Documents/MuMu共享文件夹/protect_163-e01170001_121-4.apk'
+        )
+        # desired_caps['appPackage'] = 'com.example.android.contactmanager'
+        # desired_caps['appActivity'] = '.ContactManager'
+        self.driver = webdriver.Remote('http://localhost:' + str(self.port) + '/wd/hub', desired_caps)

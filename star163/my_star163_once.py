@@ -313,7 +313,7 @@ def execute_command(cmd):
 
 
 def appium_calculate136():
-    # cmd_clean = r'cmd.exe C:/DevTools/my_blockchain/star163/clean.bat'
+    # cmd_clean = r'cmd.exe C:/DevTools/my_blockchain/star163/clean136.bat'
     # result1 = execute_command(cmd_clean)
     # print('result:------>', result1)
 

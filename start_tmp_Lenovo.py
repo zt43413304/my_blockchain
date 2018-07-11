@@ -8,7 +8,7 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 from hashworld import my_hashworld
 from onechain import my_onechain
 from star163 import my_star163
-from bixiang import my_bixiang
+from bixiang import my_bixiang, bixiang_readnews
 from diwuqu import my_diwuqu
 
 # 第一步，创建一个logger
@@ -46,8 +46,9 @@ logger.warning('********** Start from start_tmp_Lenovo.py ...')
 # my_bixiang.loop_bixiang("data_bixiang_Tokyo.json")
 # my_bixiang.loop_bixiang("data_bixiang_Seoul.json")
 
-my_hashworld.loop_hashworld_no_land("data_hashworld_Tokyo.json")
+# my_hashworld.loop_hashworld_no_land("data_hashworld_Tokyo.json")
 # my_hashworld.loop_hashworld_no_land("data_hashworld_Seoul.json")
+bixiang_readnews.start_reading_news("data_bixiang_readnews_Lenovo.json")
 
 
 

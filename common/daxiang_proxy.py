@@ -22,7 +22,7 @@ logger.addHandler(ch)
 
 
 def get_proxyIP():
-    url = 'http://tvp.daxiangdaili.com/ip/?tid=559810758325225&num=1&delay=1&category=2&protocol=https&filter=on&sortby=speed'
+    url = 'http://tvp.daxiangdaili.com/ip/?tid=559810758325225&num=1&delay=3&category=2&protocol=https&filter=on&sortby=speed'
 
     try:
         response = requests.get(url)

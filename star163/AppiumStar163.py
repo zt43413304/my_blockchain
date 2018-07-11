@@ -24,8 +24,14 @@ PATH = lambda p: os.path.abspath(
 class AppiumStar(threading.Thread):
     MIN_SEC = 15
     MAX_SEC = 20
+    phone = None
+    version = None
+    deviceName = None
+    port = None
+
 
     def __init__(self, version, deviceName, port, phone):
+        threading.Thread.__init__(self)
         self.phone = phone
         self.version = version
         self.deviceName = deviceName
@@ -88,11 +94,15 @@ class AppiumStar(threading.Thread):
         time.sleep(5)
 
         # level 1 main page
-        self.logger.warning("========== Start from level 1 main page ...")
-        time.sleep(30)
-        self.driver.find_element_by_accessibility_id("获取原力").click()
-        self.logger.warning("========== Level 2, 获取原力")
-        time.sleep(30)
+        self.logger.warning("========== Start from tab 2 main page ...")
+        # time.sleep(30)
+        # self.driver.find_element_by_accessibility_id("获取原力").click()
+        # self.logger.warning("========== Level 2, 获取原力")
+        # time.sleep(30)
+
+        self.driver.find_element_by_id("com.netease.blockchain:id/tvTwo").click()
+
+
 
         self.appium_yuedu()
         self.appium_zixun()
@@ -155,7 +165,8 @@ class AppiumStar(threading.Thread):
     def appium_zixun(self):
         time.sleep(10)
         # level 2 main page
-        self.driver.find_element_by_accessibility_id("资讯").click()
+        # self.driver.find_element_by_accessibility_id("资讯").click()
+        self.driver.find_element_by_xpath("//android.view.View[@content-desc=\"原力任务\"]/android.view.View[21]").click()
         self.logger.warning("========== 资讯")
         time.sleep(30)
         if self.isElementExist("立即阅读"):
@@ -216,7 +227,8 @@ class AppiumStar(threading.Thread):
     def appium_yuedu(self):
         time.sleep(10)
         # level 2 main page
-        self.driver.find_element_by_accessibility_id("阅读").click()
+        self.driver.find_element_by_xpath("//android.view.View[@content-desc=\"原力任务\"]/android.view.View[18]").click()
+        # self.driver.find_element_by_accessibility_id("阅读").click()
         self.logger.warning("========== 阅读")
         time.sleep(30)
         if self.isElementExist("去读书"):
@@ -231,7 +243,7 @@ class AppiumStar(threading.Thread):
 
         if self.isElementExist("显示/隐藏操作栏"):
             self.driver.find_element_by_accessibility_id("显示/隐藏操作栏").click()
-        time.sleep(85)
+        time.sleep(15)
 
         count = 0
         while True:
@@ -314,13 +326,15 @@ class AppiumStar(threading.Thread):
         return p.returncode
 
     def starup_136(self):
-        cmd_clean = r'cmd.exe C:/DevTools/my_blockchain/star163/clean136.bat'
-        result1 = self.execute_command(cmd_clean)
-        print('result:------>', result1)
+        # cmd_clean = r'cmd.exe C:/DevTools/my_blockchain/star163/clean136.bat'
+        # result1 = self.execute_command(cmd_clean)
+        # print('result:------>', result1)
+        #
+        # output = os.system("C:/DevTools/MuMu/emulator/nemu/EmulatorShell/NemuPlayer.exe")
+        # self.logger.warning(">>>>>>>>>> Start NemuPlayer.exe, output = " + str(output))
+        # time.sleep(120)
 
-        output = os.system("C:/DevTools/MuMu/emulator/nemu/EmulatorShell/NemuPlayer.exe")
-        self.logger.warning(">>>>>>>>>> Start NemuPlayer.exe, output = " + str(output))
-        time.sleep(120)
+
         cmd_adb = r'adb connect 127.0.0.1:7555'
         result1 = self.execute_command(cmd_adb)
         print('result:------>', result1)
@@ -342,7 +356,7 @@ class AppiumStar(threading.Thread):
         desired_caps['newCommandTimeout'] = '600'
         desired_caps['clearSystemFiles'] = 'True'
         desired_caps['app'] = PATH(
-            'C:\DevTools\Android_apk\protect_163-e01170001_121-4.apk'
+            'C:\DevTools\Android_apk\com.netease.blockchain-2.apk'
             # desired_caps['app'] = PATH(
             # '/Users/Jackie.Liu/Documents/MuMu共享文件夹/protect_163-e01170001_121-4.apk'
         )
@@ -351,13 +365,13 @@ class AppiumStar(threading.Thread):
         self.driver = webdriver.Remote('http://localhost:' + str(self.port) + '/wd/hub', desired_caps)
 
     def starup_138(self):
-        cmd_clean = r'cmd.exe C:/DevTools/my_blockchain/star163/clean138.bat'
-        result1 = self.execute_command(cmd_clean)
-        print('result:------>', result1)
-
-        output = os.system("C:/DevTools/Nox/Nox/bin/Nox.exe")
-        self.logger.warning("========== Start Nox.exe, output = " + str(output))
-        time.sleep(120)
+        # cmd_clean = r'cmd.exe C:/DevTools/my_blockchain/star163/clean138.bat'
+        # result1 = self.execute_command(cmd_clean)
+        # print('result:------>', result1)
+        #
+        # output = os.system("C:/DevTools/Nox/Nox/bin/Nox.exe")
+        # self.logger.warning("========== Start Nox.exe, output = " + str(output))
+        # time.sleep(120)
 
         cmd_adb = r'adb connect 127.0.0.1:62001'
         result1 = self.execute_command(cmd_adb)
@@ -380,7 +394,7 @@ class AppiumStar(threading.Thread):
         desired_caps['newCommandTimeout'] = '600'
         desired_caps['clearSystemFiles'] = 'True'
         desired_caps['app'] = PATH(
-            'C:\DevTools\Android_apk\protect_163-e01170001_121-4.apk'
+            'C:\DevTools\Android_apk\com.netease.blockchain-2.apk'
             # desired_caps['app'] = PATH(
             # '/Users/Jackie.Liu/Documents/MuMu共享文件夹/protect_163-e01170001_121-4.apk'
         )

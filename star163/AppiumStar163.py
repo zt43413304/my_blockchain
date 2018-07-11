@@ -102,8 +102,6 @@ class AppiumStar(threading.Thread):
 
         self.driver.find_element_by_id("com.netease.blockchain:id/tvTwo").click()
 
-
-
         self.appium_yuedu()
         self.appium_zixun()
         # self.appium_music()
@@ -219,9 +217,9 @@ class AppiumStar(threading.Thread):
         time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
 
         # level 2 main page
-        self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
-        self.logger.warning("========== Back to Level 2, 获取原力")
-        time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
+        # self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
+        # self.logger.warning("========== Back to Level 2, 获取原力")
+        # time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
         return
 
     def appium_yuedu(self):

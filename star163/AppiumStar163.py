@@ -308,15 +308,12 @@ class AppiumStar(threading.Thread):
         for line in stdoutinfo.splitlines():
             print(line)
 
-            # print('stderrinfo is -------> %s and stdoutinfo is -------> %s' % (stderrinfo, stdoutinfo))
         print('stdoutinfo is -------> %s' % stdoutinfo)
         print('stderrinfo is -------> %s' % stderrinfo)
         print('finish executing cmd....')
-        # return p.returncode
-        return 0
+        return p.returncode
 
     def starup_136(self):
-
         cmd_clean = r'cmd.exe C:/DevTools/my_blockchain/star163/clean136.bat'
         result1 = self.execute_command(cmd_clean)
         print('result:------>', result1)
@@ -333,16 +330,8 @@ class AppiumStar(threading.Thread):
 
         output3 = os.system(
             "start /b node C:/Users/jackie.liu/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4723")
-
         print('result:------>' + str(output3))
         time.sleep(30)
-
-        # python执行直接用【os.system(要执行的命令)】即可，如果是windows下\n和\a需要转义，所以用下面的内容
-        # cmd_app_desktop = r'start /b node C:\Users\Jackie.Liu\AppData\Local\appium-desktop\app-1.6.0\resources\app\node_modules\appium\build\lib\main.js'
-        # cmd_appium = r'start /b node C:\DevTools\Appium\node_modules\appium\lib\server\main.js --address 127.0.0.1 --port 4723'
-        # result3 = execute_command(cmd_app_desktop)
-        # 需要手动确定启动Server
-        # output3 = os.system("C:/Users/Jackie.Liu/AppData/Local/appium-desktop/Appium.exe -a 127.0.0.1 -p 4723")
 
         print("start __init__...")
         desired_caps = {}
@@ -362,12 +351,10 @@ class AppiumStar(threading.Thread):
         self.driver = webdriver.Remote('http://localhost:' + str(self.port) + '/wd/hub', desired_caps)
 
     def starup_138(self):
-
         cmd_clean = r'cmd.exe C:/DevTools/my_blockchain/star163/clean138.bat'
         result1 = self.execute_command(cmd_clean)
         print('result:------>', result1)
 
-        # output = os.system("C:/Program Files (x86)/Nox/bin/Nox.exe")
         output = os.system("C:/DevTools/Nox/Nox/bin/Nox.exe")
         self.logger.warning("========== Start Nox.exe, output = " + str(output))
         time.sleep(120)
@@ -381,7 +368,6 @@ class AppiumStar(threading.Thread):
 
         output3 = os.system(
             "start /b node C:/Users/jackie.liu/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4725")
-
         print('result:------>' + str(output3))
         time.sleep(30)
 

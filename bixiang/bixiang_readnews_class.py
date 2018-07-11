@@ -143,6 +143,7 @@ class readnews(threading.Thread):
 
             if count == len(news_id_list):
                 news_id_list = self.get_news_id_list()
+                count = 0
 
         self.logger.warning("********** self.stopevt.isSet():" + str(self.stopevt.isSet()))
         self.logger.warning('********** exit thread. ' + self.phone)

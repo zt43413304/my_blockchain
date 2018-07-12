@@ -48,7 +48,7 @@ logger.warning('********** Start from start_tmp_Lenovo.py ...')
 
 # my_hashworld.loop_hashworld_no_land("data_hashworld_Tokyo.json")
 # my_hashworld.loop_hashworld_no_land("data_hashworld_Seoul.json")
-bixiang_readnews.start_reading_news("data_bixiang_readnews_Lenovo.json")
+bixiang_readnews.start_reading_news("data_bixiang_Tokyo.json")
 
 
 

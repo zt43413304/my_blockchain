@@ -44,10 +44,10 @@ logger.warning('********** Start from start_tmp_Seoul.py ...')
 
 
 # my_bixiang.loop_bixiang("data_bixiang_Tokyo.json")
-# my_bixiang.loop_bixiang("data_bixiang_Seoul.json")
+my_bixiang.loop_bixiang("data_bixiang_Seoul.json")
 
 # my_hashworld.loop_hashworld_no_land("data_hashworld_Tokyo.json")
-my_hashworld.loop_hashworld_no_land("data_hashworld_Seoul.json")
+# my_hashworld.loop_hashworld_no_land("data_hashworld_Seoul.json")
 # my_hashworld.loop_hashworld_land()
 
 

@@ -164,7 +164,10 @@ class AppiumStar(threading.Thread):
         time.sleep(10)
         # level 2 main page
         # self.driver.find_element_by_accessibility_id("资讯").click()
-        self.driver.find_element_by_xpath("//android.view.View[@content-desc=\"原力任务\"]/android.view.View[21]").click()
+        # self.driver.find_element_by_xpath("//android.view.View[@content-desc=\"原力任务\"]/android.view.View[21]").click()
+        # self.my_find_elements_by_classname('android.view.View', '资讯').click()
+        TouchAction(self.driver).tap(x=531, y=827).perform()
+
         self.logger.warning("========== 资讯")
         time.sleep(30)
         if self.isElementExist("立即阅读"):
@@ -222,10 +225,23 @@ class AppiumStar(threading.Thread):
         # time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
         return
 
+    def my_find_elements_by_classname(self, classname, name):
+
+        # android.widget.TextView
+        views = self.driver.find_elements(By.CLASS_NAME, classname)
+        for i in range(len(views)):
+            print(views[i].text)
+            print(views[i].value)
+            if views[i].text == name:
+                return views[i]
+
     def appium_yuedu(self):
         time.sleep(10)
         # level 2 main page
-        self.driver.find_element_by_xpath("//android.view.View[@content-desc=\"原力任务\"]/android.view.View[18]").click()
+        # self.driver.find_element_by_xpath("//android.view.View[@content-desc=\"原力任务\"]/android.view.View[18]").click()
+        # self.my_find_elements_by_classname('android.view.View', '阅读').click()
+        TouchAction(self.driver).tap(x=322, y=796).perform()
+
         # self.driver.find_element_by_accessibility_id("阅读").click()
         self.logger.warning("========== 阅读")
         time.sleep(30)
@@ -341,7 +357,7 @@ class AppiumStar(threading.Thread):
         print('result:------>', result2)
 
         output3 = os.system(
-            "start /b node C:/Users/jackie.liu/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4723")
+            "start /b node C:/Users/Jackie.Liu/AppData/Local/Programs/Appium/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4723")
         print('result:------>' + str(output3))
         time.sleep(30)
 
@@ -360,7 +376,7 @@ class AppiumStar(threading.Thread):
         )
         # desired_caps['appPackage'] = 'com.example.android.contactmanager'
         # desired_caps['appActivity'] = '.ContactManager'
-        self.driver = webdriver.Remote('http://localhost:' + str(self.port) + '/wd/hub', desired_caps)
+        self.driver = webdriver.Remote('http://127.0.0.1:' + str(self.port) + '/wd/hub', desired_caps)
 
     def starup_138(self):
         # cmd_clean = r'cmd.exe C:/DevTools/my_blockchain/star163/clean138.bat'
@@ -379,7 +395,7 @@ class AppiumStar(threading.Thread):
         print('result:------>', result2)
 
         output3 = os.system(
-            "start /b node C:/Users/jackie.liu/AppData/Local/appium-desktop/app-1.6.1/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4725")
+            "start /b node C:/Users/Jackie.Liu/AppData/Local/Programs/Appium/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4725")
         print('result:------>' + str(output3))
         time.sleep(30)
 
@@ -398,4 +414,4 @@ class AppiumStar(threading.Thread):
         )
         # desired_caps['appPackage'] = 'com.example.android.contactmanager'
         # desired_caps['appActivity'] = '.ContactManager'
-        self.driver = webdriver.Remote('http://localhost:' + str(self.port) + '/wd/hub', desired_caps)
+        self.driver = webdriver.Remote('http://127.0.0.1:' + str(self.port) + '/wd/hub', desired_caps)

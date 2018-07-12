@@ -64,6 +64,7 @@ class readnews(threading.Thread):
     phone = None
     logger = None
     stopevt = None
+    error_count = 0
     proxies = ''
 
     def __init__(self, unique, uid, phone, stopevt=None):
@@ -332,6 +333,9 @@ class readnews(threading.Thread):
                     return 0
                 else:
                     self.logger.warning("<<<<<<<<<< [" + self.phone + "]. post_newsRecord_with_captcha Error.")
+                    self.error_count += 1
+                    if self.error_count == 3:
+                        sys.exit(0)
                     return -1
             else:
                 self.logger.warning("<<<<<<<<<< [" + self.phone + "]. post_newsRecord_with_captcha Error.")

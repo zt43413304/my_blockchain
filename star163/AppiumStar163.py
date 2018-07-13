@@ -22,8 +22,8 @@ PATH = lambda p: os.path.abspath(
 
 
 class AppiumStar(threading.Thread):
-    MIN_SEC = 15
-    MAX_SEC = 20
+    MIN_SEC = 10
+    MAX_SEC = 15
     phone = None
     version = None
     deviceName = None
@@ -104,6 +104,7 @@ class AppiumStar(threading.Thread):
 
         self.appium_yuedu()
         self.appium_zixun()
+
         # self.appium_music()
 
         # level 1 main page
@@ -111,20 +112,20 @@ class AppiumStar(threading.Thread):
         # logger.warning(">>>>>>>>>> Back to level 1 ...")
         # time.sleep(15)
 
-        if self.phone == '13601223469':
-            cmd_clean = r'cmd.exe C:/DevTools/my_blockchain/star163/clean136.bat'
-            result1 = self.execute_command(cmd_clean)
-            print('result:------>', result1)
+        # if self.phone == '13601223469':
+        #     cmd_clean = r'cmd.exe C:/DevTools/my_blockchain/star163/clean136.bat'
+        #     result1 = self.execute_command(cmd_clean)
+        #     print('result:------>', result1)
+        #
+        #     send_email.send_star163_HtmlEmail('newseeing@163.com', '136获取原力完成.', '')
+        #     self.logger.warning('********** Sending 136获取原力完成 Email Complete!')
+        # else:
+        #     cmd_clean = r'cmd.exe C:/DevTools/my_blockchain/star163/clean138.bat'
+        #     result1 = self.execute_command(cmd_clean)
+        #     print('result:------>', result1)
 
-            send_email.send_star163_HtmlEmail('newseeing@163.com', '136获取原力完成.', '')
-            self.logger.warning('********** Sending 136获取原力完成 Email Complete!')
-        else:
-            cmd_clean = r'cmd.exe C:/DevTools/my_blockchain/star163/clean138.bat'
-            result1 = self.execute_command(cmd_clean)
-            print('result:------>', result1)
-
-            send_email.send_star163_HtmlEmail('newseeing@163.com', '138获取原力完成.', '')
-            self.logger.warning('********** Sending 138获取原力完成 Email Complete!')
+            # send_email.send_star163_HtmlEmail('newseeing@163.com', '138获取原力完成.', '')
+            # self.logger.warning('********** Sending 138获取原力完成 Email Complete!')
 
         return
 
@@ -163,20 +164,24 @@ class AppiumStar(threading.Thread):
     def appium_zixun(self):
         time.sleep(10)
         # level 2 main page
-        # self.driver.find_element_by_accessibility_id("资讯").click()
-        # self.driver.find_element_by_xpath("//android.view.View[@content-desc=\"原力任务\"]/android.view.View[21]").click()
-        # self.my_find_elements_by_classname('android.view.View', '资讯').click()
-        TouchAction(self.driver).tap(x=531, y=827).perform()
+
+        self.driver.find_element_by_accessibility_id("资讯").click()
+        # self.driver.find_element_by_xpath('//android.view.View[@content-desc=\"原力任务\"]/android.view.View[21]').click()
+        # self.driver.find_element_by_xpath('//android.view.View[32]').click()
+
+        # self.my_find_elements_by_classname('android.view.View', '21').click()
+        # TouchAction(self.driver).tap(x=531, y=827).perform()
 
         self.logger.warning("========== 资讯")
-        time.sleep(30)
+        time.sleep(15)
         if self.isElementExist("立即阅读"):
             self.driver.find_element_by_accessibility_id("立即阅读").click()
-            time.sleep(15)
+            time.sleep(5)
         # channel "区块链"
         self.driver.find_element_by_accessibility_id("区块链").click()
         self.logger.warning("========== 区块链")
-        time.sleep(45)
+        self.swipeDown(1000)
+        time.sleep(30)
 
         # Article 1
         TouchAction(self.driver).tap(x=200, y=185).perform()
@@ -184,8 +189,16 @@ class AppiumStar(threading.Thread):
         time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
         if self.isElementExist("查看全文"):
             self.driver.find_element_by_accessibility_id("查看全文").click()
-        time.sleep(85)
+        time.sleep(20)
+        self.swipeUp(1000)
+        time.sleep(20)
+        self.swipeUp(1000)
+        time.sleep(20)
+        self.swipeUp(1000)
+        time.sleep(20)
+        self.swipeUp(1000)
         self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
+        self.swipeDown(1000)
         time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
 
         # Article 2
@@ -194,8 +207,16 @@ class AppiumStar(threading.Thread):
         time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
         if self.isElementExist("查看全文"):
             self.driver.find_element_by_accessibility_id("查看全文").click()
-        time.sleep(85)
+        time.sleep(20)
+        self.swipeUp(1000)
+        time.sleep(20)
+        self.swipeUp(1000)
+        time.sleep(20)
+        self.swipeUp(1000)
+        time.sleep(20)
+        self.swipeUp(1000)
         self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
+        self.swipeDown(1000)
         time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
 
         # Article 3
@@ -204,8 +225,16 @@ class AppiumStar(threading.Thread):
         time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
         if self.isElementExist("查看全文"):
             self.driver.find_element_by_accessibility_id("查看全文").click()
-        time.sleep(85)
+        time.sleep(20)
+        self.swipeUp(1000)
+        time.sleep(20)
+        self.swipeUp(1000)
+        time.sleep(20)
+        self.swipeUp(1000)
+        time.sleep(20)
+        self.swipeUp(1000)
         self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
+        self.swipeDown(1000)
         time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
 
         # Article 4
@@ -214,16 +243,18 @@ class AppiumStar(threading.Thread):
         time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
         if self.isElementExist("查看全文"):
             self.driver.find_element_by_accessibility_id("查看全文").click()
-        time.sleep(85)
-
-        self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
-        time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
+        time.sleep(20)
+        self.swipeUp(1000)
+        time.sleep(20)
+        self.swipeUp(1000)
+        time.sleep(20)
+        self.swipeUp(1000)
+        time.sleep(20)
+        self.swipeUp(1000)
 
         # level 2 main page
-        # self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
-        # self.logger.warning("========== Back to Level 2, 获取原力")
-        # time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
-        return
+        self.driver.find_element_by_id("com.netease.blockchain:id/iv_close").click()
+        self.logger.warning("========== Back to Level 2, 获取原力")
 
     def my_find_elements_by_classname(self, classname, name):
 
@@ -231,26 +262,28 @@ class AppiumStar(threading.Thread):
         views = self.driver.find_elements(By.CLASS_NAME, classname)
         for i in range(len(views)):
             print(views[i].text)
-            print(views[i].value)
-            if views[i].text == name:
+            if views[i].id == name:
                 return views[i]
 
     def appium_yuedu(self):
         time.sleep(10)
         # level 2 main page
-        # self.driver.find_element_by_xpath("//android.view.View[@content-desc=\"原力任务\"]/android.view.View[18]").click()
-        # self.my_find_elements_by_classname('android.view.View', '阅读').click()
-        TouchAction(self.driver).tap(x=322, y=796).perform()
+        # self.driver.find_element_by_xpath('//android.view.View[@content-desc=\"原力任务\"]/android.view.View[18]').click()
+        self.driver.find_element_by_xpath('//android.view.View[28]').click()
+        # self.my_find_elements_by_classname('android.view.View', '18').click()
+        # TouchAction(self.driver).tap(x=322, y=796).perform()
 
         # self.driver.find_element_by_accessibility_id("阅读").click()
         self.logger.warning("========== 阅读")
-        time.sleep(30)
+        time.sleep(15)
         if self.isElementExist("去读书"):
             self.driver.find_element_by_accessibility_id("去读书").click()
-            time.sleep(15)
+            time.sleep(5)
 
         # reading
-        TouchAction(self.driver).tap(x=113, y=533).perform()
+        # TouchAction(self.driver).tap(x=113, y=533).perform()
+        # self.driver.find_element_by_xpath("(//android.view.View[@content-desc=\"Link\"])[1]").click()
+        self.driver.find_element_by_xpath("(//android.view.View[1]").click()
         self.logger.warning("========== Reading......")
 
         time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
@@ -264,7 +297,7 @@ class AppiumStar(threading.Thread):
             if count > 12:
                 break
             self.swipeUp(1000)
-            time.sleep(60)
+            time.sleep(55)
             count += 1
             self.logger.warning("========== Reading count: " + str(count))
 
@@ -344,7 +377,7 @@ class AppiumStar(threading.Thread):
         # result1 = self.execute_command(cmd_clean)
         # print('result:------>', result1)
         #
-        # output = os.system("C:/DevTools/MuMu/emulator/nemu/EmulatorShell/NemuPlayer.exe")
+        # output = os.system("C:/DevTools/Nemu/EmulatorShell/NemuPlayer.exe")
         # self.logger.warning(">>>>>>>>>> Start NemuPlayer.exe, output = " + str(output))
         # time.sleep(120)
 
@@ -366,13 +399,11 @@ class AppiumStar(threading.Thread):
         desired_caps['platformName'] = 'Android'
         desired_caps['platformVersion'] = self.version
         desired_caps['deviceName'] = self.deviceName
-        desired_caps['noReset'] = 'True'
-        desired_caps['newCommandTimeout'] = '600'
-        desired_caps['clearSystemFiles'] = 'True'
+        desired_caps['noReset'] = True
+        desired_caps['newCommandTimeout'] = 600
+        desired_caps['clearSystemFiles'] = True
         desired_caps['app'] = PATH(
             'C:\DevTools\Android_apk\com.netease.blockchain-2.apk'
-            # desired_caps['app'] = PATH(
-            # '/Users/Jackie.Liu/Documents/MuMu共享文件夹/protect_163-e01170001_121-4.apk'
         )
         # desired_caps['appPackage'] = 'com.example.android.contactmanager'
         # desired_caps['appActivity'] = '.ContactManager'

@@ -341,13 +341,13 @@ def loop_star163():
     # thread136.join(10)
     time.sleep(20)
 
-    # thread138 = AppiumStar163.AppiumStar('4.4.2', '127.0.0.1:62001', 4725, '13826090504')
+    thread138 = AppiumStar163.AppiumStar('4.4.2', '127.0.0.1:62001', 4725, '13826090504')
     # # thread138.setName('13826090504')
     # # thread136.setDaemon(True)
-    # thread138.start()
+    thread138.start()
     # # thread136.join(10)
 
 
 # Start from here...
 # logger.warning('***** Start ...')
-# loop_star163()
+loop_star163()

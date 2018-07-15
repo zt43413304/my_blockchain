@@ -103,6 +103,7 @@ class AppiumStar(threading.Thread):
         self.driver.find_element_by_id("com.netease.blockchain:id/tvTwo").click()
 
         self.appium_yuedu()
+
         self.appium_zixun()
 
         # self.appium_music()
@@ -165,8 +166,8 @@ class AppiumStar(threading.Thread):
         time.sleep(10)
         # level 2 main page
 
-        self.driver.find_element_by_accessibility_id("资讯").click()
-        # self.driver.find_element_by_xpath('//android.view.View[@content-desc=\"原力任务\"]/android.view.View[21]').click()
+        # self.driver.find_element_by_accessibility_id("资讯").click()
+        self.driver.find_element_by_xpath('//android.view.View[@content-desc=\"原力任务\"]/android.view.View[21]').click()
         # self.driver.find_element_by_xpath('//android.view.View[32]').click()
 
         # self.my_find_elements_by_classname('android.view.View', '21').click()
@@ -184,8 +185,8 @@ class AppiumStar(threading.Thread):
         time.sleep(30)
 
         # Article 1
-        TouchAction(self.driver).tap(x=200, y=185).perform()
-        self.logger.warning("========== Article 1")
+        TouchAction(self.driver).tap(x=300, y=270).perform()
+        self.logger.warning("========== " + str(self.phone) + ": Article 1")
         time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
         if self.isElementExist("查看全文"):
             self.driver.find_element_by_accessibility_id("查看全文").click()
@@ -202,8 +203,8 @@ class AppiumStar(threading.Thread):
         time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
 
         # Article 2
-        TouchAction(self.driver).tap(x=200, y=315).perform()
-        self.logger.warning("========== Article 2")
+        TouchAction(self.driver).tap(x=300, y=500).perform()
+        self.logger.warning("========== " + str(self.phone) + ": Article 2")
         time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
         if self.isElementExist("查看全文"):
             self.driver.find_element_by_accessibility_id("查看全文").click()
@@ -220,8 +221,8 @@ class AppiumStar(threading.Thread):
         time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
 
         # Article 3
-        TouchAction(self.driver).tap(x=200, y=445).perform()
-        self.logger.warning("========== Article 3")
+        TouchAction(self.driver).tap(x=300, y=730).perform()
+        self.logger.warning("========== " + str(self.phone) + ": Article 3")
         time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
         if self.isElementExist("查看全文"):
             self.driver.find_element_by_accessibility_id("查看全文").click()
@@ -238,8 +239,8 @@ class AppiumStar(threading.Thread):
         time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
 
         # Article 4
-        TouchAction(self.driver).tap(x=200, y=575).perform()
-        self.logger.warning("========== Article 4")
+        TouchAction(self.driver).tap(x=300, y=960).perform()
+        self.logger.warning("========== " + str(self.phone) + ": Article 4")
         time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
         if self.isElementExist("查看全文"):
             self.driver.find_element_by_accessibility_id("查看全文").click()
@@ -253,7 +254,15 @@ class AppiumStar(threading.Thread):
         self.swipeUp(1000)
 
         # level 2 main page
-        self.driver.find_element_by_id("com.netease.blockchain:id/iv_close").click()
+        # self.driver.find_element_by_id("com.netease.blockchain:id/iv_close").click()
+        # self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
+        self.driver.back()
+        time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
+
+        # self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
+        self.driver.back()
+        time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
+
         self.logger.warning("========== Back to Level 2, 获取原力")
 
     def my_find_elements_by_classname(self, classname, name):
@@ -268,10 +277,10 @@ class AppiumStar(threading.Thread):
     def appium_yuedu(self):
         time.sleep(10)
         # level 2 main page
-        # self.driver.find_element_by_xpath('//android.view.View[@content-desc=\"原力任务\"]/android.view.View[18]').click()
-        self.driver.find_element_by_xpath('//android.view.View[28]').click()
+        self.driver.find_element_by_xpath("//android.view.View[@content-desc=\"原力任务\"]/android.view.View[18]").click()
+        # self.driver.find_element_by_xpath('//android.view.View[28]').click()
         # self.my_find_elements_by_classname('android.view.View', '18').click()
-        # TouchAction(self.driver).tap(x=322, y=796).perform()
+        # TouchAction(self.driver).tap(x=113, y=524).perform()
 
         # self.driver.find_element_by_accessibility_id("阅读").click()
         self.logger.warning("========== 阅读")
@@ -282,8 +291,8 @@ class AppiumStar(threading.Thread):
 
         # reading
         # TouchAction(self.driver).tap(x=113, y=533).perform()
-        # self.driver.find_element_by_xpath("(//android.view.View[@content-desc=\"Link\"])[1]").click()
-        self.driver.find_element_by_xpath("(//android.view.View[1]").click()
+        self.driver.find_element_by_xpath("(//android.view.View[@content-desc=\"Link\"])[1]").click()
+        # self.driver.find_element_by_xpath("(//android.view.View[1]").click()
         self.logger.warning("========== Reading......")
 
         time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
@@ -299,13 +308,17 @@ class AppiumStar(threading.Thread):
             self.swipeUp(1000)
             time.sleep(55)
             count += 1
-            self.logger.warning("========== Reading count: " + str(count))
-
-        # self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
-        # time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
+            self.logger.warning("========== "+str(self.phone)+", Reading count: " + str(count))
 
         # level 2 main page
-        self.driver.find_element_by_id("com.netease.blockchain:id/iv_close").click()
+        self.driver.back()
+        # self.driver.find_element_by_id("com.netease.blockchain:id/iv_close").click()
+        # self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
+        time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
+
+        # self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
+        self.driver.back()
+        time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
         self.logger.warning("========== Back to Level 2, 获取原力")
         time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
         return

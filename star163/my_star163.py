@@ -299,7 +299,6 @@ def get_allTotal(cookie):
 
 
 def loop_star163():
-
     curpath = os.getcwd()
     file = open(curpath + '/star163/data_star163.json', 'r', encoding='utf-8')
     data_dict = json.load(file)
@@ -346,7 +345,6 @@ def loop_star163():
     # # thread136.setDaemon(True)
     thread138.start()
     # # thread136.join(10)
-
 
 # Start from here...
 # logger.warning('***** Start ...')

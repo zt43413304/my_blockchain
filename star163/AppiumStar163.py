@@ -29,7 +29,6 @@ class AppiumStar(threading.Thread):
     deviceName = None
     port = None
 
-
     def __init__(self, version, deviceName, port, phone):
         threading.Thread.__init__(self)
         self.phone = phone
@@ -125,8 +124,8 @@ class AppiumStar(threading.Thread):
         #     result1 = self.execute_command(cmd_clean)
         #     print('result:------>', result1)
 
-            # send_email.send_star163_HtmlEmail('newseeing@163.com', '138获取原力完成.', '')
-            # self.logger.warning('********** Sending 138获取原力完成 Email Complete!')
+        send_email.send_star163_HtmlEmail('newseeing@163.com', '获取原力完成 '+str(self.phone), '')
+        self.logger.warning('********** Sending Email Complete!')
 
         return
 
@@ -179,8 +178,8 @@ class AppiumStar(threading.Thread):
             self.driver.find_element_by_accessibility_id("立即阅读").click()
             time.sleep(5)
         # channel "区块链"
-        self.driver.find_element_by_accessibility_id("区块链").click()
-        self.logger.warning("========== 区块链")
+        self.driver.find_element_by_accessibility_id("头条").click()
+        self.logger.warning("========== 头条")
         self.swipeDown(1000)
         time.sleep(30)
 
@@ -308,7 +307,7 @@ class AppiumStar(threading.Thread):
             self.swipeUp(1000)
             time.sleep(55)
             count += 1
-            self.logger.warning("========== "+str(self.phone)+", Reading count: " + str(count))
+            self.logger.warning("========== " + str(self.phone) + ", Reading count: " + str(count))
 
         # level 2 main page
         self.driver.back()
@@ -393,7 +392,6 @@ class AppiumStar(threading.Thread):
         # output = os.system("C:/DevTools/Nemu/EmulatorShell/NemuPlayer.exe")
         # self.logger.warning(">>>>>>>>>> Start NemuPlayer.exe, output = " + str(output))
         # time.sleep(120)
-
 
         cmd_adb = r'adb connect 127.0.0.1:7555'
         result1 = self.execute_command(cmd_adb)

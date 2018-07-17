@@ -65,7 +65,7 @@ class AppiumStar(threading.Thread):
             self.driver.find_element_by_accessibility_id(id)
             return True
         except Exception as e:
-            print(e)
+            # print(e)
             return False
 
     def isElementExist_by_xpath(self, xpath):
@@ -162,6 +162,7 @@ class AppiumStar(threading.Thread):
         return
 
     def appium_zixun(self):
+        self.driver.find_element_by_id("com.netease.blockchain:id/tvTwo").click()
         time.sleep(10)
         # level 2 main page
 
@@ -185,7 +186,7 @@ class AppiumStar(threading.Thread):
 
         # Article 1
         TouchAction(self.driver).tap(x=300, y=270).perform()
-        self.logger.warning("========== " + str(self.phone) + ": Article 1")
+        self.logger.warning(">>>>>>>>>> " + str(self.phone) + ": Article 1")
         time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
         if self.isElementExist("查看全文"):
             self.driver.find_element_by_accessibility_id("查看全文").click()
@@ -203,7 +204,7 @@ class AppiumStar(threading.Thread):
 
         # Article 2
         TouchAction(self.driver).tap(x=300, y=500).perform()
-        self.logger.warning("========== " + str(self.phone) + ": Article 2")
+        self.logger.warning(">>>>>>>>>> " + str(self.phone) + ": Article 2")
         time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
         if self.isElementExist("查看全文"):
             self.driver.find_element_by_accessibility_id("查看全文").click()
@@ -221,7 +222,7 @@ class AppiumStar(threading.Thread):
 
         # Article 3
         TouchAction(self.driver).tap(x=300, y=730).perform()
-        self.logger.warning("========== " + str(self.phone) + ": Article 3")
+        self.logger.warning(">>>>>>>>>> " + str(self.phone) + ": Article 3")
         time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
         if self.isElementExist("查看全文"):
             self.driver.find_element_by_accessibility_id("查看全文").click()
@@ -239,7 +240,7 @@ class AppiumStar(threading.Thread):
 
         # Article 4
         TouchAction(self.driver).tap(x=300, y=960).perform()
-        self.logger.warning("========== " + str(self.phone) + ": Article 4")
+        self.logger.warning(">>>>>>>>>> " + str(self.phone) + ": Article 4")
         time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
         if self.isElementExist("查看全文"):
             self.driver.find_element_by_accessibility_id("查看全文").click()
@@ -274,6 +275,7 @@ class AppiumStar(threading.Thread):
                 return views[i]
 
     def appium_yuedu(self):
+        self.driver.find_element_by_id("com.netease.blockchain:id/tvTwo").click()
         time.sleep(10)
         # level 2 main page
         self.driver.find_element_by_xpath("//android.view.View[@content-desc=\"原力任务\"]/android.view.View[18]").click()
@@ -292,7 +294,7 @@ class AppiumStar(threading.Thread):
         # TouchAction(self.driver).tap(x=113, y=533).perform()
         self.driver.find_element_by_xpath("(//android.view.View[@content-desc=\"Link\"])[1]").click()
         # self.driver.find_element_by_xpath("(//android.view.View[1]").click()
-        self.logger.warning("========== Reading......")
+        # self.logger.warning("========== Reading......")
 
         time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
 
@@ -307,7 +309,7 @@ class AppiumStar(threading.Thread):
             self.swipeUp(1000)
             time.sleep(55)
             count += 1
-            self.logger.warning("========== " + str(self.phone) + ", Reading count: " + str(count))
+            self.logger.warning(">>>>>>>>>> " + str(self.phone) + ", Reading count: " + str(count))
 
         # level 2 main page
         self.driver.back()
@@ -318,7 +320,7 @@ class AppiumStar(threading.Thread):
         # self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
         self.driver.back()
         time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
-        self.logger.warning("========== Back to Level 2, 获取原力")
+        self.logger.warning("========== Back to Level 2")
         time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
         return
 
@@ -401,7 +403,7 @@ class AppiumStar(threading.Thread):
         print('result:------>', result2)
 
         output3 = os.system(
-            "start /b node C:/Users/Jackie.Liu/AppData/Local/Programs/Appium/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4723")
+            "start node C:/Users/Jackie.Liu/AppData/Local/Programs/Appium/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4723")
         print('result:------>' + str(output3))
         time.sleep(30)
 
@@ -437,7 +439,7 @@ class AppiumStar(threading.Thread):
         print('result:------>', result2)
 
         output3 = os.system(
-            "start /b node C:/Users/Jackie.Liu/AppData/Local/Programs/Appium/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4725")
+            "start node C:/Users/Jackie.Liu/AppData/Local/Programs/Appium/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4725")
         print('result:------>' + str(output3))
         time.sleep(30)
 

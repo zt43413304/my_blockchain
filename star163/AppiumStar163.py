@@ -93,7 +93,7 @@ class AppiumStar(threading.Thread):
         time.sleep(5)
 
         # level 1 main page
-        self.logger.warning("========== Start from tab 2 main page ...")
+        self.logger.warning("========== " + str(self.phone) + ", Start from tab 2 main page ...")
         # time.sleep(30)
         # self.driver.find_element_by_accessibility_id("获取原力").click()
         # self.logger.warning("========== Level 2, 获取原力")
@@ -173,14 +173,14 @@ class AppiumStar(threading.Thread):
         # self.my_find_elements_by_classname('android.view.View', '21').click()
         # TouchAction(self.driver).tap(x=531, y=827).perform()
 
-        self.logger.warning("========== 资讯")
+        self.logger.warning("========== "+ str(self.phone) +", 资讯")
         time.sleep(15)
         if self.isElementExist("立即阅读"):
             self.driver.find_element_by_accessibility_id("立即阅读").click()
             time.sleep(5)
         # channel "区块链"
         self.driver.find_element_by_accessibility_id("头条").click()
-        self.logger.warning("========== 头条")
+        self.logger.warning("========== "+ str(self.phone) +", 头条")
         self.swipeDown(1000)
         time.sleep(30)
 
@@ -263,7 +263,7 @@ class AppiumStar(threading.Thread):
         self.driver.back()
         time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
 
-        self.logger.warning("========== Back to Level 2, 获取原力")
+        self.logger.warning("========== "+ str(self.phone) +", Back to Level 2, 获取原力")
 
     def my_find_elements_by_classname(self, classname, name):
 
@@ -284,7 +284,7 @@ class AppiumStar(threading.Thread):
         # TouchAction(self.driver).tap(x=113, y=524).perform()
 
         # self.driver.find_element_by_accessibility_id("阅读").click()
-        self.logger.warning("========== 阅读")
+        self.logger.warning("========== "+ str(self.phone) +", 阅读")
         time.sleep(15)
         if self.isElementExist("去读书"):
             self.driver.find_element_by_accessibility_id("去读书").click()
@@ -320,7 +320,7 @@ class AppiumStar(threading.Thread):
         # self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
         self.driver.back()
         time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
-        self.logger.warning("========== Back to Level 2")
+        self.logger.warning("========== "+ str(self.phone) +", Back to Level 2")
         time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
         return
 

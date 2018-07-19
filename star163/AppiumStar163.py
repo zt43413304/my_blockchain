@@ -101,9 +101,11 @@ class AppiumStar(threading.Thread):
 
         self.driver.find_element_by_id("com.netease.blockchain:id/tvTwo").click()
 
-        self.appium_yuedu()
 
         self.appium_zixun()
+
+        self.appium_yuedu()
+
 
         # self.appium_music()
 
@@ -167,9 +169,9 @@ class AppiumStar(threading.Thread):
         # level 2 main page
 
         # self.driver.find_element_by_accessibility_id("资讯").click()
-        self.driver.find_element_by_xpath('//android.view.View[@content-desc=\"原力任务\"]/android.view.View[21]').click()
+        # self.driver.find_element_by_xpath('//android.view.View[@content-desc=\"原力任务\"]/android.view.View[21]').click()
         # self.driver.find_element_by_xpath('//android.view.View[32]').click()
-
+        self.my_find_elements_by_classname('android.view.View', 21).click()
         # self.my_find_elements_by_classname('android.view.View', '21').click()
         # TouchAction(self.driver).tap(x=531, y=827).perform()
 
@@ -265,22 +267,36 @@ class AppiumStar(threading.Thread):
 
         self.logger.warning("========== "+ str(self.phone) +", Back to Level 2, 获取原力")
 
-    def my_find_elements_by_classname(self, classname, name):
+    def my_find_elements_by_classname(self, classname, index):
 
         # android.widget.TextView
         views = self.driver.find_elements(By.CLASS_NAME, classname)
-        for i in range(len(views)):
-            print(views[i].text)
-            if views[i].id == name:
-                return views[i]
+        return views[index]
+        # for i in range(len(views)):
+        #     print(views[i].text)
+        #     if views[i].id == name:
+        #         return views[i]
 
     def appium_yuedu(self):
         self.driver.find_element_by_id("com.netease.blockchain:id/tvTwo").click()
         time.sleep(10)
+
+        # print(self.driver.current_context)
+        # cons = self.driver.contexts
+        # 0: 'NATIVE_APP'
+        # 1: 'WEBVIEW_com.netease.blockchain'
+        # for i in range(len(cons)):
+            # print(">>>>> " + cons[i].id)
+            # print(">>>>> " + cons[i].text)
+
+        # self.driver.switch_to.context(cons[1])
+        # print(self.driver.current_context)
+
         # level 2 main page
-        self.driver.find_element_by_xpath("//android.view.View[@content-desc=\"原力任务\"]/android.view.View[18]").click()
+        # self.driver.find_element_by_xpath("//android.view.View[@content-desc=\"原力任务\"]/android.view.View[18]").click()
+        # self.driver.find_element_by_xpath("//android.view.View[18]").click()
         # self.driver.find_element_by_xpath('//android.view.View[28]').click()
-        # self.my_find_elements_by_classname('android.view.View', '18').click()
+        self.my_find_elements_by_classname('android.view.View', 18).click()
         # TouchAction(self.driver).tap(x=113, y=524).perform()
 
         # self.driver.find_element_by_accessibility_id("阅读").click()
@@ -292,7 +308,8 @@ class AppiumStar(threading.Thread):
 
         # reading
         # TouchAction(self.driver).tap(x=113, y=533).perform()
-        self.driver.find_element_by_xpath("(//android.view.View[@content-desc=\"Link\"])[1]").click()
+        # self.driver.find_element_by_xpath("(//android.view.View[@content-desc=\"Link\"])[1]").click()
+        self.my_find_elements_by_classname('android.view.View', 23).click()
         # self.driver.find_element_by_xpath("(//android.view.View[1]").click()
         # self.logger.warning("========== Reading......")
 

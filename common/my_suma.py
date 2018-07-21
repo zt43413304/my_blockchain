@@ -73,7 +73,12 @@ class suma:
 
         url = "http://api.eobzz.com/httpApi.do"
 
-        querystring = {"action": "getVcodeAndHoldMobilenum", "uid": "newseeing", "token": token, "pid": "43795",
+        # 获取验证码并不再使用本号, 方法名：getVcodeAndReleaseMobile
+        # querystring = {"action": "getVcodeAndReleaseMobile", "uid": "newseeing", "token": token,
+        #                "mobile": phone, "author_uid": "newseeing"}
+
+        # 获取验证码并继续使用本号, 方法名：getVcodeAndHoldMobilenum
+        querystring = {"action": "getVcodeAndHoldMobilenum", "uid": "newseeing", "token": token,
                        "next_pid": "43795", "mobile": phone, "author_uid": "newseeing"}
 
         try:

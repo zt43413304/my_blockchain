@@ -4,23 +4,18 @@ import logging
 import os
 import time
 
-from apscheduler.schedulers.blocking import BlockingScheduler
-from hashworld import my_hashworld
-from onechain import my_onechain
-from star163 import my_star163
-from bixiang import my_bixiang
-from diwuqu import my_diwuqu
+from bixiang import bixiang_readnews
 
 # 第一步，创建一个logger
 
 
-logger = logging.getLogger("start_tmp_Tokyo.py")
+logger = logging.getLogger("start_hp_once.py")
 logger.setLevel(logging.INFO)  # Log等级总开关
 # 第二步，创建一个handler，用于写入日志文件
 rq = time.strftime('%Y%m%d%H%M', time.localtime(time.time()))
 # log_path = os.path.dirname(os.getcwd()) + '/logs/'
 log_path = os.getcwd() + '/logs/'
-log_name = log_path + 'start_tmp_Tokyo' + rq + '.log'
+log_name = log_path + 'start_hp_once' + rq + '.log'
 logfile = log_name
 
 fh = logging.FileHandler(logfile, mode='w', encoding='UTF-8')
@@ -39,17 +34,17 @@ logger.addHandler(fh)
 logger.addHandler(ch)
 
 # start
-logger.warning('********** Start from start_tmp_Tokyo.py ...')
+logger.warning('********** Start from start_hp_once.py ...')
 
 
-
-my_bixiang.loop_bixiang("data_bixiang_Tokyo.json")
+# my_bixiang.loop_bixiang("data_bixiang_Tokyo.json")
 # my_bixiang.loop_bixiang("data_bixiang_Seoul.json")
 
 # my_hashworld.loop_hashworld_no_land("data_hashworld_Tokyo.json")
 # my_hashworld.loop_hashworld_no_land("data_hashworld_Seoul.json")
-# my_onechain.loop_onechain()
+# my_hashworld.loop_hashworld_land()
 
+bixiang_readnews.start_reading_news("data_bixiang_Seoul.json")
 
 
 

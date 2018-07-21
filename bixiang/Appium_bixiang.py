@@ -103,7 +103,7 @@ class Signup:
         # desired_caps['automationName'] = 'Appium'
         # desired_caps['autoWebview'] = 'True'
         desired_caps['app'] = PATH(
-            '/Users/Jackie.Liu/Documents/MuMu共享文件夹/bixiang-235-1.4.4-Y1032_BD73FA82435E19B9450BD08AC32586B1.apk'
+            '/Users/Jackie.Liu/DevTools/Android_apk/bixiang-255-1.6.0-Y1032_7D776136AFBE0DEA5A4DB48F7A1315BC.apk'
         )
         desired_caps['appPackage'] = 'com.coinstation.bixiang'
         desired_caps['appActivity'] = 'com.coinstation.bixiang.view.activity.MainActivity'
@@ -580,43 +580,17 @@ class Signup:
             # self.driver.set_window_size(600, 800)
             # self.driver.set_window_position(y=0, x=0)
 
+            # 输入手机号
             self.driver.get(invite_url)
             wait = WebDriverWait(self.driver, 10)
             phones = self.driver.find_element_by_id('phones')
-            # code2 = driver.find_element_by_id('code2')
             phones.send_keys(suma_phone)
 
-            # 步骤一：先点击按钮，弹出没有缺口的图片
-            button = wait.until(EC.presence_of_element_located((By.ID, 'getCode')))
-            button.click()
-            logger.warning(">>>>>>>>>> 1. 开始进行滑块验证。")
+            # 点击‘立即领取’，弹出滑块验证
+            download = self.driver.find_element_by_id('download')
+            download.click()
 
-            time.sleep(10)
-            suma_code = suma.getVcodeAndHoldMobilenum(suma_phone)
-
-            self.login_with_sms(suma_code)
-            logger.warning(">>>>>>>>>> 3. 收到短信，完成登录。 ")
-            logger.warning("\n")
-            time.sleep(random.randint(5, 8))
-
-            # print(self.driver.current_context)
-            # cons = self.driver.contexts
-            # for i in range(len(cons)):
-            #     # print(">>>>> " + cons[i].id)
-            #     print(">>>>> " + cons[i].text)
-
-            # 新用户签到
-            # if self.isElementExist_by_id("com.coinstation.bixiang:id/btn_sign"):
-            #     self.driver.find_element_by_id("com.coinstation.bixiang:id/btn_sign").click()
-            #
-            # if self.isElementExist_by_id("com.coinstation.bixiang:id/signed_close"):
-            #     self.driver.find_element_by_id("com.coinstation.bixiang:id/signed_close").click()
-
-            # el1 = self.driver.find_element_by_id("com.coinstation.bixiang:id/btn_sign")
-            # el1.click()
-            # el2 = self.driver.find_element_by_id("com.coinstation.bixiang:id/signed_close")
-            # el2.click()
-
+            time.sleep(30)
             return 0
 
         except Exception as e:
@@ -632,32 +606,16 @@ class Signup:
             self.get_app_driver()
             time.sleep(random.randint(5, 7))
 
-            # cons = self.driver.contexts
-            # print(self.driver.current_context)
-            # print(self.driver.current_url)
-            # print(self.driver.current_window_handle)
-
-            # print(bool(type(self.driver == webdriver)))
-            # print(bool(type(self.driver == appium.webdriver)))
-
             wait = WebDriverWait(self.driver, 30)
 
             # 新用户签到
             if self.isElementExist_by_id("com.coinstation.bixiang:id/btn_sign"):
                 self.driver.find_element_by_id("com.coinstation.bixiang:id/btn_sign").click()
+                self.driver.back()
+            # if self.isElementExist_by_id("com.coinstation.bixiang:id/signed_close"):
+            #     self.driver.find_element_by_id("com.coinstation.bixiang:id/signed_close").click()
+            # time.sleep(random.randint(3, 5))
 
-            if self.isElementExist_by_id("com.coinstation.bixiang:id/signed_close"):
-                self.driver.find_element_by_id("com.coinstation.bixiang:id/signed_close").click()
-            time.sleep(random.randint(3, 5))
-
-            # el1 = self.driver.find_element_by_id("com.coinstation.bixiang:id/btn_sign")
-            # el1.click()
-            # el2 = self.driver.find_element_by_id("com.coinstation.bixiang:id/signed_close")
-            # el2.click()
-
-            # el3 = self.driver.find_element_by_xpath(
-            #     "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.LinearLayout[3]/android.widget.LinearLayout/android.widget.TextView")
-            # el3.click()
 
             # 右下角“我的”
             self.my_find_elements_by_classname('android.widget.TextView', '我的').click()

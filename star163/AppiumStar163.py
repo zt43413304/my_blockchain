@@ -101,7 +101,7 @@ class AppiumStar(threading.Thread):
 
         self.driver.find_element_by_id("com.netease.blockchain:id/tvTwo").click()
 
-        # self.appium_zixun()
+        self.appium_zixun()
 
         self.appium_yuedu()
 
@@ -185,104 +185,104 @@ class AppiumStar(threading.Thread):
             self.swipeDown(1000)
             time.sleep(15)
 
-            news_list = self.my_find_elements_by_size('android.view.View')
-
-            for i in range(len(news_list)):
-
-                # self.my_find_elements_by_classname('android.view.View', i).click()
-                position = news_list[i].location
-                TouchAction(self.driver).tap(x=position['x'] + 100, y=position['y'] + 50).perform()
-
-                self.logger.warning(">>>>>>>>>> " + str(self.phone) + ": Article " + str(i))
-                time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
-                if self.isElementExist("查看全文"):
-                    self.driver.find_element_by_accessibility_id("查看全文").click()
-
-                self.swipeUp(1000)
-                time.sleep(20)
-                self.swipeUp(1000)
-                time.sleep(20)
-                self.swipeUp(1000)
-                time.sleep(20)
-                self.swipeUp(1000)
-                time.sleep(20)
-                self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
-                # self.swipeDown(1000)
-                time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
-                return
+            # news_list = self.my_find_elements_by_size('android.view.View')
+            #
+            # for i in range(len(news_list)):
+            #
+            #     # self.my_find_elements_by_classname('android.view.View', i).click()
+            #     position = news_list[i].location
+            #     TouchAction(self.driver).tap(x=position['x'] + 100, y=position['y'] + 50).perform()
+            #
+            #     self.logger.warning(">>>>>>>>>> " + str(self.phone) + ": Article " + str(i))
+            #     time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
+            #     if self.isElementExist("查看全文"):
+            #         self.driver.find_element_by_accessibility_id("查看全文").click()
+            #
+            #     self.swipeUp(1000)
+            #     time.sleep(20)
+            #     self.swipeUp(1000)
+            #     time.sleep(20)
+            #     self.swipeUp(1000)
+            #     time.sleep(20)
+            #     self.swipeUp(1000)
+            #     time.sleep(20)
+            #     self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
+            #     # self.swipeDown(1000)
+            #     time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
+            #     return
         except Exception as e:
             print(e)
             return
 
-        # # Article 1
-        # # self.my_find_elements_by_classname('android.view.View', 40).click()
-        # TouchAction(self.driver).tap(x=300, y=270).perform()
-        # self.logger.warning(">>>>>>>>>> " + str(self.phone) + ": Article 1")
-        # time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
-        # if self.isElementExist("查看全文"):
-        #     self.driver.find_element_by_accessibility_id("查看全文").click()
-        # time.sleep(20)
-        # self.swipeUp(1000)
-        # time.sleep(20)
-        # self.swipeUp(1000)
-        # time.sleep(20)
-        # self.swipeUp(1000)
-        # time.sleep(20)
-        # self.swipeUp(1000)
-        # self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
-        # self.swipeDown(1000)
-        # time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
-        #
-        # # Article 2
-        # TouchAction(self.driver).tap(x=300, y=500).perform()
-        # self.logger.warning(">>>>>>>>>> " + str(self.phone) + ": Article 2")
-        # time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
-        # if self.isElementExist("查看全文"):
-        #     self.driver.find_element_by_accessibility_id("查看全文").click()
-        # time.sleep(20)
-        # self.swipeUp(1000)
-        # time.sleep(20)
-        # self.swipeUp(1000)
-        # time.sleep(20)
-        # self.swipeUp(1000)
-        # time.sleep(20)
-        # self.swipeUp(1000)
-        # self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
-        # self.swipeDown(1000)
-        # time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
-        #
-        # # Article 3
-        # TouchAction(self.driver).tap(x=300, y=730).perform()
-        # self.logger.warning(">>>>>>>>>> " + str(self.phone) + ": Article 3")
-        # time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
-        # if self.isElementExist("查看全文"):
-        #     self.driver.find_element_by_accessibility_id("查看全文").click()
-        # time.sleep(20)
-        # self.swipeUp(1000)
-        # time.sleep(20)
-        # self.swipeUp(1000)
-        # time.sleep(20)
-        # self.swipeUp(1000)
-        # time.sleep(20)
-        # self.swipeUp(1000)
-        # self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
-        # self.swipeDown(1000)
-        # time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
-        #
-        # # Article 4
-        # TouchAction(self.driver).tap(x=300, y=960).perform()
-        # self.logger.warning(">>>>>>>>>> " + str(self.phone) + ": Article 4")
-        # time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
-        # if self.isElementExist("查看全文"):
-        #     self.driver.find_element_by_accessibility_id("查看全文").click()
-        # time.sleep(20)
-        # self.swipeUp(1000)
-        # time.sleep(20)
-        # self.swipeUp(1000)
-        # time.sleep(20)
-        # self.swipeUp(1000)
-        # time.sleep(20)
-        # self.swipeUp(1000)
+        # Article 1
+        # self.my_find_elements_by_classname('android.view.View', 40).click()
+        TouchAction(self.driver).tap(x=300, y=270).perform()
+        self.logger.warning(">>>>>>>>>> " + str(self.phone) + ": Article 1")
+        time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
+        if self.isElementExist("查看全文"):
+            self.driver.find_element_by_accessibility_id("查看全文").click()
+        time.sleep(20)
+        self.swipeUp(1000)
+        time.sleep(20)
+        self.swipeUp(1000)
+        time.sleep(20)
+        self.swipeUp(1000)
+        time.sleep(20)
+        self.swipeUp(1000)
+        self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
+        self.swipeDown(1000)
+        time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
+
+        # Article 2
+        TouchAction(self.driver).tap(x=300, y=500).perform()
+        self.logger.warning(">>>>>>>>>> " + str(self.phone) + ": Article 2")
+        time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
+        if self.isElementExist("查看全文"):
+            self.driver.find_element_by_accessibility_id("查看全文").click()
+        time.sleep(20)
+        self.swipeUp(1000)
+        time.sleep(20)
+        self.swipeUp(1000)
+        time.sleep(20)
+        self.swipeUp(1000)
+        time.sleep(20)
+        self.swipeUp(1000)
+        self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
+        self.swipeDown(1000)
+        time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
+
+        # Article 3
+        TouchAction(self.driver).tap(x=300, y=730).perform()
+        self.logger.warning(">>>>>>>>>> " + str(self.phone) + ": Article 3")
+        time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
+        if self.isElementExist("查看全文"):
+            self.driver.find_element_by_accessibility_id("查看全文").click()
+        time.sleep(20)
+        self.swipeUp(1000)
+        time.sleep(20)
+        self.swipeUp(1000)
+        time.sleep(20)
+        self.swipeUp(1000)
+        time.sleep(20)
+        self.swipeUp(1000)
+        self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
+        self.swipeDown(1000)
+        time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
+
+        # Article 4
+        TouchAction(self.driver).tap(x=300, y=960).perform()
+        self.logger.warning(">>>>>>>>>> " + str(self.phone) + ": Article 4")
+        time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
+        if self.isElementExist("查看全文"):
+            self.driver.find_element_by_accessibility_id("查看全文").click()
+        time.sleep(20)
+        self.swipeUp(1000)
+        time.sleep(20)
+        self.swipeUp(1000)
+        time.sleep(20)
+        self.swipeUp(1000)
+        time.sleep(20)
+        self.swipeUp(1000)
 
         # level 2 main page
         # self.driver.find_element_by_id("com.netease.blockchain:id/iv_close").click()
@@ -365,7 +365,7 @@ class AppiumStar(threading.Thread):
 
             count = 0
             while True:
-                if count > 12:
+                if count > 8:
                     break
                 self.swipeUp(1000)
                 time.sleep(30)

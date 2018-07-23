@@ -73,8 +73,8 @@ payload = "is_ad_ios=" + is_ad_ios + \
 
 # Random seconds
 mail_subject = ''
-MIN_SEC = 2
-MAX_SEC = 3
+MIN_SEC = 1
+MAX_SEC = 1
 proxies = ''
 
 

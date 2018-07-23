@@ -101,7 +101,7 @@ class AppiumStar(threading.Thread):
 
         self.driver.find_element_by_id("com.netease.blockchain:id/tvTwo").click()
 
-        # self.appium_zixun()
+        self.appium_zixun()
 
         self.appium_yuedu()
 
@@ -370,8 +370,8 @@ class AppiumStar(threading.Thread):
 
             # reading
             # TouchAction(self.driver).tap(x=113, y=533).perform()
-            # self.driver.find_element_by_xpath("(//android.view.View[@content-desc=\"Link\"])[1]").click()
-            self.my_find_elements_by_classname('android.view.View', 23).click()
+            self.driver.find_element_by_xpath("(//android.view.View[@content-desc=\"Link\"])[1]").click()
+            # self.my_find_elements_by_classname('android.view.View', 23).click()
             # self.driver.find_element_by_xpath("(//android.view.View[1]").click()
             # self.logger.warning("========== Reading......")
 

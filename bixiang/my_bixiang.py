@@ -74,7 +74,7 @@ payload = "is_ad_ios=" + is_ad_ios + \
 # Random seconds
 mail_subject = ''
 MIN_SEC = 2
-MAX_SEC = 5
+MAX_SEC = 3
 proxies = ''
 
 
@@ -432,7 +432,7 @@ def bixiang_lottery(unique, uid):
             if response.json()["status"] == 1:
                 logger.warning(
                     ">>>>>>>>>> " + response.json()["message"] + ", bxc_add = " + str(response.json()["bxc_add"]))
-            time.sleep(random.randint(1, 3))
+            time.sleep(random.randint(MIN_SEC, MAX_SEC))
         return 0
 
     except Exception as e:
@@ -493,7 +493,7 @@ def loop_bixiang(filename):
 
             count = 0
             for i in range(len(infoList)):
-                if count > 5:
+                if count > 3:
                     break
                 if int(infoList[i]["share_total"]) < 20:
                     continue

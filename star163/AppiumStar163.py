@@ -101,10 +101,8 @@ class AppiumStar(threading.Thread):
 
         self.driver.find_element_by_id("com.netease.blockchain:id/tvTwo").click()
 
-        self.appium_zixun()
-
         self.appium_yuedu()
-
+        self.appium_zixun()
         # self.appium_music()
 
         # level 1 main page
@@ -175,7 +173,7 @@ class AppiumStar(threading.Thread):
             # TouchAction(self.driver).tap(x=531, y=827).perform()
 
             self.logger.warning("========== " + str(self.phone) + ", 资讯")
-            time.sleep(10)
+            time.sleep(5)
             if self.isElementExist("立即阅读"):
                 self.driver.find_element_by_accessibility_id("立即阅读").click()
                 time.sleep(5)
@@ -183,7 +181,7 @@ class AppiumStar(threading.Thread):
             self.driver.find_element_by_accessibility_id("头条").click()
             self.logger.warning("========== " + str(self.phone) + ", 头条")
             self.swipeDown(1000)
-            time.sleep(15)
+            time.sleep(10)
 
             # news_list = self.my_find_elements_by_size('android.view.View')
             #
@@ -221,13 +219,13 @@ class AppiumStar(threading.Thread):
             time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
             if self.isElementExist("查看全文"):
                 self.driver.find_element_by_accessibility_id("查看全文").click()
-            time.sleep(20)
+            time.sleep(15)
             self.swipeUp(1000)
-            time.sleep(20)
+            time.sleep(15)
             self.swipeUp(1000)
-            time.sleep(20)
+            time.sleep(15)
             self.swipeUp(1000)
-            time.sleep(20)
+            time.sleep(15)
             self.swipeUp(1000)
             self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
             self.swipeDown(1000)
@@ -242,13 +240,13 @@ class AppiumStar(threading.Thread):
             time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
             if self.isElementExist("查看全文"):
                 self.driver.find_element_by_accessibility_id("查看全文").click()
-            time.sleep(20)
+            time.sleep(15)
             self.swipeUp(1000)
-            time.sleep(20)
+            time.sleep(15)
             self.swipeUp(1000)
-            time.sleep(20)
+            time.sleep(15)
             self.swipeUp(1000)
-            time.sleep(20)
+            time.sleep(15)
             self.swipeUp(1000)
             self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
             self.swipeDown(1000)
@@ -263,13 +261,13 @@ class AppiumStar(threading.Thread):
             time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
             if self.isElementExist("查看全文"):
                 self.driver.find_element_by_accessibility_id("查看全文").click()
-            time.sleep(20)
+            time.sleep(15)
             self.swipeUp(1000)
-            time.sleep(20)
+            time.sleep(15)
             self.swipeUp(1000)
-            time.sleep(20)
+            time.sleep(15)
             self.swipeUp(1000)
-            time.sleep(20)
+            time.sleep(15)
             self.swipeUp(1000)
             self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
             self.swipeDown(1000)
@@ -284,32 +282,31 @@ class AppiumStar(threading.Thread):
             time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
             if self.isElementExist("查看全文"):
                 self.driver.find_element_by_accessibility_id("查看全文").click()
-            time.sleep(20)
+            time.sleep(15)
             self.swipeUp(1000)
-            time.sleep(20)
+            time.sleep(15)
             self.swipeUp(1000)
-            time.sleep(20)
+            time.sleep(15)
             self.swipeUp(1000)
-            time.sleep(20)
+            time.sleep(15)
             self.swipeUp(1000)
         except Exception as e:
             print(e)
 
         # level 2 main page
-        # self.driver.find_element_by_id("com.netease.blockchain:id/iv_close").click()
-        # self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
+        if self.phone == "13826090504":
+            self.driver.back()
+            time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
+            self.driver.back()
+            time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
+        else:
+            if self.isElementExist("com.netease.blockchain:id/iv_back"):
+                self.driver.find_element_by_accessibility_id("com.netease.blockchain:id/iv_back").click()
+            time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
 
-        # self.driver.back()
-
-        if self.isElementExist("com.netease.blockchain:id/iv_back"):
-            self.driver.find_element_by_accessibility_id("com.netease.blockchain:id/iv_back").click()
-        time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
-
-        # self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
-        # self.driver.back()
-        if self.isElementExist("com.netease.blockchain:id/iv_back"):
-            self.driver.find_element_by_accessibility_id("com.netease.blockchain:id/iv_back").click()
-        time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
+            if self.isElementExist("com.netease.blockchain:id/iv_back"):
+                self.driver.find_element_by_accessibility_id("com.netease.blockchain:id/iv_back").click()
+            time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
 
         self.logger.warning("========== " + str(self.phone) + ", Back to Level 2, 获取原力")
         return
@@ -379,33 +376,36 @@ class AppiumStar(threading.Thread):
 
             if self.isElementExist("显示/隐藏操作栏"):
                 self.driver.find_element_by_accessibility_id("显示/隐藏操作栏").click()
-            time.sleep(55)
+            time.sleep(5)
 
             count = 0
             while True:
                 if count > 8:
                     break
                 self.swipeUp(1000)
-                time.sleep(30)
+                time.sleep(15)
                 self.swipeUp(1000)
-                time.sleep(30)
+                time.sleep(15)
+                self.swipeUp(1000)
+                time.sleep(15)
+                self.swipeUp(1000)
+                time.sleep(15)
                 count += 1
                 self.logger.warning(">>>>>>>>>> " + str(self.phone) + ", Reading count: " + str(count))
 
             # level 2 main page
             # self.driver.back()
-            # self.driver.find_element_by_id("com.netease.blockchain:id/iv_close").click()
+            self.driver.find_element_by_id("com.netease.blockchain:id/iv_close").click()
             # self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
-            if self.isElementExist("com.netease.blockchain:id/iv_back"):
-                self.driver.find_element_by_accessibility_id("com.netease.blockchain:id/iv_back").click()
-            time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
 
-            # self.driver.find_element_by_id("com.netease.blockchain:id/iv_back").click()
-            # self.driver.back()
-            if self.isElementExist("com.netease.blockchain:id/iv_back"):
-                self.driver.find_element_by_accessibility_id("com.netease.blockchain:id/iv_back").click()
-            time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
-            self.logger.warning("========== " + str(self.phone) + ", Back to Level 2")
+            # if self.isElementExist("com.netease.blockchain:id/iv_back"):
+            #     self.driver.find_element_by_accessibility_id("com.netease.blockchain:id/iv_back").click()
+            # time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
+            #
+            # if self.isElementExist("com.netease.blockchain:id/iv_back"):
+            #     self.driver.find_element_by_accessibility_id("com.netease.blockchain:id/iv_back").click()
+            # time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
+            # self.logger.warning("========== " + str(self.phone) + ", Back to Level 2")
             time.sleep(random.randint(self.MIN_SEC, self.MAX_SEC))
             return
         except Exception as e:

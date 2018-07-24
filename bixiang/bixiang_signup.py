@@ -7,7 +7,7 @@ import time
 
 from bixiang import Appium_bixiang
 # 第一步，创建一个logger,并设置级别
-from common import my_suma
+from common import my_51ym
 
 logger = logging.getLogger("bixiang_signup.py")
 logger.setLevel(logging.INFO)  # Log等级总开关
@@ -102,21 +102,21 @@ url10 = 'http://bixiang8.com/vXoPR1'
 invite_url = url05
 phone = input("********** Phone Number (enter for new): ")
 logger.warning('********** Your input is: ' + phone)
-suma = my_suma.suma()
+ym = my_51ym.ym()
 
 try:
     if phone is '':
-        phone = suma.getMobilenum()
+        ym.get_phoneNumber()
     else:
-        phone = phone
+        ym.set_phone(phone)
 
     signup = Appium_bixiang.Signup()
 
     # result = 0
-    result = signup.html_signup(phone, suma, invite_url)
+    result = signup.html_signup(ym, invite_url)
 
     if result == 0:
-        result = signup.app_signup(phone, suma)
+        result = signup.app_signup(ym)
 
     if result == 0:
         # 手工“币响知识小课堂”

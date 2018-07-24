@@ -564,14 +564,13 @@ class Signup:
         finally:
             self.driver.close()
 
-    def html_signup(self, suma_phone, suma, invite_url):
+    def html_signup(self, ym, invite_url):
         global rate
 
         try:
             self.get_html_driver()
-            # suma = my_suma.suma()
 
-            logger.warning("********** html_signup(), suma_phone = " + suma_phone)
+            logger.warning("********** html_signup(), suma_phone = " + ym.get_phone())
 
             # /Users/Jackie.Liu/DevTools/Selenium/chromedriver
 
@@ -584,7 +583,7 @@ class Signup:
             self.driver.get(invite_url)
             wait = WebDriverWait(self.driver, 10)
             phones = self.driver.find_element_by_id('phones')
-            phones.send_keys(suma_phone)
+            phones.send_keys(ym.get_phone())
 
             # 点击‘立即领取’，弹出滑块验证
             download = self.driver.find_element_by_id('download')
@@ -599,10 +598,10 @@ class Signup:
         finally:
             self.driver.close()
 
-    def app_signup(self, suma_phone, suma):
+    def app_signup(self, ym):
 
         try:
-            logger.warning("********** app_signup(), suma_phone = " + suma_phone)
+            logger.warning("********** app_signup(), suma_phone = " + ym.get_phone())
             self.get_app_driver()
             time.sleep(random.randint(5, 7))
 
@@ -638,7 +637,7 @@ class Signup:
             # 输入手机号
             # phone = self.driver.find_element(By.ID, "com.coinstation.bixiang:id/et_phone")
             phone = wait.until(EC.presence_of_element_located((By.ID, 'com.coinstation.bixiang:id/et_phone')))
-            phone.send_keys(suma_phone)
+            phone.send_keys(ym.get_phone())
             time.sleep(random.randint(2, 3))
 
             # 点击获取短信验证码
@@ -670,7 +669,8 @@ class Signup:
 
             # 步骤八：滑块验证通过，短信登录
             time.sleep(10)
-            sms_code = suma.getVcodeAndHoldMobilenum(suma_phone)
+
+            sms_code = ym.get_sms()
 
             # 输入短信验证码
             # sms = self.driver.find_element_by_id("com.coinstation.bixiang:id/et_sms")
@@ -684,6 +684,7 @@ class Signup:
             button.click()
             logger.warning(">>>>>>>>>> 3. 收到短信，完成登录。 ")
             time.sleep(random.randint(3, 5))
+            ym.release_phoneNumber()
 
             # 关闭，返回
             # self.driver.find_element_by_id("com.coinstation.bixiang:id/btn_back").click()

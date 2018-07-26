@@ -5,12 +5,10 @@ import os
 import time
 
 from apscheduler.schedulers.blocking import BlockingScheduler
-from hashworld import my_hashworld
+
 from bixiang import bixiang_readnews
 
-
 # 第一步，创建一个logger
-from star163 import my_star163
 
 logger = logging.getLogger("start_hp.py")
 logger.setLevel(logging.INFO)  # Log等级总开关
@@ -41,7 +39,8 @@ logger.warning('********** Start from start_hp.py ...')
 scheduler = BlockingScheduler()
 
 # HP Sever
-scheduler.add_job(bixiang_readnews.start_reading_news, "cron", hour="7,15,23", args=["data_bixiang_Seoul.json"], max_instances=4)
+scheduler.add_job(bixiang_readnews.start_reading_news, "cron", hour="0,8,16", args=["data_bixiang_Seoul.json"],
+                  max_instances=4)
 # scheduler.add_job(bixiang_readnews.start_reading_news, "cron", minute="0, 10, 20, 30, 40, 50",args=["data_bixiang_readnews_HP.json"], max_instances=4)
 
 # scheduler.add_job(my_hashworld.loop_hashworld_no_land, "cron", hour="5,13,21", minute="30", args=["data_hashworld_Seoul.json"], max_instances=2)

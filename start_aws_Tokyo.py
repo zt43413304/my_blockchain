@@ -40,10 +40,10 @@ logger.warning('********** Start from start_aws_Tokyo.py ...')
 scheduler = BlockingScheduler()
 
 # Tokyo Sever
-scheduler.add_job(my_bixiang.loop_bixiang, "cron", hour="7,15,23",args=["data_bixiang_Tokyo.json"], max_instances=4)
+scheduler.add_job(my_bixiang.loop_bixiang, "cron", hour="0,8,16", args=["data_bixiang_Tokyo.json"], max_instances=4)
 # scheduler.add_job(bixiang_readnews.start_reading_news, "cron", hour="7,15,23", minute="10",args=["data_bixiang_readnews_Tokyo.json"], max_instances=4)
-scheduler.add_job(my_diwuqu.loop_diwuqu, "cron", hour="4,12,20", max_instances=4)
-scheduler.add_job(my_onechain.loop_onechain, "cron", hour="5,13,21", minute="30", max_instances=4)
+scheduler.add_job(my_diwuqu.loop_diwuqu, "cron", hour="5,13,21", max_instances=4)
+scheduler.add_job(my_onechain.loop_onechain, "cron", hour="6,14,22", minute="30", max_instances=4)
 
 
 # scheduler.add_job(my_bixiang.loop_bixiang, "cron", minute="*/3", args=["data_bixiang_Tokyo.json"], max_instances=1)

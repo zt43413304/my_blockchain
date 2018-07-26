@@ -39,9 +39,9 @@ logger.warning('********** Start from start_aws_Seoul.py ...')
 scheduler = BlockingScheduler()
 
 # Tokyo Sever
-scheduler.add_job(my_bixiang.loop_bixiang, "cron", hour="7,15,23",args=["data_bixiang_Seoul.json"], max_instances=4)
+scheduler.add_job(my_bixiang.loop_bixiang, "cron", hour="0,8,16", args=["data_bixiang_Seoul.json"], max_instances=4)
 # scheduler.add_job(bixiang_readnews.start_reading_news, "cron", hour="10,18,2", minute="30",args=["data_bixiang_readnews_Seoul.json"], max_instances=4)
-scheduler.add_job(my_hashworld.loop_hashworld_land, "cron", hour="3", max_instances=4)
+scheduler.add_job(my_hashworld.loop_hashworld_land, "cron", hour="4", max_instances=4)
 
 # scheduler.add_job(my_diwuqu.loop_diwuqu, "cron", hour="2,10,18", max_instances=4)
 # scheduler.add_job(my_hashworld.loop_hashworld_no_land, "cron", hour="2,10,18", minute="30", args=["data_hashworld_Seoul.json"], max_instances=4)

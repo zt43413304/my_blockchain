@@ -39,8 +39,8 @@ content = re.sub(r"\xef\xbb\xbf", "", content)
 open(curpath + '/hashworld/config.ini', 'w').write(content)
 
 # Random seconds
-MIN_SEC = 2
-MAX_SEC = 5
+MIN_SEC = 1
+MAX_SEC = 1
 proxies = ''
 
 

@@ -44,7 +44,4 @@ logger.warning('********** Start from start_hp_once.py ...')
 # my_hashworld.loop_hashworld_no_land("data_hashworld_Seoul.json")
 # my_hashworld.loop_hashworld_land()
 
-bixiang_readnews.start_reading_news("data_bixiang_Seoul.json")
-
-
-
+bixiang_readnews.start_reading_news("data_bixiang_readnews_HP.json")

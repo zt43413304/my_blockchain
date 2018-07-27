@@ -80,7 +80,7 @@ def start_reading_news(filename):
         # 定时退出
         now = datetime.datetime.now()
         exit_time = [7, 15, 23]
-        if now.hour in exit_time:
+        if now.hour in exit_time and now.minute >= 30:
             # 退出线程
             stopevt.set()
             break

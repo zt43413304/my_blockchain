@@ -39,7 +39,8 @@ logger.warning('********** Start from start_hp.py ...')
 scheduler = BlockingScheduler()
 
 # HP Sever
-scheduler.add_job(bixiang_readnews.start_reading_news, "cron", hour="0,8,16", args=["data_bixiang_Seoul.json"],
+scheduler.add_job(bixiang_readnews.start_reading_news, "cron", hour="0,8,16", minute="5",
+                  args=["data_bixiang_readnews_HP.json"],
                   max_instances=4)
 # scheduler.add_job(bixiang_readnews.start_reading_news, "cron", minute="0, 10, 20, 30, 40, 50",args=["data_bixiang_readnews_HP.json"], max_instances=4)
 

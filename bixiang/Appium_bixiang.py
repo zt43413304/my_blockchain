@@ -103,7 +103,7 @@ class Signup:
         # desired_caps['automationName'] = 'Appium'
         # desired_caps['autoWebview'] = 'True'
         desired_caps['app'] = PATH(
-            '/Users/Jackie.Liu/DevTools/Android_apk/bixiang-255-1.6.0-Y1032_7D776136AFBE0DEA5A4DB48F7A1315BC.apk'
+            '/Users/Jackie.Liu/DevTools/Android_apk/bixiang-257-1.6.1-Y1032_AB62F32E80B15B0BD82AA1A199CE72CC.apk'
         )
         desired_caps['appPackage'] = 'com.coinstation.bixiang'
         desired_caps['appActivity'] = 'com.coinstation.bixiang.view.activity.MainActivity'

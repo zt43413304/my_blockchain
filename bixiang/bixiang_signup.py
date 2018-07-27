@@ -99,7 +99,7 @@ url08 = 'http://bixiang8.com/PgU0a2'
 url09 = 'http://bixiang8.com/4HbUg4'
 url10 = 'http://bixiang8.com/vXoPR1'
 
-invite_url = url05
+invite_url = url06
 phone = input("********** Phone Number (enter for new): ")
 logger.warning('********** Your input is: ' + phone)
 ym = my_51ym.ym()

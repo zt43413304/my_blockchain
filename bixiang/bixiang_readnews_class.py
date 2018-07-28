@@ -139,7 +139,7 @@ class readnews(threading.Thread):
             return_code = self.post_newsRecord(news_id_list[count])
             if return_code == -1:
                 continue
-            time.sleep(random.randint(70, 90))
+            time.sleep(60)
             count += 1
 
             if count == len(news_id_list):

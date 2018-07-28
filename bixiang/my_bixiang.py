@@ -530,7 +530,7 @@ def loop_bixiang(filename):
             }
             content_list.append(content_data)
             time.sleep(random.randint(MIN_SEC, MAX_SEC))
-        break
+        # break
 
     content_list = sorted(content_list, reverse=True, key=lambda x: (x["total_bx"], x["today_bx"]))
     server = filename.split('.')[0][-5:]

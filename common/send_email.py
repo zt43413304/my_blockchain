@@ -228,11 +228,11 @@ def send_Bixiang_HtmlEmail(to_list, content_list, server):
         today_bx = item.get('today_bx', 'NA')
         today_bx_all = today_bx_all + today_bx
         body = body + '<tr><td align="center">' + str(i) + \
-               '</td><td align="center">' + phone + \
-               '</td><td align="center">' + nickname + \
-               '</td><td align="center">' + uid + \
-               '</td><td align="center">' + show_id + \
-               '</td><td align="center">' + unique + \
+               '</td><td align="center">' + str(phone) + \
+               '</td><td align="center">' + str(nickname) + \
+               '</td><td align="center">' + str(uid) + \
+               '</td><td align="center">' + str(show_id) + \
+               '</td><td align="center">' + str(unique) + \
                '</td><td align="right">' + str(round(total_bx, 2)) + \
                '</td><td align="right">' + str(round(today_bx, 2)) + \
                '</td></tr>'

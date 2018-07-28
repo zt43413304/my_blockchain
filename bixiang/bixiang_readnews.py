@@ -54,6 +54,7 @@ def start_reading_news(filename):
         time.sleep(random.randint(5, 10))
         logger.warning('********** Start thread [' + str(number) + ']: ' + thread_readnews.getName())
         # thread_readnews_list.append(thread_readnews)
+        # break
 
     # number = 0
     # for t in thread_readnews_list:
@@ -85,4 +86,5 @@ def start_reading_news(filename):
             stopevt.set()
             break
 
-# start_reading_news("data_bixiang_readnews.json")
+
+start_reading_news("data_bixiang_readnews_HP.json")

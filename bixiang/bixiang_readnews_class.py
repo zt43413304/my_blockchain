@@ -166,7 +166,7 @@ class readnews(threading.Thread):
 
     def bixiang_loop_reading_news(self):
 
-        channels = ["news_entertainment", "news_tech", "news_travel", "news_sports", "news_fashion",
+        channels = ["news_hot", "news_entertainment", "news_tech", "news_travel", "news_sports", "news_fashion",
                     "news_finance", "news_edu", "news_house", "news_photography", "news_comic", "news_story",
                     "news_health", "news_food", "news_car", "news_game", "news_culture", "news_discovery"]
         for i in range(len(channels)):

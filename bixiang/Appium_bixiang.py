@@ -6,7 +6,10 @@ import logging
 import os
 import random
 import re
+import sys
 import time
+import urllib
+from urllib.parse import urlparse
 
 import requests
 from PIL import Image
@@ -17,6 +20,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
 # 第一步，创建一个logger,并设置级别
+
 logger = logging.getLogger("Appium_bixiang.py")
 logger.setLevel(logging.INFO)  # Log等级总开关
 # 第二步，创建一个handler，用于写入日志文件
@@ -78,6 +82,7 @@ class Signup:
     MIN_SEC = 15
     MAX_SEC = 20
     rate = 1
+    error_count = 0
 
     def __init__(self):
         logger.warning("********** start __init()__...")
@@ -581,6 +586,14 @@ class Signup:
 
             # 输入手机号
             self.driver.get(invite_url)
+            time.sleep(1)
+
+            # 获取UID
+            current_url = self.driver.current_url
+
+            query_dict = urllib.parse.parse_qs(urlparse(current_url).query)
+            uid = query_dict.get('uid', 'NA')[0]
+
             wait = WebDriverWait(self.driver, 10)
             phones = self.driver.find_element_by_id('phones')
             phones.send_keys(ym.get_phone())
@@ -588,6 +601,16 @@ class Signup:
             # 点击‘立即领取’，弹出滑块验证
             download = self.driver.find_element_by_id('download')
             download.click()
+
+            # (gt, challenge) = self.getverify(uid)
+            #
+            # if gt != -1 and gt is not None and len(gt.strip()) != 0 \
+            #         and challenge != -1 and challenge is not None and len(challenge.strip()) != 0:
+            #     # call captcha hack
+            #     (challenge, validate) = c2567.get_captcha(gt, challenge)
+            #
+            #     if challenge != -1 and validate != -1:
+            #         self.post_with_captcha(86, ym.get_phone(), uid, challenge, validate)
 
             time.sleep(30)
             return 0
@@ -901,6 +924,73 @@ class Signup:
             else:
                 logger.warning('********** 已做过，币响知识小课堂。')
         logger.warning('********** All Quiz Complete!')
+
+    def getverify(self, uid):
+        url = "http://bi.bxtg88.com/down/getverify"
+
+        payload_verify = "uid=" + uid
+
+        try:
+            logger.warning("^^^^^^^^^^ [" + uid + "], getverify()")
+            response = requests.request("GET", url, data=payload_verify, headers=headers,
+                                        timeout=60, allow_redirects=False)
+
+            res = response.json()["message"]
+            if res == '验证成功！':
+                gt = response.json()["gt"]
+                challenge = response.json()["challenge"]
+                return gt, challenge
+            else:
+                return -1, -1
+        except Exception as e:
+            print(e)
+            return -1, -1
+
+    def post_with_captcha(self, getDialCode, phones, uid, challenge, validate):
+        # global proxies
+
+        url = "http://bi.bxtg88.com/down/verifyLoginNew"
+
+        payload_newsRecord = "uid=" + uid + \
+                             "&getDialCode=" + getDialCode + \
+                             "&phones=" + phones + \
+                             "&geetest_challenge=" + challenge + \
+                             "&geetest_validate=" + validate + \
+                             "&geetest_seccode=" + validate + "|jordan"
+
+        try:
+
+            logger.warning(
+                "********** [" + phones + "], post_with_captcha()")
+            response = requests.request("POST", url, data=payload_newsRecord, headers=headers,
+                                        timeout=60, allow_redirects=False)
+
+            while response.status_code != 200:
+                logger.warning("<<<<<<<<<< [" + phones + "]. post_with_captcha Error. try again ...")
+                time.sleep(random.randint(1, 3))
+                response = requests.request("POST", url, data=payload_newsRecord, headers=headers,
+                                            timeout=60, allow_redirects=False)
+
+            if response.status_code == 200:
+                res = response.json()["message"]
+                if res == '验证成功！':
+                    msg = response.json()["message"]
+                    logger.warning(
+                        ">>>>>>>>>> [" + phones + "]. post_with_captcha success, msg = " + msg)
+                    return 0
+                else:
+                    logger.warning("<<<<<<<<<< [" + phones + "]. post_with_captcha Error.")
+                    self.error_count += 1
+                    if self.error_count == 2:
+                        sys.exit(0)
+                    return -1
+            else:
+                logger.warning("<<<<<<<<<< [" + phones + "]. post_with_captcha Error.")
+                return -1
+        except Exception as e:
+            print(e)
+            return -1
+
 
 # App_signup = Signup()
 # App_signup.registry()

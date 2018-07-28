@@ -198,6 +198,10 @@ def send_Bixiang_HtmlEmail(to_list, content_list, server):
            '<thead>' + \
            '<th align="center">No.</th>' + \
            '<th align="center">Phone</th>' + \
+           '<th align="center">nickname</th>' + \
+           '<th align="center">uid</th>' + \
+           '<th align="center">show_id</th>' + \
+           '<th align="center">unique</th>' + \
            '<th align="center">BX总数</th>' + \
            '<th align="center">BX今日</th>' + \
            '</thead>' + \
@@ -215,17 +219,25 @@ def send_Bixiang_HtmlEmail(to_list, content_list, server):
     for item in content_list:
         i = i + 1
         phone = item.get('phone', 'NA')
+        nickname = item.get('nickname', 'NA')
+        uid = item.get('uid', 'NA')
+        show_id = item.get('show_id', 'NA')
+        unique = item.get('unique', 'NA')
         total_bx = item.get('total_bx', 'NA')
         total_bx_all = total_bx_all + total_bx
         today_bx = item.get('today_bx', 'NA')
         today_bx_all = today_bx_all + today_bx
         body = body + '<tr><td align="center">' + str(i) + \
                '</td><td align="center">' + phone + \
+               '</td><td align="center">' + nickname + \
+               '</td><td align="center">' + uid + \
+               '</td><td align="center">' + show_id + \
+               '</td><td align="center">' + unique + \
                '</td><td align="right">' + str(round(total_bx, 2)) + \
                '</td><td align="right">' + str(round(today_bx, 2)) + \
                '</td></tr>'
 
-    sum = body + '<tr><td colspan="2" align="center">Sum:</td><td align="right">' + \
+    sum = body + '<tr><td colspan="6" align="center">Sum:</td><td align="right">' + \
           str(round(total_bx_all, 2)) + '</td><td align="right">' + \
           str(round(today_bx_all, 2)) + '</td></tr>'
     mail_msg = head + sum + end

@@ -66,7 +66,8 @@ payload = "is_ad_ios=" + is_ad_ios + \
           "&channel=" + channel + \
           "&token=" + token + \
           "&ps=" + ps + \
-          "&key=" + key
+          "&key=" + key + \
+          "&ceshi=1"
 
 # user_agent = cf.get('info'+str(infoNum), 'user_agent').strip()
 # device_id = cf.get('info'+str(infoNum), 'device_id').strip()
@@ -97,35 +98,33 @@ def bixiang_login_test():
     print(response.text)
 
 
-def bixiang_userInfo(unique, uid):
+def bixiang_userinfo(unique, uid):
     global proxies
-    global mail_subject
     url = "http://tui.yingshe.com/member/userInfo"
 
-    payload_userInfo = payload + "&unique=" + unique + "&uid=" + uid
+    payload_userinfo = payload + "&unique=" + unique + "&uid=" + uid
 
     try:
-        logger.warning("********** bixiang_userInfo(), proxies = " + str(proxies))
-        response = requests.request("POST", url, data=payload_userInfo, headers=headers, timeout=60, proxies=proxies)
+        logger.warning("********** bixiang_userinfo(), proxies = " + str(proxies))
+        response = requests.request("POST", url, data=payload_userinfo, headers=headers, timeout=60, proxies=proxies)
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
 
         res = response.json()["status"]
         if res == 1:
             show_id = response.json()["info"]["show_id"]
-            nickname = response.json()["info"]["nickname"]
             phone = response.json()["info"]["phone"]
+            nickname = response.json()["info"]["nickname"]
             bxc = response.json()["info"]["bxc"]
-            mail_subject = phone
             logger.warning(
                 '********** uid=' + uid + ', show_id=' + show_id + ', nickname=' + nickname +
                 ', phone=' + phone + ', bxc=' + bxc)
-            return 1
+            return show_id, phone, nickname
         else:
-            return -1
+            return -1, -1, -1
     except Exception as e:
         print(e)
         proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
-        return -1
+        return -1, -1, -1
 
 
 def bixiang_login(unique, uid):
@@ -142,7 +141,7 @@ def bixiang_login(unique, uid):
         res = response.json()["status"]
         if res == 1:
             logger.warning('********** Login success.')
-            bixiang_userInfo(unique, uid)
+            bixiang_userinfo(unique, uid)
             return 1
         else:
             logger.warning('********** Login fail. uid:' + uid)
@@ -513,15 +512,25 @@ def loop_bixiang(filename):
             logger.warning("========== End[" + phone + "], total_bx:" + str(total_bx) + ", today_bx:" + str(
                 today_bx) + "] ==========")
 
+            # userinfo
+            (show_id, phone, nickname) = bixiang_userinfo(unique, uid)
+
+
+
             # 构建Json数组，用于发送HTML邮件
             # Python 字典类型转换为 JSON 对象
             content_data = {
                 "phone": phone,
+                "nickname": nickname,
+                "uid": uid,
+                "show_id": show_id,
+                "unique": unique,
                 "total_bx": total_bx,
                 "today_bx": today_bx
             }
             content_list.append(content_data)
             time.sleep(random.randint(MIN_SEC, MAX_SEC))
+        break
 
     content_list = sorted(content_list, reverse=True, key=lambda x: (x["total_bx"], x["today_bx"]))
     server = filename.split('.')[0][-5:]
@@ -547,4 +556,4 @@ def loop_bixiang_test():
 
 # Start from here...
 # loop_bixiang_test()
-# loop_bixiang('/data_bixiang_Tokyo.json')
+loop_bixiang('/data_bixiang_Tokyo.json')

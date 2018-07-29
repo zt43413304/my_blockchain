@@ -87,7 +87,7 @@ def signup_app():
 
 # startup_emulator()
 # 注意：邀请链接要再三确认
-url01 = 'http://bixiang8.com/9Ss8V'
+url01 = 'http://bixiang8.com/8P7nA1'
 url02 = 'http://bixiang8.com/dz5vU'
 url03 = 'http://bixiang8.com/yW5rX'
 url04 = 'http://bixiang8.com/55hym'
@@ -99,7 +99,7 @@ url08 = 'http://bixiang8.com/PgU0a2'
 url09 = 'http://bixiang8.com/4HbUg4'
 url10 = 'http://bixiang8.com/vXoPR1'
 
-invite_url = url06
+invite_url = url01
 phone = input("********** Phone Number (enter for new): ")
 logger.warning('********** Your input is: ' + phone)
 ym = my_51ym.ym()

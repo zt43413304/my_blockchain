@@ -54,6 +54,7 @@ def start_reading_news(filename):
         time.sleep(random.randint(5, 10))
         logger.warning('********** Start thread [' + str(number) + ']: ' + thread_readnews.getName())
         # thread_readnews_list.append(thread_readnews)
+        # break
 
     # number = 0
     # for t in thread_readnews_list:
@@ -79,10 +80,10 @@ def start_reading_news(filename):
     while True:
         # 定时退出
         now = datetime.datetime.now()
-        exit_time = [6, 14, 22]
-        if now.hour in exit_time:
+        exit_time = [7, 15, 23]
+        if now.hour in exit_time and now.minute >= 30:
             # 退出线程
             stopevt.set()
             break
 
-# start_reading_news("data_bixiang_readnews.json")
+# start_reading_news("data_bixiang_readnews_HP.json")

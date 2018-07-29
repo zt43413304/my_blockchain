@@ -4,8 +4,6 @@ import logging
 import os
 import time
 
-from bixiang import bixiang_readnews
-
 # 第一步，创建一个logger
 
 
@@ -44,4 +42,4 @@ logger.warning('********** Start from start_Tokyo_hashworld_once.py ...')
 # my_onechain.loop_onechain()
 
 
-bixiang_readnews.start_reading_news("data_bixiang_Tokyo.json")
+# bixiang_readnews.start_reading_news("data_bixiang_Tokyo.json")

@@ -4,17 +4,16 @@ import logging
 import os
 import time
 
-from apscheduler.schedulers.blocking import BlockingScheduler
+from bixiang import bixiang_readnews
 
 # 第一步，创建一个logger
-
-logger = logging.getLogger("start_lenovo.py")
+logger = logging.getLogger("start_aws_Seoul_once.py")
 logger.setLevel(logging.INFO)  # Log等级总开关
 # 第二步，创建一个handler，用于写入日志文件
 rq = time.strftime('%Y%m%d%H%M', time.localtime(time.time()))
 # log_path = os.path.dirname(os.getcwd()) + '/logs/'
 log_path = os.getcwd() + '/logs/'
-log_name = log_path + 'start_lenovo_' + rq + '.log'
+log_name = log_path + 'start_aws_Seoul_once' + rq + '.log'
 logfile = log_name
 
 fh = logging.FileHandler(logfile, mode='w', encoding='UTF-8')
@@ -33,16 +32,5 @@ logger.addHandler(fh)
 logger.addHandler(ch)
 
 # start
-logger.warning('********** Start from start_lenovo.py ...')
-scheduler = BlockingScheduler()
-
-# Lenovo Sever
-# scheduler.add_job(my_star163.loop_star163, "cron", hour="6-23/3", max_instances=2)
-# scheduler.add_job(bixiang_readnews.start_reading_news, "cron", hour="0,8,16", args=["data_bixiang_Tokyo.json"],
-#                   max_instances=4)
-# scheduler.add_job(my_hashworld.loop_hashworld_no_land, "cron", hour="2,10,18", minute="30", args=["data_hashworld_Tokyo.json"], max_instances=2)
-
-try:
-    scheduler.start()
-except (KeyboardInterrupt, SystemExit):
-    scheduler.shutdown()
+logger.warning('********** Start from start_aws_Seoul.py ...')
+bixiang_readnews.start_reading_news("data_bixiang_Seoul.json")

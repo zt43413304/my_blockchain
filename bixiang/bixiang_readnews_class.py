@@ -139,7 +139,7 @@ class readnews(threading.Thread):
             return_code = self.post_newsRecord(news_id_list[count])
             if return_code == -1:
                 continue
-            time.sleep(random.randint(70, 90))
+            time.sleep(60)
             count += 1
 
             if count == len(news_id_list):
@@ -189,10 +189,11 @@ class readnews(threading.Thread):
     def get_JRTT_list(self, channel):
         # global proxies
 
-        url = "http://lockscreen.mobile7.cn/newsfeed/jrtt_news"
+        # url = "http://lockscreen.mobile7.cn/newsfeed/jrtt_news"
+        url = "http://lockscreen.jslpxw.com/newsfeed/jrtt_news"
 
         headers = {
-            'Host': "lockscreen.mobile7.cn",
+            'Host': "lockscreen.jslpxw.com",
             'Connection': "Keep-Alive",
             'Accept-Encoding': "gzip",
             'User-Agent': "okhttp/3.4.1",
@@ -202,8 +203,8 @@ class readnews(threading.Thread):
 
         payload_JRTT = payload + "&unique=" + self.unique + \
                        "&uid=" + self.uid + \
-                       "&xversioncode=241" \
-                       "&xversionname=1.4.9" \
+                       "&xversioncode=257" \
+                       "&xversionname=1.6.1" \
                        "&xphonemodel=MuMu" \
                        "&xchannel=Y1032" \
                        "&xmnc=" \
@@ -219,7 +220,8 @@ class readnews(threading.Thread):
                        "&joinads=admctl" \
                        "&xwifimac=08:00:27:37:05:c5" \
                        "&newsfeed=jrtt" \
-                       "&xnettype=WIFI"
+                       "&xnettype=WIFI" \
+                       "&ceshi=1"
 
         try:
 

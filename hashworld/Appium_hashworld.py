@@ -2,7 +2,6 @@
 
 import logging
 import random
-import sys
 import time
 
 from PIL import Image
@@ -30,8 +29,6 @@ logger.addHandler(ch)
 
 
 class lands:
-    MIN_SEC = 15
-    MAX_SEC = 20
 
     def __init__(self):
         logger.warning("********** start __init()__...")

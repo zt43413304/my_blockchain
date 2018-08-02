@@ -73,7 +73,7 @@ class AppiumStar(threading.Thread):
             self.driver.find_element(By.XPATH, xpath)
             return True
         except Exception as e:
-            print(e)
+            # print(e)
             return False
 
     def appium_calculate(self):

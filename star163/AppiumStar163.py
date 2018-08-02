@@ -163,7 +163,7 @@ class AppiumStar(threading.Thread):
     def appium_zixun(self):
         try:
             self.driver.find_element_by_id("com.netease.blockchain:id/tvTwo").click()
-            time.sleep(15)
+            time.sleep(30)
             # level 2 main page
 
             # self.driver.find_element_by_accessibility_id("资讯").click()
@@ -174,7 +174,7 @@ class AppiumStar(threading.Thread):
             # TouchAction(self.driver).tap(x=531, y=827).perform()
 
             self.logger.warning("========== " + str(self.phone) + ", 资讯")
-            time.sleep(15)
+            time.sleep(30)
             if self.isElementExist("立即阅读"):
                 self.driver.find_element_by_accessibility_id("立即阅读").click()
                 time.sleep(5)
@@ -182,7 +182,7 @@ class AppiumStar(threading.Thread):
             self.driver.find_element_by_accessibility_id("头条").click()
             self.logger.warning("========== " + str(self.phone) + ", 头条")
             self.swipeDown(1000)
-            time.sleep(10)
+            time.sleep(30)
 
             # news_list = self.my_find_elements_by_size('android.view.View')
             #
@@ -339,7 +339,7 @@ class AppiumStar(threading.Thread):
     def appium_yuedu(self):
         try:
             self.driver.find_element_by_id("com.netease.blockchain:id/tvTwo").click()
-            time.sleep(5)
+            time.sleep(15)
 
             # print(self.driver.current_context)
             # cons = self.driver.contexts
@@ -494,7 +494,7 @@ class AppiumStar(threading.Thread):
         output3 = os.system(
             "start node C:/Users/Jackie.Liu/AppData/Local/Programs/Appium/resources/app/node_modules/appium/build/lib/main.js -a 127.0.0.1 -p 4723")
         print('result:------>' + str(output3))
-        time.sleep(30)
+        time.sleep(60)
 
         print("start __init__...")
         desired_caps = {}

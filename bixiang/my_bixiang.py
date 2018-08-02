@@ -492,7 +492,7 @@ def loop_bixiang(filename):
 
             count = 0
             for i in range(len(infoList)):
-                if count > 3:
+                if count > 4:
                     break
                 if int(infoList[i]["share_total"]) < 20:
                     continue

@@ -4,7 +4,7 @@ import logging
 import os
 import time
 
-from bixiang import bixiang_readnews
+from bixiang import my_bixiang
 
 # 第一步，创建一个logger
 logger = logging.getLogger("start_aws_Tokyo_once.py")
@@ -33,4 +33,4 @@ logger.addHandler(ch)
 
 # start
 logger.warning('********** Start from start_aws_Tokyo.py ...')
-bixiang_readnews.start_reading_news("data_bixiang_Tokyo.json")
+my_bixiang.loop_bixiang("data_bixiang_Tokyo.json")

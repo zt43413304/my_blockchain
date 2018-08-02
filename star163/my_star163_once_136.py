@@ -333,13 +333,13 @@ def loop_star163():
         send_email.send_star163_HtmlEmail('newseeing@163.com', str(phone) + '的原力及黑钻', content)
         logger.warning('********** Sending Collect Email Complete!')
 
-    for i in range(5):
+    for i in range(3):
         thread136 = AppiumStar163.AppiumStar('4.4.4', '127.0.0.1:7555', 4723, '13601223469')
         # thread136.setName('13601223469')
         # thread136.setDaemon(True)
         thread136.start()
         thread136.join()
-        # time.sleep(30)
+        # thread136.appium_calculate()
 
     # thread138 = AppiumStar163.AppiumStar('4.4.2', '127.0.0.1:62001', 4725, '13826090504')
     # # thread138.setName('13826090504')

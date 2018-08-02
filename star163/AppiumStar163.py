@@ -102,6 +102,7 @@ class AppiumStar(threading.Thread):
         self.driver.find_element_by_id("com.netease.blockchain:id/tvTwo").click()
 
         self.appium_yuedu()
+        time.sleep(15)
         self.appium_zixun()
         # self.appium_music()
 
@@ -162,7 +163,7 @@ class AppiumStar(threading.Thread):
     def appium_zixun(self):
         try:
             self.driver.find_element_by_id("com.netease.blockchain:id/tvTwo").click()
-            time.sleep(5)
+            time.sleep(15)
             # level 2 main page
 
             # self.driver.find_element_by_accessibility_id("资讯").click()
@@ -173,7 +174,7 @@ class AppiumStar(threading.Thread):
             # TouchAction(self.driver).tap(x=531, y=827).perform()
 
             self.logger.warning("========== " + str(self.phone) + ", 资讯")
-            time.sleep(5)
+            time.sleep(15)
             if self.isElementExist("立即阅读"):
                 self.driver.find_element_by_accessibility_id("立即阅读").click()
                 time.sleep(5)

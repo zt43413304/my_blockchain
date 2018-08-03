@@ -270,7 +270,7 @@ class lands:
                     block = wait.until(EC.presence_of_element_located((By.XPATH, xpath_block)))
                     block.click()
                     logger.warning(">>>>>>>>>> rolling index = "+str(index)+"......")
-                    time.sleep(2)
+                    time.sleep(1)
 
             xpath_block = "/html/body/ui-view/hw-index/hw-tabbar/ui-view/hw-treasure/div/hw-treasure-list/div/div[1]/hw-treasure-block[" + \
                           str(block_number) + "]/div/div[3]/div[3]/div[2]/div[1]/div"

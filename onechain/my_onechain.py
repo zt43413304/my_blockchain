@@ -81,7 +81,7 @@ def loginGetAccessToken(user_agent, device_id, l, version):
         #     r = requests.post(url_login, headers=headers, proxies=proxies, verify=False) #headers=headers,
 
         res = r.json()["msg"]
-        if res == 'Success':
+        if res == '成功':
             token = r.json()["data"]["map"]["token"]
             return token
         else:
@@ -103,8 +103,8 @@ def open_mining(user_agent, device_id, l, token, version):
         r = requests.post(url_check, data=data, headers=headers, proxies=proxies, timeout=60)
 
         res = r.json()["msg"]
-        if res == 'Success':
-            logger.warning('********** open_mining() Success.')
+        if res == '成功':
+            logger.warning('********** open_mining() 成功.')
             return 0
         else:
             return -1
@@ -126,7 +126,7 @@ def get_calculated(user_agent, device_id, l, token, version):
         r = requests.post(url_check, data=data, headers=headers, proxies=proxies, timeout=60)
 
         res = r.json()["msg"]
-        if res == 'Success':
+        if res == '成功':
             mining_flag = r.json()['data']['map']['mining_flag']
             if mining_flag == "NO":
                 open_mining(user_agent, device_id, l, token, version)
@@ -153,7 +153,7 @@ def mining_click(user_agent, device_id, l, token, version, mining_detail_uuid):
         r = requests.post(url_check, data=data, headers=headers, proxies=proxies, timeout=60)
 
         res = r.json()["msg"]
-        if res == 'Success':
+        if res == '成功':
             logger.warning('>>>>>>>>>> mining...... ' + str(mining_detail_uuid))
             return 0
         else:
@@ -175,7 +175,7 @@ def mining_check(user_agent, device_id, l, token, version):
         r = requests.post(url_check, data=data, headers=headers, proxies=proxies, timeout=60)
 
         res = r.json()["msg"]
-        if res == 'Success':
+        if res == '成功':
             contentlist = r.json()['data']['list']
             i = 0
             for i in range(len(contentlist)):
@@ -222,7 +222,7 @@ def check_allTotal(user_agent, device_id, l, token, version):
         r = requests.post(url_check, data=data, headers=headers, proxies=proxies, timeout=60)
 
         res = r.json()["msg"]
-        if res == 'Success':
+        if res == '成功':
             totallist = r.json()['data']['list']
             i = 0
             for i in range(len(totallist)):
@@ -290,7 +290,7 @@ def loop_onechain():
             logger.warning('********** Login fail!')
             continue
         else:
-            logger.warning('********** Login success! token:' + token)
+            logger.warning('********** Login 成功! token:' + token)
 
             calculated = get_calculated(user_agent, device_id, l, token, version)
             mining_check(user_agent, device_id, l, token, version)
@@ -315,6 +315,8 @@ def loop_onechain():
             }
             content_list.append(content_data)
             time.sleep(random.randint(MIN_SEC, MAX_SEC))
+
+        # break
 
     # sending email
     send_email.send_OneChain_HtmlEmail('newseeing@163.com', content_list)

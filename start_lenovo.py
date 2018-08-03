@@ -5,9 +5,9 @@ import os
 import time
 
 from apscheduler.schedulers.blocking import BlockingScheduler
+from hashworld import my_hashworld
 
 # 第一步，创建一个logger
-
 logger = logging.getLogger("start_lenovo.py")
 logger.setLevel(logging.INFO)  # Log等级总开关
 # 第二步，创建一个handler，用于写入日志文件
@@ -40,7 +40,10 @@ scheduler = BlockingScheduler()
 # scheduler.add_job(my_star163.loop_star163, "cron", hour="6-23/3", max_instances=2)
 # scheduler.add_job(bixiang_readnews.start_reading_news, "cron", hour="0,8,16", args=["data_bixiang_Tokyo.json"],
 #                   max_instances=4)
-# scheduler.add_job(my_hashworld.loop_hashworld_no_land, "cron", hour="2,10,18", minute="30", args=["data_hashworld_Tokyo.json"], max_instances=2)
+scheduler.add_job(my_hashworld.loop_hashworld_no_land, "cron", hour="0,8,16", minute="5", args=["data_hashworld_Tokyo.json"], max_instances=4)
+scheduler.add_job(my_hashworld.loop_hashworld_no_land, "cron", hour="0,8,16", minute="5", args=["data_hashworld_Seoul.json"], max_instances=4)
+
+
 
 try:
     scheduler.start()

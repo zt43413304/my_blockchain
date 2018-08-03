@@ -261,6 +261,17 @@ class lands:
             # /html/body/ui-view/hw-index/hw-tabbar/ui-view/hw-treasure/div/hw-treasure-list/div/div[1]/hw-treasure-block[2]/div/div[3]/div[3]/div[2]/div[1]/div
             # /html/body/ui-view/hw-index/hw-tabbar/ui-view/hw-treasure/div/hw-treasure-list/div/div[1]/hw-treasure-block[3]/div/div[3]/div[3]/div[2]/div[1]/div
 
+
+            # 滚动到要点击的宝箱
+            if block_number > 1:
+                for index in range(2, block_number):
+                    xpath_block = '/html/body/ui-view/hw-index/hw-tabbar/ui-view/hw-treasure/div/hw-treasure-list/div/div[1]/hw-treasure-block['+str(index)+']/div/div[2]'
+
+                    block = wait.until(EC.presence_of_element_located((By.XPATH, xpath_block)))
+                    block.click()
+                    logger.warning(">>>>>>>>>> rolling index = "+str(index)+"......")
+                    time.sleep(2)
+
             xpath_block = "/html/body/ui-view/hw-index/hw-tabbar/ui-view/hw-treasure/div/hw-treasure-list/div/div[1]/hw-treasure-block[" + \
                           str(block_number) + "]/div/div[3]/div[3]/div[2]/div[1]/div"
             block = wait.until(EC.presence_of_element_located((By.XPATH, xpath_block)))

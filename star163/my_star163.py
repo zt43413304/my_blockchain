@@ -9,9 +9,10 @@ import urllib
 from urllib.parse import urlparse
 
 import requests
+import requests.packages.urllib3.util.ssl_
+from requests.packages import urllib3
 
 from common import send_email
-from star163 import AppiumStar163
 
 # 第一步，创建一个logger,并设置级别
 logger = logging.getLogger("my_star163.py")
@@ -35,6 +36,7 @@ MAX_SEC = 3
 
 
 def start163_api_starUser_getCookie(k, p):
+    urllib3.disable_warnings()
     url = "https://star.8.163.com/api/starUser/getCookie"
 
     payload = "{\n\t\"k\": \"" + k + "\",\n\t\"p\": \"" + p + "\"\n}"
@@ -49,7 +51,7 @@ def start163_api_starUser_getCookie(k, p):
 
     try:
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
-        response = requests.request("POST", url, data=payload, headers=headers)
+        response = requests.request("POST", url, data=payload, headers=headers, verify=False)
 
         res = response.json()["code"]
         if res == 200:
@@ -81,7 +83,7 @@ def start163_api_home_index(cookie):
 
     try:
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
-        response = requests.request("POST", url, headers=headers)
+        response = requests.request("POST", url, headers=headers, verify=False)
 
         res = response.json()["code"]
         if res == 200:
@@ -113,7 +115,7 @@ def star163_api_collectUserCoin(cookie, id):
 
     try:
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
-        response = requests.request("POST", url, data=payload, headers=headers)
+        response = requests.request("POST", url, data=payload, headers=headers, verify=False)
 
         res = response.json()["code"]
         if res == 200:
@@ -144,7 +146,7 @@ def star163_api_starUserOrigin_getTaskUrl(cookie):
 
     try:
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
-        response = requests.request("POST", url, data=payload, headers=headers)
+        response = requests.request("POST", url, data=payload, headers=headers, verify=False)
 
         res = response.json()["code"]
         if res == 200:
@@ -283,7 +285,7 @@ def get_allTotal(cookie):
 
     try:
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
-        response = requests.request("POST", url, headers=headers)
+        response = requests.request("POST", url, headers=headers, verify=False)
 
         res = response.json()["code"]
         if res == 200:
@@ -333,17 +335,17 @@ def loop_star163():
         send_email.send_star163_HtmlEmail('newseeing@163.com', str(phone) + '的原力及黑钻', content)
         logger.warning('********** Sending Collect Email Complete!')
 
-    thread136 = AppiumStar163.AppiumStar('4.4.4', '127.0.0.1:7555', 4723, '13601223469')
-    # thread136.setName('13601223469')
-    # thread136.setDaemon(True)
-    thread136.start()
-    # thread136.join(10)
-    time.sleep(20)
-
-    thread138 = AppiumStar163.AppiumStar('4.4.2', '127.0.0.1:62001', 4725, '13826090504')
-    # # thread138.setName('13826090504')
+    # thread136 = AppiumStar163.AppiumStar('4.4.4', '127.0.0.1:7555', 4723, '13601223469')
+    # # thread136.setName('13601223469')
     # # thread136.setDaemon(True)
-    thread138.start()
+    # thread136.start()
+    # # thread136.join(10)
+    # time.sleep(20)
+    #
+    # thread138 = AppiumStar163.AppiumStar('4.4.2', '127.0.0.1:62001', 4725, '13826090504')
+    # # # thread138.setName('13826090504')
+    # # # thread136.setDaemon(True)
+    # thread138.start()
     # # thread136.join(10)
 
 # Start from here...

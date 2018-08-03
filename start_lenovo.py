@@ -5,7 +5,10 @@ import os
 import time
 
 from apscheduler.schedulers.blocking import BlockingScheduler
+
+from blockcity import my_blockcity
 from hashworld import my_hashworld
+from star163 import my_star163
 
 # 第一步，创建一个logger
 logger = logging.getLogger("start_lenovo.py")
@@ -42,6 +45,10 @@ scheduler = BlockingScheduler()
 #                   max_instances=4)
 scheduler.add_job(my_hashworld.loop_hashworld_no_land, "cron", hour="0,12", minute="5", args=["data_hashworld_Tokyo.json"], max_instances=4)
 scheduler.add_job(my_hashworld.loop_hashworld_no_land, "cron", hour="4,16", minute="5", args=["data_hashworld_Seoul.json"], max_instances=4)
+scheduler.add_job(my_blockcity.loop_blockcity, "cron", hour="3,9,15,21", minute="30",
+                  args=["data_hashworld_Tokyo.json"], max_instances=4)
+scheduler.add_job(my_star163.loop_star163(), "cron", hour="3,9,15,21", minute="45", args=["data_hashworld_Tokyo.json"],
+                  max_instances=4)
 
 
 

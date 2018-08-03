@@ -40,8 +40,8 @@ scheduler = BlockingScheduler()
 # scheduler.add_job(my_star163.loop_star163, "cron", hour="6-23/3", max_instances=2)
 # scheduler.add_job(bixiang_readnews.start_reading_news, "cron", hour="0,8,16", args=["data_bixiang_Tokyo.json"],
 #                   max_instances=4)
-scheduler.add_job(my_hashworld.loop_hashworld_no_land, "cron", hour="0,8,16", minute="5", args=["data_hashworld_Tokyo.json"], max_instances=4)
-scheduler.add_job(my_hashworld.loop_hashworld_no_land, "cron", hour="0,8,16", minute="5", args=["data_hashworld_Seoul.json"], max_instances=4)
+scheduler.add_job(my_hashworld.loop_hashworld_no_land, "cron", hour="0,12", minute="5", args=["data_hashworld_Tokyo.json"], max_instances=4)
+scheduler.add_job(my_hashworld.loop_hashworld_no_land, "cron", hour="4,16", minute="5", args=["data_hashworld_Seoul.json"], max_instances=4)
 
 
 

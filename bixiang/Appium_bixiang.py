@@ -12,6 +12,7 @@ import urllib
 from urllib.parse import urlparse
 
 import requests
+import selenium
 from PIL import Image
 from appium import webdriver
 from selenium.webdriver import ActionChains
@@ -20,7 +21,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
 # 第一步，创建一个logger,并设置级别
-
 logger = logging.getLogger("Appium_bixiang.py")
 logger.setLevel(logging.INFO)  # Log等级总开关
 # 第二步，创建一个handler，用于写入日志文件
@@ -113,6 +113,14 @@ class Signup:
         desired_caps['appPackage'] = 'com.coinstation.bixiang'
         desired_caps['appActivity'] = 'com.coinstation.bixiang.view.activity.MainActivity'
         self.driver = webdriver.Remote('http://localhost:4723/wd/hub', desired_caps)
+
+    def isElementExist_by_xpath(self, xpath):
+        try:
+            self.driver.find_element(By.XPATH, xpath)
+            return True
+        except Exception as e:
+            print(e)
+            return False
 
     def isElementExist_by_classname(self, classname):
         try:
@@ -990,6 +998,102 @@ class Signup:
         except Exception as e:
             print(e)
             return -1
+
+    def firefox_elephant(self, url):
+        try:
+
+            options = selenium.webdriver.FirefoxOptions()
+            # options.add_argument('-headless')
+            self.driver = selenium.webdriver.Firefox(firefox_options=options)
+
+            # option = webdriver.ChromeOptions()
+            # option.add_argument('headless')
+            # driver = webdriver.Chrome(chrome_options=option)
+
+            # self.driver = webdriver.Firefox()
+
+            # self.driver = webdriver.Chrome()
+
+            self.driver.set_window_size(480, 750)
+            self.driver.set_window_position(y=0, x=0)
+            self.driver.get(url)
+
+            wait = WebDriverWait(self.driver, 60)
+            time.sleep(3)
+
+            # 立即领取
+            elements = self.driver.find_elements(By.TAG_NAME, 'p')
+            for i in range(len(elements)):
+                if elements[i].text == '立即领取':
+                    elements[i].click()
+                    # 确认收取
+                    if self.isElementExist_by_xpath("/html/body/div[8]/div[2]/p[2]"):
+                        self.driver.find_element(By.XPATH, "/html/body/div[8]/div[2]/p[2]").click()
+                        time.sleep(5)
+            logger.warning(">>>>>>>>>> done. 立即领取1")
+
+            button_refresh = wait.until(EC.presence_of_element_located((By.ID, 'button_refresh')))
+            button_refresh.click()
+            time.sleep(2)
+
+            # 新泡泡
+            elements = self.driver.find_elements(By.TAG_NAME, 'p')
+            for i in range(len(elements)):
+                txt = elements[i].text
+                nPos = txt.find('泡泡')
+
+                if nPos > -1:
+                    num = txt.split(' ')[1].split('/')[0]
+
+                    for j in range(10 - int(num)):
+                        self.driver.find_element_by_class_name('add_pop').click()
+                        time.sleep(2)
+            logger.warning(">>>>>>>>>> done. 吹泡泡")
+
+            button_refresh = wait.until(EC.presence_of_element_located((By.ID, 'button_refresh')))
+            button_refresh.click()
+            time.sleep(2)
+
+            # 立即领取
+            elements = self.driver.find_elements(By.TAG_NAME, 'p')
+            for i in range(len(elements)):
+                if elements[i].text == '立即领取':
+                    elements[i].click()
+                    # 确认收取
+                    if self.isElementExist_by_xpath("/html/body/div[8]/div[2]/p[2]"):
+                        self.driver.find_element(By.XPATH, "/html/body/div[8]/div[2]/p[2]").click()
+                        time.sleep(5)
+            logger.warning(">>>>>>>>>> done. 立即领取2")
+
+            button_refresh = wait.until(EC.presence_of_element_located((By.ID, 'button_refresh')))
+            button_refresh.click()
+            time.sleep(2)
+
+            # 邮件
+            mail_content = []
+            mail_content.append(url)
+            elements = self.driver.find_elements(By.TAG_NAME, 'p')
+            for i in range(len(elements)):
+                txt = elements[i].text
+                nPos = txt.find('投入')
+                if nPos > -1:
+                    mail_content.append(txt)
+
+                nPos = txt.find('泡泡')
+                if nPos > -1:
+                    mail_content.append(txt)
+                    mail_content.append("\r\n")
+            logger.warning(">>>>>>>>>> done. email")
+
+            self.driver.close()
+
+            return mail_content
+
+        except Exception as e:
+            print(e)
+            self.driver.close()
+            return -1
+
 
 
 # App_signup = Signup()

@@ -12,6 +12,7 @@ from io import StringIO
 import requests
 from lxml import etree
 
+from bixiang import Appium_bixiang
 from common import daxiang_proxy
 from common import send_email
 
@@ -74,6 +75,7 @@ payload = "is_ad_ios=" + is_ad_ios + \
 
 # Random seconds
 mail_subject = ''
+mail_content = []
 MIN_SEC = 1
 MAX_SEC = 1
 proxies = ''
@@ -516,25 +518,34 @@ def loop_bixiang(filename):
             (show_id, phone, nickname) = bixiang_userinfo(unique, uid)
 
 
+def loop_elephant():
+    global mail_content
+    # start
+    logger.warning('********** Start from loop_elephant() ...')
 
-            # 构建Json数组，用于发送HTML邮件
-            # Python 字典类型转换为 JSON 对象
-            content_data = {
-                "phone": phone,
-                "nickname": nickname,
-                "uid": uid,
-                "show_id": show_id,
-                "unique": unique,
-                "total_bx": total_bx,
-                "today_bx": today_bx
-            }
-            content_list.append(content_data)
-            time.sleep(random.randint(MIN_SEC, MAX_SEC))
-        # break
+    elephants = []
+    elephants.append('https://tui.yingshe.com/game?xxx=276c0c9a53da52ad33717055e8907302211359a2')
+    elephants.append('https://tui.yingshe.com/game?xxx=04d501e41fdec2a500fca0b8528fe0c91595c37c')
+    elephants.append('https://tui.yingshe.com/game?xxx=569769757646558')
+    elephants.append('https://tui.yingshe.com/game?xxx=545585858656767')
+    elephants.append('https://tui.yingshe.com/game?xxx=879685597687698')
+    elephants.append('https://tui.yingshe.com/game?xxx=868656966767608')
+    elephants.append('https://tui.yingshe.com/game?xxx=865351025097317')
+    elephants.append('https://tui.yingshe.com/game?xxx=774463563563774')
+    elephants.append('https://tui.yingshe.com/game?xxx=868687787575888')
+    elephants.append('https://tui.yingshe.com/game?xxx=676799879676766')
 
-    content_list = sorted(content_list, reverse=True, key=lambda x: (x["total_bx"], x["today_bx"]))
-    server = filename.split('.')[0][-5:]
-    send_email.send_Bixiang_HtmlEmail('newseeing@163.com', content_list, server)
+    signup = Appium_bixiang.Signup()
+    for i in range(len(elephants)):
+        logger.warning('********** Elephant account = ' + str(i))
+        content = signup.firefox_elephant(elephants[i])
+        mail_content.append(content)
+
+    cont = ''
+    for i in range(len(mail_content)):
+        cont += str(mail_content[i])
+
+    send_email.send_mail('newseeing@163.com', 'Bixiang Elephant.', cont)
     logger.warning('********** Sending Email Complete!')
 
 
@@ -557,3 +568,4 @@ def loop_bixiang_test():
 # Start from here...
 # loop_bixiang_test()
 # loop_bixiang('/data_bixiang_Tokyo.json')
+loop_elephant()

@@ -94,12 +94,12 @@ url04 = 'http://bixiang8.com/55hym'
 url05 = 'http://bixiang8.com/exTI83'
 url06 = 'http://bixiang8.com/7g4C32'
 # 下无层级
-url07 = 'http://bixiang8.com/uTxq13'
-url08 = 'http://bixiang8.com/PgU0a2'
-url09 = 'http://bixiang8.com/4HbUg4'
+url07 = 'http://bixiang8.com/0mWTJ4'
+url08 = 'http://bixiang8.com/TusXI1'
+url09 = 'http://bixiang8.com/K42OI1'
 url10 = 'http://bixiang8.com/vXoPR1'
 
-invite_url = url05
+invite_url = url09
 phone = input("********** Phone Number (enter for new): ")
 logger.warning('********** Your input is: ' + phone)
 ym = my_51ym.ym()

@@ -49,7 +49,9 @@ scheduler.add_job(my_hashworld.loop_hashworld_no_land, "cron", hour="0,12", minu
 scheduler.add_job(my_hashworld.loop_hashworld_no_land, "cron", hour="6,18", minute="5",
                   args=["data_hashworld_Seoul.json"], max_instances=4)
 scheduler.add_job(my_bixiang.loop_elephant, "cron", hour="4,16", minute="5",
-                  args=["data_bixiang_readnews_HP.json"], max_instances=4)
+                  args=["data_bixiang_Tokyo.json"], max_instances=4)
+scheduler.add_job(my_bixiang.loop_elephant, "cron", hour="10,22", minute="5",
+                  args=["data_bixiang_Seoul.json"], max_instances=4)
 scheduler.add_job(my_blockcity.loop_blockcity, "cron", hour="1,3,5,7,9,11,13,15,17,19,21,23", minute="30", max_instances=4)
 scheduler.add_job(my_star163.loop_star163, "cron", hour="3,9,15,21", minute="45", max_instances=4)
 

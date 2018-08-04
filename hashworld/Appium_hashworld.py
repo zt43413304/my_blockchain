@@ -264,7 +264,7 @@ class lands:
 
             # 滚动到要点击的宝箱
             if block_number > 1:
-                for index in range(2, block_number):
+                for index in range(2, block_number+1):
                     xpath_block = '/html/body/ui-view/hw-index/hw-tabbar/ui-view/hw-treasure/div/hw-treasure-list/div/div[1]/hw-treasure-block['+str(index)+']/div/div[2]'
 
                     block = wait.until(EC.presence_of_element_located((By.XPATH, xpath_block)))

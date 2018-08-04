@@ -547,6 +547,6 @@ def loop_hashworld_no_land(filename):
 
 
 # Start from here...
-# loop_hashworld_no_land('data_hashworld_Tokyo.json')
+# loop_hashworld_no_land('data_hashworld_Tokyo01.json')
 
 

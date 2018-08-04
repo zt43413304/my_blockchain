@@ -568,4 +568,4 @@ def loop_bixiang_test():
 # Start from here...
 # loop_bixiang_test()
 # loop_bixiang('/data_bixiang_Tokyo.json')
-loop_elephant()
+# loop_elephant()

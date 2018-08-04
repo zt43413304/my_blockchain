@@ -48,6 +48,25 @@ def send_mail(to_list, sub, content):
         return False
 
 
+def send_htmlmail(to_list, sub, content):
+    me = "newseeing@163.com"
+    msg = MIMEText(content, 'html', 'utf-8')
+    msg['Subject'] = sub
+    msg['From'] = me
+    msg['To'] = "newseeing@163.com"
+    # msg['To'] = ";".join(to_list)  # 将收件人列表以‘；’分隔
+    try:
+        server = smtplib.SMTP()
+        server.connect(mail_host)  # 连接服务器
+        server.login(mail_user, mail_pass)  # 登录操作
+        server.sendmail(me, to_list, msg.as_string())
+        server.close()
+        return True
+    except Exception as e:
+        print(e)
+        return False
+
+
 def send_diwuqu_HtmlEmail(to_list, account_list):
     # logger.warning('********** send_diwuqu_HtmlEmail(), phone =' + str(phone))
     # logger.warning('********** send_diwuqu_HtmlEmail(), content_list length =' + str(len(account_list)))
@@ -576,6 +595,96 @@ def send_OneChain_HtmlEmail(to_list, content_list):
         server.sendmail(me, to_list, msg.as_string())
 
         logger.warning('********** send_OneChain_HtmlEmail(), subject =' + subject)
+
+        server.close()
+        return True
+    except Exception as e:
+        print(e)
+        return False
+
+
+def send_Elephant_htmlmail(to_list, subject, content_list):
+    datetime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+    head = '<!DOCTYPE HTML>' + \
+           '<html id="pageLoading">' + \
+           '<head>' + \
+           '<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>' + \
+           '<title></title>' + \
+           '<style type="text/css">' + \
+           '/* Table Head */' + \
+           '#table-7 thead th {' + \
+           'background-color: rgb(81, 130, 187);' + \
+           'color: #fff;' + \
+           'border-bottom-width: 1;' + \
+           '}' + \
+           '/* Column Style */' + \
+           '#table-7' + \
+           'td {' + \
+           'color: #000;' + \
+           '}' + \
+           '/* Heading and Column Style */' + \
+           '#table-7 tr, #table-7 th {' + \
+           'border-width: 1px;' + \
+           'border-style: solid;' + \
+           'border-color: rgb(0, 0, 0);' + \
+           '}' + \
+           '/* Padding and font style */' + \
+           '#table-7 td, #table-7 th {' + \
+           'padding: 5px 10px;' + \
+           'font-size: 12px;' + \
+           'font-family: Verdana;' + \
+           'font-weight: bold;' + \
+           '}' + \
+           '</style>' + \
+           '</head>' + \
+           '<body>' + \
+           '<p> ********** ' + datetime + ' ********** </p>' + \
+           '<table border="1px" cellspacing="0px" style="border-collapse:collapse" id="table-7">' + \
+           '<thead>' + \
+           '<th align="center">No.</th>' + \
+           '<th align="center">Url</th>' + \
+           '<th align="center">投入</th>' + \
+           '<th align="center">泡泡</th>' + \
+           '<th align="center">备注</th>' + \
+           '</thead>' + \
+           '<tbody>'
+
+    end = '</tbody>' + \
+          '</table>' + \
+          '</body>' + \
+          ' </html>'
+
+    body = ''
+    for i in range(len(content_list)):
+        item = content_list[i]
+        url = item.get('url', 'NA')
+        touru = item.get('touru', 'NA')
+        pop = item.get('pop', 'NA')
+        other = item.get('other', 'NA')
+
+        body = body + '<tr><td align="center">' + str(i) + \
+               '</td><td align="left"><a href="' + url + '">' + url + '</a>' \
+                                                                      '</td><td align="left">' + touru + \
+               '</td><td align="left">' + pop + \
+               '</td><td align="right">' + other + \
+               '</td></tr>'
+
+    sum = body + '<tr><td colspan="2" align="center">Sum:</td><td></td><td></td><td></td></tr>'
+    mail_msg = head + sum + end
+
+    msg = MIMEText(mail_msg, 'html', 'utf-8')
+    me = "newseeing@163.com"
+    msg['Subject'] = subject
+    msg['From'] = me
+    msg['To'] = "newseeing@163.com"
+    # msg['To'] = ";".join(to_list)  # 将收件人列表以‘；’分隔
+    try:
+        server = smtplib.SMTP()
+        server.connect(mail_host)  # 连接服务器
+        server.login(mail_user, mail_pass)  # 登录操作
+        server.sendmail(me, to_list, msg.as_string())
+
+        logger.warning('********** send_Elephant_htmlmail(), subject =' + subject)
 
         server.close()
         return True

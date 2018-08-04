@@ -518,34 +518,33 @@ def loop_bixiang(filename):
             (show_id, phone, nickname) = bixiang_userinfo(unique, uid)
 
 
-def loop_elephant():
+def loop_elephant(filename):
     global mail_content
     # start
     logger.warning('********** Start from loop_elephant() ...')
 
-    elephants = []
-    elephants.append('https://tui.yingshe.com/game?xxx=276c0c9a53da52ad33717055e8907302211359a2')
-    elephants.append('https://tui.yingshe.com/game?xxx=04d501e41fdec2a500fca0b8528fe0c91595c37c')
-    elephants.append('https://tui.yingshe.com/game?xxx=569769757646558')
-    elephants.append('https://tui.yingshe.com/game?xxx=545585858656767')
-    elephants.append('https://tui.yingshe.com/game?xxx=879685597687698')
-    elephants.append('https://tui.yingshe.com/game?xxx=868656966767608')
-    elephants.append('https://tui.yingshe.com/game?xxx=865351025097317')
-    elephants.append('https://tui.yingshe.com/game?xxx=774463563563774')
-    elephants.append('https://tui.yingshe.com/game?xxx=868687787575888')
-    elephants.append('https://tui.yingshe.com/game?xxx=676799879676766')
+    file = open(curpath + '/bixiang/' + filename, 'r', encoding='utf-8')
+    data_dict = json.load(file)
 
-    signup = Appium_bixiang.Signup()
-    for i in range(len(elephants)):
-        logger.warning('********** Elephant account = ' + str(i))
-        content = signup.firefox_elephant(elephants[i])
+    number = 0
+    for item in data_dict['data']:
+        number += 1
+        # content_list = []
+        unique = item.get('unique', 'NA')
+        uid = item.get('uid', 'NA')
+        phone = item.get('phone', 'NA')
+
+        logger.warning("========== Elephant account: " + str(number) + ". [" + unique + "] ==========")
+
+        # unique = '847069402404905'
+        url = 'https://tui.yingshe.com/game?xxx=' + unique
+
+        signup = Appium_bixiang.Signup()
+        content = signup.firefox_elephant(url)
         mail_content.append(content)
+        # break
 
-    cont = ''
-    for i in range(len(mail_content)):
-        cont += str(mail_content[i])
-
-    send_email.send_mail('newseeing@163.com', 'Bixiang Elephant.', cont)
+    send_email.send_Elephant_htmlmail('newseeing@163.com', 'Bixiang Elephant.', mail_content)
     logger.warning('********** Sending Email Complete!')
 
 
@@ -568,4 +567,4 @@ def loop_bixiang_test():
 # Start from here...
 # loop_bixiang_test()
 # loop_bixiang('/data_bixiang_Tokyo.json')
-# loop_elephant()
+loop_elephant('/data_bixiang_Tokyo.json')

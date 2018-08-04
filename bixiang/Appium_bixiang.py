@@ -122,7 +122,7 @@ class Signup:
             self.driver.find_element(By.XPATH, xpath)
             return True
         except Exception as e:
-            print(e)
+            # print(e)
             return False
 
     def isElementExist_by_classname(self, classname):
@@ -1032,12 +1032,17 @@ class Signup:
                     # 确认收取
                     if self.isElementExist_by_xpath("/html/body/div[8]/div[2]/p[2]"):
                         self.driver.find_element(By.XPATH, "/html/body/div[8]/div[2]/p[2]").click()
-                        time.sleep(5)
+                        time.sleep(2)
+                        # 不足，取消
+                        if self.isElementExist_by_xpath("/html/body/div[5]/div/p[1]"):
+                            self.driver.find_element(By.XPATH, "/html/body/div[5]/div/p[1]").click()
+                            time.sleep(1)
+
             logger.warning(">>>>>>>>>> done. 立即领取1")
 
             button_refresh = wait.until(EC.presence_of_element_located((By.ID, 'button_refresh')))
             button_refresh.click()
-            time.sleep(2)
+            time.sleep(1)
 
             # 新泡泡
             elements = self.driver.find_elements(By.TAG_NAME, 'p')
@@ -1050,12 +1055,12 @@ class Signup:
 
                     for j in range(10 - int(num)):
                         self.driver.find_element_by_class_name('add_pop').click()
-                        time.sleep(2)
+                        time.sleep(1)
             logger.warning(">>>>>>>>>> done. 吹泡泡")
 
             button_refresh = wait.until(EC.presence_of_element_located((By.ID, 'button_refresh')))
             button_refresh.click()
-            time.sleep(2)
+            time.sleep(1)
 
             # 立即领取
             elements = self.driver.find_elements(By.TAG_NAME, 'p')
@@ -1065,32 +1070,45 @@ class Signup:
                     # 确认收取
                     if self.isElementExist_by_xpath("/html/body/div[8]/div[2]/p[2]"):
                         self.driver.find_element(By.XPATH, "/html/body/div[8]/div[2]/p[2]").click()
-                        time.sleep(5)
+                        time.sleep(2)
+                        # 不足，取消
+                        if self.isElementExist_by_xpath("/html/body/div[5]/div/p[1]"):
+                            self.driver.find_element(By.XPATH, "/html/body/div[5]/div/p[1]").click()
+                            time.sleep(1)
             logger.warning(">>>>>>>>>> done. 立即领取2")
 
             button_refresh = wait.until(EC.presence_of_element_located((By.ID, 'button_refresh')))
             button_refresh.click()
-            time.sleep(2)
+            time.sleep(1)
 
             # 邮件
-            mail_content = []
-            mail_content.append(url)
+            touru = ''
+            pop = ''
             elements = self.driver.find_elements(By.TAG_NAME, 'p')
             for i in range(len(elements)):
                 txt = elements[i].text
                 nPos = txt.find('投入')
                 if nPos > -1:
-                    mail_content.append(txt)
+                    touru = txt
 
                 nPos = txt.find('泡泡')
                 if nPos > -1:
-                    mail_content.append(txt)
-                    mail_content.append("\r\n")
+                    pop = txt
             logger.warning(">>>>>>>>>> done. email")
+
+            # 构建Json数组，用于发送HTML邮件
+            # Python 字典类型转换为 JSON 对象
+            content_data = {
+                "url": url,
+                "touru": touru,
+                "pop": pop,
+                "other": ''
+            }
+
 
             self.driver.close()
 
-            return mail_content
+            return content_data
 
         except Exception as e:
             print(e)

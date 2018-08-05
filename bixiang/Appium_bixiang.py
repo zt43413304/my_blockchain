@@ -107,12 +107,12 @@ class Signup:
         desired_caps['clearSystemFiles'] = 'True'
         # desired_caps['automationName'] = 'Appium'
         # desired_caps['autoWebview'] = 'True'
-        # desired_caps['app'] = PATH(
-        #     '/Users/Jackie.Liu/DevTools/Android_apk/bixiang-257-1.6.1-Y1032_AB62F32E80B15B0BD82AA1A199CE72CC.apk'
-        # )
         desired_caps['app'] = PATH(
-            'C:/Users/jacki/Documents/MuMu共享文件夹/bixiang-259-1.6.2-Y1032_2AAAD8832BFDECB47B656864157AE1ED.apk'
+            '/Users/Jackie.Liu/DevTools/Android_apk/bixiang-257-1.6.1-Y1032_AB62F32E80B15B0BD82AA1A199CE72CC.apk'
         )
+        # desired_caps['app'] = PATH(
+        #     'C:/Users/jacki/Documents/MuMu共享文件夹/bixiang-259-1.6.2-Y1032_2AAAD8832BFDECB47B656864157AE1ED.apk'
+        # )
         desired_caps['appPackage'] = 'com.coinstation.bixiang'
         desired_caps['appActivity'] = 'com.coinstation.bixiang.view.activity.MainActivity'
         self.driver = webdriver.Remote('http://localhost:4723/wd/hub', desired_caps)

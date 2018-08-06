@@ -110,7 +110,7 @@ class lands:
             self.driver.find_element(By.XPATH, xpath)
             return True
         except Exception as e:
-            print(e)
+            # print(e)
             return False
 
     def isElementExist_by_classname(self, classname):

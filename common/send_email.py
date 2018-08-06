@@ -656,18 +656,21 @@ def send_Elephant_htmlmail(to_list, subject, content_list):
 
     body = ''
     for i in range(len(content_list)):
-        item = content_list[i]
-        url = item.get('url', 'NA')
-        touru = item.get('touru', 'NA')
-        pop = item.get('pop', 'NA')
-        other = item.get('other', 'NA')
+        try:
+            item = content_list[i]
+            url = item.get('url', 'NA')
+            touru = item.get('touru', 'NA')
+            pop = item.get('pop', 'NA')
+            other = item.get('other', 'NA')
 
-        body = body + '<tr><td align="center">' + str(i) + \
-               '</td><td align="left"><a href="' + url + '">' + url + '</a>' \
-                                                                      '</td><td align="left">' + touru + \
-               '</td><td align="left">' + pop + \
-               '</td><td align="right">' + other + \
-               '</td></tr>'
+            body = body + '<tr><td align="center">' + str(i) + \
+                   '</td><td align="left"><a href="' + url + '">' + url + '</a>' \
+                                                                          '</td><td align="left">' + touru + \
+                   '</td><td align="left">' + pop + \
+                   '</td><td align="right">' + other + \
+                   '</td></tr>'
+        except Exception as e:
+            continue
 
     sum = body + '<tr><td colspan="2" align="center">Sum:</td><td></td><td></td><td></td></tr>'
     mail_msg = head + sum + end

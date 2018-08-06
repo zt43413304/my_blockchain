@@ -224,23 +224,14 @@ def check_allTotal(user_agent, device_id, l, token, version):
         res = r.json()["msg"]
         if res == '成功':
             totallist = r.json()['data']['list']
-            i = 0
-            for i in range(len(totallist)):
-                asset_code = totallist[i]['asset_code']
-                total = totallist[i]['total']
-                if asset_code == "ONE":
-                    one = total
-                if asset_code == "ONELUCK":
-                    oneluck = total
-                logger.warning('********** ' + asset_code + ': ' + str(total))
-            return one, oneluck
+            return totallist
         else:
-            return -1, -1
+            return -1
 
     except Exception as e:
         print(e)
         proxies = daxiang_proxy.get_proxy("http://hkopenservice1.yuyin365.com:8000/one-chain/login")
-        return -1, -1
+        return -1
 
 
 def loop_onechain():
@@ -296,27 +287,39 @@ def loop_onechain():
             mining_check(user_agent, device_id, l, token, version)
             time.sleep(random.randint(MIN_SEC, MAX_SEC))
 
-            (one, oneluck) = check_allTotal(user_agent, device_id, l, token, version)
-            one_total = one_total + float(one)
-            oneluck_total = oneluck_total + float(oneluck)
-            content = content + " [" + account_name + "], Total[ONE:" + str(one_total) + ", ONELUCK:" + str(
-                oneluck_total) + "] \t\n"
-            logger.warning("========== End[" + account_name + "], Total[ONE:" + str(one_total) + ", ONELUCK:" + str(
-                oneluck_total) + "] ==========")
-            # logger.warning('\n')
+            (totallist) = check_allTotal(user_agent, device_id, l, token, version)
+
 
             # 构建Json数组，用于发送HTML邮件
             # Python 字典类型转换为 JSON 对象
-            content_data = {
-                "account_name": account_name,
-                "calculated": calculated,
-                "ONE": one,
-                "ONELUCK": oneluck
-            }
-            content_list.append(content_data)
-            time.sleep(random.randint(MIN_SEC, MAX_SEC))
+            content_data = {}
+            content_data['account_name'] = account_name
+            content_data['calculated'] = calculated
+            for j in range(len(totallist)):
+                item = totallist[j]
+                content_data[item['asset_code']] = item['total']
 
-        # break
+
+            content_list.append(content_data)
+
+        # if i == 5:
+        #     break
+
+    cont_data = content_list[0]
+    keys = cont_data.keys()
+
+    sum_data = {}
+    sum_data['account_name'] = ''
+    for key in keys:
+        if key == 'account_name':
+            continue
+
+        value = 0
+        for item in content_list:
+            value = value + float(item.get(key, 0))
+        sum_data[key] = round(value, 4)
+
+    content_list.append(sum_data)
 
     # sending email
     send_email.send_OneChain_HtmlEmail('newseeing@163.com', content_list)

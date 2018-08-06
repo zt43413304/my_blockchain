@@ -505,6 +505,13 @@ def send_HashWorld_HtmlEmail(to_list, content_list, server):
 
 def send_OneChain_HtmlEmail(to_list, content_list):
     datetime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+
+    content_data = content_list[0]
+    keys = content_data.keys()
+    th = ''
+    for key in keys:
+        th += '<th align="center">' + key + '</th>'
+
     head = '<!DOCTYPE HTML>' + \
            '<html id="pageLoading">' + \
            '<head>' + \
@@ -541,11 +548,7 @@ def send_OneChain_HtmlEmail(to_list, content_list):
            '<p> ********** ' + datetime + ' ********** </p>' + \
            '<table border="1px" cellspacing="0px" style="border-collapse:collapse" id="table-7">' + \
            '<thead>' + \
-           '<th align="center">No.</th>' + \
-           '<th align="center">Account</th>' + \
-           '<th align="center">算力</th>' + \
-           '<th align="center">ONE</th>' + \
-           '<th align="center">ONELUCK</th>' + \
+           '<th align="center">No.</th>' + th + \
            '</thead>' + \
            '<tbody>'
 
@@ -554,33 +557,17 @@ def send_OneChain_HtmlEmail(to_list, content_list):
           '</body>' + \
           ' </html>'
 
-    body = ''
-    ONE_Total = 0
-    ONTLUCK_Total = 0
     i = 0
+    tr = ''
     for item in content_list:
         i = i + 1
-        account_name = item.get('account_name', 'NA')
-        calculated = item.get('calculated', 'NA')
-        ONE = item.get('ONE', 'NA')
-        ONE_Total = ONE_Total + ONE
-        ONELUCK = item.get('ONELUCK', 'NA')
-        ONTLUCK_Total = ONTLUCK_Total + ONELUCK
-        body = body + '<tr><td align="center">' + str(i) + \
-               '</td><td align="center">' + account_name + \
-               '</td><td align="center">' + str(calculated) + \
-               '</td><td align="right">' + str(round(ONE, 2)) + \
-               '</td><td align="right">' + str(round(ONELUCK, 2)) + \
-               '</td></tr>'
+        tr = tr + '<tr><td align="center">' + str(i) + '</td>'
+        for key in keys:
+            tr = tr + '<td align="center">' + str(item.get(key, 0)) + '</td>'
+        tr = tr + '</tr>'
 
-    sum = body + '<tr><td colspan="2" align="center">Sum:</td><td></td><td align="right">' + \
-          str(round(ONE_Total, 2)) + '</td><td align="right">' + \
-          str(round(ONTLUCK_Total, 2)) + '</td></tr>'
-    mail_msg = head + sum + end
-
-    subject = "[ONE:" + str(round(ONE_Total, 2)) + ", ONELUCK:" + str(
-        round(ONTLUCK_Total, 2)) + "]"
-
+    mail_msg = head + tr
+    subject = 'OneChain'
 
     msg = MIMEText(mail_msg, 'html', 'utf-8')
     me = "newseeing@163.com"

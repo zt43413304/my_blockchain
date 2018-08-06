@@ -562,8 +562,8 @@ def loop_elephant(filename):
         signup = Appium_bixiang.Signup()
         content = signup.firefox_elephant(url)
         content_list.append(content)
-        if number == 3:
-            break
+        # if number == 3:
+        #     break
 
     send_email.send_Elephant_htmlmail('newseeing@163.com', 'Bixiang Elephant.', content_list)
     logger.warning('********** Sending Email Complete!')
@@ -588,4 +588,4 @@ def loop_bixiang_test():
 # Start from here...
 # loop_bixiang_test()
 # loop_bixiang('/data_bixiang_Tokyo.json')
-loop_elephant('/data_bixiang_Tokyo.json')
+# loop_elephant('/data_bixiang_Tokyo.json')

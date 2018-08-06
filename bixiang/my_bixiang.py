@@ -517,6 +517,26 @@ def loop_bixiang(filename):
             # userinfo
             (show_id, phone, nickname) = bixiang_userinfo(unique, uid)
 
+            # 构建Json数组，用于发送HTML邮件
+            # Python 字典类型转换为 JSON 对象
+            content_data = {
+                "phone": phone,
+                "nickname": nickname,
+                "uid": uid,
+                "show_id": show_id,
+                "unique": unique,
+                "total_bx": total_bx,
+                "today_bx": today_bx
+            }
+            content_list.append(content_data)
+            time.sleep(random.randint(MIN_SEC, MAX_SEC))
+        # break
+
+    content_list = sorted(content_list, reverse=True, key=lambda x: (x["total_bx"], x["today_bx"]))
+    server = filename.split('.')[0][-5:]
+    send_email.send_Bixiang_HtmlEmail('newseeing@163.com', content_list, server)
+    logger.warning('********** Sending Email Complete!')
+
 
 def loop_elephant(filename):
     global mail_content

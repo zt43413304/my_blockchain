@@ -561,7 +561,8 @@ def loop_elephant(filename):
 
         signup = Appium_bixiang.Signup()
         content = signup.firefox_elephant(url)
-        content_list.append(content)
+        if content != -1:
+            content_list.append(content)
         # if number == 3:
         #     break
 

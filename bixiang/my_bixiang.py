@@ -75,7 +75,6 @@ payload = "is_ad_ios=" + is_ad_ios + \
 
 # Random seconds
 mail_subject = ''
-content_list = []
 MIN_SEC = 1
 MAX_SEC = 1
 proxies = ''
@@ -539,7 +538,7 @@ def loop_bixiang(filename):
 
 
 def loop_elephant(filename):
-    global content_list
+    content_list = []
     # start
     logger.warning('********** Start from loop_elephant() ...')
 

@@ -213,8 +213,6 @@ def check_allTotal(user_agent, device_id, l, token, version):
         'Cache-Control': "no-cache"
     }
 
-    one = 0
-    oneluck = 0
 
     try:
         logger.warning("********** check_allTotal(), proxies = " + str(proxies))
@@ -234,13 +232,101 @@ def check_allTotal(user_agent, device_id, l, token, version):
         return -1
 
 
+def coin_from_online_to_transaction_wallet(user_agent, device_id, l, token, version):
+    global proxies
+
+    url_online = 'http://hkopenservice1.yuyin365.com:8000/one-chain/offchain/list?user_agent=' + user_agent + \
+                 '&device_id=' + device_id + '&l=' + l + '&token=' + token + '&version=' + version
+
+    headers = {
+        'User-Agent': "okhttp/3.5.0",
+        'Host': "hkopenservice1.yuyin365.com:8000",
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Connection': 'close',
+        'Accept': '*/*',
+        'Accept-Language': 'zh-Hans-CN;q=1',
+        'Accept-Encoding': 'gzip',
+        'Cache-Control': "no-cache"
+    }
+
+    try:
+        logger.warning("********** coin_from_online_to_transaction_wallet(), proxies = " + str(proxies))
+        requests.packages.urllib3.disable_warnings()
+        r = requests.post(url_online, data=data, headers=headers, proxies=proxies, timeout=60)
+
+        res = r.json()["msg"]
+        if res == '成功':
+            coinlist = r.json()['data']['list']
+
+            for i in range(len(coinlist)):
+                coin = coinlist[i]
+                amount = coin.get('amount_available', 0)
+                asset_code = coin.get('asset_code', 'NA')
+                asset_name = coin.get('short_name', 'NA')
+
+                if amount > 0.0001:
+                    coin_offline_transfer(user_agent, device_id, l, token, version, asset_code, asset_name, amount)
+
+            return 0
+        else:
+            return -1
+
+    except Exception as e:
+        print(e)
+        proxies = daxiang_proxy.get_proxy("http://hkopenservice1.yuyin365.com:8000/one-chain/login")
+        return -1
+
+
+def coin_offline_transfer(user_agent, device_id, l, token, version, asset_code, asset_name, amount):
+    global proxies
+
+    url_referer = 'http://hkopenserviceui1.yuyin365.com:8000/withdrawals.html?user_agent=' + user_agent + \
+                  '&device_id=' + device_id + '&l=' + l + '&token=' + token + '&version=' + version + \
+                  'asset_code=' + asset_code + '&asset_name=' + asset_name
+
+    url_envelopes = 'http://hkopenservice1.yuyin365.com:8000/one-chain/offchain/envelopes'
+
+    headers = {
+        'User-Agent': "okhttp/3.5.0",
+        'Host': "hkopenservice1.yuyin365.com:8000",
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Connection': 'close',
+        'Accept': '*/*',
+        'Accept-Language': 'zh-Hans-CN;q=1',
+        'Accept-Encoding': 'gzip',
+        'Cache-Control': "no-cache",
+        'Host': "hkopenservice1.yuyin365.com:8000",
+        'Referer': url_referer
+    }
+
+    data['amount'] = amount
+    data['asset_code'] = asset_code
+    data['token'] = token
+    data['user_agent'] = user_agent
+    data['l'] = l
+
+    try:
+        logger.warning("********** coin_offline_transfer(), proxies = " + str(proxies))
+        requests.packages.urllib3.disable_warnings()
+        r = requests.post(url_envelopes, data=data, headers=headers, proxies=proxies, timeout=60)
+
+        res = r.json()["msg"]
+        if res == '成功':
+            logger.warning("********** coin_offline_transfer(), 成功。" + asset_code + ":" + str(amount))
+            return 0
+        else:
+            return -1
+
+    except Exception as e:
+        print(e)
+        proxies = daxiang_proxy.get_proxy("http://hkopenservice1.yuyin365.com:8000/one-chain/login")
+        return -1
+
+
+
 def loop_onechain():
     global data
     global token
-
-    one_total = 0
-    oneluck_total = 0
-    content = "\t\n"
 
     # start
     logger.warning('********** Start from loop_onechain() ...')
@@ -287,6 +373,8 @@ def loop_onechain():
             mining_check(user_agent, device_id, l, token, version)
             time.sleep(random.randint(MIN_SEC, MAX_SEC))
 
+            (coinlist) = coin_from_online_to_transaction_wallet(user_agent, device_id, l, token, version)
+
             (totallist) = check_allTotal(user_agent, device_id, l, token, version)
 
 
@@ -302,7 +390,7 @@ def loop_onechain():
 
             content_list.append(content_data)
 
-        # if i == 5:
+        # if i > 3:
         #     break
 
     cont_data = content_list[0]

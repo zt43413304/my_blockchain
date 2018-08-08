@@ -548,6 +548,9 @@ def loop_elephant(filename):
     number = 0
     for item in data_dict['data']:
         number += 1
+        # if number < 11:
+        #     continue
+
         # content_list = []
         unique = item.get('unique', 'NA')
         uid = item.get('uid', 'NA')
@@ -562,7 +565,7 @@ def loop_elephant(filename):
         content = signup.firefox_elephant(url)
         if content != -1:
             content_list.append(content)
-        # if number == 3:
+        # if number == 10:
         #     break
 
     send_email.send_Elephant_htmlmail('newseeing@163.com', 'Bixiang Elephant.', content_list)

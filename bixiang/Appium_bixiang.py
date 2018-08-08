@@ -6,6 +6,7 @@ import logging
 import os
 import random
 import re
+import subprocess
 import sys
 import time
 import urllib
@@ -1002,49 +1003,68 @@ class Signup:
             print(e)
             return -1
 
+    def execute_command(self, cmd):
+        print('***** start executing cmd...')
+        p = subprocess.Popen(str(cmd), stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
+        stderrinfo, stdoutinfo = p.communicate()
+        # for line in stdoutinfo.splitlines():
+        #     print(line)
+        #
+        # print('stdoutinfo is -------> %s' % stdoutinfo)
+        # print('stderrinfo is -------> %s' % stderrinfo)
+        # print('finish executing cmd....')
+        return p.returncode
+
+
     def firefox_elephant(self, url):
-        try:
+        cmd = r'@TASKKILL>nul /FI "IMAGENAME eq firefox.exe"  /F /T'
+        result1 = self.execute_command(cmd)
+        print('result:------>', result1)
 
-            options = selenium.webdriver.FirefoxOptions()
-            options.add_argument('-headless')
-            self.driver = selenium.webdriver.Firefox(firefox_options=options)
+        options = selenium.webdriver.FirefoxOptions()
+        # options.add_argument('-headless')
+        self.driver = selenium.webdriver.Firefox(firefox_options=options)
 
-            # option = webdriver.ChromeOptions()
-            # option.add_argument('headless')
-            # driver = webdriver.Chrome(chrome_options=option)
+        # option = webdriver.ChromeOptions()
+        # option.add_argument('headless')
+        # driver = webdriver.Chrome(chrome_options=option)
 
-            # self.driver = webdriver.Firefox()
+        # self.driver = webdriver.Firefox()
+        # self.driver = webdriver.Chrome()
 
-            # self.driver = webdriver.Chrome()
+        self.driver.set_window_size(480, 750)
+        self.driver.set_window_position(y=0, x=0)
+        self.driver.get(url)
 
-            self.driver.set_window_size(480, 750)
-            self.driver.set_window_position(y=0, x=0)
-            self.driver.get(url)
+        wait = WebDriverWait(self.driver, 60)
+        time.sleep(3)
 
-            wait = WebDriverWait(self.driver, 60)
-            time.sleep(3)
+        # 立即领取
+        elements = self.driver.find_elements(By.TAG_NAME, 'p')
+        for i in range(len(elements)):
+            if elements[i].text == '立即领取':
+                elements[i].click()
+                time.sleep(2)
 
-            # 立即领取
-            elements = self.driver.find_elements(By.TAG_NAME, 'p')
-            for i in range(len(elements)):
-                if elements[i].text == '立即领取':
-                    elements[i].click()
+                try:
                     # 确认收取
                     if self.isElementExist_by_xpath("/html/body/div[8]/div[2]/p[2]"):
                         self.driver.find_element(By.XPATH, "/html/body/div[8]/div[2]/p[2]").click()
-                        time.sleep(2)
+
                         # 不足，取消
                         if self.isElementExist_by_xpath("/html/body/div[5]/div/p[1]"):
                             self.driver.find_element(By.XPATH, "/html/body/div[5]/div/p[1]").click()
                             time.sleep(1)
+                except Exception as e:
+                    print(e)
+        logger.warning(">>>>>>>>>> done. 立即领取1")
 
-            logger.warning(">>>>>>>>>> done. 立即领取1")
+        button_refresh = wait.until(EC.presence_of_element_located((By.ID, 'button_refresh')))
+        button_refresh.click()
+        time.sleep(1)
 
-            button_refresh = wait.until(EC.presence_of_element_located((By.ID, 'button_refresh')))
-            button_refresh.click()
-            time.sleep(1)
-
-            # 新泡泡
+        # 新泡泡
+        try:
             elements = self.driver.find_elements(By.TAG_NAME, 'p')
             for i in range(len(elements)):
                 txt = elements[i].text
@@ -1055,67 +1075,64 @@ class Signup:
 
                     for j in range(10 - int(num)):
                         self.driver.find_element_by_class_name('add_pop').click()
-                        time.sleep(1)
-            logger.warning(">>>>>>>>>> done. 吹泡泡")
+                        time.sleep(2)
+        except Exception as e:
+            print(e)
+        logger.warning(">>>>>>>>>> done. 吹泡泡")
 
-            button_refresh = wait.until(EC.presence_of_element_located((By.ID, 'button_refresh')))
-            button_refresh.click()
-            time.sleep(1)
+        button_refresh = wait.until(EC.presence_of_element_located((By.ID, 'button_refresh')))
+        button_refresh.click()
+        time.sleep(1)
 
-            # 立即领取
-            elements = self.driver.find_elements(By.TAG_NAME, 'p')
-            for i in range(len(elements)):
-                if elements[i].text == '立即领取':
-                    elements[i].click()
+        # 立即领取
+        elements = self.driver.find_elements(By.TAG_NAME, 'p')
+        for i in range(len(elements)):
+            if elements[i].text == '立即领取':
+                elements[i].click()
+                time.sleep(2)
+
+                try:
                     # 确认收取
                     if self.isElementExist_by_xpath("/html/body/div[8]/div[2]/p[2]"):
                         self.driver.find_element(By.XPATH, "/html/body/div[8]/div[2]/p[2]").click()
-                        time.sleep(2)
+
                         # 不足，取消
                         if self.isElementExist_by_xpath("/html/body/div[5]/div/p[1]"):
                             self.driver.find_element(By.XPATH, "/html/body/div[5]/div/p[1]").click()
                             time.sleep(1)
-            logger.warning(">>>>>>>>>> done. 立即领取2")
+                except Exception as e:
+                    print(e)
+        logger.warning(">>>>>>>>>> done. 立即领取2")
 
-            button_refresh = wait.until(EC.presence_of_element_located((By.ID, 'button_refresh')))
-            button_refresh.click()
-            time.sleep(1)
+        button_refresh = wait.until(EC.presence_of_element_located((By.ID, 'button_refresh')))
+        button_refresh.click()
+        time.sleep(1)
 
-            # 邮件
-            touru = ''
-            pop = ''
-            elements = self.driver.find_elements(By.TAG_NAME, 'p')
-            for i in range(len(elements)):
-                txt = elements[i].text
-                nPos = txt.find('投入')
-                if nPos > -1:
-                    touru = txt
+        # 邮件
+        touru = ''
+        pop = ''
+        elements = self.driver.find_elements(By.TAG_NAME, 'p')
+        for i in range(len(elements)):
+            txt = elements[i].text
+            nPos = txt.find('投入')
+            if nPos > -1:
+                touru = txt
 
-                nPos = txt.find('泡泡')
-                if nPos > -1:
-                    pop = txt
-            logger.warning(">>>>>>>>>> done. email")
+            nPos = txt.find('泡泡')
+            if nPos > -1:
+                pop = txt
+        logger.warning(">>>>>>>>>> done. email")
 
-            # 构建Json数组，用于发送HTML邮件
-            # Python 字典类型转换为 JSON 对象
-            content_data = {
-                "url": url,
-                "touru": touru,
-                "pop": pop,
-                "other": ''
-            }
-
-
-            self.driver.close()
-
-            return content_data
-
-        except Exception as e:
-            print(e)
-            self.driver.close()
-            return -1
-
-
+        # 构建Json数组，用于发送HTML邮件
+        # Python 字典类型转换为 JSON 对象
+        content_data = {
+            "url": url,
+            "touru": touru,
+            "pop": pop,
+            "other": ''
+        }
+        self.driver.close()
+        return content_data
 
 # App_signup = Signup()
 # App_signup.registry()

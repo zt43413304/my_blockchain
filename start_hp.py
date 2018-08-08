@@ -6,7 +6,7 @@ import time
 
 from apscheduler.schedulers.blocking import BlockingScheduler
 
-from bixiang import bixiang_readnews
+from bixiang import bixiang_readnews, my_bixiang
 
 # 第一步，创建一个logger
 
@@ -42,6 +42,11 @@ scheduler = BlockingScheduler()
 scheduler.add_job(bixiang_readnews.start_reading_news, "cron", hour="0,8,16", minute="5",
                   args=["data_bixiang_readnews_HP.json"],
                   max_instances=4)
+scheduler.add_job(my_bixiang.loop_elephant, "cron", hour="4,16", minute="5",
+                  args=["data_bixiang_Tokyo.json"], max_instances=4)
+scheduler.add_job(my_bixiang.loop_elephant, "cron", hour="10,22", minute="5",
+                  args=["data_bixiang_Seoul.json"], max_instances=4)
+
 # scheduler.add_job(bixiang_readnews.start_reading_news, "cron", minute="0, 10, 20, 30, 40, 50",args=["data_bixiang_readnews_HP.json"], max_instances=4)
 
 # scheduler.add_job(my_hashworld.loop_hashworld_no_land, "cron", hour="5,13,21", minute="30", args=["data_hashworld_Seoul.json"], max_instances=2)

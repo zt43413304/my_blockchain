@@ -1022,7 +1022,7 @@ class Signup:
         print('result:------>', result1)
 
         options = selenium.webdriver.FirefoxOptions()
-        # options.add_argument('-headless')
+        options.add_argument('-headless')
         self.driver = selenium.webdriver.Firefox(firefox_options=options)
 
         # option = webdriver.ChromeOptions()

@@ -548,8 +548,9 @@ def loop_elephant(filename):
     number = 0
     for item in data_dict['data']:
         number += 1
-        # if number < 11:
-        #     continue
+
+        if number < 148:
+            continue
 
         # content_list = []
         unique = item.get('unique', 'NA')
@@ -562,9 +563,15 @@ def loop_elephant(filename):
         url = 'https://tui.yingshe.com/game?xxx=' + unique
 
         signup = Appium_bixiang.Signup()
-        content = signup.firefox_elephant(url)
-        if content != -1:
-            content_list.append(content)
+
+        try:
+            content = signup.firefox_elephant(url)
+            if content != -1:
+                content_list.append(content)
+        except Exception as e:
+            print(e)
+
+
         # if number == 10:
         #     break
 

@@ -549,8 +549,8 @@ def loop_elephant(filename):
     for item in data_dict['data']:
         number += 1
 
-        if number < 148:
-            continue
+        # if number < 148:
+        #     continue
 
         # content_list = []
         unique = item.get('unique', 'NA')

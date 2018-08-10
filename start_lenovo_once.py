@@ -5,7 +5,7 @@ import os
 import time
 
 # 第一步，创建一个logger
-
+from hashworld import my_hashworld
 
 logger = logging.getLogger("start_Tokyo_hashworld_once.py")
 logger.setLevel(logging.INFO)  # Log等级总开关
@@ -37,8 +37,8 @@ logger.warning('********** Start from start_Tokyo_hashworld_once.py ...')
 # my_bixiang.loop_bixiang("data_bixiang_Tokyo.json")
 # my_bixiang.loop_bixiang("data_bixiang_Seoul.json")
 
-# my_hashworld.loop_hashworld_no_land("data_hashworld_Tokyo.json")
-# my_hashworld.loop_hashworld_no_land("data_hashworld_Seoul.json")
+my_hashworld.loop_hashworld_no_land("data_hashworld_Tokyo.json")
+my_hashworld.loop_hashworld_no_land("data_hashworld_Seoul.json")
 # my_onechain.loop_onechain()
 
 

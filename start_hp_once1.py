@@ -4,7 +4,7 @@ import logging
 import os
 import time
 
-from bixiang import my_bixiang, bixiang_readnews
+from bixiang import bixiang_readnews
 
 # 第一步，创建一个logger
 
@@ -64,5 +64,5 @@ logger.warning('********** Start from start_hp_elephant.py ...')
 # my_hashworld.loop_hashworld_land()
 
 bixiang_readnews.start_reading_news("data_bixiang_readnews_HP.json")
-my_bixiang.loop_elephant("data_bixiang_Tokyo.json")
-my_bixiang.loop_elephant("data_bixiang_Seoul.json")
+# my_bixiang.loop_elephant("data_bixiang_Tokyo.json")
+# my_bixiang.loop_elephant("data_bixiang_Seoul.json")

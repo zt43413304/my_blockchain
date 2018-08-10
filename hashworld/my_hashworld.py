@@ -466,7 +466,10 @@ def loop_Lottery(filename):
             time.sleep(random.randint(MIN_SEC, MAX_SEC))
             # break
             lands.selenium_close()
-    lands.selenium_quit()
+    try:
+        lands.selenium_quit()
+    except Exception as e:
+        print(e)
 
     # sending email
     server = filename.split('.')[0][-5:]

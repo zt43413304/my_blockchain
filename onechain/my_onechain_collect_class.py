@@ -2,7 +2,6 @@
 
 import logging
 import os
-import random
 import re
 import time
 
@@ -54,7 +53,7 @@ class Collect:
         l = self.getSize()
         x1 = int(l[0] * 0.5)  # x坐标
         y1 = int(l[1] * 0.75)  # 起始y坐标
-        y2 = int(l[1] * 0.25)  # 终点y坐标
+        y2 = int(l[1] * 0.5)  # 终点y坐标
         self.driver.swipe(x1, y1, x1, y2, t)
 
     # 屏幕向下滑动
@@ -138,7 +137,7 @@ class Collect:
 
                 lines[i].click()
                 time.sleep(1)
-                logger.warning("********** locate_and_do_transfer(): " + str(i))
+                # logger.warning("********** locate_and_do_transfer(): " + str(i))
 
                 # 进入一行内部
                 (result) = self.isElementExist_by_classname_name("android.widget.TextView", "闪电转账")
@@ -200,7 +199,7 @@ class Collect:
 
             # 转账确认
             self.driver.find_element_by_id("oneapp.onechain.androidapp:id/btn_ok").click()
-            time.sleep(3)
+            time.sleep(1)
 
             # 如果需要输入密码
             if self.isElementExist_by_id("oneapp.onechain.androidapp:id/dialog_edit_et"):
@@ -229,7 +228,7 @@ class Collect:
             logger.warning("********** app_transfer()......")
             self.get_app_driver()
 
-            time.sleep(random.randint(5, 7))
+            time.sleep(8)
 
             wait = WebDriverWait(self.driver, 30)
 

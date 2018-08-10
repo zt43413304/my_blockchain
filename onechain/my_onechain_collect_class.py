@@ -1,6 +1,5 @@
 # coding=utf-8
 
-import configparser
 import logging
 import os
 import random
@@ -9,7 +8,6 @@ import time
 
 from appium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
 # 第一步，创建一个logger,并设置级别
@@ -40,41 +38,48 @@ content = re.sub(r"\xff\xfe", "", content)
 content = re.sub(r"\xef\xbb\xbf", "", content)
 open(curpath + '/onechain/config.ini', 'w').write(content)
 
-cf = configparser.ConfigParser()
-cf.read(curpath + '/onechain/config.ini')
-# unique = cf.get('info', 'unique').strip()
-# uid = cf.get('info', 'uid').strip()
-is_ad_ios = cf.get('info', 'is_ad_ios').strip()
-versioncode = cf.get('info', 'versioncode').strip()
-devicetype = cf.get('info', 'devicetype').strip()
-channel = cf.get('info', 'channel').strip()
-token = cf.get('info', 'token').strip()
-ps = cf.get('info', 'ps').strip()
-key = cf.get('info', 'key').strip()
-
-headers = {
-    'Host': "tui.yingshe.com",
-    'Connection': "Keep-Alive",
-    'Accept-Encoding': "gzip",
-    'User-Agent': "okhttp/3.4.1",
-    'Content-Type': "application/x-www-form-urlencoded",
-    'Cache-Control': "no-cache"
-}
-
-payload = "is_ad_ios=" + is_ad_ios + \
-          "&versioncode=" + versioncode + \
-          "&devicetype=" + devicetype + \
-          "&channel=" + channel + \
-          "&token=" + token + \
-          "&ps=" + ps + \
-          "&key=" + key
-
-
 class Collect:
-    pass
+
 
     def __init__(self):
         logger.warning("********** start __init()__...")
+
+    def getSize(self):
+        x = self.driver.get_window_size()['width']
+        y = self.driver.get_window_size()['height']
+        return (x, y)
+
+    # 屏幕向上滑动
+    def swipeUp(self, t):
+        l = self.getSize()
+        x1 = int(l[0] * 0.5)  # x坐标
+        y1 = int(l[1] * 0.75)  # 起始y坐标
+        y2 = int(l[1] * 0.25)  # 终点y坐标
+        self.driver.swipe(x1, y1, x1, y2, t)
+
+    # 屏幕向下滑动
+    def swipeDown(self, t):
+        l = self.getSize()
+        x1 = int(l[0] * 0.5)  # x坐标
+        y1 = int(l[1] * 0.25)  # 起始y坐标
+        y2 = int(l[1] * 0.75)  # 终点y坐标
+        self.driver.swipe(x1, y1, x1, y2, t)
+
+    # 屏幕向左滑动
+    def swipLeft(self, t):
+        l = self.getSize()
+        x1 = int(l[0] * 0.75)
+        y1 = int(l[1] * 0.5)
+        x2 = int(l[0] * 0.05)
+        self.driver.swipe(x1, y1, x2, y1, t)
+
+    # 屏幕向右滑动
+    def swipRight(self, t):
+        l = self.getSize()
+        x1 = int(l[0] * 0.05)
+        y1 = int(l[1] * 0.5)
+        x2 = int(l[0] * 0.75)
+        self.driver.swipe(x1, y1, x2, y1, t)
 
     def get_app_driver(self):
         desired_caps = {}
@@ -89,13 +94,137 @@ class Collect:
         desired_caps['app'] = PATH(
             '/Users/Jackie.Liu/DevTools/Android_apk/one231.apk'
         )
-
         desired_caps['appPackage'] = 'oneapp.onechain.androidapp'
         desired_caps['appActivity'] = 'oneapp.onechain.androidapp.onemessage.view.activity.UnlockActivity'
         self.driver = webdriver.Remote('http://localhost:4723/wd/hub', desired_caps)
+        time.sleep(10)
+
+    def isElementExist_by_classname(self, classname):
+        try:
+            self.driver.find_element(By.CLASS_NAME, classname)
+            return True
+        except Exception as e:
+            print(e)
+            return False
+
+    def isElementExist_by_classname_name(self, classname, name):
+        try:
+            names = self.driver.find_elements(By.CLASS_NAME, classname)
+            # views = wait.until(EC.presence_of_element_located((By.CLASS_NAME, classname)))
+            for i in range(len(names)):
+                if names[i].text == name:
+                    return names[i]
+            return False
+        except Exception as e:
+            print(e)
+            return False
+
+    def isElementExist_by_id(self, id):
+        try:
+            self.driver.find_element_by_id(id)
+            return True
+        except Exception as e:
+            print(e)
+            return False
+
+    def locate_and_do_transfer(self):
+        for count in range(3):
+            # 逐行点击
+            lines = self.driver.find_elements(By.CLASS_NAME, "android.widget.ImageView")
+
+            for i in range(len(lines)):
+                if lines[i].location['x'] != 27:
+                    continue
+
+                lines[i].click()
+                time.sleep(1)
+                logger.warning("********** locate_and_do_transfer(): " + str(i))
+
+                # 进入一行内部
+                (result) = self.isElementExist_by_classname_name("android.widget.TextView", "闪电转账")
+                if result is not False:
+                    result.click()
+                    time.sleep(1)
+                    self.do_transfer()
+
+                # 进入一行内部
+                (result) = self.isElementExist_by_classname_name("android.widget.TextView", "发送")
+                if result is not False:
+                    result.click()
+                    time.sleep(1)
+                    self.do_transfer()
+
+            self.swipeUp(1000)
+            time.sleep(1)
+
+    def do_transfer(self):
+        try:
+            # 可用
+            tv_amount_status = self.driver.find_element_by_id("oneapp.onechain.androidapp:id/tv_amount_status")
+            # 余额不足
+            nPos = tv_amount_status.text.find("余额不足")
+            if nPos > -1:
+                # 返回到转账页面
+                self.driver.find_element_by_id("oneapp.onechain.androidapp:id/img_back").click()
+                time.sleep(1)
+
+                # 返回到交易钱包页面，LinearLayout
+                self.driver.find_element_by_id("oneapp.onechain.androidapp:id/img_back").click()
+                time.sleep(1)
+                return 0
+
+            tv_amount = float(tv_amount_status.text.split(' ')[0])
+            coin = tv_amount_status.text.split(' ')[1]
+
+            # 手续费
+            tv_fee_value = self.driver.find_element_by_id("oneapp.onechain.androidapp:id/tv_fee_value")
+            tv_fee = float(re.findall(r"\d+\.?\d*", tv_fee_value.text.split(':')[1])[0])
+
+            # 可转账额度
+            amount = tv_amount - tv_fee
+            if amount <= 0:
+                # 返回到转账页面
+                self.driver.find_element_by_id("oneapp.onechain.androidapp:id/img_back").click()
+
+                # 返回到交易钱包页面，LinearLayout
+                self.driver.find_element_by_id("oneapp.onechain.androidapp:id/img_back").click()
+                return 0
+
+            # 发送给
+            et_to = self.driver.find_element_by_id("oneapp.onechain.androidapp:id/et_to")
+            et_to.send_keys('jackieliu')
+
+            # 转账金额
+            et_amount = self.driver.find_element_by_id("oneapp.onechain.androidapp:id/et_amount")
+            et_amount.send_keys(str(amount))
+
+            # 转账确认
+            self.driver.find_element_by_id("oneapp.onechain.androidapp:id/btn_ok").click()
+            time.sleep(3)
+
+            # 如果需要输入密码
+            if self.isElementExist_by_id("oneapp.onechain.androidapp:id/dialog_edit_et"):
+                login = self.driver.find_element_by_id("oneapp.onechain.androidapp:id/dialog_edit_et")
+                login.send_keys('Liuxb0504$')
+                self.driver.find_element_by_id("oneapp.onechain.androidapp:id/btn_commit").click()
+            time.sleep(5)
+
+            # 返回到转账页面
+            self.driver.find_element_by_id("oneapp.onechain.androidapp:id/img_back").click()
+            time.sleep(1)
+
+            # 返回到交易钱包页面，LinearLayout
+            self.driver.find_element_by_id("oneapp.onechain.androidapp:id/img_back").click()
+            time.sleep(1)
+
+            logger.warning("********** do_transfer(), " + coin + " = " + str(amount))
+            return 0
+        except Exception as e:
+            print(e)
+            return -1
+
 
     def app_transfer(self):
-
         try:
             logger.warning("********** app_transfer()......")
             self.get_app_driver()
@@ -104,94 +233,33 @@ class Collect:
 
             wait = WebDriverWait(self.driver, 30)
 
-            # 新用户签到
-            if self.isElementExist_by_id("com.coinstation.bixiang:id/btn_sign"):
-                self.driver.find_element_by_id("com.coinstation.bixiang:id/btn_sign").click()
-                self.driver.back()
-                time.sleep(random.randint(1, 3))
-            # if self.isElementExist_by_id("com.coinstation.bixiang:id/signed_close"):
-            #     self.driver.find_element_by_id("com.coinstation.bixiang:id/signed_close").click()
-            # time.sleep(random.randint(3, 5))
+            # 登录
+            if self.isElementExist_by_id("oneapp.onechain.androidapp:id/dialog_edit_et"):
+                login = self.driver.find_element_by_id("oneapp.onechain.androidapp:id/dialog_edit_et")
+                login.send_keys('Liuxb0504$')
+                time.sleep(2)
 
-            # 右下角“我的”
-            self.my_find_elements_by_classname('android.widget.TextView', '我的').click()
-            time.sleep(random.randint(2, 3))
+                self.driver.find_element_by_id("oneapp.onechain.androidapp:id/btn_commit").click()
+                time.sleep(5)
 
-            # 账号设置
-            # self.driver.find_element(By.ID, "com.coinstation.bixiang:id/tv_set").click()
-            button = wait.until(EC.presence_of_element_located((By.ID, 'com.coinstation.bixiang:id/tv_set')))
-            button.click()
-            time.sleep(random.randint(2, 3))
+            if self.isElementExist_by_id("oneapp.onechain.androidapp:id/et_password"):
+                login = self.driver.find_element_by_id("oneapp.onechain.androidapp:id/et_password")
+                login.send_keys('Liuxb0504$')
 
-            # 点击“去绑定”按钮 - 手机号
-            # self.driver.find_element(By.ID, "com.coinstation.bixiang:id/btn_bindphone").screenshot("phone.png")
-            # self.driver.find_element(By.ID, "com.coinstation.bixiang:id/btn_bindphone").click()
-            button = wait.until(EC.presence_of_element_located((By.ID, 'com.coinstation.bixiang:id/btn_bindphone')))
-            button.click()
-            time.sleep(random.randint(2, 3))
+                self.driver.find_element_by_id("oneapp.onechain.androidapp:id/btn_commit").click()
+                time.sleep(5)
 
-            # 输入手机号
-            # phone = self.driver.find_element(By.ID, "com.coinstation.bixiang:id/et_phone")
-            phone = wait.until(EC.presence_of_element_located((By.ID, 'com.coinstation.bixiang:id/et_phone')))
-            phone.send_keys(ym.get_phone())
-            time.sleep(random.randint(2, 3))
+            # “钱包”
+            self.driver.find_element_by_id("oneapp.onechain.androidapp:id/tv_wallet").click()
+            time.sleep(2)
+            # "交易钱包"
+            self.isElementExist_by_classname_name("android.widget.TextView", "交易钱包").click()
+            time.sleep(2)
 
-            # 点击获取短信验证码
-            # 步骤一：先点击按钮，弹出没有缺口的图片
-            # self.driver.find_element(By.ID, "com.coinstation.bixiang:id/btn_sendsms").click()
-            button = wait.until(EC.presence_of_element_located((By.ID, 'com.coinstation.bixiang:id/btn_sendsms')))
-            button.click()
-            logger.warning(">>>>>>>>>> 1. 开始进行滑块验证。")
-
-            # cons1 = self.driver.contexts
-            # webview = self.driver.contexts.last
-            # self.driver.switch_to_alert()
-            # self.driver.switch_to('WEBVIEW_com.coinstation.bixiang')
-            # self.driver.switch_to_window()
-
-            # print(self.driver.current_context)
-            # print(self.driver.current_url)
-            # print(self.driver.current_window_handle)
-
-            # views = self.driver.find_element(By.CLASS_NAME, 'android.view.View')
-            # for i in range(len(views)):
-            #     print(">>>>> " + views[i].id)
-            #     print(">>>>> " + views[i].text)
-
-            # 方法一：driver.switch_to.context("NATIVE_APP")   # 这个NATIVE_APP是固定的参数
-            # 方法二：driver.switch_to.context(contexts[0])      # 从contexts里取第一个参数
-
-            # 当没有通过滑块验证时，循环多次进行验证
-
-            # 步骤八：滑块验证通过，短信登录
-            time.sleep(10)
-
-            sms_code = ym.get_sms()
-
-            # 输入短信验证码
-            # sms = self.driver.find_element_by_id("com.coinstation.bixiang:id/et_sms")
-            sms = wait.until(EC.presence_of_element_located((By.ID, 'com.coinstation.bixiang:id/et_sms')))
-            sms.send_keys(sms_code)
-            logger.warning(">>>>>>>>>> 2. 短信验证码: " + sms_code)
-
-            # 点击“绑定”按钮
-            # self.driver.find_element_by_id("com.coinstation.bixiang:id/btn_save").click()
-            button = wait.until(EC.presence_of_element_located((By.ID, 'com.coinstation.bixiang:id/btn_save')))
-            button.click()
-            logger.warning(">>>>>>>>>> 3. 收到短信，完成登录。 ")
-            time.sleep(random.randint(3, 5))
-            ym.release_phoneNumber()
-
-            # 关闭，返回
-            # self.driver.find_element_by_id("com.coinstation.bixiang:id/btn_back").click()
-            button = wait.until(EC.presence_of_element_located((By.ID, 'com.coinstation.bixiang:id/btn_back')))
-            button.click()
+            # 逐行点击
+            self.locate_and_do_transfer()
 
             return 0
-
-
         except Exception as e:
             print(e)
             return -1
-        # finally:
-        #     self.driver.close()

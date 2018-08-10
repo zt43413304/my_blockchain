@@ -24,7 +24,7 @@ try:
 
     collect = my_onechain_collect_class.Collect()
 
-    # result = signup.app_transfer(ym)
+    result = collect.app_transfer()
 
 
 

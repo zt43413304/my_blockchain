@@ -2,6 +2,7 @@
 
 import logging
 import random
+import subprocess
 import time
 
 from PIL import Image
@@ -202,6 +203,9 @@ class lands:
 
     def selenium_login(self, phone, password):
         try:
+            cmd = r'@TASKKILL>nul /FI "IMAGENAME eq firefox.exe"  /F /T'
+            result1 = self.execute_command(cmd)
+            print('result:------>', result1)
 
             options = webdriver.FirefoxOptions()
             options.add_argument('-headless')
@@ -244,6 +248,18 @@ class lands:
         except Exception as e:
             print(e)
             return -1
+
+    def execute_command(self, cmd):
+        print('***** start executing cmd...')
+        p = subprocess.Popen(str(cmd), stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
+        stderrinfo, stdoutinfo = p.communicate()
+        # for line in stdoutinfo.splitlines():
+        #     print(line)
+        #
+        # print('stdoutinfo is -------> %s' % stdoutinfo)
+        # print('stderrinfo is -------> %s' % stderrinfo)
+        # print('finish executing cmd....')
+        return p.returncode
 
     def selenium_clickland(self, block_number):
 

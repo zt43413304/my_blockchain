@@ -127,7 +127,7 @@ class Collect:
             return False
 
     def locate_and_do_transfer(self):
-        for count in range(3):
+        for count in range(4):
             # 逐行点击
             lines = self.driver.find_elements(By.CLASS_NAME, "android.widget.ImageView")
 
@@ -176,8 +176,12 @@ class Collect:
             coin = tv_amount_status.text.split(' ')[1]
 
             # 手续费
-            tv_fee_value = self.driver.find_element_by_id("oneapp.onechain.androidapp:id/tv_fee_value")
-            tv_fee = float(re.findall(r"\d+\.?\d*", tv_fee_value.text.split(':')[1])[0])
+            tv_fee = 0
+            try:
+                tv_fee_value = self.driver.find_element_by_id("oneapp.onechain.androidapp:id/tv_fee_value")
+                tv_fee = float(re.findall(r"\d+\.?\d*", tv_fee_value.text.split(':')[1])[0])
+            except Exception as e:
+                print(e)
 
             # 可转账额度
             amount = tv_amount - tv_fee

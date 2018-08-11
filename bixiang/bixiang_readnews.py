@@ -86,4 +86,4 @@ def start_reading_news(filename):
             stopevt.set()
             break
 
-# start_reading_news("data_bixiang_readnews_HP.json")
+# start_reading_news("data_bixiang_readnews_50.json")

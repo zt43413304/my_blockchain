@@ -41,14 +41,14 @@ scheduler = BlockingScheduler()
 
 # HP Sever
 # scheduler.add_job(bixiang_readnews.start_reading_news, "cron", hour="0,8,16", minute="5",
-#                   args=["data_bixiang_readnews_HP.json"],
+#                   args=["data_bixiang_readnews_50.json"],
 #                   max_instances=4)
-scheduler.add_job(my_bixiang.loop_elephant, "cron", hour="4,12,20", minute="5",
+scheduler.add_job(my_bixiang.loop_elephant, "cron", hour="4,12,20",
                   args=["data_bixiang_Tokyo.json"], max_instances=4)
-scheduler.add_job(my_bixiang.loop_elephant, "cron", hour="8,16,0", minute="5",
+scheduler.add_job(my_bixiang.loop_elephant, "cron", hour="8,16,0",
                   args=["data_bixiang_Seoul.json"], max_instances=4)
 
-# scheduler.add_job(bixiang_readnews.start_reading_news, "cron", minute="0, 10, 20, 30, 40, 50",args=["data_bixiang_readnews_HP.json"], max_instances=4)
+# scheduler.add_job(bixiang_readnews.start_reading_news, "cron", minute="0, 10, 20, 30, 40, 50",args=["data_bixiang_readnews_50.json"], max_instances=4)
 
 # scheduler.add_job(my_hashworld.loop_hashworld_no_land, "cron", hour="5,13,21", minute="30", args=["data_hashworld_Seoul.json"], max_instances=2)
 
@@ -65,6 +65,6 @@ except (KeyboardInterrupt, SystemExit):
 # my_hashworld.loop_hashworld_no_land("data_hashworld_Seoul.json")
 # my_hashworld.loop_hashworld_land()
 
-# bixiang_readnews.start_reading_news("data_bixiang_readnews_HP.json")
+# bixiang_readnews.start_reading_news("data_bixiang_readnews_50.json")
 # my_bixiang.loop_elephant("data_bixiang_Tokyo.json")
 # my_bixiang.loop_elephant("data_bixiang_Seoul.json")

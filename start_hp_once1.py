@@ -34,7 +34,7 @@ logger.addHandler(fh)
 logger.addHandler(ch)
 
 # start
-logger.warning('********** Start from start_hp_elephant.py ...')
+logger.warning('********** Start from start_hp_once1.py ...')
 # scheduler = BlockingScheduler()
 #
 # # HP Sever

@@ -7,7 +7,9 @@ import time
 from apscheduler.schedulers.blocking import BlockingScheduler
 
 from bixiang import my_bixiang
+from blockcity import my_blockcity
 from hashworld import my_hashworld
+from star163 import my_star163
 
 # 第一步，创建一个logger
 logger = logging.getLogger("start_aws_Seoul.py")
@@ -40,16 +42,11 @@ scheduler = BlockingScheduler()
 
 # Tokyo Sever
 scheduler.add_job(my_bixiang.loop_bixiang, "cron", hour="0,8,16", args=["data_bixiang_Seoul.json"], max_instances=4)
-# scheduler.add_job(bixiang_readnews.start_reading_news, "cron", hour="10,18,2", minute="30",args=["data_bixiang_readnews_Seoul.json"], max_instances=4)
 scheduler.add_job(my_hashworld.loop_hashworld_land, "cron", hour="4", max_instances=4)
+scheduler.add_job(my_blockcity.loop_blockcity, "cron", hour="1,3,5,7,9,11,13,15,17,19,21,23", minute="30",
+                  max_instances=4)
+scheduler.add_job(my_star163.loop_star163, "cron", hour="3,9,15,21", minute="45", max_instances=4)
 
-# scheduler.add_job(my_diwuqu.loop_diwuqu, "cron", hour="2,10,18", max_instances=4)
-# scheduler.add_job(my_hashworld.loop_hashworld_no_land, "cron", hour="2,10,18", minute="30", args=["data_hashworld_Seoul.json"], max_instances=4)
-# scheduler.add_job(my_onechain.onechain_trade, "cron", hour="5,13,21", minute="30", max_instances=4)
-
-
-# scheduler.add_job(my_bixiang.loop_bixiang, "cron", minute="*/3", args=["data_bixiang_Seoul.json"], max_instances=1)
-# scheduler.add_job(my_hashworld.loop_hashworld_no_land, "cron", minute="*/3", args=["data_hashworld_Seoul.json"], max_instances=1)
 try:
     scheduler.start()
 except (KeyboardInterrupt, SystemExit):

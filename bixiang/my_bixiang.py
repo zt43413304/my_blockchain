@@ -547,6 +547,7 @@ def loop_elephant(filename):
 
     number = 0
     for item in data_dict['data']:
+        time.sleep(3)
         number += 1
 
         # if number < 148:

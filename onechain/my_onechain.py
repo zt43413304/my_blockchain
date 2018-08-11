@@ -232,6 +232,54 @@ def check_allTotal(user_agent, device_id, l, token, version):
         return -1
 
 
+def get_online_wallet(user_agent, device_id, l, token, version):
+    global proxies
+    offchain_wallet_list = []
+
+    url_online = 'http://hkopenservice1.yuyin365.com:8000/one-chain/offchain/list?user_agent=' + user_agent + \
+                 '&device_id=' + device_id + '&l=' + l + '&token=' + token + '&version=' + version
+
+    headers = {
+        'User-Agent': "okhttp/3.5.0",
+        'Host': "hkopenservice1.yuyin365.com:8000",
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Connection': 'close',
+        'Accept': '*/*',
+        'Accept-Language': 'zh-Hans-CN;q=1',
+        'Accept-Encoding': 'gzip',
+        'Cache-Control': "no-cache"
+    }
+
+    try:
+        logger.warning("********** coin_from_online_to_transaction_wallet(), proxies = " + str(proxies))
+        requests.packages.urllib3.disable_warnings()
+        r = requests.post(url_online, data=data, headers=headers, proxies=proxies, timeout=60)
+
+        res = r.json()["msg"]
+        if res == '成功':
+            coinlist = r.json()['data']['list']
+            for i in range(len(coinlist)):
+                coin = coinlist[i]
+                amount = coin.get('amount_available', 0)
+                asset_code = coin.get('asset_code', 'NA')
+                asset_name = coin.get('short_name', 'NA')
+
+                wallet = {}
+                wallet['total'] = str(amount)
+                wallet['asset_code'] = asset_code
+
+                offchain_wallet_list.append(wallet)
+
+            return offchain_wallet_list
+        else:
+            return -1
+
+    except Exception as e:
+        print(e)
+        proxies = daxiang_proxy.get_proxy("http://hkopenservice1.yuyin365.com:8000/one-chain/login")
+        return -1
+
+
 def coin_from_online_to_transaction_wallet(user_agent, device_id, l, token, version):
     global proxies
 
@@ -375,7 +423,8 @@ def loop_onechain():
 
             (coinlist) = coin_from_online_to_transaction_wallet(user_agent, device_id, l, token, version)
 
-            (totallist) = check_allTotal(user_agent, device_id, l, token, version)
+            # (totallist) = check_allTotal(user_agent, device_id, l, token, version)
+            (totallist) = get_online_wallet(user_agent, device_id, l, token, version)
 
 
             # 构建Json数组，用于发送HTML邮件

@@ -64,7 +64,7 @@ def open_FirstPage():
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
-        response = requests.request("GET", url, headers=headers, proxies=proxies, timeout=180, verify=False)
+        response = requests.request("GET", url, headers=headers, proxies=proxies, timeout=60, verify=False)
         res = response.status_code
         logger.warning('********** open_FirstPage(), status_code=' + str(res))
 
@@ -98,7 +98,7 @@ def login_GetAccessToken(payload):
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
-        response = requests.request("POST", url, data=payload, headers=headers, proxies=proxies, timeout=180,
+        response = requests.request("POST", url, data=payload, headers=headers, proxies=proxies, timeout=60,
                                     verify=False)
 
         res = response.json()["status"]
@@ -134,7 +134,7 @@ def get_strength_info(token):
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
-        response = requests.request("GET", url, headers=headers, proxies=proxies, timeout=180, verify=False)
+        response = requests.request("GET", url, headers=headers, proxies=proxies, timeout=60, verify=False)
 
         res = response.json()["status"]
         if res == 'common_OK':
@@ -168,7 +168,7 @@ def get_prize_wheel(token):
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
-        response = requests.request("GET", url, headers=headers, proxies=proxies, timeout=180, verify=False)
+        response = requests.request("GET", url, headers=headers, proxies=proxies, timeout=60, verify=False)
 
         res = response.json()["status"]
         if res == 'common_OK':
@@ -203,11 +203,11 @@ def click_Lottery(token, block_number):
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
-        response = requests.request("PUT", url, data=payload, headers=headers, proxies=proxies, timeout=180,
+        response = requests.request("PUT", url, data=payload, headers=headers, proxies=proxies, timeout=60,
                                     verify=False)
-        response = requests.request("GET", captcha_token, headers=headers, proxies=proxies, timeout=180, verify=False)
+        response = requests.request("GET", captcha_token, headers=headers, proxies=proxies, timeout=60, verify=False)
         time.sleep(random.randint(8, 10))
-        response = requests.request("PUT", url, data=payload, headers=headers, proxies=proxies, timeout=180,
+        response = requests.request("PUT", url, data=payload, headers=headers, proxies=proxies, timeout=60,
                                     verify=False)
 
         res = response.json()["status"]
@@ -247,7 +247,7 @@ def check_UserTotal(token):
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
-        response = requests.request("GET", url, headers=headers, proxies=proxies, timeout=180, verify=False)
+        response = requests.request("GET", url, headers=headers, proxies=proxies, timeout=60, verify=False)
 
         res = response.json()["status"]
         if res == 'common_OK':
@@ -354,7 +354,7 @@ def get_Landlist(token):
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
-        response = requests.request("GET", url, headers=headers, proxies=proxies, timeout=180, verify=False)
+        response = requests.request("GET", url, headers=headers, proxies=proxies, timeout=60, verify=False)
 
         res = response.json()["status"]
         if res == 'common_OK':
@@ -391,7 +391,7 @@ def get_LandPrice(token, land_number):
         requests.packages.urllib3.disable_warnings()
         ssl._create_default_https_context = ssl._create_unverified_context
         time.sleep(random.randint(MIN_SEC, MAX_SEC))
-        response = requests.request("POST", url, data=payload, headers=headers, proxies=proxies, timeout=180,
+        response = requests.request("POST", url, data=payload, headers=headers, proxies=proxies, timeout=60,
                                     verify=False)
 
         res = response.json()["status"]

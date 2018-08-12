@@ -132,7 +132,10 @@ def get_calculated(user_agent, device_id, l, token, version):
                 open_mining(user_agent, device_id, l, token, version)
                 logger.warning('********** mining opened')
 
+            account_id = r.json()['data']['map']['account_id']
+            account_name = r.json()['data']['map']['account_name']
             calculated = r.json()['data']['map']['calculated']
+
             logger.warning('>>>>>>>>>> calculated: ' + calculated)
             return calculated
     except Exception as e:
@@ -431,6 +434,7 @@ def loop_onechain():
             # Python 字典类型转换为 JSON 对象
             content_data = {}
             content_data['account_name'] = account_name
+            content_data['account_id'] = account_id
             content_data['calculated'] = calculated
             for j in range(len(totallist)):
                 item = totallist[j]
@@ -448,7 +452,7 @@ def loop_onechain():
     sum_data = {}
     sum_data['account_name'] = ''
     for key in keys:
-        if key == 'account_name':
+        if key == 'account_name' or key == 'account_id':
             continue
 
         value = 0

@@ -109,7 +109,7 @@ class Signup:
         # desired_caps['automationName'] = 'Appium'
         # desired_caps['autoWebview'] = 'True'
         desired_caps['app'] = PATH(
-            '/Users/Jackie.Liu/DevTools/Android_apk/bixiang_261_1.6.3-Y1032_7E1849FF9277A826F1053CDB5AD3059C.apk'
+            '/Users/Jackie.Liu/DevTools/Android_apk/bixiang-265-1.6.5-Y1032_164283026923E6772A517C4661994A58.apk'
         )
         # desired_caps['app'] = PATH(
         #     'C:/Users/jacki/Documents/MuMu共享文件夹/bixiang-259-1.6.2-Y1032_2AAAD8832BFDECB47B656864157AE1ED.apk'

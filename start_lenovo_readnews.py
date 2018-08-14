@@ -39,7 +39,7 @@ logger.warning('********** Start from start_lenovo_readnews.py ...')
 scheduler = BlockingScheduler()
 
 # HP Sever
-scheduler.add_job(bixiang_readnews.start_reading_news, "cron", hour="0,8,16",
+scheduler.add_job(bixiang_readnews.start_reading_news, "cron", hour="0,8,16", minute="30",
                   args=["data_bixiang_readnews_50.json"], max_instances=4)
 
 try:

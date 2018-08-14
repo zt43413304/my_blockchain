@@ -160,6 +160,7 @@ class Collect:
         try:
             # 可用
             tv_amount_status = self.driver.find_element_by_id("oneapp.onechain.androidapp:id/tv_amount_status")
+
             # 余额不足
             nPos = tv_amount_status.text.find("余额不足")
             if nPos > -1:
@@ -174,6 +175,16 @@ class Collect:
 
             tv_amount = float(tv_amount_status.text.split(' ')[0])
             coin = tv_amount_status.text.split(' ')[1]
+            if coin in ("EATT", "ONE", "ONELUCK"):
+                # 返回到转账页面
+                self.driver.find_element_by_id("oneapp.onechain.androidapp:id/img_back").click()
+                time.sleep(1)
+
+                # 返回到交易钱包页面，LinearLayout
+                self.driver.find_element_by_id("oneapp.onechain.androidapp:id/img_back").click()
+                time.sleep(1)
+                return 0
+
 
             # 手续费
             tv_fee = 0
@@ -243,7 +254,7 @@ class Collect:
                 time.sleep(2)
 
                 self.driver.find_element_by_id("oneapp.onechain.androidapp:id/btn_commit").click()
-                time.sleep(5)
+                time.sleep(8)
 
             if self.isElementExist_by_id("oneapp.onechain.androidapp:id/et_password"):
                 login = self.driver.find_element_by_id("oneapp.onechain.androidapp:id/et_password")

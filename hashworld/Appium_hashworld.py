@@ -203,8 +203,13 @@ class lands:
 
     def selenium_login(self, phone, password):
         try:
+            time.sleep(1)
             cmd = r'@TASKKILL>nul /FI "IMAGENAME eq firefox.exe"  /F /T'
             result1 = self.execute_command(cmd)
+            time.sleep(1)
+            cmd = r'@TASKKILL>nul /FI "IMAGENAME eq firefox.exe"  /F /T'
+            result1 = self.execute_command(cmd)
+            time.sleep(1)
             print('result:------>', result1)
 
             options = webdriver.FirefoxOptions()

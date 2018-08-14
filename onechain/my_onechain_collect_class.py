@@ -7,6 +7,7 @@ import time
 
 from appium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
 # 第一步，创建一个logger,并设置级别
@@ -108,8 +109,8 @@ class Collect:
 
     def isElementExist_by_classname_name(self, classname, name):
         try:
-            names = self.driver.find_elements(By.CLASS_NAME, classname)
-            # views = wait.until(EC.presence_of_element_located((By.CLASS_NAME, classname)))
+            wait = WebDriverWait(self.driver, 30)
+            names = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, classname)))
             for i in range(len(names)):
                 if names[i].text == name:
                     return names[i]
@@ -120,16 +121,19 @@ class Collect:
 
     def isElementExist_by_id(self, id):
         try:
-            self.driver.find_element_by_id(id)
+            wait = WebDriverWait(self.driver, 30)
+            wait.until(EC.presence_of_element_located((By.ID, id)))
+            # self.driver.find_element_by_id(id)
             return True
         except Exception as e:
             print(e)
             return False
 
     def locate_and_do_transfer(self):
+        wait = WebDriverWait(self.driver, 30)
         for count in range(4):
             # 逐行点击
-            lines = self.driver.find_elements(By.CLASS_NAME, "android.widget.ImageView")
+            lines = wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, "android.widget.ImageView")))
 
             for i in range(len(lines)):
                 if lines[i].location['x'] != 27:
@@ -157,19 +161,21 @@ class Collect:
             time.sleep(1)
 
     def do_transfer(self):
+        wait = WebDriverWait(self.driver, 30)
         try:
             # 可用
-            tv_amount_status = self.driver.find_element_by_id("oneapp.onechain.androidapp:id/tv_amount_status")
+            tv_amount_status = wait.until(
+                EC.presence_of_element_located((By.ID, "oneapp.onechain.androidapp:id/tv_amount_status")))
 
             # 余额不足
             nPos = tv_amount_status.text.find("余额不足")
             if nPos > -1:
                 # 返回到转账页面
-                self.driver.find_element_by_id("oneapp.onechain.androidapp:id/img_back").click()
+                wait.until(EC.presence_of_element_located((By.ID, "oneapp.onechain.androidapp:id/img_back"))).click()
                 time.sleep(1)
 
                 # 返回到交易钱包页面，LinearLayout
-                self.driver.find_element_by_id("oneapp.onechain.androidapp:id/img_back").click()
+                wait.until(EC.presence_of_element_located((By.ID, "oneapp.onechain.androidapp:id/img_back"))).click()
                 time.sleep(1)
                 return 0
 
@@ -177,11 +183,11 @@ class Collect:
             coin = tv_amount_status.text.split(' ')[1]
             if coin in ("EATT", "ONE", "ONELUCK"):
                 # 返回到转账页面
-                self.driver.find_element_by_id("oneapp.onechain.androidapp:id/img_back").click()
+                wait.until(EC.presence_of_element_located((By.ID, "oneapp.onechain.androidapp:id/img_back"))).click()
                 time.sleep(1)
 
                 # 返回到交易钱包页面，LinearLayout
-                self.driver.find_element_by_id("oneapp.onechain.androidapp:id/img_back").click()
+                wait.until(EC.presence_of_element_located((By.ID, "oneapp.onechain.androidapp:id/img_back"))).click()
                 time.sleep(1)
                 return 0
 
@@ -189,7 +195,8 @@ class Collect:
             # 手续费
             tv_fee = 0
             try:
-                tv_fee_value = self.driver.find_element_by_id("oneapp.onechain.androidapp:id/tv_fee_value")
+                tv_fee_value = wait.until(
+                    EC.presence_of_element_located((By.ID, "oneapp.onechain.androidapp:id/tv_fee_value")))
                 tv_fee = float(re.findall(r"\d+\.?\d*", tv_fee_value.text.split(':')[1])[0])
             except Exception as e:
                 print(e)
@@ -198,23 +205,23 @@ class Collect:
             amount = tv_amount - tv_fee
             if amount <= 0:
                 # 返回到转账页面
-                self.driver.find_element_by_id("oneapp.onechain.androidapp:id/img_back").click()
+                wait.until(EC.presence_of_element_located((By.ID, "oneapp.onechain.androidapp:id/img_back"))).click()
 
                 # 返回到交易钱包页面，LinearLayout
-                self.driver.find_element_by_id("oneapp.onechain.androidapp:id/img_back").click()
+                wait.until(EC.presence_of_element_located((By.ID, "oneapp.onechain.androidapp:id/img_back"))).click()
                 return 0
 
             # 发送给
-            et_to = self.driver.find_element_by_id("oneapp.onechain.androidapp:id/et_to")
+            et_to = wait.until(EC.presence_of_element_located((By.ID, "oneapp.onechain.androidapp:id/et_to")))
             et_to.send_keys('jackieliu')
 
             # 转账金额
-            et_amount = self.driver.find_element_by_id("oneapp.onechain.androidapp:id/et_amount")
+            et_amount = wait.until(EC.presence_of_element_located((By.ID, "oneapp.onechain.androidapp:id/et_amount")))
             et_amount.send_keys(str(amount))
 
             # 转账确认
             self.driver.find_element_by_id("oneapp.onechain.androidapp:id/btn_ok").click()
-            time.sleep(1)
+            time.sleep(3)
 
             # 如果需要输入密码
             if self.isElementExist_by_id("oneapp.onechain.androidapp:id/dialog_edit_et"):
@@ -224,14 +231,14 @@ class Collect:
             time.sleep(5)
 
             # 返回到转账页面
-            self.driver.find_element_by_id("oneapp.onechain.androidapp:id/img_back").click()
+            wait.until(EC.presence_of_element_located((By.ID, "oneapp.onechain.androidapp:id/img_back"))).click()
             time.sleep(1)
 
             # 返回到交易钱包页面，LinearLayout
-            self.driver.find_element_by_id("oneapp.onechain.androidapp:id/img_back").click()
+            wait.until(EC.presence_of_element_located((By.ID, "oneapp.onechain.androidapp:id/img_back"))).click()
             time.sleep(1)
 
-            logger.warning("********** do_transfer(), " + coin + " = " + str(amount))
+            logger.warning(">>>>>>>>>> do_transfer(), " + coin + " = " + str(amount))
             return 0
         except Exception as e:
             print(e)
@@ -249,22 +256,25 @@ class Collect:
 
             # 登录
             if self.isElementExist_by_id("oneapp.onechain.androidapp:id/dialog_edit_et"):
-                login = self.driver.find_element_by_id("oneapp.onechain.androidapp:id/dialog_edit_et")
+                login = wait.until(
+                    EC.presence_of_element_located((By.ID, "oneapp.onechain.androidapp:id/dialog_edit_et")))
                 login.send_keys('Liuxb0504$')
                 time.sleep(2)
 
-                self.driver.find_element_by_id("oneapp.onechain.androidapp:id/btn_commit").click()
-                time.sleep(8)
+                wait.until(EC.presence_of_element_located((By.ID, "oneapp.onechain.androidapp:id/btn_commit"))).click()
+                time.sleep(5)
 
             if self.isElementExist_by_id("oneapp.onechain.androidapp:id/et_password"):
-                login = self.driver.find_element_by_id("oneapp.onechain.androidapp:id/et_password")
-                login.send_keys('Liuxb0504$')
+                passwd = wait.until(
+                    EC.presence_of_element_located((By.ID, "oneapp.onechain.androidapp:id/et_password")))
+                passwd.send_keys('Liuxb0504$')
+                time.sleep(2)
 
-                self.driver.find_element_by_id("oneapp.onechain.androidapp:id/btn_commit").click()
+                wait.until(EC.presence_of_element_located((By.ID, "oneapp.onechain.androidapp:id/btn_commit"))).click()
                 time.sleep(5)
 
             # “钱包”
-            self.driver.find_element_by_id("oneapp.onechain.androidapp:id/tv_wallet").click()
+            wait.until(EC.presence_of_element_located((By.ID, "oneapp.onechain.androidapp:id/tv_wallet"))).click()
             time.sleep(2)
             # "交易钱包"
             self.isElementExist_by_classname_name("android.widget.TextView", "交易钱包").click()

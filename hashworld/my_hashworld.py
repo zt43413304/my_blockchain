@@ -480,8 +480,8 @@ def loop_Lottery(filename):
             # break
             lands.selenium_close()
 
-        if number == 10:
-            break
+        # if number == 10:
+    #       break
     try:
         lands.selenium_quit()
     except Exception as e:

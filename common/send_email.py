@@ -413,8 +413,16 @@ def send_HashWorld_LandEmail(to_list, content_list):
         return False
 
 
-def send_HashWorld_HtmlEmail(to_list, content_list, server):
+def send_HashWorld_HtmlEmail(to_list, all_coin_list, server):
     datetime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+
+    th = ''
+    coin_list = all_coin_list[0]
+    # phone = coin_list[0].get('phone', 'NA')
+    th += '<th align="center">Phone</th>'
+    for m in range(len(coin_list)):
+        coin = coin_list[m]
+        th += '<th colspan="3" align="center">' + coin.get('symbol', 'NA') + '</th>'
 
     head = '<!DOCTYPE HTML>' + \
            '<html id="pageLoading">' + \
@@ -452,9 +460,7 @@ def send_HashWorld_HtmlEmail(to_list, content_list, server):
            '<p> ********** ' + datetime + ' ********** </p>' + \
            '<table border="1px" cellspacing="0px" style="border-collapse:collapse" id="table-7">' + \
            '<thead>' + \
-           '<th align="center">No.</th>' + \
-           '<th align="center">phone</th>' + \
-           '<th align="center">value</th>' + \
+           '<th align="center">No.</th>' + th + \
            '</thead>' + \
            '<tbody>'
 
@@ -466,18 +472,41 @@ def send_HashWorld_HtmlEmail(to_list, content_list, server):
     body = ''
     value_total = 0
     i = 0
-    for item in content_list:
+    for n in range(len(all_coin_list) - 1):
         i = i + 1
-        phone = item.get('phone', 'NA')
-        value = item.get('value', 'NA')
-        value_total = value_total + value
-
+        phone = all_coin_list[n][0].get('phone', 'NA')
         body = body + '<tr><td align="center">' + str(i) + \
-               '</td><td align="center">' + phone + \
-               '</td><td align="right">' + str(round(value, 2)) + '</td></tr>'
-    sum = body + '<tr><td colspan="2" align="center">Sum:</td><td align="right">' + \
-          str(round(value_total, 2)) + '</td></tr>'
-    mail_msg = head + sum + end
+               '</td><td align="center">' + phone
+
+        lists = all_coin_list[n]
+        for p in range(len(lists)):
+            item = lists[p]
+            symbol = item.get('symbol', 'NA')
+            market_price_cny = item.get('market_price_cny', 0)
+            active_balance = item.get('active_balance', 0)
+            value = item.get('value', 0)
+            # value_total = value_total + value
+
+            body = body + \
+                   '</td><td align="right">' + str(round(market_price_cny, 2)) + '</td>' + \
+                   '</td><td align="right">' + str(round(active_balance, 2)) + '</td>' + \
+                   '</td><td align="right">' + str(round(value, 2)) + '</td>'
+        body = body + '</tr>'
+
+    length = len(all_coin_list)
+    last = all_coin_list[length - 1]
+    sum = '<tr><td colspan="2" align="center">Sum:</td>'
+    for t in range(len(last)):
+        item = last[t]
+        active_balance = item.get('active_balance', 0)
+        value = item.get('value', 0)
+        sum = sum + \
+              '</td><td align="right">  </td>' + \
+              '</td><td align="right">' + str(round(active_balance, 2)) + '</td>' + \
+              '</td><td align="right">' + str(round(value, 2)) + '</td>'
+    sum = sum + '</tr>'
+
+    mail_msg = head + body + sum + end
     # mail_msg = "hello, hashworld"
 
     subject = "哈希世界, "+server+" [Value:" + str(round(value_total, 2)) + "]"

@@ -225,6 +225,7 @@ def click_Lottery(token, block_number):
 
 
 def check_UserTotal(token):
+    coin_list = []
     global proxies
     url = "https://game.hashworld.top/apis/coin/gift_wallet/"
 
@@ -252,12 +253,23 @@ def check_UserTotal(token):
         res = response.json()["status"]
         if res == 'common_OK':
             totallist = response.json()['data']
+
             for i in range(len(totallist)):
-                market_price_cny = totallist[i]['coin']['market_price_cny']
-                active_balance = totallist[i]['active_balance']
-                total = total + market_price_cny * active_balance
-            logger.warning('********** Total: ' + str(total))
-            return total
+                phone = totallist[i]['account']['phone']  # str
+                symbol = totallist[i]['coin']['symbol']  # str
+                market_price_cny = totallist[i]['coin']['market_price_cny']  # float
+                active_balance = totallist[i]['active_balance']  # float
+                value = market_price_cny * active_balance
+
+                coin = {}
+                coin['phone'] = phone
+                coin['symbol'] = symbol
+                coin['market_price_cny'] = market_price_cny
+                coin['active_balance'] = active_balance
+                coin['value'] = value
+                coin_list.append(coin)
+
+            return coin_list
         else:
             return -1
     except Exception as e:
@@ -412,7 +424,7 @@ def get_LandPrice(token, land_number):
 
 def loop_Lottery(filename):
     all_total = 0
-    content_list = []
+    all_coin_list = []
 
     file = open(curpath + '/hashworld/' + filename, 'r', encoding='utf-8')
     data_dict = json.load(file)
@@ -452,28 +464,62 @@ def loop_Lottery(filename):
             click_hashworld_land(token, strength, wonder_list, lands)
             # break
 
-            value = check_UserTotal(token)
-            all_total = all_total + value
-            logger.warning("========== End[" + phone + "], Total[ " + str(all_total) + " ] ==========")
+            coin_list = check_UserTotal(token)
+            all_coin_list.append(coin_list)
+            # all_total = all_total + value
+            # logger.warning("========== End[" + phone + "], Total[ " + str(all_total) + " ] ==========")
 
             # 构建Json数组，用于发送HTML邮件
             # Python 字典类型转换为 JSON 对象
-            content_data = {
-                "phone": phone,
-                "value": value
-            }
-            content_list.append(content_data)
-            time.sleep(random.randint(MIN_SEC, MAX_SEC))
+            # content_data = {
+            #     "phone": phone,
+            #     "value": value
+            # }
+            # content_list.append(content_data)
+            # time.sleep(random.randint(MIN_SEC, MAX_SEC))
             # break
             lands.selenium_close()
+
+        if number == 10:
+            break
     try:
         lands.selenium_quit()
     except Exception as e:
         print(e)
 
+    # sum
+    sum_list = []
+    for i in range(len(all_coin_list[0])):
+        coin = {}
+        coin['phone'] = ''
+        coin['symbol'] = ''
+        coin['market_price_cny'] = 0.0
+        coin['active_balance'] = 0.0
+        coin['value'] = 0.0
+        sum_list.append(coin)
+
+    # 汇总
+    for i in range(len(all_coin_list)):
+        c_list = all_coin_list[i]
+        for j in range(len(c_list)):
+            coin = c_list[j]
+            phone = coin.get('phone', 'NA')
+            symbol = coin.get('symbol', 'NA')
+            market_price_cny = coin.get('market_price_cny', 0)
+            active_balance = coin.get('active_balance', 0)
+            value = coin.get('value', 0)
+
+            sum_list[j]['phone'] = phone
+            sum_list[j]['symbol'] = symbol
+            sum_list[j]['market_price_cny'] = market_price_cny
+            sum_list[j]['active_balance'] += active_balance
+            sum_list[j]['value'] += value
+
+    all_coin_list.append(sum_list)
+
     # sending email
     server = filename.split('.')[0][-5:]
-    send_email.send_HashWorld_HtmlEmail('newseeing@163.com', content_list, server)
+    send_email.send_HashWorld_HtmlEmail('newseeing@163.com', all_coin_list, server)
     logger.warning('********** Sending Email Complete!')
     logger.warning('\n')
 
@@ -550,6 +596,4 @@ def loop_hashworld_no_land(filename):
 
 
 # Start from here...
-# loop_hashworld_no_land('data_hashworld_Tokyo01.json')
-
-
+loop_hashworld_no_land('data_hashworld_Tokyo.json')

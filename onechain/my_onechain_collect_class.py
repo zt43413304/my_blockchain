@@ -238,7 +238,7 @@ class Collect:
             wait.until(EC.presence_of_element_located((By.ID, "oneapp.onechain.androidapp:id/img_back"))).click()
             time.sleep(1)
 
-            logger.warning(">>>>>>>>>> do_transfer(), " + coin + " = " + str(amount))
+            logger.warning(">>>>>>>>>>  do_transfer(), " + coin + " = " + str(amount))
             return 0
         except Exception as e:
             print(e)

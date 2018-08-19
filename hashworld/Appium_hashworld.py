@@ -206,8 +206,13 @@ class lands:
             time.sleep(1)
             cmd = r'@TASKKILL>nul /FI "IMAGENAME eq firefox.exe"  /F /T'
             result1 = self.execute_command(cmd)
+            print('result firefox.exe:------>', result1)
             time.sleep(1)
-            print('result:------>', result1)
+
+            cmd = r'@TASKKILL>nul /FI "IMAGENAME eq geckodriver.exe"  /F /T'
+            result2 = self.execute_command(cmd)
+            print('result geckodriver.exe:------>', result2)
+            time.sleep(1)
 
             options = webdriver.FirefoxOptions()
             options.add_argument('-headless')

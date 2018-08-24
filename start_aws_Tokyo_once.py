@@ -5,6 +5,8 @@ import os
 import time
 
 from bixiang import my_bixiang
+from diwuqu import my_diwuqu
+from onechain import my_onechain
 
 # 第一步，创建一个logger
 logger = logging.getLogger("start_aws_Tokyo_once.py")
@@ -33,4 +35,6 @@ logger.addHandler(ch)
 
 # start
 logger.warning('********** Start from start_aws_Tokyo.py ...')
+my_onechain.loop_onechain()
+my_diwuqu.loop_diwuqu()
 my_bixiang.loop_bixiang("data_bixiang_Tokyo.json")

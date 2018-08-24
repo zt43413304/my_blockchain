@@ -232,19 +232,19 @@ class lands:
 
             wait = WebDriverWait(self.driver, 60)
 
-            xpath_phone = '/html/body/div[1]/div[2]/div/div[3]/div[1]/div/div[1]/input'
+            xpath_phone = '/html/body/div[1]/div[1]/div[2]/div/div[3]/div[1]/div/div[1]/input'
             input_phone = wait.until(EC.presence_of_element_located((By.XPATH, xpath_phone)))
             input_phone.clear()
             input_phone.send_keys(phone[-11:])
             time.sleep(random.random())
 
-            xpath_password = '/html/body/div[1]/div[2]/div/div[3]/div[1]/div/div[2]/input'
+            xpath_password = '/html/body/div[1]/div[1]/div[2]/div/div[3]/div[1]/div/div[2]/input'
             input_password = wait.until(EC.presence_of_element_located((By.XPATH, xpath_password)))
             input_password.clear()
             input_password.send_keys(password)
             time.sleep(random.random())
 
-            xpath_login = '/html/body/div[1]/div[2]/div/div[3]/button'
+            xpath_login = '/html/body/div[1]/div[1]/div[2]/div/div[3]/button'
             button_login = wait.until(EC.presence_of_element_located((By.XPATH, xpath_login)))
             button_login.click()
             time.sleep(random.randint(1, 2))
@@ -275,7 +275,7 @@ class lands:
             time.sleep(random.randint(2, 3))
             wait = WebDriverWait(self.driver, 60)
 
-            xpath_strength = '/html/body/div[1]/div[2]/div/div[2]/div/div[2]/p[2]/span[2]/span'
+            xpath_strength = '/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div[2]/p[2]/span[2]/span'
             web_strength = wait.until(EC.presence_of_element_located((By.XPATH, xpath_strength)))
             strength1 = web_strength.text.split('/')[0]
             logger.warning(">>>>>>>>>> selenium strength = " + str(strength1))
@@ -288,7 +288,7 @@ class lands:
             # 滚动到要点击的宝箱
             if block_number > 1:
                 for index in range(2, block_number+1):
-                    xpath_block = '/html/body/div[1]/div[2]/div/div[2]/div/div[2]/div/div[' + str(
+                    xpath_block = '/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div[2]/div/div[' + str(
                         index) + ']/div[1]/div[2]'
                     # '/html/body/div[1]/div[2]/div/div[2]/div/div[2]/div/div[2]/div[1]/div[2]'
                     # '/html/body/div[1]/div[2]/div/div[2]/div/div[2]/div/div[3]/div[1]/div[2]'
@@ -298,7 +298,7 @@ class lands:
                     logger.warning(">>>>>>>>>> rolling index = "+str(index)+"......")
                     time.sleep(1)
 
-            xpath_block = "/html/body/div[1]/div[2]/div/div[2]/div/div[2]/div/div[" + \
+            xpath_block = "/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div[2]/div/div[" + \
                           str(block_number) + "]/div[2]/div[2]/div[2]/div/div"
             # '/html/body/div[1]/div[2]/div/div[2]/div/div[2]/div/div[2]/div[2]/div[2]/div[2]/div/div'
             # '/html/body/div[1]/div[2]/div/div[2]/div/div[2]/div/div[3]/div[2]/div[2]/div[2]/div/div'
@@ -308,7 +308,7 @@ class lands:
             time.sleep(random.randint(3, 5))
 
             # xpath_box = '//*[@id="box"]'
-            xpath_box = '/html/body/div[1]/div[3]/div/div/div[2]/div/div/div/div[1]/div'
+            xpath_box = '/html/body/div[1]/div[2]/div/div/div[2]/div/div/div/div[1]/div'
             box = wait.until(EC.presence_of_element_located((By.XPATH, xpath_box)))
             box.click()
             logger.warning(">>>>>>>>>> selenium click box......")
@@ -340,7 +340,7 @@ class lands:
                 logger.warning(">>>>>>>>>> selenium click canvas......")
                 time.sleep(random.randint(3, 5))
 
-            xpath_playagain = '/html/body/div[1]/div[2]/div/button'
+            xpath_playagain = '/html/body/div[1]/div[1]/div[2]/div/button'
             if self.isElementExist_by_xpath(xpath_playagain):
                 button_playagain = wait.until(EC.presence_of_element_located((By.XPATH, xpath_playagain)))
                 button_playagain.click()

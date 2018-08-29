@@ -81,7 +81,7 @@ def loginGetAccessToken(user_agent, device_id, l, version):
         #     r = requests.post(url_login, headers=headers, proxies=proxies, verify=False) #headers=headers,
 
         res = r.json()["msg"]
-        if res == '成功':
+        if res == 'Success':
             token = r.json()["data"]["map"]["token"]
             return token
         else:
@@ -103,8 +103,8 @@ def open_mining(user_agent, device_id, l, token, version):
         r = requests.post(url_check, data=data, headers=headers, proxies=proxies, timeout=60)
 
         res = r.json()["msg"]
-        if res == '成功':
-            logger.warning('********** open_mining() 成功.')
+        if res == 'Success':
+            logger.warning('********** open_mining() Success.')
             return 0
         else:
             return -1
@@ -126,7 +126,7 @@ def get_calculated(user_agent, device_id, l, token, version):
         r = requests.post(url_check, data=data, headers=headers, proxies=proxies, timeout=60)
 
         res = r.json()["msg"]
-        if res == '成功':
+        if res == 'Success':
             mining_flag = r.json()['data']['map']['mining_flag']
             if mining_flag == "NO":
                 open_mining(user_agent, device_id, l, token, version)
@@ -156,7 +156,7 @@ def mining_click(user_agent, device_id, l, token, version, mining_detail_uuid):
         r = requests.post(url_check, data=data, headers=headers, proxies=proxies, timeout=60)
 
         res = r.json()["msg"]
-        if res == '成功':
+        if res == 'Success':
             logger.warning('>>>>>>>>>> mining...... ' + str(mining_detail_uuid))
             return 0
         else:
@@ -178,7 +178,7 @@ def mining_check(user_agent, device_id, l, token, version):
         r = requests.post(url_check, data=data, headers=headers, proxies=proxies, timeout=60)
 
         res = r.json()["msg"]
-        if res == '成功':
+        if res == 'Success':
             contentlist = r.json()['data']['list']
             i = 0
             for i in range(len(contentlist)):
@@ -223,7 +223,7 @@ def check_allTotal(user_agent, device_id, l, token, version):
         r = requests.post(url_check, data=data, headers=headers, proxies=proxies, timeout=60)
 
         res = r.json()["msg"]
-        if res == '成功':
+        if res == 'Success':
             totallist = r.json()['data']['list']
             return totallist
         else:
@@ -259,7 +259,7 @@ def get_online_wallet(user_agent, device_id, l, token, version):
         r = requests.post(url_online, data=data, headers=headers, proxies=proxies, timeout=60)
 
         res = r.json()["msg"]
-        if res == '成功':
+        if res == 'Success':
             coinlist = r.json()['data']['list']
             for i in range(len(coinlist)):
                 coin = coinlist[i]
@@ -306,7 +306,7 @@ def coin_from_online_to_transaction_wallet(user_agent, device_id, l, token, vers
         r = requests.post(url_online, data=data, headers=headers, proxies=proxies, timeout=60)
 
         res = r.json()["msg"]
-        if res == '成功':
+        if res == 'Success':
             coinlist = r.json()['data']['list']
 
             for i in range(len(coinlist)):
@@ -362,8 +362,8 @@ def coin_offline_transfer(user_agent, device_id, l, token, version, asset_code, 
         r = requests.post(url_envelopes, data=data, headers=headers, proxies=proxies, timeout=60)
 
         res = r.json()["msg"]
-        if res == '成功':
-            logger.warning("********** coin_offline_transfer(), 成功。" + asset_code + ":" + str(amount))
+        if res == 'Success':
+            logger.warning("********** coin_offline_transfer(), Success。" + asset_code + ":" + str(amount))
             return 0
         else:
             return -1
@@ -410,6 +410,9 @@ def loop_onechain():
         signed_message = item.get('signed_message', 'NA')
         data = dict(account_id=account_id, account_name=account_name, signed_message=signed_message)
 
+        # if account_name != "hexitai":
+        #     continue
+
         logger.warning('\n')
         logger.warning("========== Checking " + str(i) + ". [" + account_name + "] ==========")
 
@@ -418,7 +421,7 @@ def loop_onechain():
             logger.warning('********** Login fail!')
             continue
         else:
-            logger.warning('********** Login 成功! token:' + token)
+            logger.warning('********** Login Success! token:' + token)
 
             calculated = get_calculated(user_agent, device_id, l, token, version)
             mining_check(user_agent, device_id, l, token, version)
@@ -467,4 +470,4 @@ def loop_onechain():
     logger.warning('********** Sending Email Complete!')
 
 # Start from here...
-# loop_onechain()
+loop_onechain()

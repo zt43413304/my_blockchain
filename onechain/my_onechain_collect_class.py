@@ -92,7 +92,7 @@ class Collect:
         # desired_caps['automationName'] = 'Appium'
         # desired_caps['autoWebview'] = 'True'
         desired_caps['app'] = PATH(
-            '/Users/Jackie.Liu/DevTools/Android_apk/one231.apk'
+            '/Users/Jackie.Liu/DevTools/Android_apk/one239.apk'
         )
         desired_caps['appPackage'] = 'oneapp.onechain.androidapp'
         desired_caps['appActivity'] = 'oneapp.onechain.androidapp.onemessage.view.activity.UnlockActivity'
@@ -151,7 +151,7 @@ class Collect:
                     self.do_transfer()
 
                 # 进入一行内部
-                (result) = self.isElementExist_by_classname_name("android.widget.TextView", "发送")
+                (result) = self.isElementExist_by_classname_name("android.widget.TextView", "转出")
                 if result is not False:
                     result.click()
                     time.sleep(1)

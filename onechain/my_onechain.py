@@ -67,8 +67,8 @@ def getInfoNum(infoNum):
 
 def loginGetAccessToken(user_agent, device_id, l, version):
     global proxies
-    url_login = 'http://hkopenservice1.yuyin365.com:8000/one-chain/login?user_agent=' + user_agent + \
-                '&device_id=' + device_id + '&l=' + l + '&token=&version=' + version
+    url_login = 'http://sso1.yuyin365.com:8000/onechain/login?user_agent=' + user_agent + \
+                '&device_id=' + device_id + '&l=' + l + '&token=b3039ba5ae084fe6ad6e4bb4d4ca9882&version=' + version
 
     try:
         logger.warning("********** loginGetAccessToken(), proxies = " + str(proxies))
@@ -383,7 +383,7 @@ def loop_onechain():
     logger.warning('********** Start from loop_onechain() ...')
 
     global proxies
-    proxies = daxiang_proxy.get_proxy("http://hkopenservice1.yuyin365.com:8000/one-chain/login")
+    # proxies = daxiang_proxy.get_proxy("http://hkopenservice1.yuyin365.com:8000/one-chain/login")
 
     file = open(curpath + '/onechain/one_chain_data.json', 'r', encoding='utf-8')
     data_dict = json.load(file)
@@ -470,4 +470,4 @@ def loop_onechain():
     logger.warning('********** Sending Email Complete!')
 
 # Start from here...
-# loop_onechain()
+loop_onechain()

@@ -8,7 +8,6 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 
 from bixiang import my_bixiang
 from diwuqu import my_diwuqu
-from onechain import my_onechain
 
 # 第一步，创建一个logger
 logger = logging.getLogger("start_aws_Tokyo.py")
@@ -42,7 +41,7 @@ scheduler = BlockingScheduler()
 # Tokyo Sever
 scheduler.add_job(my_bixiang.loop_bixiang, "cron", hour="0,8,16", args=["data_bixiang_Tokyo.json"], max_instances=4)
 scheduler.add_job(my_diwuqu.loop_diwuqu, "cron", hour="5,13,21", max_instances=4)
-scheduler.add_job(my_onechain.loop_onechain, "cron", hour="5,13,21", minute="30", max_instances=4)
+# scheduler.add_job(my_onechain.loop_onechain, "cron", hour="5,13,21", minute="30", max_instances=4)
 
 
 # scheduler.add_job(my_bixiang.loop_bixiang, "cron", minute="*/3", args=["data_bixiang_Tokyo.json"], max_instances=1)

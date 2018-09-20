@@ -275,7 +275,7 @@ class lands:
             time.sleep(random.randint(2, 3))
             wait = WebDriverWait(self.driver, 60)
 
-            xpath_strength = '/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div[2]/p[2]/span[2]/span'
+            xpath_strength = '/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div[2]/p[1]/span[2]/span'
             web_strength = wait.until(EC.presence_of_element_located((By.XPATH, xpath_strength)))
             strength1 = web_strength.text.split('/')[0]
             logger.warning(">>>>>>>>>> selenium strength = " + str(strength1))
@@ -340,7 +340,7 @@ class lands:
                 logger.warning(">>>>>>>>>> selenium click canvas......")
                 time.sleep(random.randint(3, 5))
 
-            xpath_playagain = '/html/body/div[1]/div[1]/div[2]/div/button'
+            xpath_playagain = '/html/body/div[1]/div[1]/div[2]/div/button[2]'
             if self.isElementExist_by_xpath(xpath_playagain):
                 button_playagain = wait.until(EC.presence_of_element_located((By.XPATH, xpath_playagain)))
                 button_playagain.click()

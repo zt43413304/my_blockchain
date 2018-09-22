@@ -4,7 +4,7 @@ import logging
 import os
 import time
 
-from bixiang import my_bixiang
+from bixiang import bixiang_news_video
 
 # 第一步，创建一个logger
 
@@ -15,7 +15,7 @@ logger.setLevel(logging.INFO)  # Log等级总开关
 rq = time.strftime('%Y%m%d%H%M', time.localtime(time.time()))
 # log_path = os.path.dirname(os.getcwd()) + '/logs/'
 log_path = os.getcwd() + '/logs/'
-log_name = log_path + 'start_hp_elephant_once' + rq + '.log'
+log_name = log_path + 'start_hp_once' + rq + '.log'
 logfile = log_name
 
 fh = logging.FileHandler(logfile, mode='w', encoding='UTF-8')
@@ -34,7 +34,6 @@ logger.addHandler(fh)
 logger.addHandler(ch)
 
 # start
-logger.warning('********** Start from start_hp_elephant_once.py ...')
+logger.warning('********** Start from start_lenovo_news_video_once.py ...')
 
-my_bixiang.loop_elephant("data_bixiang_Tokyo.json")
-my_bixiang.loop_elephant("data_bixiang_Seoul.json")
+bixiang_news_video.start_news_video("data_bixiang_news_video_all.json")

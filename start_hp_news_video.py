@@ -6,11 +6,11 @@ import time
 
 from apscheduler.schedulers.blocking import BlockingScheduler
 
-from bixiang import bixiang_readnews
+from bixiang import bixiang_news_video
 
 # 第一步，创建一个logger
 
-logger = logging.getLogger("start_lenovo_readnews.py")
+logger = logging.getLogger("start_hp_news_video.py")
 logger.setLevel(logging.INFO)  # Log等级总开关
 # 第二步，创建一个handler，用于写入日志文件
 rq = time.strftime('%Y%m%d%H%M', time.localtime(time.time()))
@@ -35,12 +35,12 @@ logger.addHandler(fh)
 logger.addHandler(ch)
 
 # start
-logger.warning('********** Start from start_lenovo_readnews.py ...')
+logger.warning('********** Start from start_hp_news_video.py ...')
 scheduler = BlockingScheduler()
 
 # HP Sever
-scheduler.add_job(bixiang_readnews.start_reading_news, "cron", hour="0,8,16", minute="30",
-                  args=["data_bixiang_readnews_50.json"], max_instances=4)
+scheduler.add_job(bixiang_news_video.start_news_video, "cron", hour="7,13,19", minute="30",
+                  args=["data_bixiang_Seoul.json"], max_instances=4)
 
 try:
     scheduler.start()

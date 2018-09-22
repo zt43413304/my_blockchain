@@ -12,7 +12,6 @@ import time
 import requests
 
 from common import c2567
-from common import daxiang_proxy
 
 # get config information
 curpath = os.getcwd()
@@ -58,7 +57,7 @@ MIN_SEC = 2
 MAX_SEC = 5
 
 
-class readnews(threading.Thread):
+class news_video(threading.Thread):
     unique = None
     uid = None
     phone = None
@@ -68,6 +67,8 @@ class readnews(threading.Thread):
     proxies = ''
 
     def __init__(self, unique, uid, phone, stopevt=None):
+
+        # global proxies
         threading.Thread.__init__(self)
         self.unique = unique
         self.uid = uid
@@ -77,7 +78,7 @@ class readnews(threading.Thread):
         rq = time.strftime('%Y%m%d-%H%M%S', time.localtime(time.time()))
 
         # 第一步，创建一个logger,并设置级别
-        # self.logger = logging.getLogger("bixiang_readnews_class.py")
+        # self.logger = logging.getLogger("bixiang_news_video_class.py")
         self.logger = logging.getLogger("readnews_%s" % rq)
         self.logger.setLevel(logging.INFO)  # Log等级总开关
         # 第二步，创建一个handler，用于写入日志文件
@@ -93,15 +94,15 @@ class readnews(threading.Thread):
         self.logger.addHandler(fh)
         self.logger.addHandler(ch)
 
-        self.proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
-        # self.proxies = ''
+        # self.proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
+        self.proxies = ''
 
         self.logger.warning("========== __init()__, Checking. [" + phone + "] ==========")
 
     def bixiang_login(self):
         # global proxies
 
-        # if self.proxies is None or proxies is '':
+        # if proxies is None or proxies is '':
         # proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
 
         url = "http://tui.yingshe.com/check/index"
@@ -124,7 +125,7 @@ class readnews(threading.Thread):
                 return -1
         except Exception as e:
             print(e)
-            self.proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
+            # proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
             return -1
 
     def run(self):
@@ -132,19 +133,24 @@ class readnews(threading.Thread):
         if self.bixiang_login() == -1:
             sys.exit(0)
 
-        news_id_list = self.get_news_id_list()
+        # news_id_list = self.get_news_id_list()
 
         count = 0
         while not self.stopevt.isSet():
-            return_code = self.post_newsRecord(news_id_list[count])
-            if return_code == -1:
-                continue
-            time.sleep(60)
-            count += 1
+            # return_code = self.post_newsRecord(news_id_list[count])
+            # if return_code == -1:
+            #     continue
+            #
+            # count += 1
+            #
+            # if count == len(news_id_list):
+            #     news_id_list = self.get_news_id_list()
+            #     count = 0
 
-            if count == len(news_id_list):
-                news_id_list = self.get_news_id_list()
-                count = 0
+            time.sleep(random.randint(90, 120))
+
+            self.post_watchVideo()
+
 
         self.logger.warning("********** self.stopevt.isSet():" + str(self.stopevt.isSet()))
         self.logger.warning('********** exit thread. ' + self.phone)
@@ -225,7 +231,7 @@ class readnews(threading.Thread):
 
         try:
 
-            # self.logger.warning("********** get_JRTT_list(), proxies = " + str(self.proxies))
+            # self.logger.warning("********** get_JRTT_list(), proxies = " + str(proxies))
 
             response = requests.request("POST", url, data=payload_JRTT, headers=headers, timeout=60,
                                         proxies=self.proxies, allow_redirects=False)
@@ -251,8 +257,56 @@ class readnews(threading.Thread):
                 return -1
         except Exception as e:
             print(e)
-            self.proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
+            # proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
             return -1
+
+    def post_watchVideo(self):
+        # global proxies
+
+        url = "http://tui.yingshe.com/Study/watchVideo"
+
+        payload_watchVideo = payload + "&unique=" + self.unique + \
+                             "&uid=" + self.uid + \
+                             "&types=start"
+
+        try:
+
+            # self.logger.warning(">>>>>>>>>> [" + self.phone + "]. post_watchVideo. news_id=" + news_id)
+            # self.logger.warning("********** [" + self.phone + "], post_watchVideo(), proxies = " + str(proxies))
+            response = requests.request("POST", url, data=payload_watchVideo, headers=headers,
+                                        timeout=60, proxies=self.proxies, allow_redirects=False)
+
+            while response.status_code != 200:
+                self.logger.warning("<<<<<<<<<< [" + self.phone + "]. post_watchVideo Error. try again ...")
+                time.sleep(random.randint(MIN_SEC, MAX_SEC))
+                response = requests.request("POST", url, data=payload_watchVideo, headers=headers,
+                                            timeout=60, proxies=self.proxies, allow_redirects=False)
+
+            if response.status_code == 200:
+                res = response.json()["status"]
+                if res == 1:
+                    time.sleep(random.randint(30, 50))
+
+                    payload_watchVideo = payload + "&unique=" + self.unique + \
+                                         "&uid=" + self.uid + \
+                                         "&types=close"
+                    response = requests.request("POST", url, data=payload_watchVideo, headers=headers,
+                                                timeout=60, proxies=self.proxies, allow_redirects=False)
+                    res = response.json()["status"]
+                    if res == 1:
+                        self.logger.warning(">>>>>>>>>> [" + self.phone + "]. post_watchVideo success, +5")
+                    return 0
+                else:
+                    self.logger.warning("<<<<<<<<<< [" + self.phone + "]. post_watchVideo Error ...")
+
+            else:
+                self.logger.warning("<<<<<<<<<< [" + self.phone + "]. post_watchVideo Error.")
+                return -1
+        except Exception as e:
+            print(e)
+            # proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
+            return -1
+
 
     def post_newsRecord(self, news_id):
         # global proxies
@@ -298,7 +352,7 @@ class readnews(threading.Thread):
                 return -1
         except Exception as e:
             print(e)
-            self.proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
+            # proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
             return -1
 
     def post_newsRecord_with_captcha(self, news_id, challenge, validate):
@@ -344,10 +398,12 @@ class readnews(threading.Thread):
                 return -1
         except Exception as e:
             print(e)
-            self.proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
+            # proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
             return -1
 
     def getverify(self):
+        # global proxies
+
         url = "http://tui.yingshe.com/veritys/getverify"
 
         payload_verify = payload + "&unique=" + self.unique + "&uid=" + self.uid
@@ -366,7 +422,7 @@ class readnews(threading.Thread):
                 return -1, -1
         except Exception as e:
             print(e)
-            self.proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
+            # proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
             return -1, -1
 
 
@@ -388,7 +444,7 @@ class checkThread(threading.Thread):
         self.stopevt = stopevt
 
         # 第一步，创建一个logger,并设置级别
-        # self.logger = logging.getLogger("bixiang_readnews_class.py")
+        # self.logger = logging.getLogger("bixiang_news_video_class.py")
         self.logger = logging.getLogger("Thread_Checking")
         self.logger.setLevel(logging.INFO)  # Log等级总开关
         # 第二步，创建一个handler，用于写入日志文件
@@ -404,8 +460,8 @@ class checkThread(threading.Thread):
         self.logger.addHandler(fh)
         self.logger.addHandler(ch)
 
-        # self.proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
-        self.proxies = ''
+        # proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
+        proxies = ''
 
         # self.logger.warning("========== __init()__, Checking. [" + phone + "] ==========")
 

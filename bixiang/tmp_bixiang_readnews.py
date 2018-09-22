@@ -5,7 +5,7 @@ import os
 import random
 import time
 
-from bixiang import bixiang_readnews_class
+from bixiang import bixiang_news_video_class
 
 # 第一步，创建一个logger,并设置级别
 logger = logging.getLogger("tmp_bixiang_readnews.py")
@@ -56,7 +56,7 @@ def start_reading_news(filename):
         uid = item.get('uid', 'NA')
         phone = item.get('phone', 'NA')
 
-        thread_readnews = bixiang_readnews_class.readnews(unique, uid, phone)
+        thread_readnews = bixiang_news_video_class.readnews(unique, uid, phone)
         thread_readnews.start()
         time.sleep(random.randint(30, 60))
         logger.warning('********** Start thread [' + str(number) + ']: ' + phone)

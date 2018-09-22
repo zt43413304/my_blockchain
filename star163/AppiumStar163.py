@@ -39,7 +39,7 @@ class AppiumStar(threading.Thread):
         rq = time.strftime('%Y%m%d-%H%M%S', time.localtime(time.time()))
 
         # 第一步，创建一个logger,并设置级别
-        # self.logger = logging.getLogger("bixiang_readnews_class.py")
+        # self.logger = logging.getLogger("bixiang_news_video_class.py")
         self.logger = logging.getLogger("Appium163_%s" % rq)
         self.logger.setLevel(logging.INFO)  # Log等级总开关
         # 第二步，创建一个handler，用于写入日志文件

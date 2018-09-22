@@ -7,10 +7,10 @@ import random
 import threading
 import time
 
-from bixiang import bixiang_readnews_class
+from bixiang import bixiang_news_video_class
 
 # 第一步，创建一个logger,并设置级别
-logger = logging.getLogger("bixiang_readnews.py")
+logger = logging.getLogger("bixiang_news_video.py")
 logger.setLevel(logging.INFO)  # Log等级总开关
 # 第二步，创建一个handler，用于写入日志文件
 fh = logging.FileHandler('./logs/bixiang_readnews.log', mode='w')
@@ -26,12 +26,12 @@ logger.addHandler(fh)
 logger.addHandler(ch)
 
 
-def start_reading_news(filename):
+def start_news_video(filename):
     # 保存初始化线程组名字
     initThreadsName = []
 
     # start
-    logger.warning('********** Start from start_reading_news() ...')
+    logger.warning('********** Start from start_news_video() ...')
     stopevt = threading.Event()
 
     curpath = os.getcwd()
@@ -46,7 +46,7 @@ def start_reading_news(filename):
         uid = item.get('uid', 'NA')
         phone = item.get('phone', 'NA')
 
-        thread_readnews = bixiang_readnews_class.readnews(unique, uid, phone, stopevt)
+        thread_readnews = bixiang_news_video_class.news_video(unique, uid, phone, stopevt)
         thread_readnews.setName(phone)
         thread_readnews.setDaemon(True)
         thread_readnews.start()
@@ -80,10 +80,10 @@ def start_reading_news(filename):
     while True:
         # 定时退出
         now = datetime.datetime.now()
-        exit_time = [0, 8, 16]
+        exit_time = [1, 7, 13, 19]
         if now.hour in exit_time and now.minute < 30:
             # 退出线程
             stopevt.set()
             break
 
-# start_reading_news("data_bixiang_readnews_50.json")
+# start_news_video("data_bixiang_news_video_all.json")

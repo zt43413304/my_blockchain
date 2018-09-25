@@ -8,10 +8,9 @@ import re
 import sys
 import threading
 import time
+from datetime import datetime
 
 import requests
-
-from common import c2567
 
 # get config information
 curpath = os.getcwd()
@@ -130,30 +129,43 @@ class news_video(threading.Thread):
 
     def run(self):
 
-        if self.bixiang_login() == -1:
-            sys.exit(0)
+        # if self.bixiang_login() == -1:
+        #     sys.exit(0)
 
-        # news_id_list = self.get_news_id_list()
+        # 1 * 60 * 60 = 3600
+        self.post_watchVideo(3600)
+        self.post_news(3600)
+        self.post_watchVideo(3600)
+        self.post_news(3600)
+        self.post_watchVideo(3600)
+        self.post_news(3600)
+
+    def post_news(self, second_limit):
+        start = datetime.now()
+
+        news_id_list = self.get_news_id_list()
 
         count = 0
         while not self.stopevt.isSet():
-            # return_code = self.post_newsRecord(news_id_list[count])
-            # if return_code == -1:
-            #     continue
-            #
-            # count += 1
-            #
-            # if count == len(news_id_list):
-            #     news_id_list = self.get_news_id_list()
-            #     count = 0
 
-            time.sleep(random.randint(90, 120))
+            time.sleep(random.randint(75, 90))
 
-            self.post_watchVideo()
+            end = datetime.now()
+            if (end - start).seconds >= second_limit:
+                break
 
+            return_code = self.post_newsRecord(news_id_list[count])
+            if return_code == -1:
+                continue
 
-        self.logger.warning("********** self.stopevt.isSet():" + str(self.stopevt.isSet()))
-        self.logger.warning('********** exit thread. ' + self.phone)
+            count += 1
+
+            if count == len(news_id_list):
+                news_id_list = self.get_news_id_list()
+                count = 0
+
+        # self.logger.warning("********** self.stopevt.isSet():" + str(self.stopevt.isSet()))
+        self.logger.warning('********** exit post_watchVideo. ' + self.phone)
 
     def get_news_id_list(self):
         news_id_list = []
@@ -260,48 +272,62 @@ class news_video(threading.Thread):
             # proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
             return -1
 
-    def post_watchVideo(self):
+    def post_watchVideo(self, second_limit):
         # global proxies
+        start = datetime.now()
 
         url = "http://tui.yingshe.com/Study/watchVideo"
 
-        payload_watchVideo = payload + "&unique=" + self.unique + \
-                             "&uid=" + self.uid + \
-                             "&types=start"
 
         try:
 
-            # self.logger.warning(">>>>>>>>>> [" + self.phone + "]. post_watchVideo. news_id=" + news_id)
-            # self.logger.warning("********** [" + self.phone + "], post_watchVideo(), proxies = " + str(proxies))
-            response = requests.request("POST", url, data=payload_watchVideo, headers=headers,
-                                        timeout=60, proxies=self.proxies, allow_redirects=False)
+            while not self.stopevt.isSet():
+                time.sleep(random.randint(60, 90))
+                end = datetime.now()
+                if (end - start).seconds >= second_limit:
+                    break
 
-            while response.status_code != 200:
-                self.logger.warning("<<<<<<<<<< [" + self.phone + "]. post_watchVideo Error. try again ...")
-                time.sleep(random.randint(MIN_SEC, MAX_SEC))
+                # self.logger.warning(">>>>>>>>>> [" + self.phone + "]. post_watchVideo. news_id=" + news_id)
+                # self.logger.warning("********** [" + self.phone + "], post_watchVideo(), proxies = " + str(proxies))
+
+                payload_watchVideo = payload + "&unique=" + self.unique + \
+                                     "&uid=" + self.uid + \
+                                     "&types=start"
+
                 response = requests.request("POST", url, data=payload_watchVideo, headers=headers,
                                             timeout=60, proxies=self.proxies, allow_redirects=False)
 
-            if response.status_code == 200:
-                res = response.json()["status"]
-                if res == 1:
-                    time.sleep(random.randint(30, 50))
+                # while response.status_code != 200:
+                #     self.logger.warning("<<<<<<<<<< [" + self.phone + "]. post_watchVideo Error. try again ...")
+                #     time.sleep(random.randint(MIN_SEC, MAX_SEC))
+                #     response = requests.request("POST", url, data=payload_watchVideo, headers=headers,
+                #                                 timeout=60, proxies=self.proxies, allow_redirects=False)
 
-                    payload_watchVideo = payload + "&unique=" + self.unique + \
-                                         "&uid=" + self.uid + \
-                                         "&types=close"
-                    response = requests.request("POST", url, data=payload_watchVideo, headers=headers,
-                                                timeout=60, proxies=self.proxies, allow_redirects=False)
+                if response.status_code == 200:
                     res = response.json()["status"]
-                    if res == 1:
-                        self.logger.warning(">>>>>>>>>> [" + self.phone + "]. post_watchVideo success, +5")
-                    return 0
-                else:
-                    self.logger.warning("<<<<<<<<<< [" + self.phone + "]. post_watchVideo Error ...")
 
-            else:
-                self.logger.warning("<<<<<<<<<< [" + self.phone + "]. post_watchVideo Error.")
-                return -1
+                    if res == 1:
+
+                        payload_watchVideo = payload + "&unique=" + self.unique + \
+                                             "&uid=" + self.uid + \
+                                             "&types=close"
+                        response = requests.request("POST", url, data=payload_watchVideo, headers=headers,
+                                                    timeout=60, proxies=self.proxies, allow_redirects=False)
+                        res = response.json()["status"]
+                        if res == 1:
+                            self.logger.warning(">>>>>>>>>> [" + self.phone + "]. post_watchVideo success, +5")
+
+                    else:
+                        self.logger.warning("<<<<<<<<<< [" + self.phone + "]. post_watchVideo Error ...")
+                        continue
+
+                else:
+                    self.logger.warning("<<<<<<<<<< [" + self.phone + "]. post_watchVideo Error.")
+                    continue
+
+            # self.logger.warning("********** self.stopevt.isSet():" + str(self.stopevt.isSet()))
+            self.logger.warning('********** exit post_watchVideo. ' + self.phone)
+
         except Exception as e:
             print(e)
             # proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
@@ -320,7 +346,7 @@ class news_video(threading.Thread):
         try:
 
             # self.logger.warning(">>>>>>>>>> [" + self.phone + "]. post_newsRecord. news_id=" + news_id)
-            self.logger.warning("********** [" + self.phone + "], post_newsRecord(), proxies = " + str(self.proxies))
+            # self.logger.warning("********** [" + self.phone + "], post_newsRecord(), proxies = " + str(self.proxies))
             response = requests.request("POST", url, data=payload_newsRecord, headers=headers,
                                         timeout=60, proxies=self.proxies, allow_redirects=False)
 
@@ -337,16 +363,20 @@ class news_video(threading.Thread):
                     self.logger.warning(">>>>>>>>>> [" + self.phone + "]. post_newsRecord success, bxc = " + str(bxc))
                     return 0
                 else:
-                    # response status==0, captcha needed
-                    self.logger.warning("<<<<<<<<<< [" + self.phone + "]. post_newsRecord Error. call captcha ...")
-                    (gt, challenge) = self.getverify()
-                    if gt != -1 and gt is not None and len(gt.strip()) != 0 \
-                            and challenge != -1 and challenge is not None and len(challenge.strip()) != 0:
-                        # call captcha hack
-                        (challenge, validate) = c2567.get_captcha(gt, challenge)
+                    self.logger.warning("<<<<<<<<<< [" + self.phone + "]. need call captcha. exit")
+                    return -1
 
-                        if challenge != -1 and validate != -1:
-                            self.post_newsRecord_with_captcha(news_id, challenge, validate)
+
+                    # response status==0, captcha needed
+                    # self.logger.warning("<<<<<<<<<< [" + self.phone + "]. post_newsRecord Error. call captcha ...")
+                    # (gt, challenge) = self.getverify()
+                    # if gt != -1 and gt is not None and len(gt.strip()) != 0 \
+                    #         and challenge != -1 and challenge is not None and len(challenge.strip()) != 0:
+                    #     # call captcha hack
+                    #     (challenge, validate) = c2567.get_captcha(gt, challenge)
+                    #
+                    #     if challenge != -1 and validate != -1:
+                    #         self.post_newsRecord_with_captcha(news_id, challenge, validate)
             else:
                 self.logger.warning("<<<<<<<<<< [" + self.phone + "]. post_newsRecord Error.")
                 return -1

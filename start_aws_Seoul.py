@@ -41,11 +41,11 @@ logger.warning('********** Start from start_aws_Seoul.py ...')
 scheduler = BlockingScheduler()
 
 # Tokyo Sever
-scheduler.add_job(my_bixiang.loop_bixiang, "cron", hour="0,8,16", args=["data_bixiang_Seoul.json"], max_instances=4)
-scheduler.add_job(my_hashworld.loop_hashworld_land, "cron", hour="4", max_instances=4)
-scheduler.add_job(my_blockcity.loop_blockcity, "cron", hour="1,3,5,7,9,11,13,15,17,19,21,23", minute="30",
+scheduler.add_job(my_bixiang.loop_bixiang, "cron", hour="6,14,22", args=["data_bixiang_Seoul.json"], max_instances=4)
+scheduler.add_job(my_hashworld.loop_hashworld_land, "cron", hour="2", max_instances=4)
+scheduler.add_job(my_blockcity.loop_blockcity, "cron", hour="7,9,11,13,15,17,19,21,23", minute="30",
                   max_instances=4)
-scheduler.add_job(my_star163.loop_star163, "cron", hour="3,9,15,21", minute="45", max_instances=4)
+scheduler.add_job(my_star163.loop_star163, "cron", hour="10,18", minute="45", max_instances=4)
 
 try:
     scheduler.start()

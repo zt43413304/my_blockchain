@@ -51,7 +51,7 @@ def start_news_video(filename):
         thread_readnews.setDaemon(True)
         thread_readnews.start()
         thread_readnews.join(10)
-        time.sleep(random.randint(5, 10))
+        time.sleep(random.randint(3, 5))
         logger.warning('********** Start thread [' + str(number) + ']: ' + thread_readnews.getName())
         # thread_readnews_list.append(thread_readnews)
         # break
@@ -86,4 +86,5 @@ def start_news_video(filename):
             stopevt.set()
             break
 
-# start_news_video("data_bixiang_news_video_all.json")
+# start_news_video("data_bixiang_Tokyo.json")
+# start_news_video("data_bixiang_Seoul.json")

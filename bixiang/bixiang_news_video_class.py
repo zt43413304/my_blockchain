@@ -147,9 +147,7 @@ class news_video(threading.Thread):
 
         count = 0
         while not self.stopevt.isSet():
-
             time.sleep(random.randint(75, 90))
-
             end = datetime.now()
             if (end - start).seconds >= second_limit:
                 break
@@ -163,6 +161,7 @@ class news_video(threading.Thread):
             if count == len(news_id_list):
                 news_id_list = self.get_news_id_list()
                 count = 0
+
 
         # self.logger.warning("********** self.stopevt.isSet():" + str(self.stopevt.isSet()))
         self.logger.warning('********** exit post_watchVideo. ' + self.phone)
@@ -282,30 +281,21 @@ class news_video(threading.Thread):
         try:
 
             while not self.stopevt.isSet():
-                time.sleep(random.randint(60, 90))
+                time.sleep(random.randint(30, 45))
                 end = datetime.now()
                 if (end - start).seconds >= second_limit:
                     break
 
-                # self.logger.warning(">>>>>>>>>> [" + self.phone + "]. post_watchVideo. news_id=" + news_id)
                 # self.logger.warning("********** [" + self.phone + "], post_watchVideo(), proxies = " + str(proxies))
 
                 payload_watchVideo = payload + "&unique=" + self.unique + \
                                      "&uid=" + self.uid + \
                                      "&types=start"
-
                 response = requests.request("POST", url, data=payload_watchVideo, headers=headers,
                                             timeout=60, proxies=self.proxies, allow_redirects=False)
 
-                # while response.status_code != 200:
-                #     self.logger.warning("<<<<<<<<<< [" + self.phone + "]. post_watchVideo Error. try again ...")
-                #     time.sleep(random.randint(MIN_SEC, MAX_SEC))
-                #     response = requests.request("POST", url, data=payload_watchVideo, headers=headers,
-                #                                 timeout=60, proxies=self.proxies, allow_redirects=False)
-
                 if response.status_code == 200:
                     res = response.json()["status"]
-
                     if res == 1:
 
                         payload_watchVideo = payload + "&unique=" + self.unique + \
@@ -318,11 +308,11 @@ class news_video(threading.Thread):
                             self.logger.warning(">>>>>>>>>> [" + self.phone + "]. post_watchVideo success, +5")
 
                     else:
-                        self.logger.warning("<<<<<<<<<< [" + self.phone + "]. post_watchVideo Error ...")
+                        self.logger.warning("<<<<<<<<<< [" + self.phone + "]. post_watchVideo Error 已达上限.")
                         continue
 
                 else:
-                    self.logger.warning("<<<<<<<<<< [" + self.phone + "]. post_watchVideo Error.")
+                    self.logger.warning("<<<<<<<<<< [" + self.phone + "]. post_watchVideo Error. status_code != 200")
                     continue
 
             # self.logger.warning("********** self.stopevt.isSet():" + str(self.stopevt.isSet()))

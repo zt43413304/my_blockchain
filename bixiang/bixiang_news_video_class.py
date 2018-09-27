@@ -66,7 +66,8 @@ class news_video(threading.Thread):
     stopevt = None
     error_count = 0
     proxies = ''
-    runFlag = 'true'
+    newsFlag = 'true'
+    videoFlag = 'true'
 
     def __init__(self, unique, uid, phone, stopevt=None):
 
@@ -144,14 +145,14 @@ class news_video(threading.Thread):
 
     def post_news(self, second_limit):
 
-        self.runFlag = 'true'
+        self.newsFlag = 'true'
 
         start = datetime.now()
 
         news_id_list = self.get_news_id_list()
 
         count = 0
-        while not self.stopevt.isSet() and self.runFlag == 'true':
+        while not self.stopevt.isSet() and self.newsFlag == 'true':
             time.sleep(random.randint(75, 90))
             end = datetime.now()
             if (end - start).seconds >= second_limit:
@@ -278,7 +279,7 @@ class news_video(threading.Thread):
 
     def post_watchVideo(self, second_limit):
         # global proxies
-        self.runFlag = 'true'
+        self.videoFlag = 'true'
         start = datetime.now()
 
         url = "http://tui.yingshe.com/Study/watchVideo"
@@ -286,7 +287,7 @@ class news_video(threading.Thread):
 
         try:
 
-            while not self.stopevt.isSet() and self.runFlag == 'true':
+            while not self.stopevt.isSet() and self.videoFlag == 'true':
                 time.sleep(random.randint(30, 45))
                 end = datetime.now()
                 if (end - start).seconds >= second_limit:
@@ -315,7 +316,7 @@ class news_video(threading.Thread):
 
                     else:
                         self.logger.warning("<<<<<<<<<< [" + self.phone + "]. post_watchVideo Error 已达上限.")
-                        self.runFlag = 'false'
+                        self.videoFlag = 'false'
                         # threading.Event().set()
                         continue
 
@@ -376,7 +377,7 @@ class news_video(threading.Thread):
 
                         if challenge != -1 and validate != -1:
                             self.post_newsRecord_with_captcha(news_id, challenge, validate)
-                            self.runFlag = 'false'
+                            self.newsFlag = 'false'
             else:
                 self.logger.warning("<<<<<<<<<< [" + self.phone + "]. post_newsRecord Error.")
                 return -1

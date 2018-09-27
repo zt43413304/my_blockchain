@@ -12,6 +12,8 @@ from datetime import datetime
 
 import requests
 
+from common import c2567
+
 # get config information
 curpath = os.getcwd()
 content = open(curpath + '/bixiang/config_bixiang.ini').read()
@@ -64,6 +66,7 @@ class news_video(threading.Thread):
     stopevt = None
     error_count = 0
     proxies = ''
+    runFlag = 'true'
 
     def __init__(self, unique, uid, phone, stopevt=None):
 
@@ -134,19 +137,21 @@ class news_video(threading.Thread):
 
         # 1 * 60 * 60 = 3600
         self.post_watchVideo(3600)
-        self.post_news(3600)
+        self.post_news(7200)
         self.post_watchVideo(3600)
-        self.post_news(3600)
-        self.post_watchVideo(3600)
-        self.post_news(3600)
+        self.post_news(7200)
+
 
     def post_news(self, second_limit):
+
+        self.runFlag = 'true'
+
         start = datetime.now()
 
         news_id_list = self.get_news_id_list()
 
         count = 0
-        while not self.stopevt.isSet():
+        while not self.stopevt.isSet() and self.runFlag == 'true':
             time.sleep(random.randint(75, 90))
             end = datetime.now()
             if (end - start).seconds >= second_limit:
@@ -164,7 +169,7 @@ class news_video(threading.Thread):
 
 
         # self.logger.warning("********** self.stopevt.isSet():" + str(self.stopevt.isSet()))
-        self.logger.warning('********** exit post_watchVideo. ' + self.phone)
+        self.logger.warning('********** exit post_news. ' + self.phone)
 
     def get_news_id_list(self):
         news_id_list = []
@@ -273,6 +278,7 @@ class news_video(threading.Thread):
 
     def post_watchVideo(self, second_limit):
         # global proxies
+        self.runFlag = 'true'
         start = datetime.now()
 
         url = "http://tui.yingshe.com/Study/watchVideo"
@@ -280,7 +286,7 @@ class news_video(threading.Thread):
 
         try:
 
-            while not self.stopevt.isSet():
+            while not self.stopevt.isSet() and self.runFlag == 'true':
                 time.sleep(random.randint(30, 45))
                 end = datetime.now()
                 if (end - start).seconds >= second_limit:
@@ -309,6 +315,8 @@ class news_video(threading.Thread):
 
                     else:
                         self.logger.warning("<<<<<<<<<< [" + self.phone + "]. post_watchVideo Error 已达上限.")
+                        self.runFlag = 'false'
+                        # threading.Event().set()
                         continue
 
                 else:
@@ -353,20 +361,22 @@ class news_video(threading.Thread):
                     self.logger.warning(">>>>>>>>>> [" + self.phone + "]. post_newsRecord success, bxc = " + str(bxc))
                     return 0
                 else:
-                    self.logger.warning("<<<<<<<<<< [" + self.phone + "]. need call captcha. exit")
-                    return -1
+                    # self.logger.warning("<<<<<<<<<< [" + self.phone + "]. need call captcha. exit")
+                    # self.runFlag = 'false'
+                    # return -1
 
 
                     # response status==0, captcha needed
-                    # self.logger.warning("<<<<<<<<<< [" + self.phone + "]. post_newsRecord Error. call captcha ...")
-                    # (gt, challenge) = self.getverify()
-                    # if gt != -1 and gt is not None and len(gt.strip()) != 0 \
-                    #         and challenge != -1 and challenge is not None and len(challenge.strip()) != 0:
-                    #     # call captcha hack
-                    #     (challenge, validate) = c2567.get_captcha(gt, challenge)
-                    #
-                    #     if challenge != -1 and validate != -1:
-                    #         self.post_newsRecord_with_captcha(news_id, challenge, validate)
+                    self.logger.warning("<<<<<<<<<< [" + self.phone + "]. post_newsRecord Error. call captcha ...")
+                    (gt, challenge) = self.getverify()
+                    if gt != -1 and gt is not None and len(gt.strip()) != 0 \
+                            and challenge != -1 and challenge is not None and len(challenge.strip()) != 0:
+                        # call captcha hack
+                        (challenge, validate) = c2567.get_captcha(gt, challenge)
+
+                        if challenge != -1 and validate != -1:
+                            self.post_newsRecord_with_captcha(news_id, challenge, validate)
+                            self.runFlag = 'false'
             else:
                 self.logger.warning("<<<<<<<<<< [" + self.phone + "]. post_newsRecord Error.")
                 return -1

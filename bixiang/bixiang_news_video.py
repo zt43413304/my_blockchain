@@ -54,7 +54,8 @@ def start_news_video(filename):
         time.sleep(random.randint(3, 5))
         logger.warning('********** Start thread [' + str(number) + ']: ' + thread_readnews.getName())
         # thread_readnews_list.append(thread_readnews)
-        # break
+        # if number == 10:
+        #     break
 
     # number = 0
     # for t in thread_readnews_list:

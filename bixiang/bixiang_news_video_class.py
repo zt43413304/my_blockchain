@@ -138,11 +138,9 @@ class news_video(threading.Thread):
         #     sys.exit(0)
 
         # 1 * 60 * 60 = 3600
-        self.post_watchVideo(3600)
+        self.post_watchVideo(5400)
+        time.sleep(random.randint(600, 1800))
         self.post_news(7200)
-        self.post_watchVideo(3600)
-        self.post_news(7200)
-
 
     def post_news(self, second_limit):
 

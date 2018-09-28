@@ -68,6 +68,7 @@ class news_video(threading.Thread):
     proxies = ''
     newsFlag = 'true'
     videoFlag = 'true'
+    newsFlagCount = 0
 
     def __init__(self, unique, uid, phone, stopevt=None):
 
@@ -138,9 +139,9 @@ class news_video(threading.Thread):
 
         # 1 * 60 * 60 = 3600
         self.post_watchVideo(3600)
-        self.post_news(7000)
+        self.post_news(7200)
         self.post_watchVideo(3600)
-        self.post_news(7000)
+        self.post_news(7200)
 
 
     def post_news(self, second_limit):
@@ -363,8 +364,10 @@ class news_video(threading.Thread):
                     return 0
                 else:
                     # self.logger.warning("<<<<<<<<<< [" + self.phone + "]. need call captcha. exit")
-                    # self.runFlag = 'false'
-                    # return -1
+                    if self.newsFlagCount == 1:
+                        self.newsFlag = 'false'
+                        return -1
+
 
 
                     # response status==0, captcha needed
@@ -377,7 +380,8 @@ class news_video(threading.Thread):
 
                         if challenge != -1 and validate != -1:
                             self.post_newsRecord_with_captcha(news_id, challenge, validate)
-                            self.newsFlag = 'false'
+                            self.newsFlagCount += 1
+
             else:
                 self.logger.warning("<<<<<<<<<< [" + self.phone + "]. post_newsRecord Error.")
                 return -1

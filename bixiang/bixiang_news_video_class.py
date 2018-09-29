@@ -287,7 +287,7 @@ class news_video(threading.Thread):
         try:
 
             while not self.stopevt.isSet() and self.videoFlag == 'true':
-                time.sleep(random.randint(30, 45))
+                time.sleep(random.randint(75, 90))
                 end = datetime.now()
                 if (end - start).seconds >= second_limit:
                     break

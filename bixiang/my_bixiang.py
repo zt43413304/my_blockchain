@@ -124,7 +124,7 @@ def bixiang_userinfo(unique, uid):
             return -1, -1, -1
     except Exception as e:
         print(e)
-        proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
+        # proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
         return -1, -1, -1
 
 
@@ -172,7 +172,7 @@ def bixiang_infoList(unique, uid):
             return -1
     except Exception as e:
         print(e)
-        proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
+        # proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
         return -1
 
 
@@ -195,7 +195,7 @@ def bixiang_sharing(unique, uid, id):
             return -1
     except Exception as e:
         print(e)
-        proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
+        # proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
         return -1
 
 
@@ -219,7 +219,7 @@ def bixiang_shared(unique, uid, id):
             return -1
     except Exception as e:
         print(e)
-        proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
+        # proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
         return -1
 
 
@@ -258,7 +258,7 @@ def bixiang_sign(unique, uid):
             return -1
     except Exception as e:
         print(e)
-        proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
+        # proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
         return -1
 
 
@@ -295,7 +295,7 @@ def bixiang_upgrade(unique, uid):
             return -1
     except Exception as e:
         print(e)
-        proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
+        # proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
         return -1
 
 
@@ -318,7 +318,7 @@ def bixiang_property_url(unique, uid):
             return -1
     except Exception as e:
         print(e)
-        proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
+        # proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
         return -1
 
 
@@ -360,7 +360,7 @@ def get_allTotal(unique, uid):
 
     except requests.exceptions.ConnectionError as f:
         print(f)
-        proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
+        # proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
         return -1, -1
     except Exception as e:
         print(e)
@@ -386,7 +386,7 @@ def get_lottery_url(unique, uid):
         return -1
     except Exception as e:
         print(e)
-        proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
+        # proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
         return -1
 
 
@@ -412,7 +412,7 @@ def get_lottery_chance(url):
 
     except Exception as e:
         print(e)
-        proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
+        # proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
         return -1, -1
 
 
@@ -437,7 +437,7 @@ def bixiang_lottery(unique, uid):
 
     except Exception as e:
         print(e)
-        proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
+        # proxies = daxiang_proxy.get_proxy("http://tui.yingshe.com/check/index")
         return -1
 
 

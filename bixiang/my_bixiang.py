@@ -547,7 +547,7 @@ def loop_elephant(filename):
 
     number = 0
     for item in data_dict['data']:
-        time.sleep(3)
+        time.sleep(2)
         number += 1
 
         # if number < 148:
@@ -571,6 +571,7 @@ def loop_elephant(filename):
                 content_list.append(content)
         except Exception as e:
             print(e)
+            continue
 
 
         # if number == 10:

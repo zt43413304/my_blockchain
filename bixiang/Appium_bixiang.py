@@ -1049,25 +1049,35 @@ class Signup:
         elements = self.driver.find_elements(By.TAG_NAME, 'p')
         for i in range(len(elements)):
             if elements[i].text == '立即领取':
-                elements[i].click()
-                time.sleep(2)
-
                 try:
-                    # 确认收取
-                    if self.isElementExist_by_xpath("/html/body/div[8]/div[2]/p[2]"):
-                        self.driver.find_element(By.XPATH, "/html/body/div[8]/div[2]/p[2]").click()
+                    elements[i].click()
+                    time.sleep(2)
 
-                        # 不足，取消
-                        if self.isElementExist_by_xpath("/html/body/div[5]/div/p[1]"):
-                            self.driver.find_element(By.XPATH, "/html/body/div[5]/div/p[1]").click()
-                            time.sleep(1)
+                    a = self.driver.find_element_by_xpath("/html/body/div[9]")
+                    if a.is_displayed():
+                        self.driver.find_element(By.XPATH, "/html/body/div[9]/div/p[1]").click()
+
+                    b = self.driver.find_element_by_xpath("/html/body/div[8]")
+                    if b.is_displayed():
+                        self.driver.find_element(By.XPATH, "/html/body/div[8]/div[2]/p[1]").click()
+
+
+                    # 确认收取
+                    # if self.isElementExist_by_xpath("/html/body/div[9]/div/p[2]"):
+                    #     self.driver.find_element(By.XPATH, "/html/body/div[9]/div/p[1]").click()
+                    #
+                    # # 不足，取消
+                    # if self.isElementExist_by_xpath("/html/body/div[5]/div/p[2]"):
+                    #     self.driver.find_element(By.XPATH, "/html/body/div[5]/div/p[1]").click()
+                    #     time.sleep(1)
                 except Exception as e:
                     print(e)
+                    continue
         logger.warning(">>>>>>>>>> done. 立即领取1")
 
         button_refresh = wait.until(EC.presence_of_element_located((By.ID, 'button_refresh')))
         button_refresh.click()
-        time.sleep(1)
+        time.sleep(2)
 
         # 新泡泡
         try:
@@ -1081,9 +1091,10 @@ class Signup:
 
                     for j in range(10 - int(num)):
                         self.driver.find_element_by_class_name('add_pop').click()
-                        time.sleep(2)
+                        time.sleep(3)
         except Exception as e:
             print(e)
+
         logger.warning(">>>>>>>>>> done. 吹泡泡")
 
         button_refresh = wait.until(EC.presence_of_element_located((By.ID, 'button_refresh')))
@@ -1094,20 +1105,21 @@ class Signup:
         elements = self.driver.find_elements(By.TAG_NAME, 'p')
         for i in range(len(elements)):
             if elements[i].text == '立即领取':
-                elements[i].click()
-                time.sleep(2)
-
                 try:
-                    # 确认收取
-                    if self.isElementExist_by_xpath("/html/body/div[8]/div[2]/p[2]"):
-                        self.driver.find_element(By.XPATH, "/html/body/div[8]/div[2]/p[2]").click()
+                    elements[i].click()
+                    time.sleep(2)
 
-                        # 不足，取消
-                        if self.isElementExist_by_xpath("/html/body/div[5]/div/p[1]"):
-                            self.driver.find_element(By.XPATH, "/html/body/div[5]/div/p[1]").click()
-                            time.sleep(1)
+                    a = self.driver.find_element_by_xpath("/html/body/div[9]")
+                    if a.is_displayed():
+                        self.driver.find_element(By.XPATH, "/html/body/div[9]/div/p[1]").click()
+
+                    b = self.driver.find_element_by_xpath("/html/body/div[8]")
+                    if b.is_displayed():
+                        self.driver.find_element(By.XPATH, "/html/body/div[8]/div[2]/p[1]").click()
+
                 except Exception as e:
                     print(e)
+                    continue
         logger.warning(">>>>>>>>>> done. 立即领取2")
 
         button_refresh = wait.until(EC.presence_of_element_located((By.ID, 'button_refresh')))

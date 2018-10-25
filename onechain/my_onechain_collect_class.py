@@ -92,7 +92,7 @@ class Collect:
         # desired_caps['automationName'] = 'Appium'
         # desired_caps['autoWebview'] = 'True'
         desired_caps['app'] = PATH(
-            '/Users/Jackie.Liu/DevTools/Android_apk/one239.apk'
+            '/Users/Jackie.Liu/DevTools/Android_apk/one246.apk'
         )
         desired_caps['appPackage'] = 'oneapp.onechain.androidapp'
         desired_caps['appActivity'] = 'oneapp.onechain.androidapp.onemessage.view.activity.UnlockActivity'
@@ -213,7 +213,7 @@ class Collect:
 
             # 发送给
             et_to = wait.until(EC.presence_of_element_located((By.ID, "oneapp.onechain.androidapp:id/et_to")))
-            et_to.send_keys('jackieliu')
+            et_to.send_keys('jackielg')
 
             # 转账金额
             et_amount = wait.until(EC.presence_of_element_located((By.ID, "oneapp.onechain.androidapp:id/et_amount")))

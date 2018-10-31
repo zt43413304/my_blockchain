@@ -35,4 +35,4 @@ logger.addHandler(ch)
 logger.warning('********** Start from start_lenovo_hashworld_once.py ...')
 
 my_hashworld.loop_hashworld_no_land("data_hashworld_Tokyo.json")
-my_hashworld.loop_hashworld_no_land("data_hashworld_Seoul.json")
+my_hashworld.loop_hashworld_no_land("data_hashworld_Aliyun.json")

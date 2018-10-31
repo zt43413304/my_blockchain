@@ -33,4 +33,4 @@ logger.addHandler(ch)
 
 # start
 logger.warning('********** Start from start_aws_Seoul.py ...')
-my_bixiang.loop_bixiang("data_bixiang_Seoul.json")
+my_bixiang.loop_bixiang("data_bixiang_Aliyun.json")

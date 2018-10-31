@@ -40,7 +40,7 @@ scheduler = BlockingScheduler()
 
 # HP Sever
 scheduler.add_job(bixiang_news_video.start_news_video, "cron", hour="7,13,19", minute="30",
-                  args=["data_bixiang_Seoul.json"], max_instances=4)
+                  args=["data_bixiang_Aliyun.json"], max_instances=4)
 
 try:
     scheduler.start()

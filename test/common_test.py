@@ -1,7 +1,5 @@
 # coding=utf-8
 
-import urllib.parse
-
 url = 'http://tui.yingshe.com/user/property?xxx=vzlsIdmCYyW2Ji1CbiWsc'
 
 # parsed = urllib.parse.urlparse(url)
@@ -9,6 +7,6 @@ url = 'http://tui.yingshe.com/user/property?xxx=vzlsIdmCYyW2Ji1CbiWsc'
 # print(parsed.query)
 
 # filename = "data_bixiang_Tokyo.json"
-filename = "data_bixiang_Seoul.json"
+filename = "data_bixiang_Aliyun.json"
 server = filename.split('.')[0][-5:]
 print(server)

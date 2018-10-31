@@ -36,4 +36,4 @@ logger.addHandler(ch)
 # start
 logger.warning('********** Start from start_once_news_video_Seoul.py ...')
 
-bixiang_news_video.start_news_video("data_bixiang_Seoul.json")
+bixiang_news_video.start_news_video("data_bixiang_Aliyun.json")

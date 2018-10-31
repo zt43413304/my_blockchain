@@ -88,4 +88,4 @@ def start_news_video(filename):
             break
 
 # start_news_video("data_bixiang_Tokyo.json")
-# start_news_video("data_bixiang_Seoul.json")
+# start_news_video("data_bixiang_Aliyun.json")

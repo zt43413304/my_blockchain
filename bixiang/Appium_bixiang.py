@@ -914,7 +914,7 @@ class Signup:
         # start
         logger.warning('********** Start from quiz_bixiang() ...')
 
-        file = open(curpath + '/bixiang/data_bixiang_Seoul.json', 'r', encoding='utf-8')
+        file = open(curpath + '/bixiang/data_bixiang_Aliyun.json', 'r', encoding='utf-8')
         data_dict = json.load(file)
 
         for item in data_dict['data']:

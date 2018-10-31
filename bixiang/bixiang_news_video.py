@@ -81,8 +81,8 @@ def start_news_video(filename):
     while True:
         # 定时退出
         now = datetime.datetime.now()
-        exit_time = [1, 7, 13, 19]
-        if now.hour in exit_time and now.minute < 30:
+        exit_time = [23, 7, 15]
+        if now.hour in exit_time and now.minute > 30:
             # 退出线程
             stopevt.set()
             break

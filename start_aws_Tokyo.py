@@ -43,10 +43,10 @@ scheduler = BlockingScheduler()
 scheduler.add_job(bixiang_news_video.start_news_video, "cron", hour="8",
                   args=["data_bixiang_Tokyo.json"], max_instances=6)
 
-scheduler.add_job(my_bixiang.loop_elephant, "cron", hour="2,10,18",
+scheduler.add_job(my_bixiang.loop_elephant, "cron", hour="11",
                   args=["data_bixiang_Tokyo.json"], max_instances=6)
 
-scheduler.add_job(my_hashworld.loop_hashworld_no_land, "cron", hour="5,13,21",
+scheduler.add_job(my_hashworld.loop_hashworld_no_land, "cron", hour="0,16",
                   args=["data_hashworld_Tokyo.json"], max_instances=6)
 
 try:

@@ -4,20 +4,18 @@ import logging
 import os
 import time
 
-from apscheduler.schedulers.blocking import BlockingScheduler
-
-from bixiang import bixiang_news_video
 from bixiang import my_bixiang
-from hashworld import my_hashworld
+
+# from onechain import my_onechain
 
 # 第一步，创建一个logger
-logger = logging.getLogger("start_Aliyun.py")
+logger = logging.getLogger("start_elephant_Tokyo_once.py")
 logger.setLevel(logging.INFO)  # Log等级总开关
 # 第二步，创建一个handler，用于写入日志文件
 rq = time.strftime('%Y%m%d%H%M', time.localtime(time.time()))
 # log_path = os.path.dirname(os.getcwd()) + '/logs/'
 log_path = os.getcwd() + '/logs/'
-log_name = log_path + 'start_Aliyun_' + rq + '.log'
+log_name = log_path + 'start_elephant_Tokyo_once' + rq + '.log'
 logfile = log_name
 
 fh = logging.FileHandler(logfile, mode='w', encoding='UTF-8')
@@ -36,20 +34,6 @@ logger.addHandler(fh)
 logger.addHandler(ch)
 
 # start
-logger.warning('********** Start from start_Aliyun.py ...')
-scheduler = BlockingScheduler()
+logger.warning('********** Start from start_elephant_Tokyo_once.py ...')
 
-# Server
-scheduler.add_job(bixiang_news_video.start_news_video, "cron", hour="8",
-                  args=["data_bixiang_Aliyun.json"], max_instances=6)
-
-scheduler.add_job(my_bixiang.loop_elephant, "cron", hour="11",
-                  args=["data_bixiang_Aliyun.json"], max_instances=6)
-
-scheduler.add_job(my_hashworld.loop_hashworld_no_land, "cron", hour="0,16",
-                  args=["data_hashworld_Aliyun.json"], max_instances=6)
-
-try:
-    scheduler.start()
-except (KeyboardInterrupt, SystemExit):
-    scheduler.shutdown()
+my_bixiang.loop_elephant("data_bixiang_Tokyo.json")

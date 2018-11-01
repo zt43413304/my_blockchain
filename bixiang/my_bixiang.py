@@ -20,7 +20,7 @@ from common import send_email
 logger = logging.getLogger("my_bixiang.py")
 logger.setLevel(logging.INFO)  # Log等级总开关
 # 第二步，创建一个handler，用于写入日志文件
-fh = logging.FileHandler('./logs/bixiang.log', mode='w')
+fh = logging.FileHandler('./logs/my_bixiang.log', mode='w')
 fh.setLevel(logging.WARNING)  # 输出到file的log等级的开关
 ch = logging.StreamHandler()
 ch.setLevel(logging.INFO)  # 输出到console的log等级的开关

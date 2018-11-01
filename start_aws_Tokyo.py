@@ -40,7 +40,7 @@ logger.warning('********** Start from start_aws_Tokyo.py ...')
 scheduler = BlockingScheduler()
 
 # Tokyo Server
-scheduler.add_job(bixiang_news_video.start_news_video, "cron", hour="0,8,16",
+scheduler.add_job(bixiang_news_video.start_news_video, "cron", hour="8",
                   args=["data_bixiang_Tokyo.json"], max_instances=6)
 
 scheduler.add_job(my_bixiang.loop_elephant, "cron", hour="2,10,18",

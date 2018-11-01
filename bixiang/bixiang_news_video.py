@@ -13,7 +13,7 @@ from bixiang import bixiang_news_video_class
 logger = logging.getLogger("bixiang_news_video.py")
 logger.setLevel(logging.INFO)  # Log等级总开关
 # 第二步，创建一个handler，用于写入日志文件
-fh = logging.FileHandler('./logs/bixiang_readnews.log', mode='w')
+fh = logging.FileHandler('./logs/bixiang_news_video.log', mode='w')
 fh.setLevel(logging.WARNING)  # 输出到file的log等级的开关
 ch = logging.StreamHandler()
 ch.setLevel(logging.INFO)  # 输出到console的log等级的开关
@@ -81,7 +81,7 @@ def start_news_video(filename):
     while True:
         # 定时退出
         now = datetime.datetime.now()
-        exit_time = [23, 7, 15]
+        exit_time = [11]
         if now.hour in exit_time and now.minute > 30:
             # 退出线程
             stopevt.set()

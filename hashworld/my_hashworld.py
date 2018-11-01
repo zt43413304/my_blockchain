@@ -478,7 +478,10 @@ def loop_Lottery(filename):
             # content_list.append(content_data)
             # time.sleep(random.randint(MIN_SEC, MAX_SEC))
             # break
-            lands.selenium_close()
+            try:
+                lands.selenium_close()
+            except Exception as f:
+                print(f)
 
         # if number == 10:
     #       break

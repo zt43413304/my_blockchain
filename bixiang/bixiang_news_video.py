@@ -82,7 +82,7 @@ def start_news_video(filename):
         # 定时退出
         now = datetime.datetime.now()
         exit_time = [10]
-        if now.hour in exit_time and now.minute > 30:
+        if now.hour in exit_time and now.minute < 30:
             # 退出线程
             stopevt.set()
             break

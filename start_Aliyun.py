@@ -67,7 +67,7 @@ scheduler = BlockingScheduler()
 scheduler.add_job(bixiang_news_video.start_news_video, "cron", hour="8",
                   args=["data_bixiang_Aliyun.json"], max_instances=6)
 
-scheduler.add_job(my_bixiang.loop_elephant, "cron", hour="11",
+scheduler.add_job(my_bixiang.loop_elephant, "cron", hour="10", minitue="30",
                   args=["data_bixiang_Aliyun.json"], max_instances=6)
 
 scheduler.add_job(my_hashworld.loop_hashworld_no_land, "cron", hour="0,16",

@@ -2,6 +2,7 @@
 
 import logging
 import os
+import subprocess
 import time
 
 from apscheduler.schedulers.blocking import BlockingScheduler
@@ -35,8 +36,31 @@ ch.setFormatter(formatter)
 logger.addHandler(fh)
 logger.addHandler(ch)
 
+
+def execute_command(cmd):
+    print('***** start executing cmd...')
+    p = subprocess.Popen(str(cmd), stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
+    stderrinfo, stdoutinfo = p.communicate()
+    # for line in stdoutinfo.splitlines():
+    #     print(line)
+    #
+    # print('stdoutinfo is -------> %s' % stdoutinfo)
+    # print('stderrinfo is -------> %s' % stderrinfo)
+    # print('finish executing cmd....')
+    return p.returncode
+
 # start
 logger.warning('********** Start from start_Aliyun.py ...')
+
+cmd = r'del *.log'
+result1 = execute_command(cmd)
+print('result:------>', result1)
+time.sleep(1)
+
+cmd = r'del logs\*.log'
+result2 = execute_command(cmd)
+print('result:------>', result2)
+
 scheduler = BlockingScheduler()
 
 # Server

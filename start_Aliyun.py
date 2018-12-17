@@ -9,7 +9,6 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 
 from bixiang import bixiang_news_video
 from bixiang import my_bixiang
-from hashworld import my_hashworld
 
 # 第一步，创建一个logger
 logger = logging.getLogger("start_Aliyun.py")
@@ -70,8 +69,8 @@ scheduler.add_job(bixiang_news_video.start_news_video, "cron", hour="8",
 scheduler.add_job(my_bixiang.loop_elephant, "cron", hour="10", minute="30",
                   args=["data_bixiang_Aliyun.json"], max_instances=6)
 
-scheduler.add_job(my_hashworld.loop_hashworld_no_land, "cron", hour="14,20,2",
-                  args=["data_hashworld_Aliyun.json"], max_instances=6)
+# scheduler.add_job(my_hashworld.loop_hashworld_no_land, "cron", hour="14,20,2",
+#                   args=["data_hashworld_Aliyun.json"], max_instances=6)
 
 try:
     scheduler.start()

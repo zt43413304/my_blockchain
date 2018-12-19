@@ -62,7 +62,7 @@ print('result:------>', result2)
 
 scheduler = BlockingScheduler()
 
-# Server
+# Ali Server
 scheduler.add_job(bixiang_news_video.start_news_video, "cron", hour="8",
                   args=["data_bixiang_Aliyun.json"], max_instances=6)
 
@@ -71,6 +71,14 @@ scheduler.add_job(my_bixiang.loop_elephant, "cron", hour="12",
 
 # scheduler.add_job(my_hashworld.loop_hashworld_no_land, "cron", hour="14,20,2",
 #                   args=["data_hashworld_Aliyun.json"], max_instances=6)
+
+# Tokyo Server
+scheduler.add_job(bixiang_news_video.start_news_video, "cron", hour="16",
+                  args=["data_bixiang_Tokyo.json"], max_instances=6)
+
+scheduler.add_job(my_bixiang.loop_elephant, "cron", hour="20",
+                  args=["data_bixiang_Tokyo.json"], max_instances=6)
+
 
 try:
     scheduler.start()

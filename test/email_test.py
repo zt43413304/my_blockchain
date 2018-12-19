@@ -1,5 +1,6 @@
-import smtplib
+# coding:utf8
 from email.mime.text import MIMEText
+from smtplib import SMTP_SSL
 
 mailto_list = ['']  # 收件人(列表)
 mail_host = "smtp.163.com"  # 使用的邮箱的smtp服务器地址，这里是163的smtp地址
@@ -16,7 +17,8 @@ def send_mail(to_list, sub, content):
     msg['To'] = "newseeing@163.com"
     # msg['To'] = ";".join(to_list)  # 将收件人列表以‘；’分隔
     try:
-        server = smtplib.SMTP()
+        # server = smtplib.SMTP()
+        server = SMTP_SSL("smtp.163.com")
         server.connect(mail_host)  # 连接服务器
         server.login(mail_user, mail_pass)  # 登录操作
         server.sendmail(me, to_list, msg.as_string())
@@ -27,4 +29,4 @@ def send_mail(to_list, sub, content):
         return False
 
 
-send_mail('newseeing@163.com', 'Subject1', "Content")
+send_mail('newseeing@163.com', 'Subject2', "Content")

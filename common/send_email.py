@@ -2,9 +2,9 @@
 # -*- coding: UTF-8 -*-
 
 import logging
-import smtplib
 import time
 from email.mime.text import MIMEText
+from smtplib import SMTP_SSL
 
 # 第一步，创建一个logger,并设置级别
 logger = logging.getLogger("send_email.py")
@@ -37,7 +37,8 @@ def send_mail(to_list, sub, content):
     msg['To'] = "newseeing@163.com"
     # msg['To'] = ";".join(to_list)  # 将收件人列表以‘；’分隔
     try:
-        server = smtplib.SMTP()
+        # server = smtplib.SMTP()
+        server = SMTP_SSL("smtp.163.com")
         server.connect(mail_host)  # 连接服务器
         server.login(mail_user, mail_pass)  # 登录操作
         server.sendmail(me, to_list, msg.as_string())
@@ -56,7 +57,8 @@ def send_htmlmail(to_list, sub, content):
     msg['To'] = "newseeing@163.com"
     # msg['To'] = ";".join(to_list)  # 将收件人列表以‘；’分隔
     try:
-        server = smtplib.SMTP()
+        # server = smtplib.SMTP()
+        server = SMTP_SSL("smtp.163.com")
         server.connect(mail_host)  # 连接服务器
         server.login(mail_user, mail_pass)  # 登录操作
         server.sendmail(me, to_list, msg.as_string())
@@ -163,7 +165,8 @@ def send_diwuqu_HtmlEmail(to_list, account_list):
     msg['To'] = "newseeing@163.com"
     # msg['To'] = ";".join(to_list)  # 将收件人列表以‘；’分隔
     try:
-        server = smtplib.SMTP()
+        # server = smtplib.SMTP()
+        server = SMTP_SSL("smtp.163.com")
         server.connect(mail_host)  # 连接服务器
         server.login(mail_user, mail_pass)  # 登录操作
         server.sendmail(me, to_list, msg.as_string())
@@ -271,7 +274,8 @@ def send_Bixiang_HtmlEmail(to_list, content_list, server):
     msg['To'] = "newseeing@163.com"
     # msg['To'] = ";".join(to_list)  # 将收件人列表以‘；’分隔
     try:
-        server = smtplib.SMTP()
+        # server = smtplib.SMTP()
+        server = SMTP_SSL("smtp.163.com")
         server.connect(mail_host)  # 连接服务器
         server.login(mail_user, mail_pass)  # 登录操作
         server.sendmail(me, to_list, msg.as_string())
@@ -299,7 +303,8 @@ def send_star163_HtmlEmail(to_list, subject, content):
     msg['To'] = "newseeing@163.com"
     # msg['To'] = ";".join(to_list)  # 将收件人列表以‘；’分隔
     try:
-        server = smtplib.SMTP()
+        # server = smtplib.SMTP()
+        server = SMTP_SSL("smtp.163.com")
         server.connect(mail_host)  # 连接服务器
         server.login(mail_user, mail_pass)  # 登录操作
         server.sendmail(me, to_list, msg.as_string())
@@ -399,7 +404,8 @@ def send_HashWorld_LandEmail(to_list, content_list):
     msg['To'] = "newseeing@163.com"
     # msg['To'] = ";".join(to_list)  # 将收件人列表以‘；’分隔
     try:
-        server = smtplib.SMTP()
+        # server = smtplib.SMTP()
+        server = SMTP_SSL("smtp.163.com")
         server.connect(mail_host)  # 连接服务器
         server.login(mail_user, mail_pass)  # 登录操作
         server.sendmail(me, to_list, msg.as_string())
@@ -518,7 +524,8 @@ def send_HashWorld_HtmlEmail(to_list, all_coin_list, server):
     msg['To'] = "newseeing@163.com"
     # msg['To'] = ";".join(to_list)  # 将收件人列表以‘；’分隔
     try:
-        server = smtplib.SMTP()
+        # server = smtplib.SMTP()
+        server = SMTP_SSL("smtp.163.com")
         server.connect(mail_host)  # 连接服务器
         server.login(mail_user, mail_pass)  # 登录操作
         server.sendmail(me, to_list, msg.as_string())
@@ -605,7 +612,8 @@ def send_OneChain_HtmlEmail(to_list, content_list):
     msg['To'] = "newseeing@163.com"
     # msg['To'] = ";".join(to_list)  # 将收件人列表以‘；’分隔
     try:
-        server = smtplib.SMTP()
+        # server = smtplib.SMTP()
+        server = SMTP_SSL("smtp.163.com")
         server.connect(mail_host)  # 连接服务器
         server.login(mail_user, mail_pass)  # 登录操作
         server.sendmail(me, to_list, msg.as_string())
@@ -696,7 +704,8 @@ def send_Elephant_htmlmail(to_list, subject, content_list):
     msg['To'] = "newseeing@163.com"
     # msg['To'] = ";".join(to_list)  # 将收件人列表以‘；’分隔
     try:
-        server = smtplib.SMTP()
+        # server = smtplib.SMTP()
+        server = SMTP_SSL("smtp.163.com")
         server.connect(mail_host)  # 连接服务器
         server.login(mail_user, mail_pass)  # 登录操作
         server.sendmail(me, to_list, msg.as_string())

@@ -5,11 +5,15 @@ import logging
 import os
 import random
 import ssl
+import sys
 import time
 
 import requests
 
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from common import send_email
+
 
 # 第一步，创建一个logger,并设置级别
 logger = logging.getLogger("my_epay.py")

@@ -33,7 +33,8 @@ logger.addHandler(ch)
 mailto_list = ['']  # 收件人(列表)
 mail_host = "smtp.163.com"  # 使用的邮箱的smtp服务器地址，这里是163的smtp地址
 mail_user = "newseeing"  # 用户名
-mail_pass = "Liuxb0504$"  # 密码
+# mail_pass = "Liuxb0504$"  # 密码
+mail_pass = "epay1234"  # 密码
 mail_postfix = "163.com"  # 邮箱的后缀，网易就是163.com
 
 

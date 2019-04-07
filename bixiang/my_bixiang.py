@@ -116,9 +116,9 @@ def bixiang_userinfo(unique, uid):
             phone = response.json()["info"]["phone"]
             nickname = response.json()["info"]["nickname"]
             bxc = response.json()["info"]["bxc"]
-            logger.warning(
-                '********** uid=' + uid + ', show_id=' + show_id + ', nickname=' + nickname +
-                ', phone=' + phone + ', bxc=' + bxc)
+            # logger.warning(
+            #     '********** uid=' + uid + ', show_id=' + show_id + ', nickname=' + nickname +
+            #     ', phone=' + phone + ', bxc=' + bxc)
             return show_id, phone, nickname
         else:
             return -1, -1, -1

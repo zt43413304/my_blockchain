@@ -420,7 +420,7 @@ def bixiang_lottery(unique, uid):
     global proxies
 
     try:
-        logger.warning("********** bixiang_lottery(), proxies = " + str(proxies))
+        # logger.warning("********** bixiang_lottery(), proxies = " + str(proxies))
 
         url = get_lottery_url(unique, uid)
         (chance, xxx) = get_lottery_chance(url)
@@ -480,7 +480,7 @@ def loop_bixiang(filename):
             #     continue
 
             # 幸运大转盘
-            bixiang_lottery(unique, uid)
+            # bixiang_lottery(unique, uid)
 
             # 分享列表
             infoList = bixiang_infoList(unique, uid)

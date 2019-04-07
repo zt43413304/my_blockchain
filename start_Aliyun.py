@@ -9,6 +9,7 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 
 from bixiang import bixiang_news_video
 from bixiang import my_bixiang
+from epayapp import my_epay
 
 # 第一步，创建一个logger
 logger = logging.getLogger("start_Aliyun.py")
@@ -78,6 +79,10 @@ scheduler.add_job(bixiang_news_video.start_news_video, "cron", hour="16",
 
 scheduler.add_job(my_bixiang.loop_elephant, "cron", hour="20",
                   args=["data_bixiang_Tokyo.json"], max_instances=6)
+
+# E-Pay
+scheduler.add_job(my_epay.loop_epay, "cron", hour="1",
+                  args=["my_epay_data.json"], max_instances=6)
 
 
 try:

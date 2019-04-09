@@ -169,6 +169,12 @@ def epay_get_info(token, account_id):
             # investment_sum
             investment_sum = epay_get_investment(token)
 
+            # subprofile
+            subprofile_data = epay_get_subprofile(token)
+            my_level = subprofile_data.get('my_level', 'NA')
+            team_member_count = subprofile_data.get('team_member_count', 'NA')
+            investment_sum_team = subprofile_data.get('investment_sum', 'NA')
+
             # Python 字典类型转换为 JSON 对象
             content_data = {
                 "account_id": account_id,
@@ -179,7 +185,10 @@ def epay_get_info(token, account_id):
                 "currency_price": currency_price,
                 "currency_value": currency_value,
                 "et": et,
-                "investment_sum": investment_sum
+                "investment_sum": investment_sum,
+                "my_level": my_level,
+                "team_member_count": team_member_count,
+                "investment_sum_team": investment_sum_team
             }
 
             logger.warning('********** epay_get_info() success.')
@@ -274,6 +283,54 @@ def epay_get_profile(token):
             return profile_data
         else:
             logger.warning('********** epay_get_profile() fail.')
+            return -1
+    except Exception as e:
+        print(e)
+        return -1
+
+def epay_get_subprofile(token):
+
+    sub_url = "https://epkkpd5dai.execute-api.ap-northeast-1.amazonaws.com/pub/user/subordinate"
+
+    headers = {
+        'User-Agent': "ESHOP/5 CFNetwork/976 Darwin/18.2.0",
+        'user-token': token,
+        'Accept-Encoding': "br, gzip, deflate",
+        'Cache-Control': "no-cache",
+        'Postman-Token': "f4e6c2f9-4e70-4ce4-b760-a72d4f060fd6"
+    }
+
+    try:
+        # logger.warning("********** epay_get_subprofile() ")
+
+        requests.packages.urllib3.disable_warnings()
+        ssl._create_default_https_context = ssl._create_unverified_context
+
+        response = requests.request("GET", sub_url, headers=headers, timeout=60, verify=False)
+
+        time.sleep(random.randint(MIN_SEC, MAX_SEC))
+
+        res = response.json()["code"]
+        if res == 200:
+
+            my_level = response.json()["data"]["my_level"]
+
+            team_member_count = response.json()["data"]["team_member_count"]
+
+            investment_sum = response.json()["data"]["investment_sum"]
+
+            # Python 字典类型转换为 JSON 对象
+            profile_data = {
+                "my_level": my_level,
+                "team_member_count": team_member_count,
+                "investment_sum": investment_sum
+            }
+
+            logger.warning('********** epay_get_subprofile() success.')
+
+            return profile_data
+        else:
+            logger.warning('********** epay_get_subprofile() fail.')
             return -1
     except Exception as e:
         print(e)
@@ -544,4 +601,4 @@ def loop_epay(filename):
     logger.warning('********** Sending Email Complete!')
 
 
-# loop_epay("my_epay_data.json")
+loop_epay("my_epay_data.json")

@@ -548,6 +548,9 @@ def send_Epay_HtmlEmail(to_list, content_list):
            '<th align="center">积分</th>' + \
            '<th align="center">ET总数(日)</th>' + \
            '<th align="center">投资总数</th>' + \
+           '<th align="center">Level</th>' + \
+           '<th align="center">Team总人数</th>' + \
+           '<th align="center">Team团队业绩</th>' + \
            '</thead>' + \
            '<tbody>'
 
@@ -557,39 +560,73 @@ def send_Epay_HtmlEmail(to_list, content_list):
           ' </html>'
 
     body = ''
-    total_et_all = 0
-    total_invest_all = 0
+    total_income = 0
+    total_commission = 0
+    total_award = 0
+    total_score = 0
+    total_et = 0
+    total_invest = 0
+
     i = 0
     for item in content_list:
         i = i + 1
         account_id = item.get('account_id', 'NA')
-        income = item.get('income', 'NA')
-        commission = item.get('commission', 'NA')
-        award = item.get('award', 'NA')
-        score = item.get('score', 'NA')
+
+        # 静态收益
+        income = float(item.get('income', 'NA'))
+        total_income = total_income + income
+
+        # 动态收益
+        commission = float(item.get('commission', 'NA'))
+        total_commission = total_commission + commission
+
+        # 社区奖励
+        award = float(item.get('award', 'NA'))
+        total_award = total_award + award
+
+        # 积分
+        score = float(item.get('score', 'NA'))
+        total_score = total_score + score
+
+        # ET总数(日)
         et = float(item.get('et', 'NA'))
-        total_et_all = total_et_all + et
+        total_et = total_et + et
 
         investment_sum = float(item.get('investment_sum', 'NA'))
-        total_invest_all = total_invest_all + investment_sum
+        total_invest = total_invest + investment_sum
+
+        my_level = item.get('my_level', 'NA')
+        team_member_count = item.get('team_member_count', 'NA')
+        investment_sum_team = float(item.get('investment_sum_team', 'NA'))
 
         body = body + '<tr><td align="center">' + str(i) + \
                '</td><td align="center">' + str(account_id) + \
-               '</td><td align="center">' + str(round(float(income), 2)) + \
-               '</td><td align="center">' + str(round(float(commission), 2)) + \
-               '</td><td align="center">' + str(round(float(award), 2)) + \
-               '</td><td align="center">' + str(round(float(score), 2)) + \
+               '</td><td align="right">' + str(round(float(income), 2)) + \
+               '</td><td align="right">' + str(round(float(commission), 2)) + \
+               '</td><td align="right">' + str(round(float(award), 2)) + \
+               '</td><td align="right">' + str(round(float(score), 2)) + \
                '</td><td align="right">' + str(round(et, 2)) + \
                '</td><td align="right">' + str(round(investment_sum, 2)) + \
+               '</td><td align="right">' + str(my_level) + \
+               '</td><td align="right">' + str(team_member_count) + \
+               '</td><td align="right">' + str(round(investment_sum_team, 2)) + \
                '</td></tr>'
 
-    sum = body + '<tr><td colspan="6" align="center">Sum:</td><td align="right">' + \
-          str(round(total_et_all, 2)) + '</td><td align="right">' + \
-          str(round(total_invest_all, 2)) + '</td></tr>'
+    sum = body + '<tr><td colspan="2" align="center">Sum:</td>' \
+                 '<td align="right">' + str(round(total_income, 2)) + '</td>' \
+                 '<td align="right">' + str(round(total_commission, 2)) + '</td>' \
+                 '<td align="right">' + str(round(total_award, 2)) + '</td>' \
+                 '<td align="right">' + str(round(total_score, 2)) + '</td>' \
+                 '<td align="right">' + str(round(total_et, 2)) + '</td>' \
+                 '<td align="right">' + str(round(total_invest, 2)) + '</td>' \
+                 '<td align="right"></td>' \
+                 '<td align="right"></td>' \
+                 '<td align="right"></td>' \
+                 '</tr>'
     mail_msg = head + sum + end
 
-    subject = "Epay [ET总数:" + str(round(total_et_all, 2)) + ", Invest总数:" + str(
-        round(total_invest_all, 2)) + "]"
+    subject = "Epay [ET总数:" + str(round(total_et, 2)) + ", Invest总数:" + str(
+        round(total_invest, 2)) + "]"
 
     msg = MIMEText(mail_msg, 'html', 'utf-8')
     me = "newseeing@163.com"

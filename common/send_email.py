@@ -542,15 +542,15 @@ def send_Epay_HtmlEmail(to_list, content_list):
            '<thead>' + \
            '<th align="center">No.</th>' + \
            '<th align="center">ID</th>' + \
-           '<th align="center">静态收益</th>' + \
-           '<th align="center">动态收益</th>' + \
-           '<th align="center">社区奖励</th>' + \
+           '<th align="center">静态收益(ET)</th>' + \
+           '<th align="center">动态收益(ET)</th>' + \
+           '<th align="center">社区奖励(ET)</th>' + \
            '<th align="center">积分</th>' + \
-           '<th align="center">ET总数(日)</th>' + \
-           '<th align="center">投资总数</th>' + \
+           '<th align="center">日合计(ET)</th>' + \
+           '<th align="center">投资总数(ET)</th>' + \
            '<th align="center">Level</th>' + \
            '<th align="center">Team总人数</th>' + \
-           '<th align="center">Team团队业绩</th>' + \
+           '<th align="center">Team团队业绩($)</th>' + \
            '</thead>' + \
            '<tbody>'
 

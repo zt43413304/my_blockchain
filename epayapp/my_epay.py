@@ -199,6 +199,7 @@ def epay_get_info(token, account_id):
             return -1
     except Exception as e:
         print(e)
+        logger.warning('********** epay_get_info() Exception.')
         return -1
 
 
@@ -585,6 +586,8 @@ def loop_epay(filename):
         else:
             # 获取状态
             content_data = epay_get_info(token, account_id)
+            if content_data == -1:
+                continue
 
             amount = content_data.get('et', 'NA')
             if amount != "0" and account_id != "13601223469":

@@ -541,6 +541,11 @@ def epay_transfer(token, amount):
             captcha = send_email.get_email_epay(mail, "epay1234")
             logger.warning('********** 收取邮箱验证码. captcha = ' + captcha)
 
+            if captcha == 0:
+                time.sleep(30)
+                captcha = send_email.get_email_epay(mail, "epay1234")
+                logger.warning('********** 再次收取邮箱验证码. captcha = ' + captcha)
+
             # 校验验证码
             return_code = epay_validate_captcha(token, captcha)
 

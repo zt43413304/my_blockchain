@@ -81,8 +81,8 @@ scheduler.add_job(my_bixiang.loop_elephant, "cron", hour="20",
                   args=["data_bixiang_Tokyo.json"], max_instances=6)
 
 # E-Pay
-scheduler.add_job(my_epay.loop_epay, "cron", hour="1,3,5",
-                  args=["my_epay_data.json"], max_instances=6)
+# scheduler.add_job(my_epay.loop_epay, "cron", hour="1,3,5",
+#                   args=["my_epay_data.json"], max_instances=6)
 
 
 try:

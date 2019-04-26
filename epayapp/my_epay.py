@@ -528,23 +528,23 @@ def epay_transfer(token, amount):
         if res == 101:
             logger.warning('********** 需要校验邮箱验证码.')
 
+            # 取邮箱地址
+            profile_data = epay_get_profile(token)
+            mail = profile_data.get('mail', 'NA')
+
             # 发送邮箱验证码
             return_code = epay_send_captcha(token)
             time.sleep(5)
             logger.warning('********** 发送邮箱验证码. return_code = ' + str(return_code))
 
-            # 取邮箱地址
-            profile_data = epay_get_profile(token)
-            mail = profile_data.get('mail', 'NA')
-
             # 收取邮件
             captcha = send_email.get_email_epay(mail, "epay1234")
-            logger.warning('********** 收取邮箱验证码. captcha = ' + captcha)
+            logger.warning('^^^^^^^^^^ 第一次取邮箱验证码. captcha = ' + captcha)
 
-            if captcha == 0:
+            if len(str(captcha)) != 6:
                 time.sleep(30)
                 captcha = send_email.get_email_epay(mail, "epay1234")
-                logger.warning('********** 再次收取邮箱验证码. captcha = ' + captcha)
+                logger.warning('^^^^^^^^^^ 第二次取邮箱验证码. captcha = ' + captcha)
 
             # 校验验证码
             return_code = epay_validate_captcha(token, captcha)

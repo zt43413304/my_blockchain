@@ -534,8 +534,7 @@ def epay_transfer(token, amount):
 
             # 发送邮箱验证码
             return_code = epay_send_captcha(token)
-            time.sleep(5)
-            logger.warning('********** 发送邮箱验证码. return_code = ' + str(return_code))
+            time.sleep(10)
 
             # 收取邮件
             captcha = send_email.get_email_epay(mail, "epay1234")
@@ -551,7 +550,7 @@ def epay_transfer(token, amount):
 
             # 实际转账
             return_code = epay_do_transfer(token, amount)
-            logger.warning('********** 实际转账. return_code = ' + str(return_code))
+            # logger.warning('********** 实际转账. return_code = ' + str(return_code))
 
             return 0
         else:

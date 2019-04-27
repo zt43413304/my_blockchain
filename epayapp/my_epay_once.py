@@ -5,6 +5,8 @@ import sys
 
 from epayapp import my_epay
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+curPath = os.path.abspath(os.path.dirname(__file__))
+rootPath = os.path.split(curPath)[0]
+sys.path.append(os.path.split(rootPath)[0])
 
 my_epay.loop_epay("my_epay_data.json")

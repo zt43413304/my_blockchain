@@ -102,7 +102,7 @@ def get_email_epay(email, password):
     # 关闭连接:
     server.quit()
 
-    logger.warning('********** get_email_epay(), capcha =' + str(captcha))
+    # logger.warning('********** get_email_epay(), capcha =' + str(captcha))
     return captcha
 
 

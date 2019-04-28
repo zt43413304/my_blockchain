@@ -548,6 +548,8 @@ def send_Epay_HtmlEmail(to_list, content_list):
            '<th align="center">积分</th>' + \
            '<th align="center">日合计(ET)</th>' + \
            '<th align="center">投资总数(ET)</th>' + \
+           '<th align="center">最早笔金额(ET)</th>' + \
+           '<th align="center">已持续天数</th>' + \
            '<th align="center">Level</th>' + \
            '<th align="center">Team总人数</th>' + \
            '<th align="center">Team团队业绩($)</th>' + \
@@ -595,6 +597,11 @@ def send_Epay_HtmlEmail(to_list, content_list):
         investment_sum = float(item.get('investment_sum', 'NA'))
         total_invest = total_invest + investment_sum
 
+        investment_earliest_amount = item.get('investment_earliest_amount', 'NA')
+
+        investment_earliest_days = item.get('investment_earliest_days', 'NA')
+
+
         my_level = item.get('my_level', 'NA')
         team_member_count = item.get('team_member_count', 'NA')
         investment_sum_team = float(item.get('investment_sum_team', 'NA'))
@@ -607,6 +614,8 @@ def send_Epay_HtmlEmail(to_list, content_list):
                '</td><td align="right">' + str(round(float(score), 2)) + \
                '</td><td align="right">' + str(round(et, 2)) + \
                '</td><td align="right">' + str(round(investment_sum, 2)) + \
+               '</td><td align="right">' + str(investment_earliest_amount) + \
+               '</td><td align="right">' + str(investment_earliest_days) + \
                '</td><td align="right">' + str(my_level) + \
                '</td><td align="right">' + str(team_member_count) + \
                '</td><td align="right">' + str(round(investment_sum_team, 2)) + \
@@ -619,6 +628,8 @@ def send_Epay_HtmlEmail(to_list, content_list):
                  '<td align="right">' + str(round(total_score, 2)) + '</td>' \
                  '<td align="right">' + str(round(total_et, 2)) + '</td>' \
                  '<td align="right">' + str(round(total_invest, 2)) + '</td>' \
+                 '<td align="right"></td>' \
+                 '<td align="right"></td>' \
                  '<td align="right"></td>' \
                  '<td align="right"></td>' \
                  '<td align="right"></td>' \

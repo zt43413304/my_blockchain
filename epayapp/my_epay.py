@@ -166,8 +166,8 @@ def epay_get_info(token, account_id):
             response = requests.request("GET", url, headers=headers, params=querystring, timeout=60, verify=False)
             et = response.json()["data"]["et"]
 
-            # investment_sum
-            investment_sum = epay_get_investment(token)
+            # investment_sum, investment_earliest_amount, investment_earliest_days
+            (investment_sum, investment_earliest_amount, investment_earliest_days) = epay_get_investment(token)
 
             # subprofile
             subprofile_data = epay_get_subprofile(token)
@@ -186,6 +186,8 @@ def epay_get_info(token, account_id):
                 "currency_value": currency_value,
                 "et": et,
                 "investment_sum": investment_sum,
+                "investment_earliest_amount": investment_earliest_amount,
+                "investment_earliest_days": investment_earliest_days,
                 "my_level": my_level,
                 "team_member_count": team_member_count,
                 "investment_sum_team": investment_sum_team
@@ -230,16 +232,22 @@ def epay_get_investment(token):
         if res == 200:
             # investment_sum
             investment_sum = response.json()["data"]["investment_sum"]
+            investment_list = response.json()["data"]["investment"]
+
+            # earliest element
+            investment_ele = investment_list[len(investment_list)-1]
+            investment_earliest_amount = investment_ele["amount"]
+            investment_earliest_days = investment_ele["days"]
 
             logger.warning('********** epay_get_investment() success.')
 
-            return investment_sum
+            return investment_sum, investment_earliest_amount, investment_earliest_days
         else:
             logger.warning('********** epay_get_investment() fail.')
-            return -1
+            return -1, -1, -1
     except Exception as e:
         print(e)
-        return -1
+        return -1, -1, -1
 
 
 def epay_get_profile(token):

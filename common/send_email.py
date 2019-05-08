@@ -56,34 +56,36 @@ def get_email_epay(email, password):
         captcha = input(">>>>>>>>>> 手工输入captcha: ")
         return captcha
 
-    # stat()返回邮件数量和占用空间:
-    # print('Messages: %s. Size: %s' % server.stat())
-    # list()返回所有邮件的编号:
-    resp, mails, octets = server.list()
-    # 可以查看返回的列表类似[b'1 82923', b'2 2184', ...]
-    # print(mails)
-
-    # 获取最新一封邮件, 注意索引号从1开始:
-    index = len(mails)
-    resp, lines, octets = server.retr(index)
-
-    # lines存储了邮件的原始文本的每一行,
-    # 可以获得整个邮件的原始文本:
-    msg_content = b'\r\n'.join(lines).decode('utf-8')
-    # 稍后解析出邮件:
-    msg = Parser().parsestr(msg_content)
-    # print(msg)
-    # print("解码后的邮件信息:\r\n"+str(msg))
-
-    html = get_mail_content(msg)
-    # print(html)
-
-    parser = etree.HTMLParser()
-    tree = etree.parse(StringIO(html), parser)
-
     captcha = 0
 
     try:
+
+        # stat()返回邮件数量和占用空间:
+        # print('Messages: %s. Size: %s' % server.stat())
+        # list()返回所有邮件的编号:
+        resp, mails, octets = server.list()
+        # 可以查看返回的列表类似[b'1 82923', b'2 2184', ...]
+        # print(mails)
+
+        # 获取最新一封邮件, 注意索引号从1开始:
+        index = len(mails)
+        resp, lines, octets = server.retr(index)
+
+        # lines存储了邮件的原始文本的每一行,
+        # 可以获得整个邮件的原始文本:
+        msg_content = b'\r\n'.join(lines).decode('utf-8')
+        # 稍后解析出邮件:
+        msg = Parser().parsestr(msg_content)
+        # print(msg)
+        # print("解码后的邮件信息:\r\n"+str(msg))
+
+        html = get_mail_content(msg)
+        # print(html)
+
+        parser = etree.HTMLParser()
+        tree = etree.parse(StringIO(html), parser)
+
+
         h2_code = tree.xpath('/html/body/table/tbody/tr/td/table/tbody/tr[3]/td/table/tbody/tr/td[2]/h2')[0]
         # t = etree.tostring(h2_code[0], encoding="utf-8", pretty_print=True)
         # content = etree.tostring(h2_code, pretty_print=True, method='html')  # 转为字符串
@@ -98,6 +100,7 @@ def get_email_epay(email, password):
 
     except Exception as e:
         print(e)
+
 
     # 关闭连接:
     server.quit()

@@ -153,6 +153,11 @@ def epay_get_info(token, account_id):
             if award != "0":
                 epay_collect(token, "award")
 
+            # 拉新奖励
+            activity = response.json()["data"]["activity"]
+            if float(activity) >= 1000:
+                epay_collect(token, "activity")
+
             # 积分
             score = response.json()["data"]["score"]
 
@@ -182,6 +187,7 @@ def epay_get_info(token, account_id):
                 "commission": commission,
                 "award": award,
                 "score": score,
+                "activity": activity,
                 "currency_price": currency_price,
                 "currency_value": currency_value,
                 "et": et,

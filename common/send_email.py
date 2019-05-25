@@ -548,6 +548,7 @@ def send_Epay_HtmlEmail(to_list, content_list):
            '<th align="center">静态收益(ET)</th>' + \
            '<th align="center">动态收益(ET)</th>' + \
            '<th align="center">社区奖励(ET)</th>' + \
+           '<th align="center">拉新奖励(ET)</th>' + \
            '<th align="center">积分</th>' + \
            '<th align="center">日合计(ET)</th>' + \
            '<th align="center">投资总数(ET)</th>' + \
@@ -568,6 +569,7 @@ def send_Epay_HtmlEmail(to_list, content_list):
     total_income = 0
     total_commission = 0
     total_award = 0
+    total_activity = 0
     total_score = 0
     total_et = 0
     total_invest = 0
@@ -588,6 +590,10 @@ def send_Epay_HtmlEmail(to_list, content_list):
         # 社区奖励
         award = float(item.get('award', 'NA'))
         total_award = total_award + award
+
+        # 拉新奖励
+        activity = float(item.get('activity', 'NA'))
+        total_activity = total_activity + activity
 
         # 积分
         score = float(item.get('score', 'NA'))
@@ -614,6 +620,7 @@ def send_Epay_HtmlEmail(to_list, content_list):
                '</td><td align="right">' + str(round(float(income), 2)) + \
                '</td><td align="right">' + str(round(float(commission), 2)) + \
                '</td><td align="right">' + str(round(float(award), 2)) + \
+               '</td><td align="right">' + str(round(float(activity), 2)) + \
                '</td><td align="right">' + str(round(float(score), 2)) + \
                '</td><td align="right">' + str(round(et, 2)) + \
                '</td><td align="right">' + str(round(investment_sum, 2)) + \
@@ -628,6 +635,7 @@ def send_Epay_HtmlEmail(to_list, content_list):
                  '<td align="right">' + str(round(total_income, 2)) + '</td>' \
                  '<td align="right">' + str(round(total_commission, 2)) + '</td>' \
                  '<td align="right">' + str(round(total_award, 2)) + '</td>' \
+                 '<td align="right">' + str(round(total_activity, 2)) + '</td>' \
                  '<td align="right">' + str(round(total_score, 2)) + '</td>' \
                  '<td align="right">' + str(round(total_et, 2)) + '</td>' \
                  '<td align="right">' + str(round(total_invest, 2)) + '</td>' \

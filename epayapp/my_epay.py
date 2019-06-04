@@ -236,16 +236,21 @@ def epay_get_investment(token):
 
         res = response.json()["code"]
         if res == 200:
+            investment_earliest_amount = 0
+            investment_earliest_days = 0
+
             # investment_sum
             investment_sum = response.json()["data"]["investment_sum"]
-            investment_list = response.json()["data"]["investment"]
+
 
             # earliest element
-            investment_ele = investment_list[len(investment_list)-1]
-            investment_earliest_amount = investment_ele["amount"]
-            investment_earliest_days = investment_ele["days"]
+            investment_list = response.json()["data"]["investment"]
 
-            logger.warning('********** epay_get_investment() success.')
+            if len(investment_list) != 0:
+                investment_ele = investment_list[len(investment_list)-1]
+                investment_earliest_amount = investment_ele["amount"]
+                investment_earliest_days = investment_ele["days"]
+                logger.warning('********** epay_get_investment() success.')
 
             return investment_sum, investment_earliest_amount, investment_earliest_days
         else:
@@ -623,3 +628,4 @@ def loop_epay(filename):
 
 
 # loop_epay("my_epay_data.json")
+# loop_epay("my_epay_data_test.json")

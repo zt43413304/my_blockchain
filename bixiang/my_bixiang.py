@@ -462,8 +462,8 @@ def loop_bixiang(filename):
     for item in data_dict['data']:
         number += 1
 
-        if number > 3:
-            break
+        # if number > 3:
+        #     break
 
 
         # content_list = []

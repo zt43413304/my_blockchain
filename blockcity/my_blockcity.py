@@ -273,4 +273,4 @@ def loop_blockcity():
     pre_verify()
     status = mine_myself()
 
-loop_blockcity()
+# loop_blockcity()

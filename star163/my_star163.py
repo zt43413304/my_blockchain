@@ -41,7 +41,7 @@ def start163_api_starUser_getCookie(k, p):
 
     payload = "{\n\t\"k\": \"" + k + "\",\n\t\"p\": \"" + p + "\"\n}"
     headers = {
-        'appMeta': "eyJhcHBOYW1lIjoi5pif55CDIiwibW9kZWwiOiJNdU11IiwicGFja2FnZU5hbWUiOiJjb20ubmV0ZWFzZS5ibG9ja2NoYWluIiwiYXBwVmVyc2lvbiI6IjEuMC4xIiwiYXBwVmVyc2lvbkNvZGUiOiI2OSIsIk9TIjoiQW5kcm9pZF8xOSIsImNoYW5uZWwiOiJlMDExNzAwMjMiLCJkZXZpY2VJZCI6IntcImRhdGF0eXBlXCI6XCJhaW10X2RhdGFzXCIsXCJpZF92ZXJcIjpcIkFuZHJvaWRfMS4wLjFcIixcInJkYXRhXCI6XCJ0ZkNpcC9ETDJoL1p2dVlqQmo4clZJcFh5aGt2bHNIQzZhUzJnbkppUnNvbzNpdHU4VjNQRnloMkVlYy84a0h6XCIsXCJya1wiOlwiSUdpUUQ4eXNkRksvalVPN2FiSTdYSWhSd05sb3RXS0lRMjFMbCsrVW9wendGOElJVjFEaEZOZEVOM2srZ0w2Q2NFYXF6YVlWV3QweUJjUGU2WTZRanZCS0RtS214T1dweXc5Y0Ztb3p4SlQ4VHRBNm9CY2pub0NsQ3pBcUFlRXJudUxmSDBPM3hTeWdGK0xMTzFPaW1lZ0d5a1B0NU1iZ2FBamQ4YXZtcTRNXHUwMDNkXCJ9XG4ifQ==",
+        'appMeta': "ewogICJkZXZpY2VJZCIgOiAie1wiaWRfdmVyXCI6XCJJT1NfMS4zLjAuMVwiLFwicmtcIjpcIlpGbmR6OWhxdU1DVlJBZVA0SFRpcUFXZlBrdFRyMzlpMHhcXFwvbnZ5eWFBVW1PVU1KRm9qalNidVpOaFB0eWVHWHdTZTFKdnZZdmhLVUQwTEpxT3pDVUtcXFwvNThDRHJVcnlaajNhWEcrc0VQYThNQk5MdWdYdEFRb0xLZko2bVRPNDdSU3lTaWpNREluWGVkU1ljWVl6Nm0rOXZGSU1DRzZxeEI3bG5GdWZaTVxcXC94RT1cIixcInJkYXRhXCI6XCJScmJrbjIwUzROb2xDc2RlZUEzeHJkNWVvMHA1dzdrM3loZXFcXFwvZEZ3OVhDZEtOR2JBTDZnaTllVW4ySW5GTTB5XCIsXCJkYXRhdHlwZVwiOlwiYWltdF9kYXRhc1wifSIsCiAgImFwcFZlcnNpb24iIDogIjEuOS4yIiwKICAiYXBwTmFtZSIgOiAi572R5piT5pif55CDIiwKICAiZGV2aWNlTmFtZSIgOiAiaVBob25lNlAiLAogICJtb2RlbCIgOiAiQTE1MjJcL0ExNTI0XC9BMTU5MyIsCiAgImFwcElkIiA6ICJjb20ubmV0ZWFzZS5QbGFuZXRQbGFuIiwKICAiYW50aVNwYW1JbmZvIiA6ICJ7XCJpZF92ZXJcIjpcIklPU18xLjMuMC4xXCIsXCJya1wiOlwiRjVTVnYrYytNVmJRRFhmUk1vWHcrNTBYQWsybVRJUlBkOEVlSUY1ZjFHaDhZWUxPY1FyeGUyU0pPMlR0QTJ3S3Rqb1ViQjJWZFBjMTltc0dhaHlkSUdPZGpDR2VPVXpJOFRtS1lPVWk2VzRvN0NhTVVEdnRPcnYzMVxcXC9WV01LQjIyT1RmS1dwdjhiV1dKNmJjdHhKT3pwTzdhU0ZzTGZzdWZLNnZqdll1VjhZPVwiLFwicmRhdGFcIjpcIjI4ZndrOWxjWmJWN3ZYWXVWREFkTlpMVmYwRnY4YlZEV0tnN2kxQUhudXp0RmdCUDAwbkRIMnJYM2gzcElWY0ppQ2w3NzgxMEpibElDSHczcGJCVnFpK1pTaHJmQXpwYjhtbzNjamU3amhCNnU2UjNHY2ZHVDVzQmJqaTdDeVhFSElSWk40T1ZyeDRzT0NGU2haVkFjQXpsYldnT2VDbkN1SFZMR2oxWUNJczZWSk53S0grN3lUZFZLMWt1dFUwVDR1OXZnTlFubExCWjR3bTNVTU8yTGVRdjZuVUp6T1psWERPUkZBSUJyR0lYc2luSFZcXFwvSjlEekN0UkM1OUhkaVVBR2VKWFRpaERCekFabXdnRHBXa2FaK2NVTUpTRWY0bkxZWU5YcDdjM0QwTERqRmY5RFdCMEtWOVpvcVFHbk9IaTZYVWkzUTdURUVOOVRQOXdmbEd2SG92Ykg0bG5ZUFNyXFxcL3hjdTZaU1E4RVczZHFPbEdFRTkxZW1tclg0NjVkQ2JRbGhjUTFYbWJVUUJvS0hKSTl2Wk9YVmtMMEhkQWFDUVFzOUZ4VE5sRVU9XCIsXCJkYXRhdHlwZVwiOlwiYWltdF9kYXRhc1wifSIsCiAgIk9TIiA6ICJpT1NfMTIuMy4xIgp9",
         'Content-Type': "application/json; charset=utf-8",
         'Connection': "Keep-Alive",
         'Accept-Encoding': "application/gzip",
@@ -305,14 +305,18 @@ def loop_star163():
     file = open(curpath + '/star163/data_star163.json', 'r', encoding='utf-8')
     data_dict = json.load(file)
 
+
+    number = 0
     # collect black diamond
     for item in data_dict['data']:
+        number += 1
         # break
         # content_list = []
         phone = item.get('phone', 'NA')
         k = item.get('k', 'NA')
         p = item.get('p', 'NA')
-        # logger.warning("========== Checking [" + k + "] ==========")
+
+        logger.warning("========== Checking number: " + str(number))
 
         cookie = start163_api_starUser_getCookie(k, p)
         if cookie == -1:

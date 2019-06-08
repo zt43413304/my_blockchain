@@ -67,7 +67,7 @@ logger.warning('********** Start from start_aws__Seoul.py ...')
 scheduler = BlockingScheduler()
 
 # E-Pay
-scheduler.add_job(my_epay.loop_epay, "cron", hour="11,4,6", minute="40",
+scheduler.add_job(my_epay.loop_epay, "cron", hour="0,4,6", minute="20",
                   args=["my_epay_data__Seoul.json"], max_instances=6)
 
 # Seoul Sever

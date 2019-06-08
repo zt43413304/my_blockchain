@@ -461,6 +461,11 @@ def loop_bixiang(filename):
     number = 0
     for item in data_dict['data']:
         number += 1
+
+        if number > 3:
+            break
+
+
         # content_list = []
         unique = item.get('unique', 'NA')
         uid = item.get('uid', 'NA')

@@ -65,7 +65,7 @@ scheduler = BlockingScheduler()
 
 
 # E-Pay
-scheduler.add_job(my_epay.loop_epay, "cron", hour="0,4,6", minute="30",
+scheduler.add_job(my_epay.loop_epay, "cron", hour="11,4,6", minute="40",
                   args=["my_epay_data_Aliyun.json"], max_instances=6)
 
 

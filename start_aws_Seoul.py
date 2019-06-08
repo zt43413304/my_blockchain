@@ -3,6 +3,7 @@
 import logging
 import os
 import time
+import subprocess
 
 from apscheduler.schedulers.blocking import BlockingScheduler
 
@@ -10,6 +11,7 @@ from bixiang import my_bixiang
 from blockcity import my_blockcity
 from diwuqu import my_diwuqu
 from star163 import my_star163
+from epayapp import my_epay
 
 # 第一步，创建一个logger
 logger = logging.getLogger("start_aws_Seoul.py")
@@ -36,17 +38,47 @@ ch.setFormatter(formatter)
 logger.addHandler(fh)
 logger.addHandler(ch)
 
+
+def execute_command(cmd):
+    print('***** start executing cmd...')
+    p = subprocess.Popen(str(cmd), stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
+    stderrinfo, stdoutinfo = p.communicate()
+    # for line in stdoutinfo.splitlines():
+    #     print(line)
+    #
+    # print('stdoutinfo is -------> %s' % stdoutinfo)
+    # print('stderrinfo is -------> %s' % stderrinfo)
+    # print('finish executing cmd....')
+    return p.returncode
+
+
+cmd = r'del *.log'
+result1 = execute_command(cmd)
+print('result:------>', result1)
+time.sleep(1)
+
+cmd = r'del logs\*.log'
+result2 = execute_command(cmd)
+print('result:------>', result2)
+
+
 # start
-logger.warning('********** Start from start_aws_Seoul.py ...')
+logger.warning('********** Start from start_aws__Seoul.py ...')
 scheduler = BlockingScheduler()
 
-# Tokyo Sever
-scheduler.add_job(my_bixiang.loop_bixiang, "cron", hour="1,9,17", args=["data_bixiang_Tokyo.json"], max_instances=6)
-scheduler.add_job(my_bixiang.loop_bixiang, "cron", hour="5,13,21", args=["data_bixiang_Aliyun.json"], max_instances=6)
-# scheduler.add_job(my_hashworld.loop_hashworld_land, "cron", hour="2", max_instances=6)
-scheduler.add_job(my_blockcity.loop_blockcity, "cron", hour="11,19", minute="30", max_instances=6)
-scheduler.add_job(my_star163.loop_star163, "cron", hour="12,20", minute="30", max_instances=6)
+# E-Pay
+scheduler.add_job(my_epay.loop_epay, "cron", hour="0,4,6", minute="30",
+                  args=["my_epay_data__Seoul.json"], max_instances=6)
+
+# Seoul Sever
+scheduler.add_job(my_bixiang.loop_bixiang, "cron", hour="8,16", minute="30", args=["data_bixiang_Aliyun.json"], max_instances=6)
+scheduler.add_job(my_bixiang.loop_bixiang, "cron", hour="12,20", minute="30", args=["data_bixiang__Seoul.json"], max_instances=6)
+
+scheduler.add_job(my_blockcity.loop_blockcity, "cron", hour="7,15", max_instances=6)
+scheduler.add_job(my_star163.loop_star163, "cron", hour="8,16", max_instances=6)
+
 # scheduler.add_job(my_diwuqu.loop_diwuqu, "cron", hour="11,19", minute="30", max_instances=6)
+# scheduler.add_job(my_hashworld.loop_hashworld_land, "cron", hour="2", max_instances=6)
 
 try:
     scheduler.start()

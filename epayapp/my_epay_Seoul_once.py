@@ -11,4 +11,4 @@ from epayapp import my_epay
 # sys.path.append('C:\\DevTools\\my_blockchain')
 
 # my_epay.loop_epay("my_epay_data_test.json")
-my_epay.loop_epay("my_epay_data.json")
+my_epay.loop_epay("my_epay_data__Seoul.json")

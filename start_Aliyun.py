@@ -49,8 +49,6 @@ def execute_command(cmd):
     # print('finish executing cmd....')
     return p.returncode
 
-# start
-logger.warning('********** Start from start_Aliyun.py ...')
 
 cmd = r'del *.log'
 result1 = execute_command(cmd)
@@ -61,28 +59,26 @@ cmd = r'del logs\*.log'
 result2 = execute_command(cmd)
 print('result:------>', result2)
 
+# start
+logger.warning('********** Start from start_Aliyun.py ...')
 scheduler = BlockingScheduler()
 
-# Ali Server
-scheduler.add_job(bixiang_news_video.start_news_video, "cron", hour="8",
-                  args=["data_bixiang_Aliyun.json"], max_instances=6)
-
-scheduler.add_job(my_bixiang.loop_elephant, "cron", hour="12",
-                  args=["data_bixiang_Aliyun.json"], max_instances=6)
-
-# scheduler.add_job(my_hashworld.loop_hashworld_no_land, "cron", hour="14,20,2",
-#                   args=["data_hashworld_Aliyun.json"], max_instances=6)
-
-# Tokyo Server
-scheduler.add_job(bixiang_news_video.start_news_video, "cron", hour="16",
-                  args=["data_bixiang_Tokyo.json"], max_instances=6)
-
-scheduler.add_job(my_bixiang.loop_elephant, "cron", hour="20",
-                  args=["data_bixiang_Tokyo.json"], max_instances=6)
 
 # E-Pay
-scheduler.add_job(my_epay.loop_epay, "cron", hour="1,3,5,7",
-                  args=["my_epay_data.json"], max_instances=6)
+scheduler.add_job(my_epay.loop_epay, "cron", hour="0,4,6", minute="30",
+                  args=["my_epay_data_Aliyun.json"], max_instances=6)
+
+
+# Ali Server
+scheduler.add_job(bixiang_news_video.start_news_video, "cron", hour="8", minute="30",
+                  args=["data_bixiang_Aliyun.json"], max_instances=6)
+scheduler.add_job(my_bixiang.loop_elephant, "cron", hour="12", minute="30",
+                  args=["data_bixiang_Aliyun.json"], max_instances=6)
+
+scheduler.add_job(bixiang_news_video.start_news_video, "cron", hour="16", minute="30",
+                  args=["data_bixiang__Seoul.json"], max_instances=6)
+scheduler.add_job(my_bixiang.loop_elephant, "cron", hour="20", minute="30",
+                  args=["data_bixiang__Seoul.json"], max_instances=6)
 
 
 try:

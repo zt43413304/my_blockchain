@@ -505,7 +505,7 @@ def send_Bixiang_HtmlEmail(to_list, content_list, server):
         return False
 
 
-def send_Epay_HtmlEmail(to_list, content_list):
+def send_Epay_HtmlEmail(to_list, content_list, server):
     datetime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
     head = '<!DOCTYPE HTML>' + \
            '<html id="pageLoading">' + \
@@ -647,7 +647,7 @@ def send_Epay_HtmlEmail(to_list, content_list):
                  '</tr>'
     mail_msg = head + sum + end
 
-    subject = "Epay [ET总数:" + str(round(total_et, 2)) + ", Invest总数:" + str(
+    subject = "Epay "+server+" [ET总数:" + str(round(total_et, 2)) + ", Invest总数:" + str(
         round(total_invest, 2)) + "]"
 
     msg = MIMEText(mail_msg, 'html', 'utf-8')

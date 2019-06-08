@@ -30,13 +30,13 @@ try:
 
     # get config information
     curpath = os.getcwd()
-    content = open(curpath + '/epayapp/my_epay_data.json').read()
+    content = open(curpath + '/epayapp/my_epay_data_Aliyun.json').read()
     content = re.sub(r"\xfe\xff", "", content)
     content = re.sub(r"\xff\xfe", "", content)
     content = re.sub(r"\xef\xbb\xbf", "", content)
-    open(curpath + '/epayapp/my_epay_data.json', 'w').write(content)
+    open(curpath + '/epayapp/my_epay_data_Aliyun.json', 'w').write(content)
 
-    file = open(curpath + '/epayapp/my_epay_data.json', 'r', encoding='utf-8')
+    file = open(curpath + '/epayapp/my_epay_data_Aliyun.json', 'r', encoding='utf-8')
     data_dict = json.load(file)
     content_list = []
 

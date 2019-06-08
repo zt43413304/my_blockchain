@@ -493,7 +493,7 @@ def loop_bixiang(filename):
 
             count = 0
             for i in range(len(infoList)):
-                if count > 4:
+                if count > 5:
                     break
                 if int(infoList[i]["share_total"]) < 20:
                     continue
@@ -532,7 +532,7 @@ def loop_bixiang(filename):
         # break
 
     content_list = sorted(content_list, reverse=True, key=lambda x: (x["total_bx"], x["today_bx"]))
-    server = filename.split('.')[0][-5:]
+    server = filename.split('.')[0][-6:]
     send_email.send_Bixiang_HtmlEmail('newseeing@163.com', content_list, server)
     logger.warning('********** Sending Email Complete!')
 
@@ -599,5 +599,5 @@ def loop_bixiang_test():
 
 # Start from here...
 # loop_bixiang_test()
-# loop_bixiang('/data_bixiang_Tokyo.json')
-# loop_elephant('/data_bixiang_Tokyo.json')
+# loop_bixiang('/data_bixiang_Seoul.json')
+# loop_elephant('/data_bixiang_Seoul.json')

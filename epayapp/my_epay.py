@@ -595,6 +595,10 @@ def loop_epay(filename):
     number = 0
     for item in data_dict['data']:
         number += 1
+
+        if number > 3:
+            break
+
         # content_list = []
         account_id = item.get('account_id', 'NA')
         # uid = item.get('uid', 'NA')
@@ -621,11 +625,11 @@ def loop_epay(filename):
 
             content_list.append(content_data)
             time.sleep(random.randint(MIN_SEC, MAX_SEC))
-    #     # break
 
-    send_email.send_Epay_HtmlEmail('newseeing@163.com', content_list)
+    server = filename.split('.')[0][-6:]
+    send_email.send_Epay_HtmlEmail('newseeing@163.com', content_list, server)
     logger.warning('********** Sending Email Complete!')
 
 
-# loop_epay("my_epay_data.json")
+# loop_epay("my_epay_data_Aliyun.json")
 # loop_epay("my_epay_data_test.json")

@@ -6,7 +6,7 @@ url = 'http://tui.yingshe.com/user/property?xxx=vzlsIdmCYyW2Ji1CbiWsc'
 # print(parsed)
 # print(parsed.query)
 
-# filename = "data_bixiang_Seoul.json"
+# filename = "data_bixiang__Seoul.json"
 filename = "data_bixiang_Aliyun.json"
 server = filename.split('.')[0][-5:]
 print(server)

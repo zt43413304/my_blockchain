@@ -604,5 +604,5 @@ def loop_bixiang_test():
 
 # Start from here...
 # loop_bixiang_test()
-# loop_bixiang('/data_bixiang_Seoul.json')
-# loop_elephant('/data_bixiang_Seoul.json')
+# loop_bixiang('/data_bixiang__Seoul.json')
+# loop_elephant('/data_bixiang__Seoul.json')

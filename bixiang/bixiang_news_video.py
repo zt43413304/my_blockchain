@@ -87,5 +87,5 @@ def start_news_video(filename):
             stopevt.set()
             break
 
-# start_news_video("data_bixiang_Seoul.json")
+# start_news_video("data_bixiang__Seoul.json")
 # start_news_video("data_bixiang_Aliyun.json")

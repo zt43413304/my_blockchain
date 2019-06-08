@@ -36,4 +36,4 @@ logger.addHandler(ch)
 # start
 logger.warning('********** Start from start_elephant_Tokyo_once.py ...')
 
-my_bixiang.loop_elephant("data_bixiang_Seoul.json")
+my_bixiang.loop_elephant("data_bixiang__Seoul.json")

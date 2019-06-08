@@ -37,5 +37,5 @@ logger.addHandler(ch)
 # start
 logger.warning('********** Start from start_aws_Tokyo.py ...')
 # my_onechain.loop_onechain()
-my_bixiang.loop_bixiang("data_bixiang_Seoul.json")
+my_bixiang.loop_bixiang("data_bixiang__Seoul.json")
 my_diwuqu.loop_diwuqu()

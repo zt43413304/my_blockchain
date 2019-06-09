@@ -74,8 +74,8 @@ scheduler.add_job(my_epay.loop_epay, "cron", hour="0,4,6", minute="20",
 scheduler.add_job(my_bixiang.loop_bixiang, "cron", hour="8,16", minute="30", args=["data_bixiang_Aliyun.json"], max_instances=6)
 scheduler.add_job(my_bixiang.loop_bixiang, "cron", hour="12,20", minute="30", args=["data_bixiang__Seoul.json"], max_instances=6)
 
-scheduler.add_job(my_blockcity.loop_blockcity, "cron", hour="7,15", max_instances=6)
-scheduler.add_job(my_star163.loop_star163, "cron", hour="8,16", max_instances=6)
+scheduler.add_job(my_blockcity.loop_blockcity, "cron", hour="8,12,16,20", max_instances=6)
+scheduler.add_job(my_star163.loop_star163, "cron", hour="8,12,16,20", minute="15", max_instances=6)
 
 # scheduler.add_job(my_diwuqu.loop_diwuqu, "cron", hour="11,19", minute="30", max_instances=6)
 # scheduler.add_job(my_hashworld.loop_hashworld_land, "cron", hour="2", max_instances=6)

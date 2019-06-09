@@ -72,12 +72,12 @@ scheduler.add_job(my_epay.loop_epay, "cron", hour="0,4,6", minute="30",
 # Ali Server
 scheduler.add_job(bixiang_news_video.start_news_video, "cron", hour="8", minute="30",
                   args=["data_bixiang_Aliyun.json"], max_instances=6)
-scheduler.add_job(my_bixiang.loop_elephant, "cron", hour="12", minute="30",
+scheduler.add_job(my_bixiang.loop_elephant, "cron", hour="11", minute="30",
                   args=["data_bixiang_Aliyun.json"], max_instances=6)
 
 scheduler.add_job(bixiang_news_video.start_news_video, "cron", hour="16", minute="30",
                   args=["data_bixiang__Seoul.json"], max_instances=6)
-scheduler.add_job(my_bixiang.loop_elephant, "cron", hour="20", minute="30",
+scheduler.add_job(my_bixiang.loop_elephant, "cron", hour="19", minute="30",
                   args=["data_bixiang__Seoul.json"], max_instances=6)
 
 

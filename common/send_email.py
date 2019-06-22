@@ -663,7 +663,7 @@ def send_Epay_HtmlEmail(to_list, content_list, server):
         server.login(mail_user, mail_pass)  # 登录操作
         server.sendmail(me, to_list, msg.as_string())
 
-        logger.warning('********** send_Bixiang_HtmlEmail(), subject =' + subject)
+        logger.warning('********** send_Epay_HtmlEmail(), subject =' + subject)
 
         server.close()
         return True

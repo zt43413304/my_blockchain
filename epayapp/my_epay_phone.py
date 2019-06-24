@@ -168,6 +168,10 @@ def epay_get_info(token, account_id):
             # 积分
             score = response.json()["data"]["score"]
 
+            # # ES
+            # freeze_es = response.json()["data"]["coin"][0]["freeze"]
+            # logger.warning('********** ' + account_id + ', ES = ' + str(freeze_es))
+
             # 当前ET美元单价
             currency_price = response.json()["data"]["et_data"]["currency_price"]
 

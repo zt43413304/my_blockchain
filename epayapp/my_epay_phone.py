@@ -631,7 +631,7 @@ def epay_transfer(token, amount):
 
             # 发送邮箱验证码
             return_code = epay_send_captcha_mail(token)
-            time.sleep(5)
+            time.sleep(10)
 
             # 发送手机验证码
             return_code = epay_send_captcha_mobile(token)
